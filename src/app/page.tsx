@@ -1,7 +1,7 @@
 "use client";
 
 import { MazeCanvas } from "@/components/maze/mazeCanvas";
-import { createMazeSizeDFS } from "@/lib/alogirthms/generation/dfs";
+import { createMazeSizeDFS,handleMazeGenerationDFS } from "@/lib/alogirthms/generation/dfs";
 import { Maze } from "@/lib/maze/types";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ export default function Home() {
 
   // Generar laberinto
   const handleGenerate = () => {
-    const newMaze = createMazeSizeDFS(20, 20);
+    const newMaze : Maze = handleMazeGenerationDFS(createMazeSizeDFS(20, 20));
     setMaze(newMaze);
   };
   return (

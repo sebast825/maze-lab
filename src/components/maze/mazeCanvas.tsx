@@ -76,6 +76,7 @@ function drawMaze(ctx: CanvasRenderingContext2D, maze: Maze, cellSize: number) {
         ctx.lineTo(x, y + cellSize)
         ctx.stroke()
       }
+     
     }
   }
 }
