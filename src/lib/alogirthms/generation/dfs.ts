@@ -6,7 +6,7 @@ import { Cell, Maze } from "@/lib/maze/types";
 //agregamos las cells a maze
 //elegimos una al azar
 
-function createMazeSizeDFS(width: number, height: number): Maze {
+export function createMazeSizeDFS(width: number, height: number): Maze {
    const cells: Cell[][] = [];
 
    for (let y = 0; y < height; y++) {
