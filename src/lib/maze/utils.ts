@@ -56,6 +56,25 @@ function isCellInBoundsAndUnvisited(maze: Maze, x: number, y: number): boolean {
   );
 }
 
+export function getNeighbors(maze: Maze, x: number, y: number): Position[] {
+  const neighbors = [];
+
+  const north = { x, y: y - 1 };
+  const east = { x: x + 1, y };
+  const south = { x, y: y + 1 };
+  const west = { x: x - 1, y };
+  if (isCellInBounds(maze, north.x, north.y)) neighbors.push(north);
+  if (isCellInBounds(maze, east.x, east.y)) neighbors.push(east);
+  if (isCellInBounds(maze, south.x, south.y)) neighbors.push(south);
+  if (isCellInBounds(maze, west.x, west.y)) neighbors.push(west);
+
+  return neighbors;
+}
+
+function isCellInBounds(maze: Maze, x: number, y: number): boolean {
+  return x >= 0 && x < maze.rows && y >= 0 && y < maze.cols;
+}
+
 export function selectRandomPosition(neighbors: Position[]): Position {
   const randomIndex = Math.floor(Math.random() * neighbors.length);
   return neighbors[randomIndex];

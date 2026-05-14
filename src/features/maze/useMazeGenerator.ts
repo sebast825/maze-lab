@@ -1,3 +1,4 @@
+import { handleMazegeneratAldousBroader } from "@/lib/alogirthms/generation/aldous-broader";
 import { handleMazeGenerationDFS } from "@/lib/alogirthms/generation/dfs";
 import { handleMazeGenerationPrim } from "@/lib/alogirthms/generation/prim";
 import { bfs } from "@/lib/alogirthms/solving/bfs";
@@ -10,7 +11,7 @@ export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
   const createMaze = () => {
-    const maze = handleMazeGenerationPrim(createEmptyMaze(20, 20));
+    const maze = handleMazegeneratAldousBroader(createEmptyMaze(20, 20));
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {
       x: 15,

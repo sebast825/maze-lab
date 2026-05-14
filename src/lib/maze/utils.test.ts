@@ -1,6 +1,6 @@
 import "jest";
 import { Cell, Maze } from "@/lib/maze/types";
-import { getMazeStartPoint, getNeighborsNotVisited, removeWallBetween, selectRandomPosition } from "./utils";
+import { getMazeStartPoint, getNeighbors, getNeighborsNotVisited, removeWallBetween, selectRandomPosition } from "./utils";
 
 describe("getMazeStartPoint", () => {
   it("should return a point within maze bounds", () => {
@@ -291,5 +291,53 @@ describe('removeWallBetween', () => {
     
     expect(maze.cells[0][0].walls.east).toBe(false)
     expect(maze.cells[0][1].walls.west).toBe(false)
+  })
+})
+
+
+
+describe('getNeighbors', () => {
+  // Helper to create a maze of given size
+  const createMaze = (rows: number, cols: number): Maze => ({
+    rows,
+    cols,
+    cells: Array(rows).fill(null).map(() => Array(cols).fill({ visited: false, walls: {} }))
+  })
+
+  it('should return 2 neighbors for top-left corner in 3x3', () => {
+    const maze = createMaze(3, 3)
+    const neighbors = getNeighbors(maze, 0, 0)
+    
+    expect(neighbors).toHaveLength(2)
+    expect(neighbors).toContainEqual({ x: 1, y: 0 }) // east
+    expect(neighbors).toContainEqual({ x: 0, y: 1 }) // south
+  })
+
+  it('should return 4 neighbors for center cell in 3x3', () => {
+    const maze = createMaze(3, 3)
+    const neighbors = getNeighbors(maze, 1, 1)
+    
+    expect(neighbors).toHaveLength(4)
+    expect(neighbors).toContainEqual({ x: 1, y: 0 }) // north
+    expect(neighbors).toContainEqual({ x: 2, y: 1 }) // east
+    expect(neighbors).toContainEqual({ x: 1, y: 2 }) // south
+    expect(neighbors).toContainEqual({ x: 0, y: 1 }) // west
+  })
+
+  it('should return 3 neighbors for top edge cell (not corner) in 3x3', () => {
+    const maze = createMaze(3, 3)
+    const neighbors = getNeighbors(maze, 1, 0)
+    
+    expect(neighbors).toHaveLength(3)
+    expect(neighbors).toContainEqual({ x: 2, y: 0 }) // east
+    expect(neighbors).toContainEqual({ x: 1, y: 1 }) // south
+    expect(neighbors).toContainEqual({ x: 0, y: 0 }) // west
+  })
+
+  it('should return empty array for invalid coordinates', () => {
+    const maze = createMaze(3, 3)
+    const neighbors = getNeighbors(maze, -1, 5)
+    
+    expect(neighbors).toHaveLength(0)
   })
 })
