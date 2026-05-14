@@ -3,16 +3,16 @@ import { BFSResult, CellInfo } from "./types";
 
 /**
  * Breadth-First Search (BFS) for maze solving.
- * Finds the farthest cell from the start point and records distances and parent pointers.
+ * Finds the farthest cell from the end point and records distances and parent pointers.
  *
  * @returns Object containing:
  *   - cellInfo: distance and parent for each cell (for path reconstruction)
- *   - farthest: the most distant cell from start (ideal maze exit)
+ *   - farthest: the most distant cell from end (ideal maze exit)
  */
-export function bfs(maze: Maze, start: { x: number; y: number }): BFSResult {
+export function bfs(maze: Maze, end: { x: number; y: number }): BFSResult {
   // save the current cells that need to be processed
-  const queue: Position[] = [start];
-  //save the cell with the current distance to the start point
+  const queue: Position[] = [end];
+  //save the cell with the current distance to the end point
   const cellInfo: CellInfo[][] = Array(maze.rows)
     .fill(null)
     .map(() =>
@@ -21,8 +21,8 @@ export function bfs(maze: Maze, start: { x: number; y: number }): BFSResult {
         .map(() => ({ distance: -1, parent: null })),
     );
 
-  cellInfo[start.x][start.y].distance = 0;
-  let farthest = { x: start.x, y: start.y, distance: 0 };
+  cellInfo[end.x][end.y].distance = 0;
+  let farthest = { x: end.x, y: end.y, distance: 0 };
 
   while (queue.length > 0) {
     const current = queue.shift()!;

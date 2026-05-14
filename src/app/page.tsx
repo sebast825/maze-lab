@@ -4,7 +4,7 @@ import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 
 export default function Home() {
-  const { maze, path, createMaze } = useMazeGenerator();
+  const { mazeData, createMaze } = useMazeGenerator();
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-slate-900 font-sans">
@@ -17,8 +17,8 @@ export default function Home() {
             Generate
           </button>
           
-          {maze && (
-            <MazeCanvas maze={maze} cellSize={25} path={path || undefined} />
+          {mazeData && mazeData.end && (
+            <MazeCanvas maze={mazeData.maze} start={mazeData.start} end={mazeData.end!} cellSize={25} path={mazeData.solution || undefined} />
           )}
         </div>
       </main>

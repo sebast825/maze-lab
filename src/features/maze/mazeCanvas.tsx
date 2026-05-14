@@ -1,14 +1,16 @@
 'use client'
-import { Maze } from '@/lib/maze/types'
+import { Maze, Position } from '@/lib/maze/types'
 import { useEffect, useRef } from 'react'
 
 interface MazeCanvasProps {
   maze: Maze
   cellSize: number
-  path?: { x: number; y: number }[]
+  path?: { x: number; y: number }[],
+  start : Position,
+  end : Position
 }
 
-export const MazeCanvas = ({ maze, cellSize, path }: MazeCanvasProps) => {
+export const MazeCanvas = ({ maze, cellSize,start,end, path }: MazeCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export const MazeCanvas = ({ maze, cellSize, path }: MazeCanvasProps) => {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    drawMaze(ctx, maze, cellSize, path)
+    drawMaze(ctx, maze, cellSize,start,end,  path)
   }, [maze, cellSize, path])
 
   return (
@@ -31,9 +33,9 @@ export const MazeCanvas = ({ maze, cellSize, path }: MazeCanvasProps) => {
   )
 }
 
-function drawMaze(ctx: CanvasRenderingContext2D, maze: Maze, cellSize: number, path?: { x: number; y: number }[]) {
+function drawMaze(ctx: CanvasRenderingContext2D, maze: Maze, cellSize: number,start:Position,end:Position, path?: { x: number; y: number }[]) {
   const { rows, cols, cells } = maze
-  
+
   // Clear canvas
   ctx.clearRect(0, 0, cols * cellSize, rows * cellSize)
   
@@ -101,12 +103,12 @@ function drawMaze(ctx: CanvasRenderingContext2D, maze: Maze, cellSize: number, p
   // Draw start point (green)
   ctx.fillStyle = '#00f'
 
-  ctx.fillRect(0, 0, cellSize, cellSize)
+  ctx.fillRect(end.x * cellSize, end.y * cellSize, cellSize, cellSize)
   
   // Draw end point (red) - the farthest cell
   if (path && path.length > 0) {
-    const end = path[path.length - 1]
+    //const end = path[path.length - 1]
     ctx.fillStyle = '#ff0000'
-    ctx.fillRect(end.x * cellSize, end.y * cellSize, cellSize/2, cellSize/2)
+    ctx.fillRect(start.x * cellSize, start.y * cellSize, cellSize/2, cellSize/2)
   }
 }

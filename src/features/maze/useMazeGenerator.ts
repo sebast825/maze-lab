@@ -4,37 +4,48 @@ import {
 } from "@/lib/alogirthms/generation/dfs";
 import { bfs } from "@/lib/alogirthms/solving/bfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
-import { Maze, Position } from "@/lib/maze/types";
+import { Maze, MazeData, Position } from "@/lib/maze/types";
 import { useEffect, useState } from "react";
 
 export const useMazeGenerator = () => {
-  const [maze, setMaze] = useState<Maze | null>(null);
-  const [path, setPath] = useState<{ x: number; y: number }[] | null>(null);
-  useEffect(() => {
-    solveMaze();
-  }, [maze]);
-  const createMaze = () => {
-    const newMaze = handleMazeGenerationDFS(createMazeSizeDFS(20, 20));
+  const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
-    setMaze(newMaze);
-  };
-  const solveMaze = () => {
-   if(maze == null) return;
-    const { cellInfo, farthest }: BFSResult = bfs(maze!, { x: 0, y: 0 });
+  const [path, setPath] = useState<{ x: number; y: number }[] | null>(null);
+
+  const createMaze = () => {
+    const maze = handleMazeGenerationDFS(createMazeSizeDFS(20, 20));
+
+    const { cellInfo, farthest }: BFSResult = bfs(maze, {
+      x: 15,
+      y: 0,
+    });
+    
+    let start: Position = { x: 0, y: 0 };
+    let end: Position = { x: 15, y: 0 };
+
 
     let current: Position | null = farthest;
     const reconstructedPath: Position[] = [];
     while (current) {
       reconstructedPath.unshift(current);
       current = cellInfo[current.x]?.[current.y].parent || null;
-      if (current && current.x == 0 && current.y == 0) {
+      if (current && current.x == end.x && current.y == end.y) {
+        start = {
+          x: reconstructedPath[reconstructedPath.length - 1].x,
+          y: reconstructedPath[reconstructedPath.length - 1].y,
+        };
         reconstructedPath.unshift(current);
         break;
       }
     }
-
-    setPath(reconstructedPath);
+    const newMazeData: MazeData = {
+      maze,
+      start,
+      end,
+      solution : reconstructedPath
+    };
+    setMazeData(newMazeData);
   };
 
-  return { maze, path, createMaze, solveMaze };
+  return { mazeData, createMaze };
 };
