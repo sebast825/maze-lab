@@ -18,7 +18,7 @@ export function handleMazeGenerationPrim(maze: Maze): Maze {
   const startPoint: Position = getMazeStartPoint(maze);
   const stack: Position[] = [];
   stack.push({ x: startPoint.x, y: startPoint.y });
-  maze.cells[startPoint.y][startPoint.x].visited = true;
+  maze.cells[startPoint.x][startPoint.y].visited = true;
 
   while (stack.length > 0) {
     const current: Position = selectRandomPosition(stack);
@@ -36,7 +36,7 @@ export function handleMazeGenerationPrim(maze: Maze): Maze {
     stack.push(neighbor);
 
     removeWallBetween(maze, stack[index], neighbor);
-    maze.cells[neighbor.y][neighbor.x].visited = true;
+    maze.cells[neighbor.x][neighbor.y].visited = true;
   }
   return maze;
 }

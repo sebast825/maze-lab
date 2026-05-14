@@ -49,10 +49,10 @@ export function getNeighborsNotVisited(
 function isCellInBoundsAndUnvisited(maze: Maze, x: number, y: number): boolean {
   return (
     x >= 0 &&
-    x < maze.cols &&
+    x < maze.rows &&
     y >= 0 &&
-    y < maze.rows &&
-    !maze.cells[y][x].visited
+    y < maze.cols &&
+    !maze.cells[x][y].visited
   );
 }
 

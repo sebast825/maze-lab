@@ -11,7 +11,7 @@ export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
   const createMaze = () => {
-    const maze = handleMazegeneratAldousBroader(createEmptyMaze(20, 20));
+    const maze = handleMazeGenerationDFS(createEmptyMaze(20, 20));
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {
       x: 15,

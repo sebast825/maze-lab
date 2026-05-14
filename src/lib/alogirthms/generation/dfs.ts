@@ -4,13 +4,12 @@ import { Maze, Position } from "@/lib/maze/types";
 import { getMazeStartPoint, getNeighborsNotVisited, removeWallBetween, selectRandomPosition  } from "@/lib/maze/utils";
 
 
-
 export function handleMazeGenerationDFS(maze: Maze): Maze {
    // Step 1: Choose a random starting point and mark it as visited.
   const startPoint: Position = getMazeStartPoint(maze);
   const stack: Position[] = [];
   stack.push({ x: startPoint.x, y: startPoint.y });
-  maze.cells[startPoint.y][startPoint.x].visited = true;
+  maze.cells[startPoint.x][startPoint.y].visited = true;
 
   // Step 2: While there are unvisited cells, do the following:
   do {
@@ -30,7 +29,7 @@ export function handleMazeGenerationDFS(maze: Maze): Maze {
     const neighbor = selectRandomPosition (neighbors);
 
     removeWallBetween(maze, stack[stack.length - 1], neighbor);
-    maze.cells[neighbor.y][neighbor.x].visited = true;
+    maze.cells[neighbor.x][neighbor.y].visited = true;
     stack.push(neighbor);
   } while (stack.length > 0);
 
