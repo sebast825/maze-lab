@@ -14,3 +14,9 @@ export type Maze = {
   cols: number;
    cells: Cell[][];
 }
+
+export interface Position {
+  x: number
+  y: number
+}
+
