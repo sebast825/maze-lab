@@ -1,11 +1,11 @@
 import {
   handleMazeGenerationDFS,
-  createMazeSizeDFS,
 } from "@/lib/alogirthms/generation/dfs";
 import { bfs } from "@/lib/alogirthms/solving/bfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
-import { Maze, MazeData, Position } from "@/lib/maze/types";
-import { useEffect, useState } from "react";
+import { MazeData, Position } from "@/lib/maze/types";
+import { createEmptyMaze } from "@/lib/maze/utils";
+import { useState } from "react";
 
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
@@ -13,7 +13,7 @@ export const useMazeGenerator = () => {
   const [path, setPath] = useState<{ x: number; y: number }[] | null>(null);
 
   const createMaze = () => {
-    const maze = handleMazeGenerationDFS(createMazeSizeDFS(20, 20));
+    const maze = handleMazeGenerationDFS(createEmptyMaze(20, 20));
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {
       x: 15,

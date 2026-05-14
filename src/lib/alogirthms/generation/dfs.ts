@@ -1,28 +1,9 @@
 //DFS (Depth-First Search) with backtracking.
 
-import { Cell, Maze, Position } from "@/lib/maze/types";
+import { Maze, Position } from "@/lib/maze/types";
 import { getMazeStartPoint, getValidNeighbors, removeWallBetween, selectRandomNeighbor } from "@/lib/maze/utils";
 
-export function createMazeSizeDFS(width: number, height: number): Maze {
-  const cells: Cell[][] = [];
 
-  for (let y = 0; y < height; y++) {
-    const row: Cell[] = [];
-    for (let x = 0; x < width; x++) {
-      row.push({
-        visited: false,
-        walls: {
-          north: true,
-          east: true,
-          south: true,
-          west: true,
-        },
-      });
-    }
-    cells.push(row);
-  }
-  return { rows: height, cols: width, cells };
-}
 
 export function handleMazeGenerationDFS(maze: Maze): Maze {
    // Step 1: Choose a random starting point and mark it as visited.
