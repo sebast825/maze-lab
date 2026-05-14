@@ -1,6 +1,5 @@
-import {
-  handleMazeGenerationDFS,
-} from "@/lib/alogirthms/generation/dfs";
+import { handleMazeGenerationDFS } from "@/lib/alogirthms/generation/dfs";
+import { handleMazeGenerationPrim } from "@/lib/alogirthms/generation/prim";
 import { bfs } from "@/lib/alogirthms/solving/bfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
@@ -10,19 +9,16 @@ import { useState } from "react";
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
-  const [path, setPath] = useState<{ x: number; y: number }[] | null>(null);
-
   const createMaze = () => {
-    const maze = handleMazeGenerationDFS(createEmptyMaze(20, 20));
+    const maze = handleMazeGenerationPrim(createEmptyMaze(20, 20));
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {
       x: 15,
       y: 0,
     });
-    
+
     let start: Position = { x: 0, y: 0 };
     let end: Position = { x: 15, y: 0 };
-
 
     let current: Position | null = farthest;
     const reconstructedPath: Position[] = [];
@@ -42,7 +38,7 @@ export const useMazeGenerator = () => {
       maze,
       start,
       end,
-      solution : reconstructedPath
+      solution: reconstructedPath,
     };
     setMazeData(newMazeData);
   };
