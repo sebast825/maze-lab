@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
 interface MazeCanvasProps {
   maze: Maze
   cellSize: number
-  path?: { x: number; y: number }[],
+  path?: Position[],
   start : Position,
   end : Position
 }
@@ -33,7 +33,7 @@ export const MazeCanvas = ({ maze, cellSize,start,end, path }: MazeCanvasProps) 
   )
 }
 
-function drawMaze(ctx: CanvasRenderingContext2D, maze: Maze, cellSize: number,start:Position,end:Position, path?: { x: number; y: number }[]) {
+function drawMaze(ctx: CanvasRenderingContext2D, maze: Maze, cellSize: number,start:Position,end:Position, path?: Position[]) {
   const { rows, cols, cells } = maze
 
   // Clear canvas

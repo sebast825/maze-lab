@@ -1,4 +1,4 @@
-import { Maze } from "./types";
+import { Maze, Position } from "./types";
 
 export function getMazeStartPoint(maze: Maze) {
   const startX = Math.floor(Math.random() * maze.cols);
@@ -34,7 +34,7 @@ function isValidAndUnvisitedNeighbor(maze: Maze, x: number, y: number) {
   );
 }
 
-export function selectRandomNeighbor(neighbors: { x: number; y: number }[]): {
+export function selectRandomNeighbor(neighbors: Position[]): {
   x: number;
   y: number;
 } {
@@ -44,8 +44,8 @@ export function selectRandomNeighbor(neighbors: { x: number; y: number }[]): {
 
 export function removeWallBetween(
   maze: Maze,
-  current: { x: number; y: number },
-  next: { x: number; y: number },
+  current: Position,
+  next: Position,
 ) {
   // if cells are in the same row then we need to remove east/west wall
   if (current.x === next.x) {
