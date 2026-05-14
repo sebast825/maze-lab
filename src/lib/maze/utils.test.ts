@@ -1,6 +1,6 @@
 import "jest";
 import { Cell, Maze } from "@/lib/maze/types";
-import { getMazeStartPoint, getValidNeighbors, removeWallBetween, selectRandomNeighbor } from "./utils";
+import { getMazeStartPoint, getValidNeighbors, removeWallBetween, selectRandomPosition } from "./utils";
 
 describe("getMazeStartPoint", () => {
   it("should return a point within maze bounds", () => {
@@ -138,11 +138,11 @@ describe('getValidNeighbors', () => {
   })
 })
 
-describe('selectRandomNeighbor', () => {
+describe('selectRandomPosition', () => {
   // Edge case: Single neighbor
   it('should return the only neighbor when array has one element', () => {
     const neighbors = [{ x: 1, y: 2 }]
-    const result = selectRandomNeighbor(neighbors)
+    const result = selectRandomPosition(neighbors)
     
     expect(result).toEqual({ x: 1, y: 2 })
   })
@@ -150,7 +150,7 @@ describe('selectRandomNeighbor', () => {
   // Edge case: Empty array (should never happen in practice, but test behavior)
   it('should return undefined when array is empty', () => {
     const neighbors: { x: number; y: number }[] = []
-    const result = selectRandomNeighbor(neighbors)
+    const result = selectRandomPosition(neighbors)
     
     // Math.floor(Math.random() * 0) = NaN, array[NaN] = undefined
     expect(result).toBeUndefined()
@@ -168,7 +168,7 @@ describe('selectRandomNeighbor', () => {
     // Run multiple times to ensure we get different results
     const results = new Set()
     for (let i = 0; i < 100; i++) {
-      const result = selectRandomNeighbor(neighbors)
+      const result = selectRandomPosition(neighbors)
       results.add(JSON.stringify(result))
     }
     

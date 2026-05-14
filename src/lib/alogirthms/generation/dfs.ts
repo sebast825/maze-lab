@@ -1,7 +1,7 @@
 //DFS (Depth-First Search) with backtracking.
 
 import { Maze, Position } from "@/lib/maze/types";
-import { getMazeStartPoint, getValidNeighbors, removeWallBetween, selectRandomNeighbor } from "@/lib/maze/utils";
+import { getMazeStartPoint, getValidNeighbors, removeWallBetween, selectRandomPosition  } from "@/lib/maze/utils";
 
 
 
@@ -27,7 +27,7 @@ export function handleMazeGenerationDFS(maze: Maze): Maze {
       stack.pop();
       continue;
     }
-    const neighbor = selectRandomNeighbor(neighbors);
+    const neighbor = selectRandomPosition (neighbors);
 
     removeWallBetween(maze, stack[stack.length - 1], neighbor);
     maze.cells[neighbor.y][neighbor.x].visited = true;

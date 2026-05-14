@@ -55,10 +55,7 @@ function isValidAndUnvisitedNeighbor(maze: Maze, x: number, y: number) {
   );
 }
 
-export function selectRandomNeighbor(neighbors: Position[]): {
-  x: number;
-  y: number;
-} {
+export function selectRandomPosition (neighbors: Position[]): Position {
   const randomIndex = Math.floor(Math.random() * neighbors.length);
   return neighbors[randomIndex];
 }
