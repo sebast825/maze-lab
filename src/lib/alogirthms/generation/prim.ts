@@ -1,7 +1,7 @@
 import { Maze, Position } from "@/lib/maze/types";
 import {
   getMazeStartPoint,
-  getValidNeighbors,
+  getNeighborsNotVisited,
   removeWallBetween,
   selectRandomPosition,
 } from "@/lib/maze/utils";
@@ -26,7 +26,7 @@ export function handleMazeGenerationPrim(maze: Maze): Maze {
       (p) => p.x === current.x && p.y === current.y,
     );
 
-    const neighbors: Position[] = getValidNeighbors(maze, current.x, current.y);
+    const neighbors: Position[] = getNeighborsNotVisited(maze, current.x, current.y);
 
     if (neighbors.length === 0 && index !== -1) {
       stack.splice(index, 1);

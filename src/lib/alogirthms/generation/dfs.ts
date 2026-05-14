@@ -1,7 +1,7 @@
 //DFS (Depth-First Search) with backtracking.
 
 import { Maze, Position } from "@/lib/maze/types";
-import { getMazeStartPoint, getValidNeighbors, removeWallBetween, selectRandomPosition  } from "@/lib/maze/utils";
+import { getMazeStartPoint, getNeighborsNotVisited, removeWallBetween, selectRandomPosition  } from "@/lib/maze/utils";
 
 
 
@@ -14,7 +14,7 @@ export function handleMazeGenerationDFS(maze: Maze): Maze {
 
   // Step 2: While there are unvisited cells, do the following:
   do {
-    const neighbors = getValidNeighbors(
+    const neighbors = getNeighborsNotVisited(
       maze,
       stack[stack.length - 1].x,
       stack[stack.length - 1].y,
