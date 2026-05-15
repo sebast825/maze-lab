@@ -8,5 +8,5 @@ export interface BFSResult {
 
 export interface CellInfo {
   distance: number
-  parent: { x: number; y: number } | null
+  parent: Position | null
 }

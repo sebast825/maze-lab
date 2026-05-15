@@ -21,21 +21,21 @@ import { MazeGeneratorFn } from "./types";
 export const generateAldousBroader : MazeGeneratorFn =(maze: Maze): Maze => {
   const startPoint: Position = getMazeStartPoint(maze);
 
-  maze.cells[startPoint.x][startPoint.y].visited = true;
+  maze.cells[startPoint.row][startPoint.col].visited = true;
   let current: Position = startPoint;
   const totalCells = maze.rows * maze.cols;
   let visitedCellsCount = 1;
 
   while (visitedCellsCount < totalCells) {
-    const neighbors = getNeighbors(maze, current.x, current.y);
+    const neighbors = getNeighbors(maze, {row:current.row,col: current.col});
 
     const neighbor: Position = selectRandomPosition(neighbors);
 
     const isNeighborVisited: boolean =
-      maze.cells[neighbor.x][neighbor.y].visited;
+      maze.cells[neighbor.row][neighbor.col].visited;
     if (!isNeighborVisited) {
       removeWallBetween(maze, current, neighbor);
-      maze.cells[neighbor.x][neighbor.y].visited = true;
+      maze.cells[neighbor.row][neighbor.col].visited = true;
       visitedCellsCount++;
     }
     current = neighbor;

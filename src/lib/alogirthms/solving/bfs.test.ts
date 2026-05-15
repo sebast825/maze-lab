@@ -18,27 +18,27 @@ describe("bfs", () => {
 
   it("should return start as farthest when maze has only one cell", () => {
     const maze = createConnectedMaze(1, 1);
-    const start = { x: 0, y: 0 };
+    const start = { row: 0, col: 0 };
     const result = bfs(maze, start);
 
-    expect(result.farthest.x).toBe(0);
-    expect(result.farthest.y).toBe(0);
+    expect(result.farthest.row).toBe(0);
+    expect(result.farthest.col).toBe(0);
     expect(result.farthest.distance).toBe(0);
   });
 
   it("should find farthest cell correctly in 2x2 grid", () => {
     const maze = createConnectedMaze(2, 2);
-    const start = { x: 0, y: 0 };
+    const start = { row: 0, col: 0 };
     const result = bfs(maze, start);
 
-    expect(result.farthest.x).toBe(1);
-    expect(result.farthest.y).toBe(1);
+    expect(result.farthest.row).toBe(1);
+    expect(result.farthest.col).toBe(1);
     expect(result.farthest.distance).toBe(2);
   });
 
   it("should correctly map parent relationships", () => {
     const maze = createConnectedMaze(2, 2);
-    const start = { x: 0, y: 0 };
+    const start = { row: 0, col: 0 };
     const result = bfs(maze, start);
 
     const parentOfEnd = result.cellInfo[1][1];
@@ -64,7 +64,7 @@ describe("bfs", () => {
       ],
     };
 
-    const result = bfs(maze, { x: 0, y: 0 });
+    const result = bfs(maze, { row: 0, col: 0 });
 
     expect(result.cellInfo[0][1]).toEqual({
       distance: -1,
@@ -76,7 +76,7 @@ describe("bfs", () => {
 
   it("should visit all reachable cells", () => {
     const maze = createConnectedMaze(3, 3);
-    const start = { x: 1, y: 1 };
+    const start = { row: 1, col: 1 };
     const result = bfs(maze, start);
 
     let visitedCount = 0;

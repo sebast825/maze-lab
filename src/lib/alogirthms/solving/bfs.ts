@@ -9,7 +9,7 @@ import { BFSResult, CellInfo } from "./types";
  *   - cellInfo: distance and parent for each cell (for path reconstruction)
  *   - farthest: the most distant cell from end (ideal maze exit)
  */
-export function bfs(maze: Maze, end: { x: number; y: number }): BFSResult {
+export function bfs(maze: Maze, end: Position): BFSResult {
   // save the current cells that need to be processed
   const queue: Position[] = [end];
   //save the cell with the current distance to the end point
@@ -21,8 +21,8 @@ export function bfs(maze: Maze, end: { x: number; y: number }): BFSResult {
         .map(() => ({ distance: -1, parent: null })),
     );
 
-  cellInfo[end.x][end.y].distance = 0;
-  let farthest = { x: end.x, y: end.y, distance: 0 };
+  cellInfo[end.row][end.col].distance = 0;
+  let farthest = { row: end.row, col: end.col, distance: 0 };
 
   while (queue.length > 0) {
     const current = queue.shift()!;
@@ -31,20 +31,20 @@ export function bfs(maze: Maze, end: { x: number; y: number }): BFSResult {
       continue;
     }
     neighbors.forEach((neighbor) => {
-      if (cellInfo[neighbor.x][neighbor.y].distance == -1) {
+      if (cellInfo[neighbor.row][neighbor.col].distance == -1) {
         queue.push(neighbor);
-        cellInfo[neighbor.x][neighbor.y].distance =
-          cellInfo[current.x][current.y].distance + 1;
-        cellInfo[neighbor.x][neighbor.y].parent = {
-          x: current.x,
-          y: current.y,
+        cellInfo[neighbor.row][neighbor.col].distance =
+          cellInfo[current.row][current.col].distance + 1;
+        cellInfo[neighbor.row][neighbor.col].parent = {
+          row: current.row,
+          col: current.col,
         };
       }
       //update longer path
-      if (farthest.distance < cellInfo[current.x][current.y].distance) {
-        farthest.distance = cellInfo[current.x][current.y].distance;
-        farthest.x = current.x;
-        farthest.y = current.y;
+      if (farthest.distance < cellInfo[current.row][current.col].distance) {
+        farthest.distance = cellInfo[current.row][current.col].distance;
+        farthest.row = current.row;
+        farthest.col = current.col;
       }
     });
   }
@@ -54,18 +54,18 @@ export function bfs(maze: Maze, end: { x: number; y: number }): BFSResult {
 
 function getNeighborsByOpenWall(
   maze: Maze,
-  current: { x: number; y: number },
+  current: { row: number; col: number },
 ): Position[] {
   const neighbors: Position[] = [];
-  const cell = maze.cells[current.y][current.x];
-  if (!cell.walls.north && current.y - 1 >= 0)
-    neighbors.push({ x: current.x, y: current.y - 1 });
-  if (!cell.walls.east && current.x + 1 < maze.cols)
-    neighbors.push({ x: current.x + 1, y: current.y });
-  if (!cell.walls.south && current.y + 1 < maze.rows)
-    neighbors.push({ x: current.x, y: current.y + 1 });
-  if (!cell.walls.west && current.x - 1 >= 0)
-    neighbors.push({ x: current.x - 1, y: current.y });
+  const cell = maze.cells[current.col][current.row];
+  if (!cell.walls.north && current.col - 1 >= 0)
+    neighbors.push({ row: current.row, col: current.col - 1 });
+  if (!cell.walls.east && current.row + 1 < maze.cols)
+    neighbors.push({ row: current.row + 1, col: current.col });
+  if (!cell.walls.south && current.col + 1 < maze.rows)
+    neighbors.push({ row: current.row, col: current.col + 1 });
+  if (!cell.walls.west && current.row - 1 >= 0)
+    neighbors.push({ row: current.row - 1, col: current.col });
 
   return neighbors;
 }

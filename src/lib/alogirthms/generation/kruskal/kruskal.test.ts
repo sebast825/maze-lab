@@ -64,8 +64,8 @@ describe('getWallsWithNeighbor', () => {
     // 1 row, 2 cols: solo pared horizontal entre (0,0) y (0,1)
     expect(walls).toHaveLength(1)
     expect(walls[0]).toEqual({
-      cell1: { x: 0, y: 0 },
-      cell2: { x: 0, y: 1 }
+      cell1: { row: 0, col: 0 },
+      cell2: { row: 0, col: 1 }
     })
   })
 
@@ -75,8 +75,8 @@ describe('getWallsWithNeighbor', () => {
     // 2 rows, 1 col: solo pared vertical entre (0,0) y (1,0)
     expect(walls).toHaveLength(1)
     expect(walls[0]).toEqual({
-      cell1: { x: 0, y: 0 },
-      cell2: { x: 1, y: 0 }
+      cell1: {row: 0, col: 0 },
+      cell2: { row: 1, col: 0 }
     })
   })
 
@@ -95,8 +95,8 @@ describe('getWallsWithNeighbor', () => {
     // Verificar que cada pared aparece una sola vez
     const keySet = new Set()
     for (const wall of walls) {
-      const key1 = `${wall.cell1.x},${wall.cell1.y}-${wall.cell2.x},${wall.cell2.y}`
-      const key2 = `${wall.cell2.x},${wall.cell2.y}-${wall.cell1.x},${wall.cell1.y}`
+      const key1 = `${wall.cell1.row},${wall.cell1.col}-${wall.cell2.row},${wall.cell2.col}`
+      const key2 = `${wall.cell2.row},${wall.cell2.col}-${wall.cell1.row},${wall.cell1.col}`
       expect(keySet.has(key1) || keySet.has(key2)).toBe(false)
       keySet.add(key1)
     }

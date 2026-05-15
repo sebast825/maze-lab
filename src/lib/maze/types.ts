@@ -16,8 +16,8 @@ export type Maze = {
 }
 
 export interface Position {
-  x: number
-  y: number
+  row: number
+  col: number
 }
 
 export interface MazeData {

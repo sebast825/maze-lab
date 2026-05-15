@@ -1,24 +1,27 @@
 //DFS (Depth-First Search) with backtracking.
 
 import { Maze, Position } from "@/lib/maze/types";
-import { getMazeStartPoint, getNeighborsNotVisited, removeWallBetween, selectRandomPosition  } from "@/lib/maze/utils";
+import {
+  getMazeStartPoint,
+  getNeighborsNotVisited,
+  removeWallBetween,
+  selectRandomPosition,
+} from "@/lib/maze/utils";
 import { MazeGeneratorFn } from "./types";
 
-
-export const generateDFS: MazeGeneratorFn =(maze: Maze): Maze =>{
-   // Step 1: Choose a random starting point and mark it as visited.
+export const generateDFS: MazeGeneratorFn = (maze: Maze): Maze => {
+  // Step 1: Choose a random starting point and mark it as visited.
   const startPoint: Position = getMazeStartPoint(maze);
   const stack: Position[] = [];
-  stack.push({ x: startPoint.x, y: startPoint.y });
-  maze.cells[startPoint.x][startPoint.y].visited = true;
+  stack.push({ row: startPoint.row, col: startPoint.col });
+  maze.cells[startPoint.row][startPoint.col].visited = true;
 
   // Step 2: While there are unvisited cells, do the following:
   do {
-    const neighbors = getNeighborsNotVisited(
-      maze,
-      stack[stack.length - 1].x,
-      stack[stack.length - 1].y,
-    );
+    const neighbors = getNeighborsNotVisited(maze, {
+      row: stack[stack.length - 1].row,
+      col: stack[stack.length - 1].col,
+    });
     // Step 3: If the current cell has any unvisited neighbors,
     //  choose one at random, remove the wall between the current cell and the chosen neighbor,
     //  and mark the chosen neighbor as visited. Push the chosen neighbor onto the stack.
@@ -27,13 +30,12 @@ export const generateDFS: MazeGeneratorFn =(maze: Maze): Maze =>{
       stack.pop();
       continue;
     }
-    const neighbor = selectRandomPosition (neighbors);
+    const neighbor = selectRandomPosition(neighbors);
 
     removeWallBetween(maze, stack[stack.length - 1], neighbor);
-    maze.cells[neighbor.x][neighbor.y].visited = true;
+    maze.cells[neighbor.row][neighbor.col].visited = true;
     stack.push(neighbor);
   } while (stack.length > 0);
 
   return maze;
-}
-
+};

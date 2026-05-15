@@ -29,14 +29,14 @@ export function getWallsWithNeighbor(
     for (let col = 0; col < maze.cols; col++) {
       if (col + 1 < maze.cols) {
         walls.push({
-          cell1: { x: row, y: col },
-          cell2: { x: row, y: col + 1 },
+          cell1: { row: row, col: col },
+          cell2: { row: row, col: col + 1 },
         });
       }
       if (row + 1 < maze.rows) {
         walls.push({
-          cell1: { x: row, y: col },
-          cell2: { x: row + 1, y: col },
+          cell1: { row: row, col: col },
+          cell2: { row: row + 1, col: col },
         });
       }
     }

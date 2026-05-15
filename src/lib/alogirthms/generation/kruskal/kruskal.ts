@@ -27,13 +27,13 @@ export function generateKruskal(maze: Maze): Maze {
 
   for (const wall of walls) {
     //create a unique id for each cell
-    const cell1Id = wall.cell1.x * maze.cols + wall.cell1.y;
-    const cell2Id = wall.cell2.x * maze.cols + wall.cell2.y;
+    const cell1Id = wall.cell1.row * maze.cols + wall.cell1.col;
+    const cell2Id = wall.cell2.row * maze.cols + wall.cell2.col;
     if (union(parent, cell1Id, cell2Id)) {
       removeWallBetween(
         maze,
-        { x: wall.cell1.x, y: wall.cell1.y },
-        { x: wall.cell2.x, y: wall.cell2.y },
+        { row: wall.cell1.row, col: wall.cell1.col },
+        { row: wall.cell2.row, col: wall.cell2.col },
       );
     }
   }

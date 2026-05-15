@@ -18,19 +18,19 @@ import { MazeGeneratorFn } from "./types";
 export const generatePrim: MazeGeneratorFn = (maze: Maze): Maze => {
   const startPoint: Position = getMazeStartPoint(maze);
   const stack: Position[] = [];
-  stack.push({ x: startPoint.x, y: startPoint.y });
-  maze.cells[startPoint.x][startPoint.y].visited = true;
+  stack.push({ row: startPoint.row, col: startPoint.col });
+  maze.cells[startPoint.row][startPoint.col].visited = true;
 
   while (stack.length > 0) {
     const current: Position = selectRandomPosition(stack);
     const index = stack.findIndex(
-      (p) => p.x === current.x && p.y === current.y,
+      (p) => p.row === current.row && p.col === current.col,
     );
 
     const neighbors: Position[] = getNeighborsNotVisited(
       maze,
-      current.x,
-      current.y,
+      {row:current.row,
+      col:current.col,}
     );
 
     if (neighbors.length === 0 && index !== -1) {
@@ -41,7 +41,7 @@ export const generatePrim: MazeGeneratorFn = (maze: Maze): Maze => {
     stack.push(neighbor);
 
     removeWallBetween(maze, stack[index], neighbor);
-    maze.cells[neighbor.x][neighbor.y].visited = true;
+    maze.cells[neighbor.row][neighbor.col].visited = true;
   }
   return maze;
 };

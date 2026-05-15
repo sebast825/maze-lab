@@ -1,5 +1,5 @@
 import "jest";
-import { Cell, Maze } from "@/lib/maze/types";
+import { Cell, Maze, Position } from "@/lib/maze/types";
 import { getMazeStartPoint, getNeighbors, getNeighborsNotVisited, removeWallBetween, selectRandomPosition } from "./utils";
 
 describe("getMazeStartPoint", () => {
@@ -10,11 +10,11 @@ describe("getMazeStartPoint", () => {
 
     mockRandom.mockReturnValueOnce(0);
     mockRandom.mockReturnValueOnce(0);
-    expect(getMazeStartPoint(maze)).toEqual({ x: 0, y: 0 });
+    expect(getMazeStartPoint(maze)).toEqual({ row: 0, col: 0 });
 
     mockRandom.mockReturnValueOnce(0.999);
     mockRandom.mockReturnValueOnce(0.999);
-    expect(getMazeStartPoint(maze)).toEqual({ x: 9, y: 9 });
+    expect(getMazeStartPoint(maze)).toEqual({ row: 9, col: 9 });
 
     mockRandom.mockRestore();
   });
@@ -23,18 +23,18 @@ describe("getMazeStartPoint", () => {
     const maze: Maze = { rows: 5, cols: 5, cells: [] };
     const point = getMazeStartPoint(maze);
 
-    expect(Number.isInteger(point.x)).toBe(true);
-    expect(Number.isInteger(point.y)).toBe(true);
+    expect(Number.isInteger(point.row)).toBe(true);
+    expect(Number.isInteger(point.col)).toBe(true);
   });
   it("should return a point within maze bounds", () => {
     const maze: Maze = { rows: 10, cols: 10, cells: [] };
 
     for (let i = 0; i < 1000; i++) {
       const point = getMazeStartPoint(maze);
-      expect(point.x).toBeGreaterThanOrEqual(0);
-      expect(point.x).toBeLessThan(maze.cols);
-      expect(point.y).toBeGreaterThanOrEqual(0);
-      expect(point.y).toBeLessThan(maze.rows);
+      expect(point.row).toBeGreaterThanOrEqual(0);
+      expect(point.row).toBeLessThan(maze.cols);
+      expect(point.col).toBeGreaterThanOrEqual(0);
+      expect(point.col).toBeLessThan(maze.rows);
     }
   });
 });
@@ -58,49 +58,48 @@ const createTestMaze = (rows: number, cols: number, visitedCells: string[] = [])
 // Test: top-left corner (row 0, col 0)
 it('should return only valid neighbors from top-left corner', () => {
   const maze = createTestMaze(3, 3, [])
-  const neighbors = getNeighborsNotVisited(maze, 0, 0)
+  const neighbors = getNeighborsNotVisited(maze, {row:0, col:0})
   
   expect(neighbors).toHaveLength(2)
-  expect(neighbors).toContainEqual({ x: 0, y: 1 }) // east (same row, col+1)
-  expect(neighbors).toContainEqual({ x: 1, y: 0 }) // south (row+1, same col)
+  expect(neighbors).toContainEqual({ row: 0, col: 1 }) // east (same row, col+1)
+  expect(neighbors).toContainEqual({ row: 1, col: 0 }) // south (row+1, same col)
 })
 
 // Test: top-right corner (row 0, col 2)
 it('should return only valid neighbors from top-right corner', () => {
   const maze = createTestMaze(3, 3, [])
-  const neighbors = getNeighborsNotVisited(maze, 0, 2)
+  const neighbors = getNeighborsNotVisited(maze,{row:0, col:2})
   
   expect(neighbors).toHaveLength(2)
-  expect(neighbors).toContainEqual({ x: 0, y: 1 }) // west
-  expect(neighbors).toContainEqual({ x: 1, y: 2 }) // south
+  expect(neighbors).toContainEqual({ row: 0, col: 1 }) // west
+  expect(neighbors).toContainEqual({ row: 1, col: 2 }) // south
 })
 
 // Test: center cell (row 1, col 1)
 it('should return all 4 neighbors from center cell', () => {
   const maze = createTestMaze(3, 3, [])
-  const neighbors = getNeighborsNotVisited(maze, 1, 1)
+  const neighbors = getNeighborsNotVisited(maze, { row: 1, col: 1 }) 
   
   expect(neighbors).toHaveLength(4)
-  expect(neighbors).toContainEqual({ x: 0, y: 1 }) // north
-  expect(neighbors).toContainEqual({ x: 1, y: 2 }) // east
-  expect(neighbors).toContainEqual({ x: 2, y: 1 }) // south
-  expect(neighbors).toContainEqual({ x: 1, y: 0 }) // west
+  expect(neighbors).toContainEqual({ row: 0, col: 1 }) // north
+  expect(neighbors).toContainEqual({ row: 1, col: 2 }) // east
+  expect(neighbors).toContainEqual({ row: 2, col: 1 }) // south
+  expect(neighbors).toContainEqual({ row: 1, col: 0 }) // west
 })
-
 })
 
 describe('selectRandomPosition', () => {
   // Edge case: Single neighbor
   it('should return the only neighbor when array has one element', () => {
-    const neighbors = [{ x: 1, y: 2 }]
+    const neighbors = [{ row: 1, col: 2 }]
     const result = selectRandomPosition(neighbors)
     
-    expect(result).toEqual({ x: 1, y: 2 })
+    expect(result).toEqual({ row: 1, col: 2 })
   })
 
   // Edge case: Empty array (should never happen in practice, but test behavior)
   it('should return undefined when array is empty', () => {
-    const neighbors: { x: number; y: number }[] = []
+    const neighbors: Position[] = []
     const result = selectRandomPosition(neighbors)
     
     // Math.floor(Math.random() * 0) = NaN, array[NaN] = undefined
@@ -110,10 +109,10 @@ describe('selectRandomPosition', () => {
   // Valid case: Multiple neighbors, verify randomness works
   it('should return a neighbor from the array (randomness test)', () => {
     const neighbors = [
-      { x: 0, y: 1 },
-      { x: 1, y: 0 },
-      { x: 1, y: 2 },
-      { x: 2, y: 1 }
+      { row: 0, col: 1 },
+      { row: 1, col: 0 },
+      { row: 1, col: 2 },
+      { row: 2, col: 1 }
     ]
     
     // Run multiple times to ensure we get different results
@@ -154,8 +153,8 @@ describe('removeWallBetween', () => {
   // Edge case: Current cell north of next (vertical neighbor)
   it('should remove north wall of current and south wall of next when current is above next', () => {
     const maze = createTestMaze(3, 3)
-    const current = { x: 1, y: 1 }
-    const next = { x: 1, y: 2 } // next is south of current
+    const current = { row: 1, col: 1 }
+    const next = { row: 1, col: 2 } // next is south of current
     
     removeWallBetween(maze, current, next)
     
@@ -170,8 +169,8 @@ describe('removeWallBetween', () => {
   // Edge case: Current cell south of next (vertical, reverse order)
   it('should remove north wall of next and south wall of current when current is below next', () => {
     const maze = createTestMaze(3, 3)
-    const current = { x: 1, y: 2 }
-    const next = { x: 1, y: 1 } // next is north of current
+    const current = { row: 1, col: 2 }
+    const next = { row: 1, col: 1 } // next is north of current
     
     removeWallBetween(maze, current, next)
     
@@ -182,8 +181,8 @@ describe('removeWallBetween', () => {
   // Edge case: Current cell west of next (horizontal neighbor)
   it('should remove east wall of current and west wall of next when current is left of next', () => {
     const maze = createTestMaze(3, 3)
-    const current = { x: 1, y: 1 }
-    const next = { x: 2, y: 1 } // next is east of current
+    const current = { row: 1, col: 1 }
+    const next = { row: 2, col: 1 } // next is east of current
     
     removeWallBetween(maze, current, next)
     
@@ -194,8 +193,8 @@ describe('removeWallBetween', () => {
   // Edge case: Current cell east of next (horizontal, reverse order)
   it('should remove west wall of current and east wall of next when current is right of next', () => {
     const maze = createTestMaze(3, 3)
-    const current = { x: 2, y: 1 }
-    const next = { x: 1, y: 1 } // next is west of current
+    const current = { row: 2, col: 1 }
+    const next = { row: 1, col: 1 } // next is west of current
     
     removeWallBetween(maze, current, next)
     
@@ -208,9 +207,9 @@ describe('removeWallBetween', () => {
     const maze = createTestMaze(3, 3)
     
     // Remove east wall
-    removeWallBetween(maze, { x: 1, y: 1 }, { x: 2, y: 1 })
+    removeWallBetween(maze, { row: 1, col: 1 }, { row: 2, col: 1 })
     // Remove south wall
-    removeWallBetween(maze, { x: 1, y: 1 }, { x: 1, y: 2 })
+    removeWallBetween(maze, { row: 1, col: 1 }, { row: 1, col: 2 })
     
     expect(maze.cells[1][1].walls.east).toBe(false)
     expect(maze.cells[1][1].walls.south).toBe(false)
@@ -221,8 +220,8 @@ describe('removeWallBetween', () => {
   // Valid case: Verify bidirectional wall removal
   it('should remove walls on both adjacent cells', () => {
     const maze = createTestMaze(3, 3)
-    const current = { x: 1, y: 1 }
-    const next = { x: 1, y: 2 }
+    const current = { row: 1, col: 1 }
+    const next = { row: 1, col: 2 }
     
     removeWallBetween(maze, current, next)
     
@@ -235,8 +234,8 @@ describe('removeWallBetween', () => {
   // Edge case: Border cells
   it('should work correctly for border cells', () => {
     const maze = createTestMaze(3, 3)
-    const current = { x: 0, y: 0 }
-    const next = { x: 1, y: 0 }
+    const current = { row: 0, col: 0 }
+    const next = { row: 1, col: 0 }
     
     removeWallBetween(maze, current, next)
     
@@ -257,37 +256,37 @@ describe('getNeighbors', () => {
 
   it('should return 2 neighbors for top-left corner in 3x3', () => {
     const maze = createMaze(3, 3)
-    const neighbors = getNeighbors(maze, 0, 0)
+    const neighbors = getNeighbors(maze, {row:0, col:0})
     
     expect(neighbors).toHaveLength(2)
-    expect(neighbors).toContainEqual({ x: 1, y: 0 }) // east
-    expect(neighbors).toContainEqual({ x: 0, y: 1 }) // south
+    expect(neighbors).toContainEqual({ row: 1, col: 0 }) // east
+    expect(neighbors).toContainEqual({ row: 0, col: 1 }) // south
   })
 
   it('should return 4 neighbors for center cell in 3x3', () => {
     const maze = createMaze(3, 3)
-    const neighbors = getNeighbors(maze, 1, 1)
+    const neighbors = getNeighbors(maze, {row:1, col:1})
     
     expect(neighbors).toHaveLength(4)
-    expect(neighbors).toContainEqual({ x: 1, y: 0 }) // north
-    expect(neighbors).toContainEqual({ x: 2, y: 1 }) // east
-    expect(neighbors).toContainEqual({ x: 1, y: 2 }) // south
-    expect(neighbors).toContainEqual({ x: 0, y: 1 }) // west
+    expect(neighbors).toContainEqual({ row: 1, col: 0 }) // north
+    expect(neighbors).toContainEqual({ row: 2, col: 1 }) // east
+    expect(neighbors).toContainEqual({ row: 1, col: 2 }) // south
+    expect(neighbors).toContainEqual({ row: 0, col: 1 }) // west
   })
 
   it('should return 3 neighbors for top edge cell (not corner) in 3x3', () => {
     const maze = createMaze(3, 3)
-    const neighbors = getNeighbors(maze, 1, 0)
+    const neighbors = getNeighbors(maze, {row:1, col:0})
     
     expect(neighbors).toHaveLength(3)
-    expect(neighbors).toContainEqual({ x: 2, y: 0 }) // east
-    expect(neighbors).toContainEqual({ x: 1, y: 1 }) // south
-    expect(neighbors).toContainEqual({ x: 0, y: 0 }) // west
+    expect(neighbors).toContainEqual({ row: 2, col: 0 }) // east
+    expect(neighbors).toContainEqual({ row: 1, col: 1 }) // south
+    expect(neighbors).toContainEqual({ row: 0, col: 0 }) // west
   })
 
   it('should return empty array for invalid coordinates', () => {
     const maze = createMaze(3, 3)
-    const neighbors = getNeighbors(maze, -1, 5)
+    const neighbors = getNeighbors(maze, {row:-1,col: 5})
     
     expect(neighbors).toHaveLength(0)
   })

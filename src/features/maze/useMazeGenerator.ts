@@ -10,24 +10,24 @@ export const useMazeGenerator = ()=> {
 
   const createMaze = (algorithm: AlgorithmType, rows: number, cols: number)  => {
     console.log(rows,cols)
-    const maze = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
-    let end: Position = { x: 7, y: 0 };
-    let start: Position = { x: 0, y: 0 };
+    const maze = mazesGenerator[algorithm](createEmptyMaze(17, 15));
+    let end: Position = { row: 7, col: 0 };
+    let start: Position = { row: 0, col: 0 };
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {
-      x: end.x,
-      y: 0,
+      row: end.row,
+      col: 0,
     });
 
     let current: Position | null = farthest;
     const reconstructedPath: Position[] = [];
     while (current) {
       reconstructedPath.unshift(current);
-      current = cellInfo[current.x]?.[current.y].parent || null;
-      if (current && current.x == end.x && current.y == end.y) {
+      current = cellInfo[current.row]?.[current.col].parent || null;
+      if (current && current.row == end.row && current.col == end.col) {
         start = {
-          x: reconstructedPath[reconstructedPath.length - 1].x,
-          y: reconstructedPath[reconstructedPath.length - 1].y,
+          row: reconstructedPath[reconstructedPath.length - 1].row,
+          col: reconstructedPath[reconstructedPath.length - 1].col,
         };
         reconstructedPath.unshift(current);
         break;

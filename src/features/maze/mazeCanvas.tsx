@@ -60,7 +60,7 @@ function drawMaze(
   if (path && path.length > 0) {
     ctx.fillStyle = "rgba(0, 255, 0, 0.4)";
     for (const cell of path) {
-      ctx.fillRect(cell.x * cellSize, cell.y * cellSize, cellSize, cellSize);
+      ctx.fillRect(cell.row * cellSize, cell.col * cellSize, cellSize, cellSize);
     }
   }
 
@@ -110,13 +110,13 @@ function drawMaze(
 
   //end point
   ctx.fillStyle = "#00f";
-  ctx.fillRect(end.x * cellSize, end.y * cellSize, cellSize, cellSize);
+  ctx.fillRect(end.row * cellSize, end.col * cellSize, cellSize, cellSize);
 
   //start point
   ctx.fillStyle = "#ff0000";
   ctx.fillRect(
-    start.x * cellSize,
-    start.y * cellSize,
+    start.row * cellSize,
+    start.col * cellSize,
     cellSize / 2,
     cellSize / 2,
   );
