@@ -5,16 +5,17 @@ import {
   removeWallBetween,
   selectRandomPosition,
 } from "@/lib/maze/utils";
+import { MazeGeneratorFn } from "./types";
 /**
  * Prim's algorithm for maze generation.
- * 
+ *
  * Grows a maze by maintaining a frontier of cells adjacent to the visited set.
  * Randomly selects a frontier cell and connects it to a random visited neighbor,
  * then adds its unvisited neighbors to the frontier.
- * 
+ *
  * Results in mazes with many short branches and uniform distribution
  */
-export function handleMazeGenerationPrim(maze: Maze): Maze {
+export const generatePrim: MazeGeneratorFn = (maze: Maze): Maze => {
   const startPoint: Position = getMazeStartPoint(maze);
   const stack: Position[] = [];
   stack.push({ x: startPoint.x, y: startPoint.y });
@@ -26,7 +27,11 @@ export function handleMazeGenerationPrim(maze: Maze): Maze {
       (p) => p.x === current.x && p.y === current.y,
     );
 
-    const neighbors: Position[] = getNeighborsNotVisited(maze, current.x, current.y);
+    const neighbors: Position[] = getNeighborsNotVisited(
+      maze,
+      current.x,
+      current.y,
+    );
 
     if (neighbors.length === 0 && index !== -1) {
       stack.splice(index, 1);
@@ -39,4 +44,4 @@ export function handleMazeGenerationPrim(maze: Maze): Maze {
     maze.cells[neighbor.x][neighbor.y].visited = true;
   }
   return maze;
-}
+};

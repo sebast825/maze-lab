@@ -6,6 +6,7 @@ import {
   removeWallBetween,
   selectRandomPosition,
 } from "@/lib/maze/utils";
+import { MazeGeneratorFn } from "./types";
 
 /*
  1 select a random start point and mark as visited and current
@@ -17,7 +18,7 @@ import {
  5 - repeat steps 3-5 until all cells are visited
 */
 
-export function handleMazegeneratAldousBroader(maze: Maze): Maze {
+export const generateAldousBroader : MazeGeneratorFn =(maze: Maze): Maze => {
   const startPoint: Position = getMazeStartPoint(maze);
 
   maze.cells[startPoint.x][startPoint.y].visited = true;

@@ -15,7 +15,7 @@ import { Maze } from "@/lib/maze/types";
  * 5. Repeat until all cells are connected (implicitly when all walls processed)
  */
 
-export function handleKruskalMazegeneration(maze: Maze): Maze {
+export function generateKruskal(maze: Maze): Maze {
   const walls = getWallsWithNeighbor(maze);
   walls.sort(() => Math.random() - 0.5);
   const totalCells = maze.rows * maze.cols;

@@ -2,9 +2,10 @@
 
 import { Maze, Position } from "@/lib/maze/types";
 import { getMazeStartPoint, getNeighborsNotVisited, removeWallBetween, selectRandomPosition  } from "@/lib/maze/utils";
+import { MazeGeneratorFn } from "./types";
 
 
-export function handleMazeGenerationDFS(maze: Maze): Maze {
+export const generateDFS: MazeGeneratorFn =(maze: Maze): Maze =>{
    // Step 1: Choose a random starting point and mark it as visited.
   const startPoint: Position = getMazeStartPoint(maze);
   const stack: Position[] = [];
