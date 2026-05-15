@@ -1,16 +1,17 @@
-import { algorithmNames, mazesGenerator  } from "@/lib/alogirthms/generation";
+import { algorithmNames, AlgorithmType, mazesGenerator  } from "@/lib/alogirthms/generation";
 import { bfs } from "@/lib/alogirthms/solving/bfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
 import { createEmptyMaze } from "@/lib/maze/utils";
 import { useState } from "react";
 
-export const useMazeGenerator = () => {
+export const useMazeGenerator = ()=> {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
-  const createMaze = () => {
-    const maze = mazesGenerator[algorithmNames.prim](createEmptyMaze(20, 20));
-    let end: Position = { x: 15, y: 0 };
+  const createMaze = (algorithm: AlgorithmType, rows: number, cols: number)  => {
+    console.log(rows,cols)
+    const maze = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
+    let end: Position = { x: 7, y: 0 };
     let start: Position = { x: 0, y: 0 };
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {

@@ -1,6 +1,8 @@
+import { Geist, Rowdies } from "next/font/google";
 import { Cell, Maze, Position } from "./types";
 
 export function createEmptyMaze(width: number, height: number): Maze {
+
   const cells: Cell[][] = [];
 
   for (let y = 0; y < height; y++) {
@@ -18,6 +20,7 @@ export function createEmptyMaze(width: number, height: number): Maze {
     }
     cells.push(row);
   }
+console.log('emptyMaze rows:', height, 'cols:', width, cells)
   return { rows: height, cols: width, cells };
 }
 

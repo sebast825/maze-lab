@@ -1,3 +1,4 @@
+"use client"
 import { generateAldousBroader } from "./aldous-broader";
 import { generateDFS } from "./dfs";
 import { generateKruskal } from "./kruskal/kruskal";
@@ -11,7 +12,7 @@ export const algorithmNames = {
   kruskal: 'kruskal'
 } as const
 
-type AlgorithmType = typeof algorithmNames[keyof typeof algorithmNames]
+export type AlgorithmType = typeof algorithmNames[keyof typeof algorithmNames]
 
 export const mazesGenerator : Record<AlgorithmType,MazeGeneratorFn > = {
    dfs : generateDFS,
@@ -19,3 +20,4 @@ export const mazesGenerator : Record<AlgorithmType,MazeGeneratorFn > = {
    aldousBroader:generateAldousBroader,
    kruskal : generateKruskal
 }
+
