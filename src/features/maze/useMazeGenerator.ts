@@ -1,5 +1,6 @@
 import { handleMazegeneratAldousBroader } from "@/lib/alogirthms/generation/aldous-broader";
 import { handleMazeGenerationDFS } from "@/lib/alogirthms/generation/dfs";
+import { handleKruskalMazegeneration } from "@/lib/alogirthms/generation/kruskal/kruskal";
 import { handleMazeGenerationPrim } from "@/lib/alogirthms/generation/prim";
 import { bfs } from "@/lib/alogirthms/solving/bfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
@@ -11,15 +12,14 @@ export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
   const createMaze = () => {
-    const maze = handleMazeGenerationDFS(createEmptyMaze(20, 20));
+    const maze = handleKruskalMazegeneration(createEmptyMaze(20, 20));
+    let end: Position = { x: 15, y: 0 };
+    let start: Position = { x: 0, y: 0 };
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {
-      x: 15,
+      x: end.x,
       y: 0,
     });
-
-    let start: Position = { x: 0, y: 0 };
-    let end: Position = { x: 15, y: 0 };
 
     let current: Position | null = farthest;
     const reconstructedPath: Position[] = [];
