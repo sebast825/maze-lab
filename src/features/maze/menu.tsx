@@ -11,6 +11,8 @@ interface MenuProps {
   onGenerate: () => void;
   onExportPDF?: () => void;
   onClear?: () => void;
+  onShowPath: () => void;
+  showPath: boolean;
 }
 
 export const Menu = ({
@@ -23,6 +25,8 @@ export const Menu = ({
   onGenerate,
   onExportPDF,
   onClear,
+  onShowPath,
+  showPath,
 }: MenuProps) => {
   return (
     <div className="flex flex-wrap items-center gap-4 p-4 bg-gray-800 rounded-lg shadow-md">
@@ -47,11 +51,11 @@ export const Menu = ({
           ))}
         </select>
       </div>
-
+    
       {/* Tamaño */}
       <div className="flex items-center gap-2">
         <label htmlFor="rows" className="text-white font-medium">
-          Filas:
+          Rows:
         </label>
         <input
           type="number"
@@ -63,7 +67,7 @@ export const Menu = ({
           className="w-16 px-2 py-2 bg-gray-700 text-white rounded-md border border-gray-600 text-center"
         />
         <label htmlFor="cols" className="text-white font-medium">
-          Columnas:
+          Cols:
         </label>
         <input
           type="number"
@@ -83,7 +87,12 @@ export const Menu = ({
       >
         Generate
       </button>
-
+  <button
+        onClick={onShowPath}
+        className="px-4 py-2 bg-purple-600 text-white font-medium rounded-md hover:bg-purple-700 transition"
+      >
+        {showPath ? "Hide Path" : "Show Path"}
+      </button>
       <button
         onClick={onExportPDF}
         className="px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition"

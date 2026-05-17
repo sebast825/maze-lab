@@ -6,6 +6,7 @@ interface MazeCanvasProps {
   maze: Maze;
   cellSize: number;
   path?: Position[];
+  showPath : boolean
   start: Position;
   end: Position;
 }
@@ -15,6 +16,7 @@ export const MazeCanvas = ({
   cellSize,
   start,
   end,
+  showPath,
   path,
 }: MazeCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,8 +28,8 @@ export const MazeCanvas = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    drawMaze(ctx, maze, cellSize, start, end, path);
-  }, [maze, cellSize, path]);
+    drawMaze(ctx, maze, cellSize, start, end,showPath, path);
+  }, [maze, cellSize,showPath, path]);
 
   return (
     <canvas
@@ -45,6 +47,7 @@ function drawMaze(
   cellSize: number,
   start: Position,
   end: Position,
+  showPath:boolean,
   path?: Position[],
 ) {
   const { rows, cols, cells } = maze;
@@ -57,7 +60,7 @@ function drawMaze(
   ctx.fillRect(0, 0, cols * cellSize, rows * cellSize);
 
   // Draw path first (so walls are drawn on top)
-  if (path && path.length > 0) {
+  if (showPath&&path && path.length > 0) {
     ctx.fillStyle = "rgba(0, 255, 0, 0.4)";
 
     for (const cell of path) {
