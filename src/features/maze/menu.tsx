@@ -1,7 +1,21 @@
+import { ReactNode } from "react";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
 import { algorithmLabels } from "./constants";
+import { ActionButton } from "@/components/actionButton";
 
 interface MenuProps {
+  children: ReactNode;
+}
+
+export const Menu = ({ children }: MenuProps) => {
+  return (
+    <div className="flex flex-wrap items-center gap-4 p-4 bg-gray-800 rounded-lg shadow-md">
+      {children}
+    </div>
+  );
+};
+
+interface ControlsProps {
   algorithm: AlgorithmType;
   onAlgorithmChange: (algorithm: AlgorithmType) => void;
   rows: number;
@@ -9,13 +23,9 @@ interface MenuProps {
   cols: number;
   onColsChange: (cols: number) => void;
   onGenerate: () => void;
-  onExportPDF?: () => void;
-  onClear?: () => void;
-  onShowPath: () => void;
-  showPath: boolean;
 }
 
-export const Menu = ({
+Menu.Controls = ({
   algorithm,
   onAlgorithmChange,
   rows,
@@ -23,17 +33,13 @@ export const Menu = ({
   cols,
   onColsChange,
   onGenerate,
-  onExportPDF,
-  onClear,
-  onShowPath,
-  showPath,
-}: MenuProps) => {
+}: ControlsProps) => {
   return (
-    <div className="flex flex-wrap items-center gap-4 p-4 bg-gray-800 rounded-lg shadow-md">
+    <>
       {/* Algoritmo */}
       <div className="flex items-center gap-2">
         <label htmlFor="algorithm" className="text-white font-medium">
-          Algoritmo:
+          Algorithm:
         </label>
         <select
           id="algorithm"
@@ -51,7 +57,7 @@ export const Menu = ({
           ))}
         </select>
       </div>
-    
+
       {/* Tamaño */}
       <div className="flex items-center gap-2">
         <label htmlFor="rows" className="text-white font-medium">
@@ -79,33 +85,46 @@ export const Menu = ({
           className="w-16 px-2 py-2 bg-gray-700 text-white rounded-md border border-gray-600 text-center"
         />
       </div>
+    </>
+  );
+};
 
-      {/* Botones */}
-      <button
-        onClick={onGenerate}
-        className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition"
-      >
-        Generate
-      </button>
-  <button
-        onClick={onShowPath}
-        className="px-4 py-2 bg-purple-600 text-white font-medium rounded-md hover:bg-purple-700 transition"
-      >
-        {showPath ? "Hide Path" : "Show Path"}
-      </button>
-      <button
-        onClick={onExportPDF}
-        className="px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition"
-      >
-        Export PDF
-      </button>
+interface ActionsProps {
+  generateMaze: () => void;
+  onShowPath: () => void;
+  showPath: boolean;
+  exportToPDF: () => void;
+  disableExportToPDF: boolean;
+}
+Menu.Actions = ({
+  generateMaze,
+  onShowPath,
+  showPath,
+  exportToPDF,
+  disableExportToPDF,
+}: ActionsProps) => {
+  return (
+    <div className="flex flex-wrap items-center gap-4 p-4 ">
+      <ActionButton
+        action={generateMaze}
+        
+        text="Generate"
+        color="blue"
+      />
 
-      <button
-        onClick={onClear}
-        className="px-4 py-2 bg-yellow-600 text-white font-medium rounded-md hover:bg-yellow-700 transition"
-      >
-        Clear
-      </button>
+      <ActionButton
+        action={onShowPath}
+        disable={disableExportToPDF}
+        text={showPath ? "Hide Path" : "Show Path"}
+        color="purple"
+      />
+
+      <ActionButton
+        action={exportToPDF}
+        disable={disableExportToPDF}
+        text=" Export PDF"
+        color="green"
+      />
     </div>
   );
 };
