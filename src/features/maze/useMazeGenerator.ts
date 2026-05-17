@@ -12,7 +12,7 @@ export const useMazeGenerator = ()=> {
     if(rows <2) rows=2;
     if(cols<2)cols =2;
     const maze = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
-    let end: Position = { row: 0, col: Math.round(cols / 2)};
+    let end: Position = { row: 0, col: Math.round( 2)};
     let start: Position = { row: 0, col: 0 };
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {
