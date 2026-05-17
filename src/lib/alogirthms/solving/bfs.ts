@@ -23,14 +23,20 @@ export function bfs(maze: Maze, end: Position): BFSResult {
 
   cellInfo[end.row][end.col].distance = 0;
   let farthest = { row: end.row, col: end.col, distance: 0 };
-
   while (queue.length > 0) {
     const current = queue.shift()!;
+
     const neighbors = getNeighborsByOpenWall(maze, current);
     if (neighbors.length <= 0) {
       continue;
     }
-    neighbors.forEach((neighbor) => {
+    //update longer path
+    if (farthest.distance < cellInfo[current.row][current.col].distance) {
+      farthest.distance = cellInfo[current.row][current.col].distance;
+      farthest.row = current.row;
+      farthest.col = current.col;
+    }
+    neighbors.forEach((neighbor: Position) => {
       if (cellInfo[neighbor.row][neighbor.col].distance == -1) {
         queue.push(neighbor);
         cellInfo[neighbor.row][neighbor.col].distance =
@@ -40,32 +46,54 @@ export function bfs(maze: Maze, end: Position): BFSResult {
           col: current.col,
         };
       }
-      //update longer path
-      if (farthest.distance < cellInfo[current.row][current.col].distance) {
-        farthest.distance = cellInfo[current.row][current.col].distance;
-        farthest.row = current.row;
-        farthest.col = current.col;
-      }
     });
   }
 
   return { cellInfo, farthest };
 }
 
-function getNeighborsByOpenWall(
+export function getNeighborsByOpenWall(
   maze: Maze,
   current: { row: number; col: number },
 ): Position[] {
   const neighbors: Position[] = [];
-  const cell = maze.cells[current.col][current.row];
-  if (!cell.walls.north && current.col - 1 >= 0)
-    neighbors.push({ row: current.row, col: current.col - 1 });
-  if (!cell.walls.east && current.row + 1 < maze.cols)
-    neighbors.push({ row: current.row + 1, col: current.col });
-  if (!cell.walls.south && current.col + 1 < maze.rows)
-    neighbors.push({ row: current.row, col: current.col + 1 });
-  if (!cell.walls.west && current.row - 1 >= 0)
+  const cell = maze.cells[current.row][current.col];
+
+  // NORTE: Primero límites, luego pared actual, luego pared del vecino
+  if (
+    current.row - 1 >= 0 &&
+    !cell.walls.north &&
+    !maze.cells[current.row - 1][current.col].walls.south
+  ) {
     neighbors.push({ row: current.row - 1, col: current.col });
+  }
+
+  // SUR: Primero límites, luego pared actual, luego pared del vecino
+  if (
+    current.row + 1 < maze.rows &&
+    !cell.walls.south &&
+    !maze.cells[current.row + 1][current.col].walls.north
+  ) {
+    neighbors.push({ row: current.row + 1, col: current.col });
+  }
+
+  // ESTE: Primero límites, luego pared actual, luego pared del vecino
+  if (
+    current.col + 1 < maze.cols &&
+    !cell.walls.east &&
+    !maze.cells[current.row][current.col + 1].walls.west
+  ) {
+    neighbors.push({ row: current.row, col: current.col + 1 });
+  }
+
+  // OESTE: Primero límites, luego pared actual, luego pared del vecino
+  if (
+    current.col - 1 >= 0 &&
+    !cell.walls.west &&
+    !maze.cells[current.row][current.col - 1].walls.east
+  ) {
+    neighbors.push({ row: current.row, col: current.col - 1 });
+  }
 
   return neighbors;
 }

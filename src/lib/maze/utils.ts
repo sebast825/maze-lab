@@ -1,12 +1,12 @@
 import { Geist, Rowdies } from "next/font/google";
 import { Cell, Maze, Position } from "./types";
 
-export function createEmptyMaze(width: number, height: number): Maze {
+export function createEmptyMaze(rows: number, cols: number): Maze {
   const cells: Cell[][] = [];
 
-  for (let y = 0; y < height; y++) {
+  for (let y = 0; y < rows; y++) {
     const row: Cell[] = [];
-    for (let x = 0; x < width; x++) {
+    for (let x = 0; x < cols; x++) {
       row.push({
         visited: false,
         walls: {
@@ -19,14 +19,13 @@ export function createEmptyMaze(width: number, height: number): Maze {
     }
     cells.push(row);
   }
-  console.log("emptyMaze rows:", height, "cols:", width, cells);
-  return { rows: height, cols: width, cells };
+  return { rows: rows, cols: cols, cells };
 }
 
 export function getMazeStartPoint(maze: Maze): Position {
   const row = Math.floor(Math.random() * maze.rows);
   const col = Math.floor(Math.random() * maze.cols);
-  return { row,col };
+  return { row, col };
 }
 
 export function getNeighborsNotVisited(
@@ -85,7 +84,6 @@ export function selectRandomPosition(neighbors: Position[]): Position {
   return neighbors[randomIndex];
 }
 
-
 export function removeWallBetween(
   maze: Maze,
   current: Position,
@@ -94,47 +92,29 @@ export function removeWallBetween(
   // if cells are in the same row then we need to remove east/west wall
   if (current.row === next.row && current.col != next.col) {
     //east/west
-    if (current.col > next.col) {
+    if (current.col - next.col === 1) {
       maze.cells[current.row][current.col].walls.west = false;
       maze.cells[next.row][next.col].walls.east = false;
       return;
-    } else {
+    }
+    if (next.col - current.col === 1) {
       maze.cells[current.row][current.col].walls.east = false;
       maze.cells[next.row][next.col].walls.west = false;
       return;
     }
   }
   // if cells are in the same column then we need to remove north/south wall
-  if(current.col === next.col && current.row != next.row ) {
+  if (current.col === next.col && current.row != next.row) {
     //north/south
-    if (current.row > next.row) {
+    if (current.row - next.row === 1) {
       maze.cells[current.row][current.col].walls.north = false;
       maze.cells[next.row][next.col].walls.south = false;
       return;
-    } else {
+    }
+    if (next.row - current.row === 1) {
       maze.cells[current.row][current.col].walls.south = false;
       maze.cells[next.row][next.col].walls.north = false;
       return;
     }
-    console.log("cayo un random: " ,current,next)  }
+  }
 }
-
-/* 1- misma row dif col
-      - east/west validamos si abrimos 
-      - current.col > next.col 
-        - current -> west open
-        - next -> east open
-      else
-          - current -> east open
-        - next -> west open
-
-    2- diff row same col
-      - south/ north validamos si abrimos 
-      - current.row > next.row
-        - current -> south open
-        - next -> north open
-      else
-         - current -> north open
-        - next -> east open
-
-*/

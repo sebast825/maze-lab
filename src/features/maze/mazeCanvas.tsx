@@ -59,8 +59,14 @@ function drawMaze(
   // Draw path first (so walls are drawn on top)
   if (path && path.length > 0) {
     ctx.fillStyle = "rgba(0, 255, 0, 0.4)";
+
     for (const cell of path) {
-      ctx.fillRect(cell.row * cellSize, cell.col * cellSize, cellSize, cellSize);
+      ctx.fillRect(
+        cell.col * cellSize, 
+        cell.row * cellSize, 
+        cellSize,
+        cellSize,
+      );
     }
   }
 
@@ -71,6 +77,7 @@ function drawMaze(
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
       const cell = cells[row][col];
+
       const x = col * cellSize;
       const y = row * cellSize;
 
@@ -108,15 +115,20 @@ function drawMaze(
     }
   }
 
-  //end point
-  ctx.fillStyle = "#00f";
-  ctx.fillRect(end.row * cellSize, end.col * cellSize, cellSize, cellSize);
+  // End point
+  ctx.fillStyle = "#0000ff";
+  ctx.fillRect(
+    end.col * cellSize,
+    end.row * cellSize, 
+    cellSize,
+    cellSize,
+  );
 
-  //start point
+  // Start point
   ctx.fillStyle = "#ff0000";
   ctx.fillRect(
-    start.row * cellSize,
-    start.col * cellSize,
+    start.col * cellSize, 
+    start.row * cellSize, 
     cellSize / 2,
     cellSize / 2,
   );

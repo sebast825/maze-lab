@@ -9,14 +9,15 @@ export const useMazeGenerator = ()=> {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
   const createMaze = (algorithm: AlgorithmType, rows: number, cols: number)  => {
-    console.log(rows,cols)
-    const maze = mazesGenerator[algorithm](createEmptyMaze(17, 15));
-    let end: Position = { row: 7, col: 0 };
+    if(rows <2) rows=2;
+    if(cols<2)cols =2;
+    const maze = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
+    let end: Position = { row: 0, col: Math.round(cols / 2)};
     let start: Position = { row: 0, col: 0 };
 
     const { cellInfo, farthest }: BFSResult = bfs(maze, {
-      row: end.row,
-      col: 0,
+      row: 0,
+      col: end.col,
     });
 
     let current: Position | null = farthest;
