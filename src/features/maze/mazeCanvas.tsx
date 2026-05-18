@@ -1,5 +1,5 @@
 "use client";
-import { Cell, Maze, Position } from "@/lib/maze/types";
+import { Maze, Position } from "@/lib/maze/types";
 
 interface MazeCanvasProps {
   maze: Maze;
@@ -76,7 +76,8 @@ function drawMaze(
   const cellWidth = cellSize;
   const cellHeight = cellSize;
   const radius = Math.min(cellWidth, cellHeight) / 2.5; // Responsive radius based on cell size
-
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   // 1. Render Start point ('S')
   drawMazeMarker({
     ctx,
@@ -86,8 +87,7 @@ function drawMaze(
     cellWidth,
     cellHeight,
     radius,
-    color: "#ef4444", // Tailwind Red-500
-    shadowBlur: 10,
+    color: "#eab308",
   });
 
   // 2. Render End point ('E')
@@ -99,8 +99,7 @@ function drawMaze(
     cellWidth,
     cellHeight,
     radius,
-    color: "#3b82f6", // Tailwind Blue-500
-    shadowBlur: 1,
+    color: "#eab308",
   });
 }
 
@@ -172,7 +171,6 @@ export const drawMazeWalls = ({
   neonColor = "#06b6d4", // Tailwind Cyan-500 (Glow base)
   coreColor = "#e0f2fe", // Tailwind Cyan-100 (Bright center tube)
 }: DrawMazeProps) => {
-  // Helper path builder to avoid duplicating line coordinates
   const traceWalls = () => {
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
@@ -200,24 +198,22 @@ export const drawMazeWalls = ({
     }
   };
 
-  // ==========================================
-  // PASO 1: Dibujar el resplandor (Glow)
-  // ==========================================
+  // STEP 1: Draw the outer glow
+
   ctx.save();
   ctx.beginPath();
   traceWalls();
 
   ctx.strokeStyle = neonColor;
   ctx.lineWidth = 4; // Thicker line for the outer aura
-  ctx.shadowBlur = 12; // High blur for the neon dispersion
+  ctx.shadowBlur = 8; // High blur for the neon dispersion
   ctx.shadowColor = neonColor;
   ctx.lineCap = "round"; // Makes wall joints look smoother
   ctx.stroke();
   ctx.restore();
 
-  // ==========================================
-  // PASO 2: Dibujar el núcleo brillante (Core)
-  // ==========================================
+  // STEP 2: Draw the bright center
+
   ctx.save();
   ctx.beginPath();
   traceWalls();
@@ -245,7 +241,6 @@ const drawPath = (
 
   // 2. Add an elegant soft glow
   ctx.shadowBlur = 8;
-
   ctx.beginPath();
 
   // 3. Move to the center of the first cell in the path
@@ -262,6 +257,5 @@ const drawPath = (
 
   // 5. Single draw call for maximum performance
   ctx.stroke();
-
   ctx.restore();
 };
