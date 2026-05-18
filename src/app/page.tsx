@@ -1,23 +1,30 @@
 "use client";
 
 import { DrawingCanvas } from "@/features/maze/drawingCanvas";
+import { GameCanvas } from "@/features/maze/gameCanvas";
 import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { Menu } from "@/features/maze/menu";
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
 import { useDraw } from "@/features/maze/useDrawCanvas";
+import { useGameCharacter } from "@/features/maze/useGameCharacter";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
 import { useState, useRef } from "react";
+
+export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
 export default function Home() {
   const [algorithm, setAlgorithm] = useState<AlgorithmType>("dfs");
   const [rows, setRows] = useState<number>(20);
   const [cols, setCols] = useState<number>(20);
+
   const [showPath, setShowPath] = useState<boolean>(false);
   const { mazeData, createMaze } = useMazeGenerator();
+
   const { exportToPDF, setCanvasElement, hasCanvas } = useCanvasPDF();
+
   const { startDrawing, draw, stopDrawing, undoLast, clearAll } = useDraw();
-  const [drawCanvas, setDrawCanvas] = useState<boolean>(false);
+  const [gameMode, setGameMode] = useState<GameMode>("DRAW");
   const drawingCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const handleGenerate = () => {
@@ -48,11 +55,15 @@ export default function Home() {
             />
 
             {hasCanvas && (
-              <Menu.Draw
-                toggleDraw={() => setDrawCanvas(!drawCanvas)}
+              <Menu.Modes
+              currentMode = {gameMode}
+              toggleCharacter={()=> gameMode != "CHARACTER" ? setGameMode("CHARACTER") : setGameMode("VIEW")}
+                toggleDraw={() =>
+                  gameMode != "DRAW" ? setGameMode("DRAW") : setGameMode("VIEW")
+                }
                 undoLast={() => undoLast(drawingCanvasRef.current)}
                 clearAll={() => clearAll(drawingCanvasRef.current)}
-                drawCanvas={drawCanvas}
+                drawCanvas={gameMode == "DRAW"}
               />
             )}
           </Menu>
@@ -69,7 +80,11 @@ export default function Home() {
                 path={mazeData.solution || undefined}
               />
             )}
-            {drawCanvas && (
+            {gameMode == "CHARACTER" && mazeData?.maze && mazeData?.start && (
+              <GameCanvas mazeData={mazeData}></GameCanvas>
+            )}
+
+            {gameMode == "DRAW" && (
               <DrawingCanvas
                 cols={cols}
                 rows={rows}

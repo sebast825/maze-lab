@@ -3,7 +3,8 @@ import { AlgorithmType } from "@/lib/alogirthms/generation";
 import { algorithmLabels } from "./constants";
 import { ActionButton } from "@/components/actionButton";
 import { IconButton } from "@/components/iconButton";
-import { Pencil, Undo2, Trash2 } from "lucide-react";
+import { Pencil, Undo2, Trash2, Gamepad2 } from "lucide-react";
+import { GameMode } from "@/app/page";
 
 interface MenuProps {
   children: ReactNode;
@@ -11,7 +12,8 @@ interface MenuProps {
 
 export const Menu = ({ children }: MenuProps) => {
   return (
-    <div className="flex flex-wrap items-center gap-4 p-4 bg-gray-800 rounded-lg shadow-md">
+    <div className="flex w-full flex-wrap items-center justify-between gap-4 p-4 bg-gray-800 rounded-lg shadow-md">
+      {" "}
       {children}
     </div>
   );
@@ -106,7 +108,7 @@ Menu.Actions = ({
   disableExportToPDF,
 }: ActionsProps) => {
   return (
-    <div className="flex flex-wrap items-center gap-4 p-4 ">
+    <div className="flex items-center gap-4">
       <ActionButton action={generateMaze} text="Generate" color="blue" />
 
       <ActionButton
@@ -126,28 +128,47 @@ Menu.Actions = ({
   );
 };
 
-interface DrawProps {
+interface MenuModesProps {
+  currentMode: GameMode;
   toggleDraw: () => void;
+  toggleCharacter: () => void;
   drawCanvas: boolean;
   undoLast: () => void;
   clearAll: () => void;
 }
-Menu.Draw = ({ toggleDraw, drawCanvas, undoLast, clearAll }: DrawProps) => {
+Menu.Modes = ({
+  toggleDraw,
+  currentMode,
+  toggleCharacter,
+  drawCanvas,
+  undoLast,
+  clearAll,
+}: MenuModesProps) => {
   return (
-    <>
-      <IconButton action={toggleDraw} color="blue">
+    <div className="flex items-center gap-2">
+      {drawCanvas && (
+        <div className="flex items-center gap-2">
+          <IconButton action={undoLast} color="slate" size="sm">
+            <Undo2 className="w-4 h-4" />
+          </IconButton>
+          <IconButton action={clearAll} color="rose" size="sm">
+            <Trash2 className="w-4 h-4" />
+          </IconButton>
+        </div>
+      )}
+
+      <IconButton
+        action={toggleDraw}
+        color={currentMode === "DRAW" ? "orange" : "blue"}
+      >
         <Pencil className="w-5 h-5" />
       </IconButton>
-      {drawCanvas && (
-        <IconButton action={undoLast} color="slate">
-          <Undo2 className="w-5 h-5" />
-        </IconButton>
-      )}
-      {drawCanvas && (
-        <IconButton action={clearAll} color="rose">
-          <Trash2 className="w-5 h-5" />
-        </IconButton>
-      )}
-    </>
+      <IconButton
+        action={toggleCharacter}
+        color={currentMode === "CHARACTER" ? "orange" : "blue"}
+      >
+        <Gamepad2 className="w-5 h-5" />
+      </IconButton>
+    </div>
   );
 };
