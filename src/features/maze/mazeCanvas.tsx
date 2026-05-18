@@ -21,7 +21,6 @@ export const MazeCanvas = ({
   onCanvasReady,
 }: MazeCanvasProps) => {
   const handleCanvasRef = (canvas: HTMLCanvasElement | null) => {
-
     if (!canvas) return;
 
     if (onCanvasReady) {
@@ -58,12 +57,12 @@ function drawMaze(
   ctx.clearRect(0, 0, cols * cellSize, rows * cellSize);
 
   // Draw background
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = "#010";
   ctx.fillRect(0, 0, cols * cellSize, rows * cellSize);
 
   // Draw path first (so walls are drawn on top)
   if (showPath && path && path.length > 0) {
-    ctx.fillStyle = "rgba(0, 255, 0, 0.4)";
+    ctx.fillStyle = "rgba(0, 255, 0, 1)";
 
     for (const cell of path) {
       ctx.fillRect(
@@ -75,90 +74,50 @@ function drawMaze(
     }
   }
 
-  // Draw walls
-  ctx.strokeStyle = "#000000";
-  ctx.lineWidth = 2;
+  drawMazeWalls({
+    ctx,
+    cells,
+    rows,
+    cols,
+    cellSize, // Size of each cell in px
+    neonColor: "#06b6d4", // Optional: Cyan glow
+    coreColor: "#ebbebe", // Optional: Bright center line
+  });
+  const cellWidth = cellSize;
+  const cellHeight = cellSize;
+  const radius = Math.min(cellWidth, cellHeight) / 2.5; // Responsive radius based on cell size
 
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const cell = cells[row][col];
+  // Configure global typography styles once
+  ctx.font = "bold 14px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
 
-      const x = col * cellSize;
-      const y = row * cellSize;
+  // 1. Render Start point ('S')
+  drawMazeMarker({
+    ctx,
+    label: "S",
+    col: start.col,
+    row: start.row,
+    cellWidth,
+    cellHeight,
+    radius,
+    color: "#ef4444", // Tailwind Red-500
+    shadowBlur: 10,
+  });
 
-      // North wall
-      if (cell.walls.north) {
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + cellSize, y);
-        ctx.stroke();
-      }
-
-      // South wall
-      if (cell.walls.south) {
-        ctx.beginPath();
-        ctx.moveTo(x, y + cellSize);
-        ctx.lineTo(x + cellSize, y + cellSize);
-        ctx.stroke();
-      }
-
-      // East wall
-      if (cell.walls.east) {
-        ctx.beginPath();
-        ctx.moveTo(x + cellSize, y);
-        ctx.lineTo(x + cellSize, y + cellSize);
-        ctx.stroke();
-      }
-
-      // West wall
-      if (cell.walls.west) {
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x, y + cellSize);
-        ctx.stroke();
-      }
-    }
-  }
-const cellWidth = cellSize;
-const cellHeight = cellSize;
-
-
-
-const radius = Math.min(cellWidth, cellHeight) / 2.5; // Responsive radius based on cell size
-
-
-// Configure global typography styles once
-ctx.font = "bold 14px sans-serif"; 
-ctx.textAlign = "center";
-ctx.textBaseline = "middle"; 
-
-// 1. Render Start point ('S')
-drawMazeMarker({
-  ctx,
-  label: "S",
-  col: start.col,
-  row: start.row,
-  cellWidth,
-  cellHeight,
-  radius,
-  color: "#ef4444", // Tailwind Red-500
-  shadowBlur: 10,
-});
-
-// 2. Render End point ('E')
-drawMazeMarker({
-  ctx,
-  label: "E",
-  col: end.col,
-  row: end.row,
-  cellWidth,
-  cellHeight,
-  radius,
-  color: "#3b82f6", // Tailwind Blue-500
-  shadowBlur: 1,
-});
+  // 2. Render End point ('E')
+  drawMazeMarker({
+    ctx,
+    label: "E",
+    col: end.col,
+    row: end.row,
+    cellWidth,
+    cellHeight,
+    radius,
+    color: "#3b82f6", // Tailwind Blue-500
+    shadowBlur: 1,
+  });
 }
-
 
 interface DrawMarkerProps {
   ctx: CanvasRenderingContext2D;
@@ -207,4 +166,80 @@ const drawMazeMarker = ({
   // Draw centered typography label
   ctx.fillStyle = color;
   ctx.fillText(label, x, y);
+};
+
+interface DrawMazeProps {
+  ctx: CanvasRenderingContext2D;
+  cells: any[][]; // Replace with your specific Cell type
+  rows: number;
+  cols: number;
+  cellSize: number;
+  neonColor?: string;
+  coreColor?: string;
+}
+
+export const drawMazeWalls = ({
+  ctx,
+  cells,
+  rows,
+  cols,
+  cellSize,
+  neonColor = "#06b6d4", // Tailwind Cyan-500 (Glow base)
+  coreColor = "#e0f2fe", // Tailwind Cyan-100 (Bright center tube)
+}: DrawMazeProps) => {
+  // Helper path builder to avoid duplicating line coordinates
+  const traceWalls = () => {
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const cell = cells[row][col];
+        const x = col * cellSize;
+        const y = row * cellSize;
+
+        if (cell.walls.north) {
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + cellSize, y);
+        }
+        if (cell.walls.south) {
+          ctx.moveTo(x, y + cellSize);
+          ctx.lineTo(x + cellSize, y + cellSize);
+        }
+        if (cell.walls.east) {
+          ctx.moveTo(x + cellSize, y);
+          ctx.lineTo(x + cellSize, y + cellSize);
+        }
+        if (cell.walls.west) {
+          ctx.moveTo(x, y);
+          ctx.lineTo(x, y + cellSize);
+        }
+      }
+    }
+  };
+
+  // ==========================================
+  // PASO 1: Dibujar el resplandor (Glow)
+  // ==========================================
+  ctx.save();
+  ctx.beginPath();
+  traceWalls();
+
+  ctx.strokeStyle = neonColor;
+  ctx.lineWidth = 4; // Thicker line for the outer aura
+  ctx.shadowBlur = 12; // High blur for the neon dispersion
+  ctx.shadowColor = neonColor;
+  ctx.lineCap = "round"; // Makes wall joints look smoother
+  ctx.stroke();
+  ctx.restore();
+
+  // ==========================================
+  // PASO 2: Dibujar el núcleo brillante (Core)
+  // ==========================================
+  ctx.save();
+  ctx.beginPath();
+  traceWalls();
+
+  ctx.strokeStyle = coreColor;
+  ctx.lineWidth = 1.5; // Thin line for the inner electric tube
+  ctx.lineCap = "round";
+  ctx.stroke(); // Drawn without shadows for maximum sharpness
+  ctx.restore();
 };
