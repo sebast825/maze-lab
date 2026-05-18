@@ -1,7 +1,9 @@
+import { ReactNode } from "react";
 interface ActionButtonProps {
   action: () => void;
   disable?: boolean;
-  text: string;
+  text?: string;
+  children?: ReactNode;
   color: string;
 }
 
@@ -10,14 +12,19 @@ export const ActionButton = ({
   disable = false,
   text,
   color,
+  children,
 }: ActionButtonProps) => {
   return (
     <button
       onClick={action}
       disabled={disable}
-      className={`px-4 py-2 bg-${color}-600 text-white font-medium rounded-md hover:bg-${color}-600 transition disabled:opacity-40 disabled:hover:bg-${color}-600 disabled:cursor-not-allowed`}
+      className={`px-4 py-2 bg-${color}-600 text-white font-medium rounded-md hover:bg-${color}-700 cursor-pointer transition disabled:opacity-40  disabled:cursor-not-allowed`}
     >
-      {text}
+      <div className="flex display-row items-center gap-2 ">
+        {children}
+
+        {text && <span>{text}</span>}
+      </div>
     </button>
   );
 };

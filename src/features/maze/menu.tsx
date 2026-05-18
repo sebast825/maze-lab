@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
 import { algorithmLabels } from "./constants";
 import { ActionButton } from "@/components/actionButton";
+import { IconButton } from "@/components/iconButton";
+import { Pencil, Undo2, Trash2 } from "lucide-react";
 
 interface MenuProps {
   children: ReactNode;
@@ -105,12 +107,7 @@ Menu.Actions = ({
 }: ActionsProps) => {
   return (
     <div className="flex flex-wrap items-center gap-4 p-4 ">
-      <ActionButton
-        action={generateMaze}
-        
-        text="Generate"
-        color="blue"
-      />
+      <ActionButton action={generateMaze} text="Generate" color="blue" />
 
       <ActionButton
         action={onShowPath}
@@ -126,5 +123,31 @@ Menu.Actions = ({
         color="green"
       />
     </div>
+  );
+};
+
+interface DrawProps {
+  toggleDraw: () => void;
+  drawCanvas: boolean;
+  undoLast: () => void;
+  clearAll: () => void;
+}
+Menu.Draw = ({ toggleDraw, drawCanvas, undoLast, clearAll }: DrawProps) => {
+  return (
+    <>
+      <IconButton action={toggleDraw} color="blue">
+        <Pencil className="w-5 h-5" />
+      </IconButton>
+      {drawCanvas && (
+        <IconButton action={undoLast} color="slate">
+          <Undo2 className="w-5 h-5" />
+        </IconButton>
+      )}
+      {drawCanvas && (
+        <IconButton action={clearAll} color="rose">
+          <Trash2 className="w-5 h-5" />
+        </IconButton>
+      )}
+    </>
   );
 };
