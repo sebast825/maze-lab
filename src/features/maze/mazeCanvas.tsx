@@ -1,5 +1,5 @@
 "use client";
-import { Maze, Position } from "@/lib/maze/types";
+import { Cell, Maze, Position } from "@/lib/maze/types";
 
 interface MazeCanvasProps {
   maze: Maze;
@@ -62,18 +62,8 @@ function drawMaze(
 
   // Draw path first (so walls are drawn on top)
   if (showPath && path && path.length > 0) {
-    ctx.fillStyle = "rgba(0, 255, 0, 1)";
-
-    for (const cell of path) {
-      ctx.fillRect(
-        cell.col * cellSize,
-        cell.row * cellSize,
-        cellSize,
-        cellSize,
-      );
-    }
+    drawPath(ctx, path, cellSize);
   }
-
   drawMazeWalls({
     ctx,
     cells,
@@ -86,11 +76,6 @@ function drawMaze(
   const cellWidth = cellSize;
   const cellHeight = cellSize;
   const radius = Math.min(cellWidth, cellHeight) / 2.5; // Responsive radius based on cell size
-
-  // Configure global typography styles once
-  ctx.font = "bold 14px sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
 
   // 1. Render Start point ('S')
   drawMazeMarker({
@@ -241,5 +226,42 @@ export const drawMazeWalls = ({
   ctx.lineWidth = 1.5; // Thin line for the inner electric tube
   ctx.lineCap = "round";
   ctx.stroke(); // Drawn without shadows for maximum sharpness
+  ctx.restore();
+};
+
+const drawPath = (
+  ctx: CanvasRenderingContext2D,
+  path: Position[],
+  cellSize: number,
+) => {
+  ctx.save();
+
+  // 1. Setup minimal neon line styling
+  ctx.strokeStyle = "#f43f5e";
+  ctx.shadowColor = "#f43f5e";
+  ctx.lineWidth = Math.max(2, cellSize * 0.15);
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+
+  // 2. Add an elegant soft glow
+  ctx.shadowBlur = 8;
+
+  ctx.beginPath();
+
+  // 3. Move to the center of the first cell in the path
+  const firstX = path[0].col * cellSize + cellSize / 2;
+  const firstY = path[0].row * cellSize + cellSize / 2;
+  ctx.moveTo(firstX, firstY);
+
+  // 4. Connect dots through the center of all remaining cells (Batching)
+  for (let i = 1; i < path.length; i++) {
+    const nextX = path[i].col * cellSize + cellSize / 2;
+    const nextY = path[i].row * cellSize + cellSize / 2;
+    ctx.lineTo(nextX, nextY);
+  }
+
+  // 5. Single draw call for maximum performance
+  ctx.stroke();
+
   ctx.restore();
 };
