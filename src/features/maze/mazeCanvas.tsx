@@ -119,17 +119,92 @@ function drawMaze(
       }
     }
   }
+const cellWidth = cellSize;
+const cellHeight = cellSize;
 
-  // End point
-  ctx.fillStyle = "#0000ff";
-  ctx.fillRect(end.col * cellSize, end.row * cellSize, cellSize, cellSize);
 
-  // Start point
-  ctx.fillStyle = "#ff0000";
-  ctx.fillRect(
-    start.col * cellSize,
-    start.row * cellSize,
-    cellSize / 2,
-    cellSize / 2,
-  );
+
+const radius = Math.min(cellWidth, cellHeight) / 2.5; // Responsive radius based on cell size
+
+
+// Configure global typography styles once
+ctx.font = "bold 14px sans-serif"; 
+ctx.textAlign = "center";
+ctx.textBaseline = "middle"; 
+
+// 1. Render Start point ('S')
+drawMazeMarker({
+  ctx,
+  label: "S",
+  col: start.col,
+  row: start.row,
+  cellWidth,
+  cellHeight,
+  radius,
+  color: "#ef4444", // Tailwind Red-500
+  shadowBlur: 10,
+});
+
+// 2. Render End point ('E')
+drawMazeMarker({
+  ctx,
+  label: "E",
+  col: end.col,
+  row: end.row,
+  cellWidth,
+  cellHeight,
+  radius,
+  color: "#3b82f6", // Tailwind Blue-500
+  shadowBlur: 1,
+});
 }
+
+
+interface DrawMarkerProps {
+  ctx: CanvasRenderingContext2D;
+  label: "S" | "E";
+  col: number;
+  row: number;
+  cellWidth: number;
+  cellHeight: number;
+  radius: number;
+  color: string;
+  shadowBlur?: number;
+}
+
+// Reusable helper to draw map markers (Start/End points) with optional neon glow
+const drawMazeMarker = ({
+  ctx,
+  label,
+  col,
+  row,
+  cellWidth,
+  cellHeight,
+  radius,
+  color,
+  shadowBlur = 0,
+}: DrawMarkerProps) => {
+  const x = col * cellWidth + cellWidth / 2;
+  const y = row * cellHeight + cellHeight / 2;
+
+  ctx.save(); // Save context state to isolate shadow effects
+
+  // Apply shadow if a blur value is provided
+  if (shadowBlur > 0) {
+    ctx.shadowBlur = shadowBlur;
+    ctx.shadowColor = color;
+  }
+
+  // Draw outer indicator circle
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.restore(); // Restore context to prevent shadow leakage onto the text
+
+  // Draw centered typography label
+  ctx.fillStyle = color;
+  ctx.fillText(label, x, y);
+};
