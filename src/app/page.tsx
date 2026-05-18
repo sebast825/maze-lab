@@ -6,7 +6,6 @@ import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { Menu } from "@/features/maze/menu";
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
 import { useDraw } from "@/features/maze/useDrawCanvas";
-import { useGameCharacter } from "@/features/maze/useGameCharacter";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
 import { useState, useRef } from "react";
@@ -21,7 +20,7 @@ export default function Home() {
   const [showPath, setShowPath] = useState<boolean>(false);
   const { mazeData, createMaze } = useMazeGenerator();
 
-  const { exportToPDF, setCanvasElement, hasCanvas } = useCanvasPDF();
+  const {handleExportToPDF} = useCanvasPDF();
 
   const { startDrawing, draw, stopDrawing, undoLast, clearAll } = useDraw();
   const [gameMode, setGameMode] = useState<GameMode>("DRAW");
@@ -50,11 +49,11 @@ export default function Home() {
               generateMaze={handleGenerate}
               onShowPath={() => setShowPath(!showPath)}
               showPath={showPath}
-              exportToPDF={() => exportToPDF(cols)}
-              disableExportToPDF={!hasCanvas}
+              exportToPDF={() => handleExportToPDF(mazeData!,cols)}
+             disableExportToPDF={!mazeData}
             />
 
-            {hasCanvas && (
+            {mazeData && (
               <Menu.Modes
               currentMode = {gameMode}
               toggleCharacter={()=> gameMode != "CHARACTER" ? setGameMode("CHARACTER") : setGameMode("VIEW")}
@@ -71,7 +70,6 @@ export default function Home() {
           <div className="relative w-max h-max border border-black">
             {mazeData && mazeData.end && (
               <MazeCanvas
-                onCanvasReady={(canvas) => setCanvasElement(canvas)}
                 maze={mazeData.maze}
                 start={mazeData.start}
                 end={mazeData.end!}
