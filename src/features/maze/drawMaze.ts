@@ -1,4 +1,4 @@
-import { Maze, Position } from "@/lib/maze/types";
+import { Cell, Maze, Position } from "@/lib/maze/types";
 
 export const ThemeDraw = {
   NEON: "neon",
@@ -56,7 +56,8 @@ export function drawMaze(
     cellWidth,
     cellHeight,
     radius,
-    color: ThemeDraw.NEON == theme ? "#eab308" : "#000",
+    color: ThemeDraw.NEON == theme ? "#eab308" : "#fff",
+    bgColor: "#000",
   });
 
   // 2. Render End point ('E')
@@ -68,10 +69,10 @@ export function drawMaze(
     cellWidth,
     cellHeight,
     radius,
-    color: ThemeDraw.NEON == theme ? "#eab308" : "#000",
+    color: ThemeDraw.NEON == theme ? "#eab308" : "#fff",
+    bgColor: "#000",
   });
 }
-
 interface DrawMarkerProps {
   ctx: CanvasRenderingContext2D;
   label: "S" | "E";
@@ -82,9 +83,9 @@ interface DrawMarkerProps {
   radius: number;
   color: string;
   shadowBlur?: number;
+  bgColor?: string; 
 }
 
-// Reusable helper to draw map markers (Start/End points) with optional neon glow
 const drawMazeMarker = ({
   ctx,
   label,
@@ -95,35 +96,47 @@ const drawMazeMarker = ({
   radius,
   color,
   shadowBlur = 0,
+  bgColor,
 }: DrawMarkerProps) => {
-  const x = col * cellWidth + cellWidth / 2;
-  const y = row * cellHeight + cellHeight / 2;
+  // Calculate the top-left corner coordinates of the cell for the background
+  const startX = col * cellWidth;
+  const startY = row * cellHeight;
 
-  ctx.save(); // Save context state to isolate shadow effects
+  // Calculate the center coordinates for both the circle and the text label
+  const x = startX + cellWidth / 2;
+  const y = startY + cellHeight / 2;
 
-  // Apply shadow if a blur value is provided
+  // 1. Draw the rounded cell background if a color is provided
+  if (bgColor) {
+    ctx.save();
+    ctx.beginPath(); // Isolate path to prevent rendering artifacts between markers
+    ctx.fillStyle = bgColor;
+    ctx.roundRect(startX, startY, cellWidth, cellHeight, 8);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // 2. Render the outer indicator circle with optional neon effects
+  ctx.save();
   if (shadowBlur > 0) {
     ctx.shadowBlur = shadowBlur;
     ctx.shadowColor = color;
   }
 
-  // Draw outer indicator circle
   ctx.strokeStyle = color;
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2);
   ctx.stroke();
+  ctx.restore();
 
-  ctx.restore(); // Restore context to prevent shadow leakage onto the text
-
-  // Draw centered typography label
+  // 3. Draw the centered typography label
   ctx.fillStyle = color;
   ctx.fillText(label, x, y);
 };
-
 interface DrawMazeProps {
   ctx: CanvasRenderingContext2D;
-  cells: any[][]; // Replace with your specific Cell type
+  cells: Cell[][];
   rows: number;
   cols: number;
   cellSize: number;
