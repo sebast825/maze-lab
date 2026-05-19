@@ -86,13 +86,9 @@ export default function Home() {
               )}
             </Menu>
           </div>
-
-          <div className="relative w-[100vw] h-[75vh] overflow-auto border border-black rounded">
-            <div
-              className="inline-grid relative p-8 min-w-full min-h-full place-items-center"
-              style={{ justifyItems: "safe center", alignItems: "safe center" }}
-            >
-              <div className="relative">
+          <div className="relative w-full h-auto max-w-[100vw] max-h-[70vh] overflow-auto border border-black rounded bg-slate-950 ">
+            <div className="flex min-w-full min-h-full items-center justify-center  ">
+              <div className="relative inline-block">
                 {mazeData && mazeData.end && (
                   <MazeCanvas
                     mazeData={mazeData}
