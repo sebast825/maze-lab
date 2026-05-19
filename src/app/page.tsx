@@ -21,71 +21,90 @@ export default function Home() {
   const { handleExportToPDF } = useCanvasPDF();
 
   const [gameMode, setGameMode] = useState<GameMode>("DRAW");
-  
+
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
+
+  // Absolute constant sizing configuration for grid rendering units
+  const CELL_SIZE = 25;
+
   const handleUndoDraw = () => {
-    drawingRef.current?.undo(); 
+    drawingRef.current?.undo();
   };
   const handleClearDraw = () => {
-    drawingRef.current?.clear(); 
+    drawingRef.current?.clear();
   };
-  
+
   const handleGenerate = () => {
     createMaze(algorithm, rows, cols);
     setShowPath(false);
   };
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-slate-900 font-sans">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-slate-900 sm:items-start">
-        <div>
-          <Menu>
-            <Menu.Controls
-              algorithm={algorithm}
-              onAlgorithmChange={setAlgorithm}
-              rows={rows}
-              onRowsChange={setRows}
-              cols={cols}
-              onColsChange={setCols}
-              onGenerate={handleGenerate}
-            />
-            <Menu.Actions
-              generateMaze={handleGenerate}
-              onShowPath={() => setShowPath(!showPath)}
-              showPath={showPath}
-              exportToPDF={() => handleExportToPDF(mazeData!, cols)}
-              disableExportToPDF={!mazeData}
-            />
-
-            {mazeData && (
-              <Menu.Modes
-                currentMode={gameMode}
-                toggleCharacter={() =>
-                  gameMode != "CHARACTER"
-                    ? setGameMode("CHARACTER")
-                    : setGameMode("VIEW")
-                }
-                toggleDraw={() =>
-                  gameMode != "DRAW" ? setGameMode("DRAW") : setGameMode("VIEW")
-                }
-                undoLast={() => handleUndoDraw()}
-                clearAll={() => handleClearDraw()}
-                drawCanvas={gameMode == "DRAW"}
+    <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans">
+      {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
+      <main className="flex flex-col flex-1 w-full max-w-full items-center justify-between py-16 px-4 ">
+        {/* 2. Added centering to the direct wrapper container */}
+        <div className="flex flex-col items-center w-full">
+          {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
+          <div className="w-full max-w-3xl mb-6">
+            <Menu>
+              <Menu.Controls
+                algorithm={algorithm}
+                onAlgorithmChange={setAlgorithm}
+                rows={rows}
+                onRowsChange={setRows}
+                cols={cols}
+                onColsChange={setCols}
+                onGenerate={handleGenerate}
               />
-            )}
-          </Menu>
-
-          <div className="relative w-max h-max border border-black">
-            {mazeData && mazeData.end && (
-              <MazeCanvas
-                mazeData={mazeData}
-                cellSize={25}
+              <Menu.Actions
+                generateMaze={handleGenerate}
+                onShowPath={() => setShowPath(!showPath)}
                 showPath={showPath}
-                gameMode={gameMode}
+                exportToPDF={() => handleExportToPDF(mazeData!, cols)}
+                disableExportToPDF={!mazeData}
               />
-            )}
 
-            {gameMode == "DRAW" && <DrawingCanvas cols={cols} rows={rows} />}
+              {mazeData && (
+                <Menu.Modes
+                  currentMode={gameMode}
+                  toggleCharacter={() =>
+                    gameMode != "CHARACTER"
+                      ? setGameMode("CHARACTER")
+                      : setGameMode("VIEW")
+                  }
+                  toggleDraw={() =>
+                    gameMode != "DRAW"
+                      ? setGameMode("DRAW")
+                      : setGameMode("VIEW")
+                  }
+                  undoLast={() => handleUndoDraw()}
+                  clearAll={() => handleClearDraw()}
+                  drawCanvas={gameMode == "DRAW"}
+                />
+              )}
+            </Menu>
+          </div>
+
+          <div className="relative w-[100vw] h-[75vh] overflow-auto border border-black rounded">
+            <div
+              className="inline-grid relative p-8 min-w-full min-h-full place-items-center"
+              style={{ justifyItems: "safe center", alignItems: "safe center" }}
+            >
+              <div className="relative">
+                {mazeData && mazeData.end && (
+                  <MazeCanvas
+                    mazeData={mazeData}
+                    cellSize={CELL_SIZE}
+                    showPath={showPath}
+                    gameMode={gameMode}
+                  />
+                )}
+                {gameMode == "DRAW" && (
+                  <DrawingCanvas cols={cols} rows={rows} ref={drawingRef} />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </main>

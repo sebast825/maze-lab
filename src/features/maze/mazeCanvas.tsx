@@ -132,8 +132,6 @@ export const MazeCanvas = ({
       ref={canvasRef}
       width={cols * cellSize}
       height={rows * cellSize}
-      style={{ border: "1px solid black" }}
-      className="max-w-full h-auto object-contain"
-    />
-  );
+      className={"block"}
+/>);
 };

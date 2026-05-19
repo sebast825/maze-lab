@@ -33,9 +33,8 @@ export const DrawingCanvas = forwardRef<DrawingCanvasRef, DrawingCanvasProps>(
         onMouseLeave={stopDrawing}
         width={cols * 25}
         height={rows * 25}
-        className="absolute top-2 left-2 bg-transparent cursor-crosshair max-w-full h-auto object-contain"
+        className="absolute top-0 left-0  cursor-crosshair block"
       />
     );
   },
 );
-
