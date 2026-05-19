@@ -1,6 +1,7 @@
 "use client";
 
 import { DrawingCanvas, DrawingCanvasRef } from "@/features/maze/drawingCanvas";
+import { CharacterCanvas } from "@/features/maze/characterCanvas";
 import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { Menu } from "@/features/maze/menu";
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
@@ -97,8 +98,10 @@ export default function Home() {
                     mazeData={mazeData}
                     cellSize={CELL_SIZE}
                     showPath={showPath}
-                    gameMode={gameMode}
                   />
+                )}
+                {gameMode == "CHARACTER" && mazeData && (
+                  <CharacterCanvas mazeData={mazeData!} cellSize={25} />
                 )}
                 {gameMode == "DRAW" && (
                   <DrawingCanvas cols={cols} rows={rows} ref={drawingRef} />
