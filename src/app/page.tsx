@@ -1,7 +1,6 @@
 "use client";
 
 import { DrawingCanvas } from "@/features/maze/drawingCanvas";
-import { GameCanvas } from "@/features/maze/gameCanvas";
 import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { Menu } from "@/features/maze/menu";
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
@@ -20,7 +19,7 @@ export default function Home() {
   const [showPath, setShowPath] = useState<boolean>(false);
   const { mazeData, createMaze } = useMazeGenerator();
 
-  const {handleExportToPDF} = useCanvasPDF();
+  const { handleExportToPDF } = useCanvasPDF();
 
   const { startDrawing, draw, stopDrawing, undoLast, clearAll } = useDraw();
   const [gameMode, setGameMode] = useState<GameMode>("DRAW");
@@ -49,14 +48,18 @@ export default function Home() {
               generateMaze={handleGenerate}
               onShowPath={() => setShowPath(!showPath)}
               showPath={showPath}
-              exportToPDF={() => handleExportToPDF(mazeData!,cols)}
-             disableExportToPDF={!mazeData}
+              exportToPDF={() => handleExportToPDF(mazeData!, cols)}
+              disableExportToPDF={!mazeData}
             />
 
             {mazeData && (
               <Menu.Modes
-              currentMode = {gameMode}
-              toggleCharacter={()=> gameMode != "CHARACTER" ? setGameMode("CHARACTER") : setGameMode("VIEW")}
+                currentMode={gameMode}
+                toggleCharacter={() =>
+                  gameMode != "CHARACTER"
+                    ? setGameMode("CHARACTER")
+                    : setGameMode("VIEW")
+                }
                 toggleDraw={() =>
                   gameMode != "DRAW" ? setGameMode("DRAW") : setGameMode("VIEW")
                 }
@@ -70,16 +73,11 @@ export default function Home() {
           <div className="relative w-max h-max border border-black">
             {mazeData && mazeData.end && (
               <MazeCanvas
-                maze={mazeData.maze}
-                start={mazeData.start}
-                end={mazeData.end!}
+                mazeData={mazeData}
                 cellSize={25}
                 showPath={showPath}
-                path={mazeData.solution || undefined}
+                gameMode={gameMode}
               />
-            )}
-            {gameMode == "CHARACTER" && mazeData?.maze && mazeData?.start && (
-              <GameCanvas mazeData={mazeData}></GameCanvas>
             )}
 
             {gameMode == "DRAW" && (
