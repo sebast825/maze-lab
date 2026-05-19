@@ -1,32 +1,41 @@
-import { RefObject } from "react";
+"use client";
+
+import { useImperativeHandle, forwardRef, useRef } from "react";
+import { useDraw } from "./useDraw";
 
 interface DrawingCanvasProps {
   cols: number;
   rows: number;
-  drawingCanvasRef: RefObject<HTMLCanvasElement | null>;
-  startDrawing: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  draw: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  stopDrawing: () => void;
 }
 
-export const DrawingCanvas = ({
-  cols,
-  rows,
-  drawingCanvasRef,
-  startDrawing,
-  draw,
-  stopDrawing,
-}: DrawingCanvasProps) => {
-  return (
-    <canvas
-      ref={drawingCanvasRef}
-      onMouseDown={startDrawing}
-      onMouseMove={draw}
-      onMouseUp={stopDrawing}
-      onMouseLeave={stopDrawing}
-      width={cols * 25}
-      height={rows * 25}
-      className="absolute top-0 left-0 bg-transparent cursor-crosshair"
-    />
-  );
-};
+export interface DrawingCanvasRef {
+  undo: () => void;
+  clear: () => void;
+}
+
+export const DrawingCanvas = forwardRef<DrawingCanvasRef, DrawingCanvasProps>(
+  ({ cols, rows }, ref) => {
+    const internalCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
+    const { startDrawing, draw, stopDrawing, undoLast, clearAll } = useDraw();
+    //for the father component handle the buttons
+    useImperativeHandle(ref, () => ({
+      undo: () => undoLast(internalCanvasRef.current),
+      clear: () => clearAll(internalCanvasRef.current),
+    }));
+
+    return (
+      <canvas
+        ref={internalCanvasRef}
+        onMouseDown={startDrawing}
+        onMouseMove={draw}
+        onMouseUp={stopDrawing}
+        onMouseLeave={stopDrawing}
+        width={cols * 25}
+        height={rows * 25}
+        className="absolute top-2 left-2 bg-transparent cursor-crosshair max-w-full h-auto object-contain"
+      />
+    );
+  },
+);
+
