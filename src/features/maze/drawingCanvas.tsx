@@ -6,6 +6,7 @@ import { useDraw } from "./useDraw";
 interface DrawingCanvasProps {
   cols: number;
   rows: number;
+  cellSize: number
 }
 
 export interface DrawingCanvasRef {
@@ -14,7 +15,7 @@ export interface DrawingCanvasRef {
 }
 
 export const DrawingCanvas = forwardRef<DrawingCanvasRef, DrawingCanvasProps>(
-  ({ cols, rows }, ref) => {
+  ({ cols, rows,cellSize }, ref) => {
     const internalCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const { startDrawing, draw, stopDrawing, undoLast, clearAll } = useDraw();
@@ -31,8 +32,8 @@ export const DrawingCanvas = forwardRef<DrawingCanvasRef, DrawingCanvasProps>(
         onMouseMove={draw}
         onMouseUp={stopDrawing}
         onMouseLeave={stopDrawing}
-        width={cols * 25}
-        height={rows * 25}
+        width={cols * cellSize}
+        height={rows * cellSize}
         className="absolute top-0 left-0  cursor-crosshair block"
       />
     );

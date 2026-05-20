@@ -97,10 +97,15 @@ export default function Home() {
                   />
                 )}
                 {gameMode == "CHARACTER" && mazeData && (
-                  <CharacterCanvas mazeData={mazeData!} cellSize={25} />
+                  <CharacterCanvas mazeData={mazeData!} cellSize={CELL_SIZE} />
                 )}
                 {gameMode == "DRAW" && (
-                  <DrawingCanvas cols={cols} rows={rows} ref={drawingRef} />
+                  <DrawingCanvas
+                    cols={cols}
+                    rows={rows}
+                    cellSize={CELL_SIZE}
+                    ref={drawingRef}
+                  />
                 )}
               </div>
             </div>
