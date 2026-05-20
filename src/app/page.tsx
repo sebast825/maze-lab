@@ -37,6 +37,7 @@ export default function Home() {
 
   const handleGenerate = () => {
     createMaze(algorithm, rows, cols);
+    handleClearDraw()
     setShowPath(false);
   };
 
