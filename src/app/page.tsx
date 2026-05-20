@@ -41,9 +41,9 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans">
+    <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4">
       {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
-      <main className="flex flex-col flex-1 w-full max-w-full items-center justify-between py-16 px-4 ">
+      <main className="flex flex-col flex-1 w-full max-w-full items-center justify-between  my-10">
         {/* 2. Added centering to the direct wrapper container */}
         <div className="flex flex-col items-center w-full">
           {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
@@ -86,9 +86,9 @@ export default function Home() {
               )}
             </Menu>
           </div>
-          <div className="relative w-full h-auto max-w-[100vw] max-h-[70vh] overflow-auto border border-black rounded bg-slate-950 ">
-            <div className="flex min-w-full min-h-full items-center justify-center  ">
-              <div className="relative inline-block">
+          <div className="relative w-full h-[70vh]  max-h-[70vh] overflow-auto border border-black rounded bg-slate-950 ">
+            <div className="grid min-h-full min-w-full place-items-center">
+              <div className="w-fit relative min-h-full">
                 {mazeData && mazeData.end && (
                   <MazeCanvas
                     mazeData={mazeData}
