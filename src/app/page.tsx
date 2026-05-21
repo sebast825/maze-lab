@@ -12,7 +12,7 @@ import { useState, useRef } from "react";
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
 export default function Home() {
-  const [algorithm, setAlgorithm] = useState<AlgorithmType>("worms");
+  const [algorithm, setAlgorithm] = useState<AlgorithmType>("three");
   const [rows, setRows] = useState<number>(20);
   const [cols, setCols] = useState<number>(20);
 
@@ -37,7 +37,7 @@ export default function Home() {
 
   const handleGenerate = () => {
     createMaze(algorithm, rows, cols);
-    handleClearDraw()
+    handleClearDraw();
     setShowPath(false);
   };
 

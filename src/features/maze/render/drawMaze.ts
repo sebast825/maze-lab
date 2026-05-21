@@ -83,7 +83,7 @@ interface DrawMarkerProps {
   radius: number;
   color: string;
   shadowBlur?: number;
-  bgColor?: string; 
+  bgColor?: string;
 }
 
 const drawMazeMarker = ({
@@ -178,6 +178,15 @@ export const drawMazeWalls = ({
           ctx.moveTo(x, y);
           ctx.lineTo(x, y + cellSize);
         }
+        /*
+        if (cell.isHead) {
+          ctx.fillStyle = "rgba(255, 0, 0, 0.35)";
+          ctx.fillRect(x, y, cellSize, cellSize);
+        }
+         if (cell.startPoint) {
+          ctx.fillStyle = "rgba(0, 255, 0, 0.35)";
+          ctx.fillRect(x, y, cellSize, cellSize);
+        }*/
       }
     }
   };

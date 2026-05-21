@@ -6,6 +6,8 @@ export type Cell = {
     south: boolean;
     west: boolean;
   };
+  isHead :boolean;
+  startPoint : boolean
 };
 
 
