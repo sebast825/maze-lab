@@ -6,6 +6,8 @@ import {
   selectRandomPosition,
 } from "@/lib/maze/utils";
 
+import { connectDisconnectedRegions } from "./ensureConnectivity";
+
 export const generateThree = (maze: Maze): Maze => {
   let threeHeads: Position[] = [];
   const startPoint: Position = getMazeStartPoint(maze);
@@ -16,14 +18,10 @@ export const generateThree = (maze: Maze): Maze => {
     const head: Position = selectRandomPosition(threeHeads);
     growTunnel(head, maze, threeHeads);
   }
-  return maze;
+  return connectDisconnectedRegions(maze);
 };
 
-const growTunnel = (
-  head: Position,
-  maze: Maze,
-  threeHeads: Position[],
-) => {
+const growTunnel = (head: Position, maze: Maze, threeHeads: Position[]) => {
   setCellVisited(head, maze);
   removePositionFromArray(head, threeHeads);
   maze.cells[head.row][head.col].isHead = true;
