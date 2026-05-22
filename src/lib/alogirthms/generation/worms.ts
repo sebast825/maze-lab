@@ -1,11 +1,12 @@
 import { Maze, Position } from "@/lib/maze/types";
 import {
   getMazeStartPoint,
-  getNeighbors,
+  getNeighborsNotVisited,
   removeWallBetween,
   selectRandomPosition,
 } from "@/lib/maze/utils";
 import { MazeGeneratorFn } from "./types";
+import { connectDisconnectedRegions } from "./ensureConnectivity";
 
 /**
  * Worm Algorithm
@@ -24,8 +25,8 @@ export const generateWorms: MazeGeneratorFn = (maze: Maze): Maze => {
       unvisitedCells.push({ row: r, col: c });
     }
   }
+  const wormMaxLength: number = 12;
 
-  const wormMaxLength: number = 4;
   let currentWorm: number = 0;
   let current: Position = startPoint;
   const removeUnvisited = (pos: Position) => {
@@ -37,34 +38,34 @@ export const generateWorms: MazeGeneratorFn = (maze: Maze): Maze => {
       unvisitedCells.pop();
     }
   };
+  let wormId = 0 ;
   while (unvisitedCells.length > 0) {
+    wormId++;
     while (currentWorm < wormMaxLength) {
-      const neighbors: Position[] = getNeighbors(maze, {
+      removeUnvisited(current);
+       maze.cells[current.row][current.col].groupId = wormId;
+      maze.cells[current.row][current.col].visited = true;
+
+      const neighbors: Position[] = getNeighborsNotVisited(maze, {
         row: current.row,
         col: current.col,
       });
-      removeUnvisited(current);
-      if (neighbors.length === 0) {
+      if (neighbors.length != 0) {
+        const neighbor: Position = selectRandomPosition(neighbors);
+        removeWallBetween(maze, current, neighbor);
+
+        current = neighbor;
+        currentWorm++;
+      } else {
+        if (unvisitedCells.length == 0) break;
         const randomIndex = Math.floor(Math.random() * unvisitedCells.length);
         current = unvisitedCells[randomIndex];
-        maze.cells[current.row][current.col].visited = true;
-
         break;
       }
-      // We only connect to unvisited cells to avoid unnecessary loops
-      const neighbor: Position = selectRandomPosition(neighbors);
-      if (!maze.cells[neighbor.row][neighbor.col].visited) {
-        removeWallBetween(maze, current, neighbor);
-      }
-      maze.cells[current.row][current.col].visited = true;
-      maze.cells[neighbor.row][neighbor.col].visited = true;
-
-      current = neighbor;
-
-      currentWorm++;
     }
     currentWorm = 0;
   }
 
-  return maze;
+  return connectDisconnectedRegions(maze);
 };
+

@@ -8,6 +8,7 @@ export type Cell = {
   };
   isHead :boolean;
   startPoint : boolean
+  groupId: number
 };
 
 

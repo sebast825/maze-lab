@@ -182,11 +182,17 @@ export const drawMazeWalls = ({
         if (cell.isHead) {
           ctx.fillStyle = "rgba(255, 0, 0, 0.35)";
           ctx.fillRect(x, y, cellSize, cellSize);
-        }
-         if (cell.startPoint) {
+        }*/
+        if (cell.startPoint) {
           ctx.fillStyle = "rgba(0, 255, 0, 0.35)";
           ctx.fillRect(x, y, cellSize, cellSize);
-        }*/
+        }
+        if (cell.groupId !== undefined) {
+          // Generate deterministic color from id
+          const hue = (cell.groupId * 47) % 360;
+          ctx.fillStyle = `hsla(${hue}, 70%, 50%, 0.35)`;
+          ctx.fillRect(x, y, cellSize, cellSize);
+        }
       }
     }
   };
