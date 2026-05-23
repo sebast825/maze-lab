@@ -1,6 +1,6 @@
 import { Maze, Position } from "@/lib/maze/types";
-import { getNeighbors } from "@/lib/maze/utils";
-import { hasWallWithNeighbor } from "@/lib/maze/utils/walls";
+import { getNeighbors } from "@/lib/maze/core";
+import { hasWallWithNeighbor } from "@/lib/maze/walls";
 
 /*
  will return each posible path to find the solution

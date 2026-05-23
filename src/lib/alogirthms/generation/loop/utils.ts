@@ -1,6 +1,6 @@
 import { Maze} from "@/lib/maze/types";
-import { removeWallBetween } from "@/lib/maze/utils";
 import { LoopCandidate } from "./types";
+import { removeWallBetween } from "@/lib/maze/walls";
 
 export const removeWallAtSomeCandiates = (
   candidates: LoopCandidate[],

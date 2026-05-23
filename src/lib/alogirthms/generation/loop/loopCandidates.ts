@@ -1,9 +1,9 @@
 import { Position, Maze } from "@/lib/maze/types";
-import { getNeighbors } from "@/lib/maze/utils";
+import { getNeighbors } from "@/lib/maze/core";
 import { CellInfo } from "../../solving/types";
 import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate } from "./types";
-import { hasWallWithNeighbor } from "@/lib/maze/utils/walls";
+import { hasWallWithNeighbor } from "@/lib/maze/walls";
 
 //IMPLEMENT
 /*

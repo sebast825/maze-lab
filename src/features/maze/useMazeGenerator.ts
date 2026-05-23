@@ -4,7 +4,7 @@ import { bfs } from "@/lib/alogirthms/solving/bfs";
 import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
-import { createEmptyMaze } from "@/lib/maze/utils";
+import { createEmptyMaze } from "@/lib/maze/core";
 import { useState } from "react";
 
 export const useMazeGenerator = () => {
