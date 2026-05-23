@@ -1,4 +1,6 @@
 import { Maze, Position } from "@/lib/maze/types";
+import { removeWallBetween } from "@/lib/maze/utils";
+import { LoopCandidate } from "./types";
 
 export function hasWallWithNeighbor(
   maze: Maze,
@@ -36,3 +38,13 @@ export function hasWallWithNeighbor(
   }
   return false;
 }
+
+export const removeWallAtSomeCandiates = (candidates: LoopCandidate[], maze: Maze) => {
+  console.log(candidates);
+  for (let i = 0; i < 20; i++) {
+    let candidate: LoopCandidate = candidates[i];
+    removeWallBetween(maze, candidate.from, candidate.to);
+    maze.cells[candidate.from.row][candidate.from.col].startPoint = true;
+    i++;
+  }
+};
