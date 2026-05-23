@@ -22,10 +22,11 @@
 
 
 "use client";
-import { Maze, MazeData, Position } from "@/lib/maze/types";
+import { MazeData } from "@/lib/maze/types";
 
 import { useRef, useEffect } from "react";
-import { drawMaze, ThemeDraw } from "./render/drawMaze";
+import { drawMaze } from "./render/drawMaze";
+import { ThemeDraw } from "./render/types";
 
 
 
