@@ -1,10 +1,12 @@
 import { Cell, Maze, Position } from "@/lib/maze/types";
 import { BFSResult, CellInfo } from "../../solving/types";
+import { getNeighbors, removeWallBetween } from "@/lib/maze/utils";
 import {
-  getNeighbors,
-  removeWallBetween,
-} from "@/lib/maze/utils";
-import { BackBone, MazeStructureAnalysis, LoopCandidate } from "./types";
+  BackBone,
+  MazeStructureAnalysis,
+  LoopCandidate,
+  DistanceToBackBone,
+} from "./types";
 import { hasWallWithNeighbor } from "./utils";
 
 export const createLopps = (
@@ -33,64 +35,76 @@ export const createLopps = (
 };
 
 const removeWallAtSomeCandiates = (candidates: LoopCandidate[], maze: Maze) => {
-  candidates.forEach((candidate) => {
-    if (Math.random() < 0.2) {
-      console.log("algo abre");
-      removeWallBetween(maze, candidate.from, candidate.to);
-       maze.cells[candidate.from.row][candidate.from.col].startPoint = true
-    }
-  });
+  console.log(candidates);
+  for (let i = 0; i < 20; i++) {
+    let candidate: LoopCandidate = candidates[i];
+    removeWallBetween(maze, candidate.from, candidate.to);
+    maze.cells[candidate.from.row][candidate.from.col].startPoint = true;
+    i++;
+  }
 };
 const filterLoopCandates = (
   candidates: LoopCandidate[],
   cellInfo: CellInfo[][],
   backboneRoute: Position[],
 ): LoopCandidate[] => {
-  return candidates.filter((candidate) => {
-    // avoid direct parent connection
-    const parent = cellInfo[candidate.from.row][candidate.from.col].parent;
+  return (
+    candidates
+      .map((candidate) => {
+        // avoid direct parent connection
+        const parent = cellInfo[candidate.from.row][candidate.from.col].parent;
+        // compare coordinates, NOT object reference
+        if (
+          parent &&
+          parent.row === candidate.to.row &&
+          parent.col === candidate.to.col
+        ) {
+          candidate.score - 1;
+          return candidate;
+        }
 
-    // compare coordinates, NOT object reference
-    if (
-      parent &&
-      parent.row === candidate.to.row &&
-      parent.col === candidate.to.col
-    ) {
-      return false;
-    }
+        const { backBone: fromBackBone, steps: stepsFrom } =
+          getBackBoneOfBranchCell(candidate.from, cellInfo, backboneRoute);
 
-    // avoid loops inside same backbone branch
-    const fromBackBone = getBackBoneOfBranchCell(
-      candidate.from,
-      cellInfo,
-      backboneRoute,
-    );
+        const { backBone: toBackBone, steps: stepsTo } =
+          getBackBoneOfBranchCell(candidate.to, cellInfo, backboneRoute);
 
-    const toBackBone = getBackBoneOfBranchCell(
-      candidate.to,
-      cellInfo,
-      backboneRoute,
-    );
-
-    // compare coordinates, NOT object reference
-    return !(
-      fromBackBone.row === toBackBone.row && fromBackBone.col === toBackBone.col
-    );
-  });
+        // avoid loops inside same major branch
+        if (
+          fromBackBone.row === toBackBone.row &&
+          fromBackBone.col === toBackBone.col
+        ) {
+          return {
+            ...candidate,
+            score: -50,
+          };
+        }
+        // return candidate with computed score
+        return {
+          ...candidate,
+          //stablish score base on distance from each cell to backBone, this will join cells if are very farm from main path
+          score: stepsFrom + stepsTo,
+        };
+      }) // remove very bad candidates
+      .filter((candidate) => candidate.score > 0)
+      // prioritize best candidates first
+      .sort((a, b) => b.score - a.score)
+  );
 };
 
 const getBackBoneOfBranchCell = (
   cellPostion: Position,
   cellInfo: CellInfo[][],
   backboneRoute: Position[],
-): Position => {
+): DistanceToBackBone => {
+  let steps = 0;
   // if current cell already belongs to backbone
   if (
     backboneRoute.some(
       (cell) => cell.row === cellPostion.row && cell.col === cellPostion.col,
     )
   ) {
-    return cellPostion;
+    return { backBone: cellPostion, steps };
   }
   let current: Position | null = cellPostion;
 
@@ -104,9 +118,10 @@ const getBackBoneOfBranchCell = (
         (cell) => cell.col === parent.col && cell.row === parent.row,
       )
     ) {
-      return parent;
+      return { backBone: parent, steps };
     } // move through bfs tree
     current = parent;
+    steps++;
   }
   console.log(current);
   throw new Error("No backbone ancestor found");
@@ -125,7 +140,7 @@ const getLoopCandidates = (
           cell.row > neighbor.row ||
           (cell.row === neighbor.row && cell.col > neighbor.col)
         ) {
-          loopCandidate.push({ from: cell, to: neighbor });
+          loopCandidate.push({ from: cell, to: neighbor, score: 0 });
         }
       }
     });
