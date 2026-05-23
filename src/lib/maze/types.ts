@@ -6,9 +6,9 @@ export type Cell = {
     south: boolean;
     west: boolean;
   };
-  isHead :boolean;
-  startPoint : boolean
-  groupId: number
+  isHead ?:boolean;
+  startPoint? : boolean
+  groupId?: number
 };
 
 

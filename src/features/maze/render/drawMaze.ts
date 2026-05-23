@@ -184,7 +184,7 @@ export const drawMazeWalls = ({
           ctx.fillRect(x, y, cellSize, cellSize);
         }*/
         if (cell.startPoint) {
-          ctx.fillStyle = "rgba(0, 255, 0, 0.35)";
+          ctx.fillStyle = "rgba(0, 255, 0, .09)";
           ctx.fillRect(x, y, cellSize, cellSize);
         }
         if (cell.groupId !== undefined) {

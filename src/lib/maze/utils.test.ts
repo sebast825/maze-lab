@@ -146,9 +146,13 @@ describe("selectRandomPosition", () => {
   });
 });
 
-
 describe("removeWallBetween", () => {
-  const expectWall = (maze: Maze, pos: Position, wall: "north" | "east" | "south" | "west", expected: boolean) => {
+  const expectWall = (
+    maze: Maze,
+    pos: Position,
+    wall: "north" | "east" | "south" | "west",
+    expected: boolean,
+  ) => {
     expect(maze.cells[pos.row][pos.col].walls[wall]).toBe(expected);
   };
 
