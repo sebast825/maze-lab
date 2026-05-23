@@ -3,7 +3,7 @@ import { getNeighbors } from "@/lib/maze/utils";
 import { CellInfo } from "../../solving/types";
 import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate } from "./types";
-import { hasWallWithNeighbor } from "./utils";
+import { hasWallWithNeighbor } from "@/lib/maze/utils/walls";
 
 //IMPLEMENT
 /*

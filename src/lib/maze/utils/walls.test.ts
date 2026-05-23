@@ -1,6 +1,6 @@
 import { Maze, Cell } from "@/lib/maze/types";
 import "jest";
-import { hasWallWithNeighbor } from "./utils";
+import { hasWallWithNeighbor } from "./walls";
 
 describe("hasWallWithNeighbor", () => {
   const createMaze = (rows: number, cols: number): Maze => {

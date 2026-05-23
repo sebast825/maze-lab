@@ -27,5 +27,5 @@ export interface MazeData {
   maze: Maze          
   start: Position
   end: Position       
-  solution?: Position[] 
+  solution?: Position[][]
 }

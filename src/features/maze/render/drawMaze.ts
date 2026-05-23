@@ -15,7 +15,7 @@ export function drawMaze(
   end: Position,
   showPath: boolean,
   theme: ThemeDrawType,
-  path?: Position[],
+  path?: Position[][],
 ) {
   const { rows, cols, cells } = maze;
 
@@ -28,7 +28,7 @@ export function drawMaze(
 
   // Draw path first (so walls are drawn on top)
   if (showPath && path && path.length > 0 && ThemeDraw.NEON == theme) {
-    drawPath(ctx, path, cellSize);
+    drawAllPaths(ctx, path, cellSize);
   }
   drawMazeWalls({
     ctx,
@@ -226,37 +226,28 @@ export const drawMazeWalls = ({
   ctx.restore();
 };
 
-const drawPath = (
+const drawAllPaths = (
   ctx: CanvasRenderingContext2D,
-  path: Position[],
+  paths: Position[][],
   cellSize: number,
 ) => {
-  ctx.save();
+  paths.forEach((path) => {
+    ctx.beginPath();
 
-  // 1. Setup minimal neon line styling
-  ctx.strokeStyle = "#f43f5e";
-  ctx.shadowColor = "#f43f5e";
-  ctx.lineWidth = Math.max(2, cellSize * 0.15);
-  ctx.lineJoin = "round";
-  ctx.lineCap = "round";
+    const firstX = path[0].col * cellSize + cellSize / 2;
+    const firstY = path[0].row * cellSize + cellSize / 2;
+    ctx.moveTo(firstX, firstY);
 
-  // 2. Add an elegant soft glow
-  ctx.shadowBlur = 8;
-  ctx.beginPath();
-
-  // 3. Move to the center of the first cell in the path
-  const firstX = path[0].col * cellSize + cellSize / 2;
-  const firstY = path[0].row * cellSize + cellSize / 2;
-  ctx.moveTo(firstX, firstY);
-
-  // 4. Connect dots through the center of all remaining cells (Batching)
-  for (let i = 1; i < path.length; i++) {
-    const nextX = path[i].col * cellSize + cellSize / 2;
-    const nextY = path[i].row * cellSize + cellSize / 2;
-    ctx.lineTo(nextX, nextY);
-  }
-
-  // 5. Single draw call for maximum performance
-  ctx.stroke();
-  ctx.restore();
+    for (let i = 1; i < path.length; i++) {
+      const nextX = path[i].col * cellSize + cellSize / 2;
+      const nextY = path[i].row * cellSize + cellSize / 2;
+      ctx.lineTo(nextX, nextY);
+    }
+    ctx.lineWidth = Math.max(2, cellSize * 0.15);
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#f43f5e";
+    ctx.shadowColor = "#f43f5e";
+    ctx.stroke();
+  });
 };

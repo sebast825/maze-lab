@@ -1,10 +1,7 @@
-import {
-  algorithmNames,
-  AlgorithmType,
-  mazesGenerator,
-} from "@/lib/alogirthms/generation";
+import { AlgorithmType, mazesGenerator } from "@/lib/alogirthms/generation";
 import { createLopps } from "@/lib/alogirthms/generation/loop/loops";
 import { bfs } from "@/lib/alogirthms/solving/bfs";
+import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
 import { createEmptyMaze } from "@/lib/maze/utils";
@@ -25,61 +22,22 @@ export const useMazeGenerator = () => {
       col: end.col,
     });
 
-    let current: Position | null = farthest;
-    const reconstructedPath: Position[] = [];
-    while (current) {
-      reconstructedPath.unshift(current);
+    createLopps({ cellInfo, farthest }, end, maze);
+    start = {
+      row: farthest.row,
+      col: farthest.col,
+    };
 
-      current = cellInfo[current.row]?.[current.col].parent || null;
-      if (current && current.row == end.row && current.col == end.col) {
-        const removeExtraPositions = Math.round(reconstructedPath.length / 3);
-        start = {
-          row: reconstructedPath[reconstructedPath.length - 1].row,
-          col: reconstructedPath[reconstructedPath.length - 1].col,
-        };
+    var rstaPaths: Position[][] = findAllPaths(maze, start, end);
 
-        break;
-      }
-    }
- createLopps({ cellInfo, farthest }, end, maze)
     const newMazeData: MazeData = {
-        maze,   
+      maze,
       start,
       end,
-      solution: reconstructedPath,
+      solution: rstaPaths,
     };
-      setMazeData(newMazeData);
+    setMazeData(newMazeData);
   };
 
   return { mazeData, createMaze };
 };
-
-/*
-6. Corrección de tu flujo mental
-
-Lo correcto sería:
-
-BFS → obtengo estructura global
-reconstruyo backbone
-clasifico celdas:
-backbone
-ramas
-intersecciones (por degree)
-recién ahí analizás loops / ruido
-
-
-
-
-
-function findNearestBackboneAncestor(cell):
-    current = cell
-    steps = 0
-
-    while current exists:
-        if current in backboneSet:
-            return { position: current, distance: steps }
-
-        current = parent[current]
-        steps++
-
-*/

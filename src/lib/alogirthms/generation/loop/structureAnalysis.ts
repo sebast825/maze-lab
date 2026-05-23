@@ -29,7 +29,6 @@ export const getMazeStructure = (
 
 //three or 4 open walls
 const getCellsWithIntersection = (cell: Cell): boolean => {
-  console.log(cell);
   let openWalls = 0;
   if (!cell.walls.north) openWalls++;
   if (!cell.walls.west) openWalls++;
