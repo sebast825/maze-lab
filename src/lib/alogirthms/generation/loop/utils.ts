@@ -41,10 +41,12 @@ export function hasWallWithNeighbor(
 
 export const removeWallAtSomeCandiates = (candidates: LoopCandidate[], maze: Maze) => {
   console.log(candidates);
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i <= 5; i++) {
     let candidate: LoopCandidate = candidates[i];
+        console.log(candidate)
+
     removeWallBetween(maze, candidate.from, candidate.to);
     maze.cells[candidate.from.row][candidate.from.col].startPoint = true;
-    i++;
+
   }
 };

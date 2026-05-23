@@ -5,6 +5,12 @@ import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate } from "./types";
 import { hasWallWithNeighbor } from "./utils";
 
+//IMPLEMENT
+/*
+PENALIZE branch ↔ backbone
+MESURE -> distance between from and to
+*/
+
 export const filterLoopCandates = (
   candidates: LoopCandidate[],
   cellInfo: CellInfo[][],
@@ -15,7 +21,6 @@ export const filterLoopCandates = (
       .map((candidate) => {
         // avoid direct parent connection
         const parent = cellInfo[candidate.from.row][candidate.from.col].parent;
-        // compare coordinates, NOT object reference
         if (
           parent &&
           parent.row === candidate.to.row &&
@@ -25,28 +30,7 @@ export const filterLoopCandates = (
           return candidate;
         }
 
-        const { backBone: fromBackBone, steps: stepsFrom } =
-          getBackBoneOfBranchCell(candidate.from, cellInfo, backboneRoute);
-
-        const { backBone: toBackBone, steps: stepsTo } =
-          getBackBoneOfBranchCell(candidate.to, cellInfo, backboneRoute);
-
-        // avoid loops inside same major branch
-        if (
-          fromBackBone.row === toBackBone.row &&
-          fromBackBone.col === toBackBone.col
-        ) {
-          return {
-            ...candidate,
-            score: -50,
-          };
-        }
-        // return candidate with computed score
-        return {
-          ...candidate,
-          //stablish score base on distance from each cell to backBone, this will join cells if are very farm from main path
-          score: stepsFrom + stepsTo,
-        };
+        return scoreCandidateDepth(candidate, cellInfo, backboneRoute);
       }) // remove very bad candidates
       .filter((candidate) => candidate.score > 0)
       // prioritize best candidates first
@@ -54,7 +38,42 @@ export const filterLoopCandates = (
   );
 };
 
+const scoreCandidateDepth = (
+  candidate: LoopCandidate,
+  cellInfo: CellInfo[][],
+  backboneRoute: Position[],
+): LoopCandidate => {
+  const { backBone: fromBackBone, steps: stepsFrom } = getBackBoneOfBranchCell(
+    candidate.from,
+    cellInfo,
+    backboneRoute,
+  );
 
+  const { backBone: toBackBone, steps: stepsTo } = getBackBoneOfBranchCell(
+    candidate.to,
+    cellInfo,
+    backboneRoute,
+  );
+
+  // avoid loops inside same major branch
+  if (
+    fromBackBone.row === toBackBone.row &&
+    fromBackBone.col === toBackBone.col
+  ) {
+    return {
+      ...candidate,
+      score: -50,
+    };
+  }
+  // return candidate with computed score
+  return {
+    ...candidate,
+    //stablish score base on distance from each cell to backBone, this will join cells if are very farm from main path
+    score: stepsFrom + stepsTo,
+  };
+};
+
+//for each cell in branch we get the neighbors with wall
 export const getLoopCandidates = (
   branches: Position[],
   maze: Maze,
