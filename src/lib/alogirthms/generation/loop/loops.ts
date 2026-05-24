@@ -25,8 +25,9 @@ export const createLopps = (
     loopCandidates,
     cellInfo,
     backBone.route,
+    structure.intersections
   );
-
+  console.log(filterCandadidates)
   removeWallAtSomeCandiates(filterCandadidates, maze);
   return maze;
 };

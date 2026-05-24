@@ -5,11 +5,11 @@ import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate } from "./types";
 import { hasWallWithNeighbor } from "@/lib/maze/walls";
 
-
 export const filterLoopCandates = (
   candidates: LoopCandidate[],
   cellInfo: CellInfo[][],
   backboneRoute: Position[],
+  intersections: Position[],
 ): LoopCandidate[] => {
   return (
     candidates
@@ -26,25 +26,49 @@ export const filterLoopCandates = (
         }
 
         candidate = scoreCandidateDepth(candidate, cellInfo, backboneRoute);
-        candidate = scoreCandidateByDistance(candidate,cellInfo)
-
-        return  candidate
+        candidate = scoreCandidateByDistance(candidate, cellInfo);
+        candidate = penalizeIntersection(candidate, intersections);
+        return candidate;
       }) // remove very bad candidates
       .filter((candidate) => candidate.score > 0)
       // prioritize best candidates first
       .sort((a, b) => b.score - a.score)
+       
+
   );
+  
 };
 
-const scoreCandidateByDistance=(candidate :LoopCandidate, cellInfo:CellInfo[][]):LoopCandidate=>{
-  let fromDistance : number = cellInfo[candidate.from.row][candidate.from.col].distance
-    let toDistance : number = cellInfo[candidate.to.row][candidate.to.col].distance
-
-  let distance : number = Math.abs(fromDistance-toDistance)
-
-  candidate.score += distance *5
+const penalizeIntersection = (
+  candidate: LoopCandidate,
+  intersections: Position[],
+): LoopCandidate => {
+  const from: Position = candidate.from;
+  const to: Position = candidate.to;
+  const isIntersection: boolean = intersections.some(
+    (intersection) =>
+      (intersection.col == from.col && intersection.row == from.row) ||
+      (intersection.col == to.col && intersection.row == to.row),
+  );
+  if (isIntersection) {
+    candidate.score *= .5;
+  }
   return candidate;
-}
+};
+const scoreCandidateByDistance = (
+  candidate: LoopCandidate,
+  cellInfo: CellInfo[][],
+): LoopCandidate => {
+  let fromDistance: number =
+    cellInfo[candidate.from.row][candidate.from.col].distance;
+  let toDistance: number =
+    cellInfo[candidate.to.row][candidate.to.col].distance;
+
+  let distance: number = Math.abs(fromDistance - toDistance);
+
+  candidate.score += distance * 5;
+  return candidate;
+};
 
 const scoreCandidateDepth = (
   candidate: LoopCandidate,
