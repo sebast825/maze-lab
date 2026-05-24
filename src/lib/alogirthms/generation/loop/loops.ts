@@ -1,12 +1,7 @@
 import { Maze, Position } from "@/lib/maze/types";
 import { BFSResult } from "../../solving/types";
-
-import {
-  BackBone,
-  MazeStructureAnalysis,
-  LoopCandidate,
-} from "./types";
-import {  removeWallAtSomeCandiates } from "./utils";
+import { BackBone, MazeStructureAnalysis, LoopCandidate } from "./types";
+import { removeWallAtSomeCandiates } from "./utils";
 import { getBackBone } from "./backbone";
 import { getLoopCandidates, filterLoopCandates } from "./loopCandidates";
 import { getMazeStructure } from "./structureAnalysis";
@@ -35,9 +30,3 @@ export const createLopps = (
   removeWallAtSomeCandiates(filterCandadidates, maze);
   return maze;
 };
-
-
-
-
-
-

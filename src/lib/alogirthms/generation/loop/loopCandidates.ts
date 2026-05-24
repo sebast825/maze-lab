@@ -5,11 +5,6 @@ import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate } from "./types";
 import { hasWallWithNeighbor } from "@/lib/maze/walls";
 
-//IMPLEMENT
-/*
-PENALIZE branch ↔ backbone
-MESURE -> distance between from and to
-*/
 
 export const filterLoopCandates = (
   candidates: LoopCandidate[],
@@ -26,17 +21,30 @@ export const filterLoopCandates = (
           parent.row === candidate.to.row &&
           parent.col === candidate.to.col
         ) {
-          candidate.score - 1;
+          candidate.score -= 1;
           return candidate;
         }
 
-        return scoreCandidateDepth(candidate, cellInfo, backboneRoute);
+        candidate = scoreCandidateDepth(candidate, cellInfo, backboneRoute);
+        candidate = scoreCandidateByDistance(candidate,cellInfo)
+
+        return  candidate
       }) // remove very bad candidates
       .filter((candidate) => candidate.score > 0)
       // prioritize best candidates first
       .sort((a, b) => b.score - a.score)
   );
 };
+
+const scoreCandidateByDistance=(candidate :LoopCandidate, cellInfo:CellInfo[][]):LoopCandidate=>{
+  let fromDistance : number = cellInfo[candidate.from.row][candidate.from.col].distance
+    let toDistance : number = cellInfo[candidate.to.row][candidate.to.col].distance
+
+  let distance : number = Math.abs(fromDistance-toDistance)
+
+  candidate.score += distance *5
+  return candidate;
+}
 
 const scoreCandidateDepth = (
   candidate: LoopCandidate,
@@ -54,7 +62,6 @@ const scoreCandidateDepth = (
     cellInfo,
     backboneRoute,
   );
-
   // avoid loops inside same major branch
   if (
     fromBackBone.row === toBackBone.row &&
