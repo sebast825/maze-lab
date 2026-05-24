@@ -25,6 +25,7 @@ export const createLopps = (
     loopCandidates,
     cellInfo,
     backBone.route,
+    maze,
     structure.intersections
   );
   console.log(filterCandadidates)

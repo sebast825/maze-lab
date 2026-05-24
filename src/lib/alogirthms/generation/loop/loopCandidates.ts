@@ -1,14 +1,16 @@
 import { Position, Maze } from "@/lib/maze/types";
 import { getNeighbors } from "@/lib/maze/core";
-import { CellInfo } from "../../solving/types";
+import { BFSResult, CellInfo } from "../../solving/types";
 import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate } from "./types";
 import { hasWallWithNeighbor } from "@/lib/maze/walls";
+import { bfs } from "../../solving/bfs";
 
 export const filterLoopCandates = (
   candidates: LoopCandidate[],
   cellInfo: CellInfo[][],
   backboneRoute: Position[],
+  maze: Maze,
   intersections: Position[],
 ): LoopCandidate[] => {
   return (
@@ -26,17 +28,14 @@ export const filterLoopCandates = (
         }
 
         candidate = scoreCandidateDepth(candidate, cellInfo, backboneRoute);
-        candidate = scoreCandidateByDistance(candidate, cellInfo);
+        candidate = scoreCandidateByDistance(candidate, maze);
         candidate = penalizeIntersection(candidate, intersections);
         return candidate;
       }) // remove very bad candidates
       .filter((candidate) => candidate.score > 0)
       // prioritize best candidates first
       .sort((a, b) => b.score - a.score)
-       
-
   );
-  
 };
 
 const penalizeIntersection = (
@@ -51,20 +50,17 @@ const penalizeIntersection = (
       (intersection.col == to.col && intersection.row == to.row),
   );
   if (isIntersection) {
-    candidate.score *= .5;
+    candidate.score *= 0.5;
   }
   return candidate;
 };
 const scoreCandidateByDistance = (
   candidate: LoopCandidate,
-  cellInfo: CellInfo[][],
+  maze: Maze,
 ): LoopCandidate => {
-  let fromDistance: number =
+  let { cellInfo }: BFSResult = bfs(maze, candidate.to);
+  let distance: number =
     cellInfo[candidate.from.row][candidate.from.col].distance;
-  let toDistance: number =
-    cellInfo[candidate.to.row][candidate.to.col].distance;
-
-  let distance: number = Math.abs(fromDistance - toDistance);
 
   candidate.score += distance * 5;
   return candidate;
