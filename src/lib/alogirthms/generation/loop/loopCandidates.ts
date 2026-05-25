@@ -10,7 +10,46 @@ import {
   isCandidateNearIntersection,
   isNear,
 } from "./utils";
+export const sortCandidatesByRegion = (
+  candidates: LoopCandidate[],
+  maze: Maze,
+) => {
+  const regions: Record<string, LoopCandidate[]> = {
+    upLeft: [],
+    upRight: [],
+    downLeft: [],
+    downRight: [],
+  };
+  const midRow = Math.floor(maze.rows / 2);
+  const midCol = Math.floor(maze.cols / 2);
+  candidates.forEach((candidate) => {
+    // Determinamos la región basada en la posición
+    const isBottom = candidate.from.row >= midRow;
+    const isRight = candidate.from.col >= midCol;
 
+    if (isBottom) {
+      isRight
+        ? regions.downRight.push(candidate)
+        : regions.downLeft.push(candidate);
+    } else {
+      isRight
+        ? regions.upRight.push(candidate)
+        : regions.upLeft.push(candidate);
+    }
+  });
+  let balancedCandidates: LoopCandidate[] = [];
+  //we add all the values in the response, but one from each group at the time, so the balance is distributed in the maze
+  const groups = Object.values(regions);
+  const maxDepth = Math.max(...groups.map((g) => g.length));
+  for (let i = 0; i < maxDepth; i++) {
+    groups.forEach((group) => {
+      if (group[i]) {
+        balancedCandidates.push(group[i]);
+      }
+    });
+  }
+  return balancedCandidates;
+};
 export const filterCandidatesByDistance = (
   candidates: LoopCandidate[],
 ): LoopCandidate[] => {
@@ -72,7 +111,7 @@ const calculateFinalScore = (candidate: LoopCandidate) => {
       ? 1
       : candidate.score.intersectionPenalty;
   candidate.score.finalScore =
-    (candidate.score.backboneDepth + candidate.score.branchDistance) /
+    (candidate.score.backboneDepth * 5 + candidate.score.branchDistance) /
     dividedBy;
 
   return candidate;

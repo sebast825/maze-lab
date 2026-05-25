@@ -10,6 +10,7 @@ export type Cell = {
   startPoint?: boolean;
   groupId?: number;
   loopReason?: LoopReason;
+  isBackBone ?:boolean
 };
 export type LoopReason =
   | "branchDistance"

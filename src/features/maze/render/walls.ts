@@ -85,6 +85,7 @@ export const drawMazeWalls = ({
 
 const getCellBackground = (cell: Cell): string | null => {
   if (cell.startPoint) return "rgba(0, 255, 0, .09)";
+  if (cell.isBackBone) return "rgba(219, 243, 113, 0.15)";
 
   if (cell.groupId !== undefined) {
     const hue = (cell.groupId * 47) % 360;

@@ -7,7 +7,7 @@ export const removeWallAtSomeCandiates = (
   maze: Maze,
 ) => {
   console.log(candidates.length);
-  for (let i = 0; i < 3 && i < candidates.length; i++) {
+  for (let i = 0; i < 4 && i < candidates.length; i++) {
     let candidate: LoopCandidate | undefined = candidates[i];
     console.log(i);
 
@@ -18,9 +18,7 @@ export const removeWallAtSomeCandiates = (
       getDominantScore(candidate);
     maze.cells[candidate.to.row][candidate.to.col].loopReason =
       getDominantScore(candidate);
-    if (i < 5) {
-      removeWallBetween(maze, candidate.from, candidate.to);
-    }
+    removeWallBetween(maze, candidate.from, candidate.to);
   }
 };
 const getDominantScore = (candidate: LoopCandidate): LoopReason => {
@@ -53,7 +51,11 @@ export const isCandidateNearIntersection = (
   );
   return closeToIntersection;
 };
-export const isNear = (a: Position, b: Position, maxDistance: number):boolean => {
+export const isNear = (
+  a: Position,
+  b: Position,
+  maxDistance: number,
+): boolean => {
   return Math.abs(a.row - b.row) + Math.abs(a.col - b.col) <= maxDistance;
 };
 
@@ -69,4 +71,10 @@ export const candidateHasIntersection = (
       (intersection.col == to.col && intersection.row == to.row),
   );
   return isIntersection;
+};
+
+export const addColorToBackBone = (backbone: Position[], maze: Maze) => {
+  backbone.forEach(
+    (elem) => (maze.cells[elem.row][elem.col].isBackBone = true),
+  );
 };

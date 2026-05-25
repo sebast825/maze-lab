@@ -1,9 +1,14 @@
 import { Maze, Position } from "@/lib/maze/types";
 import { BFSResult } from "../../solving/types";
 import { BackBone, MazeStructureAnalysis, LoopCandidate } from "./types";
-import { removeWallAtSomeCandiates } from "./utils";
+import { addColorToBackBone, removeWallAtSomeCandiates } from "./utils";
 import { getBackBone } from "./backbone";
-import { filterCandidatesByDistance, getLoopCandidates, scoreLoopCandidates } from "./loopCandidates";
+import {
+  filterCandidatesByDistance,
+  sortCandidatesByRegion,
+  getLoopCandidates,
+  scoreLoopCandidates,
+} from "./loopCandidates";
 import { getMazeStructure } from "./structureAnalysis";
 
 export const createLopps = (
@@ -12,6 +17,7 @@ export const createLopps = (
   maze: Maze,
 ): Maze => {
   const backBone: BackBone = getBackBone({ cellInfo, farthest }, end);
+  addColorToBackBone(backBone.route, maze);
   const structure: MazeStructureAnalysis = getMazeStructure(
     cellInfo,
     backBone.route,
@@ -26,10 +32,13 @@ export const createLopps = (
     cellInfo,
     backBone.route,
     maze,
-    structure.intersections
+    structure.intersections,
   );
-  const filterCandidates : LoopCandidate[] = filterCandidatesByDistance(scoreCandadidates);
-  console.log(filterCandidates)
-  removeWallAtSomeCandiates(filterCandidates, maze);
+  const filterByDistance: LoopCandidate[] =
+    filterCandidatesByDistance(scoreCandadidates);
+  const sortByRegion = sortCandidatesByRegion(filterByDistance, maze);
+  removeWallAtSomeCandiates(sortByRegion, maze);
   return maze;
 };
+
+
