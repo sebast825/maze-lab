@@ -5,6 +5,7 @@ import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate } from "./types";
 import { hasWallWithNeighbor } from "@/lib/maze/walls";
 import { bfs } from "../../solving/bfs";
+import { candidateHasIntersection, isCandidateNearIntersection } from "./utils";
 
 export const filterLoopCandates = (
   candidates: LoopCandidate[],
@@ -29,7 +30,7 @@ export const filterLoopCandates = (
 
         candidate = scoreCandidateDepth(candidate, cellInfo, backboneRoute);
         candidate = scoreCandidateByDistance(candidate, maze);
-        candidate = penalizeIntersection(candidate, intersections);
+        candidate = applyIntersectionPenalty(candidate, intersections);
         return candidate;
       }) // remove very bad candidates
       .filter((candidate) => candidate.score > 0)
@@ -38,22 +39,31 @@ export const filterLoopCandates = (
   );
 };
 
-const penalizeIntersection = (
+const applyIntersectionPenalty = (
   candidate: LoopCandidate,
   intersections: Position[],
 ): LoopCandidate => {
-  const from: Position = candidate.from;
-  const to: Position = candidate.to;
-  const isIntersection: boolean = intersections.some(
-    (intersection) =>
-      (intersection.col == from.col && intersection.row == from.row) ||
-      (intersection.col == to.col && intersection.row == to.row),
+  const isNearIntersection = isCandidateNearIntersection(
+    candidate,
+    intersections,
   );
-  if (isIntersection) {
-    candidate.score *= 0.5;
+
+  const touchesIntersection = candidateHasIntersection(
+    candidate,
+    intersections,
+  );
+
+  if (touchesIntersection) {
+    candidate.score *= 0.8;
   }
+
+  if (isNearIntersection) {
+    candidate.score *= 0.6;
+  }
+
   return candidate;
 };
+
 const scoreCandidateByDistance = (
   candidate: LoopCandidate,
   maze: Maze,
