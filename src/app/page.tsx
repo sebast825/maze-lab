@@ -87,7 +87,7 @@ export default function Home() {
               )}
             </Menu>
           </div>
-          <div className="relative w-full h-[70vh]  max-h-[70vh] overflow-auto border border-black rounded bg-slate-950 ">
+          <div className="relative w-full  overflow-auto border border-black rounded bg-slate-950 ">
             <div className="grid min-h-full min-w-full place-items-center">
               <div className="w-fit relative min-h-full">
                 {mazeData && mazeData.end && (

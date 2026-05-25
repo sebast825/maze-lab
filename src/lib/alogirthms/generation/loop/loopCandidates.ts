@@ -7,6 +7,17 @@ import { hasWallWithNeighbor } from "@/lib/maze/walls";
 import { bfs } from "../../solving/bfs";
 import { candidateHasIntersection, isCandidateNearIntersection } from "./utils";
 
+const calculateFinalScore = (candidate: LoopCandidate) => {
+  const dividedBy =
+    candidate.score.intersectionPenalty == 0
+      ? 1
+      : candidate.score.intersectionPenalty;
+  candidate.score.finalScore =
+    (candidate.score.backboneDepth + candidate.score.branchDistance) /
+    dividedBy;
+
+  return candidate;
+};
 export const filterLoopCandates = (
   candidates: LoopCandidate[],
   cellInfo: CellInfo[][],
@@ -24,18 +35,19 @@ export const filterLoopCandates = (
           parent.row === candidate.to.row &&
           parent.col === candidate.to.col
         ) {
-          candidate.score -= 1;
+          candidate.score.finalScore -= 1;
           return candidate;
         }
 
         candidate = scoreCandidateDepth(candidate, cellInfo, backboneRoute);
         candidate = scoreCandidateByDistance(candidate, maze);
         candidate = applyIntersectionPenalty(candidate, intersections);
+        candidate = calculateFinalScore(candidate);
         return candidate;
       }) // remove very bad candidates
-      .filter((candidate) => candidate.score > 0)
+      .filter((candidate) => candidate.score.finalScore > 0)
       // prioritize best candidates first
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => b.score.finalScore - a.score.finalScore)
   );
 };
 
@@ -54,11 +66,12 @@ const applyIntersectionPenalty = (
   );
 
   if (touchesIntersection) {
-    candidate.score *= 0.8;
+    candidate.score.isIntersection = true;
+    candidate.score.intersectionPenalty += 5;
   }
 
   if (isNearIntersection) {
-    candidate.score *= 0.6;
+    candidate.score.intersectionPenalty += 3;
   }
 
   return candidate;
@@ -72,7 +85,7 @@ const scoreCandidateByDistance = (
   let distance: number =
     cellInfo[candidate.from.row][candidate.from.col].distance;
 
-  candidate.score += distance * 5;
+  candidate.score.branchDistance += distance;
   return candidate;
 };
 
@@ -97,17 +110,12 @@ const scoreCandidateDepth = (
     fromBackBone.row === toBackBone.row &&
     fromBackBone.col === toBackBone.col
   ) {
-    return {
-      ...candidate,
-      score: -50,
-    };
+    candidate.score.backboneDepth = -50;
+    return candidate;
   }
   // return candidate with computed score
-  return {
-    ...candidate,
-    //stablish score base on distance from each cell to backBone, this will join cells if are very farm from main path
-    score: stepsFrom + stepsTo,
-  };
+  candidate.score.backboneDepth = stepsFrom + stepsTo;
+  return candidate;
 };
 
 //for each cell in branch we get the neighbors with wall
@@ -125,7 +133,17 @@ export const getLoopCandidates = (
           cell.row > neighbor.row ||
           (cell.row === neighbor.row && cell.col > neighbor.col)
         ) {
-          loopCandidate.push({ from: cell, to: neighbor, score: 0 });
+          loopCandidate.push({
+            from: cell,
+            to: neighbor,
+            score: {
+              backboneDepth: 0,
+              branchDistance: 0,
+              intersectionPenalty: 0,
+              isIntersection: false,
+              finalScore: 0,
+            },
+          });
         }
       }
     });

@@ -13,10 +13,18 @@ export interface MazeStructureAnalysis {
 export interface LoopCandidate {
   from: Position;
   to: Position;
-  score: number
+  score: LoopCandidateScore
 }
 
 export interface DistanceToBackBone {
   backBone: Position;
   steps: number;
+}
+
+interface LoopCandidateScore {
+  backboneDepth: number;
+  branchDistance: number;
+  intersectionPenalty: number;
+  isIntersection:boolean ;
+  finalScore: number;
 }

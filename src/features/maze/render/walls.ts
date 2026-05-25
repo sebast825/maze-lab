@@ -45,19 +45,9 @@ export const drawMazeWalls = ({
           ctx.moveTo(x, y);
           ctx.lineTo(x, y + cellSize);
         }
-        /*
-        if (cell.isHead) {
-          ctx.fillStyle = "rgba(255, 0, 0, 0.35)";
-          ctx.fillRect(x, y, cellSize, cellSize);
-        }*/
-        if (cell.startPoint) {
-          ctx.fillStyle = "rgba(0, 255, 0, .09)";
-          ctx.fillRect(x, y, cellSize, cellSize);
-        }
-        if (cell.groupId !== undefined) {
-          // Generate deterministic color from id
-          const hue = (cell.groupId * 47) % 360;
-          ctx.fillStyle = `hsla(${hue}, 70%, 50%, 0.35)`;
+        const color = getCellBackground(cell);
+        if (color) {
+          ctx.fillStyle = color;
           ctx.fillRect(x, y, cellSize, cellSize);
         }
       }
@@ -91,4 +81,22 @@ export const drawMazeWalls = ({
   ctx.lineCap = "round";
   ctx.stroke(); // Drawn without shadows for maximum sharpness
   ctx.restore();
+};
+
+const getCellBackground = (cell: Cell): string | null => {
+  if (cell.startPoint) return "rgba(0, 255, 0, .09)";
+
+  if (cell.groupId !== undefined) {
+    const hue = (cell.groupId * 47) % 360;
+    return `hsla(${hue}, 70%, 50%, 0.35)`;
+  }
+
+  const reasonColors: Record<string, string> = {
+    isIntersection: "rgba(255, 72, 255, 0.35)",
+    branchDistance: "rgba(255, 0, 0, 0.35)",
+    backboneDepth: "rgba(0, 100, 255, 0.35)",
+    intersectionPenalty: "rgba(255, 200, 0, 0.35)",
+  };
+
+  return cell.loopReason ? reasonColors[cell.loopReason] || null : null;
 };
