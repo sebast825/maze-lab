@@ -5,20 +5,36 @@ import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate } from "./types";
 import { hasWallWithNeighbor } from "@/lib/maze/walls";
 import { bfs } from "../../solving/bfs";
-import { candidateHasIntersection, isCandidateNearIntersection } from "./utils";
+import {
+  candidateHasIntersection,
+  isCandidateNearIntersection,
+  isNear,
+} from "./utils";
 
-const calculateFinalScore = (candidate: LoopCandidate) => {
-  const dividedBy =
-    candidate.score.intersectionPenalty == 0
-      ? 1
-      : candidate.score.intersectionPenalty;
-  candidate.score.finalScore =
-    (candidate.score.backboneDepth + candidate.score.branchDistance) /
-    dividedBy;
+export const filterCandidatesByDistance = (
+  candidates: LoopCandidate[],
+): LoopCandidate[] => {
+  const selected: LoopCandidate[] = [];
 
-  return candidate;
+  for (const candidate of candidates) {
+    const isTooClose = selected.some((selectedCandidate) => {
+      return (
+        isNear(candidate.from, selectedCandidate.from, 6) ||
+        isNear(candidate.from, selectedCandidate.to, 6) ||
+        isNear(candidate.to, selectedCandidate.from, 6) ||
+        isNear(candidate.to, selectedCandidate.to, 6)
+      );
+    });
+    // only keep candidates far enough
+    if (!isTooClose) {
+      selected.push(candidate);
+    }
+  }
+
+  return selected;
 };
-export const filterLoopCandates = (
+
+export const scoreLoopCandidates = (
   candidates: LoopCandidate[],
   cellInfo: CellInfo[][],
   backboneRoute: Position[],
@@ -50,7 +66,17 @@ export const filterLoopCandates = (
       .sort((a, b) => b.score.finalScore - a.score.finalScore)
   );
 };
+const calculateFinalScore = (candidate: LoopCandidate) => {
+  const dividedBy =
+    candidate.score.intersectionPenalty == 0
+      ? 1
+      : candidate.score.intersectionPenalty;
+  candidate.score.finalScore =
+    (candidate.score.backboneDepth + candidate.score.branchDistance) /
+    dividedBy;
 
+  return candidate;
+};
 const applyIntersectionPenalty = (
   candidate: LoopCandidate,
   intersections: Position[],

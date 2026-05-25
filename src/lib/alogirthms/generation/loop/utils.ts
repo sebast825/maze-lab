@@ -53,7 +53,7 @@ export const isCandidateNearIntersection = (
   );
   return closeToIntersection;
 };
-const isNear = (a: Position, b: Position, maxDistance: number) => {
+export const isNear = (a: Position, b: Position, maxDistance: number):boolean => {
   return Math.abs(a.row - b.row) + Math.abs(a.col - b.col) <= maxDistance;
 };
 

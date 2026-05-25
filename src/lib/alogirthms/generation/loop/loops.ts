@@ -3,7 +3,7 @@ import { BFSResult } from "../../solving/types";
 import { BackBone, MazeStructureAnalysis, LoopCandidate } from "./types";
 import { removeWallAtSomeCandiates } from "./utils";
 import { getBackBone } from "./backbone";
-import { getLoopCandidates, filterLoopCandates } from "./loopCandidates";
+import { filterCandidatesByDistance, getLoopCandidates, scoreLoopCandidates } from "./loopCandidates";
 import { getMazeStructure } from "./structureAnalysis";
 
 export const createLopps = (
@@ -21,14 +21,15 @@ export const createLopps = (
     structure.branches,
     maze,
   );
-  const filterCandadidates: LoopCandidate[] = filterLoopCandates(
+  const scoreCandadidates: LoopCandidate[] = scoreLoopCandidates(
     loopCandidates,
     cellInfo,
     backBone.route,
     maze,
     structure.intersections
   );
-  console.log(filterCandadidates)
-  removeWallAtSomeCandiates(filterCandadidates, maze);
+  const filterCandidates : LoopCandidate[] = filterCandidatesByDistance(scoreCandadidates);
+  console.log(filterCandidates)
+  removeWallAtSomeCandiates(filterCandidates, maze);
   return maze;
 };
