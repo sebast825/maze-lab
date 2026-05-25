@@ -14,19 +14,15 @@ export const useMazeGenerator = () => {
     if (rows < 2) rows = 2;
     if (cols < 2) cols = 2;
     const maze = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
-    let end: Position = { row: 0, col: Math.round(2) };
+    let end: Position = { row: rows - 1, col: cols - 1 };
     let start: Position = { row: 0, col: 0 };
 
-    const { cellInfo, farthest }: BFSResult = bfs(maze, {
-      row: 0,
-      col: end.col,
-    });
-
-    createLopps({ cellInfo, farthest }, end, maze);
+    const { cellInfo, farthest }: BFSResult = bfs(maze, end);
     start = {
-      row: farthest.row,
-      col: farthest.col,
+      row: 0,
+      col: 0,
     };
+    createLopps(cellInfo, start, end, maze);
 
     var rstaPaths: Position[][] = findAllPaths(maze, start, end);
 

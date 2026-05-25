@@ -39,11 +39,12 @@ export const getBackBoneOfBranchCell = (
 
 
 export const getBackBone = (
-  { cellInfo, farthest }: BFSResult,
+   cellInfo:CellInfo[][],
+   start:Position,
   end: Position,
 ): BackBone => {
-  let start: Position = end;
-  let current: Position | null = farthest;
+
+  let current: Position  | null= start;
   const reconstructedPath: Position[] = [];
   while (current) {
     reconstructedPath.unshift(current);
@@ -52,10 +53,7 @@ export const getBackBone = (
     if (current && current.row == end.row && current.col == end.col) {
       reconstructedPath.unshift(current);
 
-      start = {
-        row: reconstructedPath[reconstructedPath.length - 1].row,
-        col: reconstructedPath[reconstructedPath.length - 1].col,
-      };
+    
       break;
     }
   }

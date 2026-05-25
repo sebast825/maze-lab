@@ -1,5 +1,5 @@
 import { Maze, Position } from "@/lib/maze/types";
-import { BFSResult } from "../../solving/types";
+import { BFSResult, CellInfo } from "../../solving/types";
 import { BackBone, MazeStructureAnalysis, LoopCandidate } from "./types";
 import { addColorToBackBone, removeWallAtSomeCandiates } from "./utils";
 import { getBackBone } from "./backbone";
@@ -12,11 +12,12 @@ import {
 import { getMazeStructure } from "./structureAnalysis";
 
 export const createLopps = (
-  { cellInfo, farthest }: BFSResult,
+  cellInfo :CellInfo[][],
+   start:Position,
   end: Position,
   maze: Maze,
 ): Maze => {
-  const backBone: BackBone = getBackBone({ cellInfo, farthest }, end);
+  const backBone: BackBone = getBackBone( cellInfo, start , end);
   addColorToBackBone(backBone.route, maze);
   const structure: MazeStructureAnalysis = getMazeStructure(
     cellInfo,
