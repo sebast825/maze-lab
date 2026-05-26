@@ -1,6 +1,6 @@
 import { AlgorithmType, mazesGenerator } from "@/lib/alogirthms/generation";
 import { createLopps } from "@/lib/alogirthms/generation/loop/loops";
-import { bfs } from "@/lib/alogirthms/solving/bfs";
+import { bfs, reconstructPath } from "@/lib/alogirthms/solving/bfs";
 import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
@@ -17,12 +17,13 @@ export const useMazeGenerator = () => {
     let end: Position = { row: rows - 1, col: cols - 1 };
     let start: Position = { row: 0, col: 0 };
 
-    const { cellInfo, farthest }: BFSResult = bfs(maze, end);
-    start = {
-      row: 0,
-      col: 0,
-    };
+    const { cellInfo }: BFSResult = bfs(maze, end, start);
+
     createLopps(cellInfo, start, end, maze);
+    //once the maze is modify need to  implement again bfs to find the sortest path
+    const { shortest }: BFSResult = bfs(maze, end, start);
+    let shortestPath = reconstructPath(cellInfo, shortest);
+    console.log(shortestPath);
 
     var rstaPaths: Position[][] = findAllPaths(maze, start, end);
 
