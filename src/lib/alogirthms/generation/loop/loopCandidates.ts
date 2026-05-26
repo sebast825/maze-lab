@@ -2,15 +2,43 @@ import { Position, Maze } from "@/lib/maze/types";
 import { getNeighbors } from "@/lib/maze/core";
 import { BFSResult, CellInfo } from "../../solving/types";
 import { getBackBoneOfBranchCell } from "./backbone";
-import { LoopCandidate } from "./types";
+import { LoopCandidate, MazeStructureAnalysis } from "./types";
 import { hasWallWithNeighbor } from "@/lib/maze/walls";
 import { bfs } from "../../solving/bfs";
 import {
+  calculateCandidateLimit,
   candidateHasIntersection,
   isCandidateNearIntersection,
   isNear,
 } from "./utils";
-export const sortCandidatesByRegion = (
+
+export const getBalancedCandidates = (
+  maze: Maze,
+  structure: MazeStructureAnalysis,
+  cellInfo: CellInfo[][],
+  backboneRoute: Position[],
+): LoopCandidate[] => {
+  const loopCandidates: LoopCandidate[] = getLoopCandidates(
+    structure.branches,
+    maze,
+  );
+  const scoreCandadidates: LoopCandidate[] = scoreLoopCandidates(
+    loopCandidates,
+    cellInfo,
+    backboneRoute,
+    maze,
+    structure.intersections,
+  );
+  const filterByDistance: LoopCandidate[] =
+    filterCandidatesByDistance(scoreCandadidates);
+  const sortByRegion = sortCandidatesByRegion(filterByDistance, maze);
+  const sliceCandidates: LoopCandidate[] = sortByRegion.slice(
+    0,
+    calculateCandidateLimit(maze.rows, maze.cols),
+  );
+  return sliceCandidates;
+};
+const sortCandidatesByRegion = (
   candidates: LoopCandidate[],
   maze: Maze,
 ) => {
@@ -50,7 +78,7 @@ export const sortCandidatesByRegion = (
   }
   return balancedCandidates;
 };
-export const filterCandidatesByDistance = (
+const filterCandidatesByDistance = (
   candidates: LoopCandidate[],
 ): LoopCandidate[] => {
   const selected: LoopCandidate[] = [];
@@ -73,7 +101,7 @@ export const filterCandidatesByDistance = (
   return selected;
 };
 
-export const scoreLoopCandidates = (
+const scoreLoopCandidates = (
   candidates: LoopCandidate[],
   cellInfo: CellInfo[][],
   backboneRoute: Position[],
@@ -184,7 +212,7 @@ const scoreCandidateDepth = (
 };
 
 //for each cell in branch we get the neighbors with wall
-export const getLoopCandidates = (
+ const getLoopCandidates = (
   branches: Position[],
   maze: Maze,
 ): LoopCandidate[] => {

@@ -2,12 +2,19 @@ import { LoopReason, Maze, Position } from "@/lib/maze/types";
 import { LoopCandidate } from "./types";
 import { removeWallBetween } from "@/lib/maze/walls";
 
+export const calculateCandidateLimit = (rows: number, cols: number): number => {
+  const totalCells = rows * cols;
+
+  if (totalCells <= 400) return 1;
+  if (totalCells <= 900) return 3;
+  return 4;
+};
 export const removeWallAtSomeCandiates = (
   candidates: LoopCandidate[],
   maze: Maze,
 ) => {
   console.log(candidates.length);
-  for (let i = 0; i < 4 && i < candidates.length; i++) {
+  for (let i = 0; i < 10 && i < candidates.length; i++) {
     let candidate: LoopCandidate | undefined = candidates[i];
     console.log(i);
 
