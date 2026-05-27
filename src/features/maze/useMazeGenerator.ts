@@ -6,6 +6,7 @@ import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
 import { createEmptyMaze } from "@/lib/maze/core";
 import { useState } from "react";
+import { getMetrics } from "@/lib/maze/metrics";
 
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
@@ -21,12 +22,12 @@ export const useMazeGenerator = () => {
 
     createLopps(cellInfo, start, end, maze);
     //once the maze is modify need to  implement again bfs to find the sortest path
-    const { shortest }: BFSResult = bfs(maze, end, start);
+    const { cellInfo: cellInfo2, shortest }: BFSResult = bfs(maze, end, start);
     let shortestPath = reconstructPath(cellInfo, shortest);
     console.log(shortestPath);
 
     var rstaPaths: Position[][] = findAllPaths(maze, start, end);
-
+    getMetrics(cellInfo2,maze)
     const newMazeData: MazeData = {
       maze,
       start,
