@@ -7,12 +7,16 @@ export interface BranchAnalysis {
   path: Position[];
   to: Position;
   endedBy: "dead-end" | "decision";
-};
+}
 
 export interface CellMetric {
   position: Position;
-  decisionPenalties: number[];
-  neighbors: Position[];
+
   distance: number;
-  branchLengthPenalties: BranchAnalysis[];
+  branches: BranchMetric[];
+}
+export interface BranchMetric {
+  neighbor: Position;
+  decisionPenalty: number;
+  branchLengthPenalty: BranchAnalysis;
 }
