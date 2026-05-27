@@ -1,17 +1,8 @@
-/**
- * implemento bfs desde el end
- * entre c/nodo vecino
-    * obtengo la menor  distancias de los vecinos
-    * apico la penalidad para c/u en relacion a la menor distancia de los vecinos
-|   *en relacion      
-
-*/
-
 import { CellInfo } from "@/lib/alogirthms/solving/types";
 import { Maze, Position } from "../types";
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 import { traceBranchUntilDecision } from "./analysis/branchAnalysis";
-import { BranchAnalysis, CellMetric } from "./types";
+import {  CellMetric } from "./types";
 import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
 
 export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
@@ -23,16 +14,20 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
       const neighbors: Position[] = getNeighborsByOpenWall(maze, current);
       //we only get the statistic if is a decision path
       if (neighbors.length <= 2) continue;
-      const metric = analyzeDecisionPenalty(current, neighbors, cellsInfo);
-      neighbors.forEach((neighbor) => {
-        var branchAnalysis: BranchAnalysis = traceBranchUntilDecision(
-          neighbor,
-          current,
-          maze,
-        );
-        metric.branchLengthPenalties.push(branchAnalysis);
-      });
-      cellsMetric.push(metric);
+      const penalties: number[] = analyzeDecisionPenalty(  
+        neighbors,
+        cellsInfo,
+      );
+      const rsta:CellMetric = {
+        neighbors: neighbors,
+        position: current,
+        distance: cellsInfo[current.row][current.col].distance,
+        decisionPenalties: penalties,
+        branchLengthPenalties: neighbors.map((neighbor) =>
+          traceBranchUntilDecision(neighbor, current, maze),
+        ),
+      };
+      cellsMetric.push(rsta);
     }
   }
   const totalDifficulty = cellsMetric.reduce(
