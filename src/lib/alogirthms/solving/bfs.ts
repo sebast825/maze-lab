@@ -89,7 +89,7 @@ export function reconstructPath(
 
 export function getNeighborsByOpenWall(
   maze: Maze,
-  current: { row: number; col: number },
+  current: Position,
 ): Position[] {
   const neighbors: Position[] = [];
   const cell = maze.cells[current.row][current.col];
@@ -131,4 +131,10 @@ export function getNeighborsByOpenWall(
   }
 
   return neighbors;
+}
+
+export const getNeighborsByOpenWallNotVisited = (  maze: Maze,
+  current: Position )=> {
+    const neighbors :Position[] = getNeighborsByOpenWall(maze,current)
+    return neighbors.filter(neighbor => !maze.cells[neighbor.row][neighbor.col].visited )
 }

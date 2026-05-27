@@ -10,12 +10,10 @@
 import { CellInfo } from "@/lib/alogirthms/solving/types";
 import { Maze, Position } from "../types";
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
-interface CellMetric {
-  position: Position;
-  decisionPenalties: number[];
-  neighbors: Position[];
-  distance: number;
-}
+import { traceBranchUntilDecision } from "./analysis/branchAnalysis";
+import { BranchAnalysis, CellMetric } from "./types";
+import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
+
 export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
   let cellsMetric: CellMetric[] = [];
 
@@ -26,6 +24,14 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
       //we only get the statistic if is a decision path
       if (neighbors.length <= 2) continue;
       const metric = analyzeDecisionPenalty(current, neighbors, cellsInfo);
+      neighbors.forEach((neighbor) => {
+        var branchAnalysis: BranchAnalysis = traceBranchUntilDecision(
+          neighbor,
+          current,
+          maze,
+        );
+        metric.branchLengthPenalties.push(branchAnalysis);
+      });
       cellsMetric.push(metric);
     }
   }
@@ -40,22 +46,4 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
 
   console.log("totalDifficulty: ", totalDifficulty);
   console.log(hardestDecisions);
-};
-
-const analyzeDecisionPenalty = (
-  current: Position,
-  neighbors: Position[],
-  cellsInfo: CellInfo[][],
-): CellMetric => {
-  const distances: number[] = neighbors.map(
-    (n) => cellsInfo[n.row][n.col].distance,
-  );
-  const minDistance: number = Math.min(...distances);
-  const penalty: number[] = distances.map((d) => d - minDistance);
-  return {
-    neighbors: neighbors,
-    position: current,
-    distance: cellsInfo[current.row][current.col].distance,
-    decisionPenalties: penalty,
-  };
 };
