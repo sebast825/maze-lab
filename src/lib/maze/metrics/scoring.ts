@@ -10,7 +10,8 @@ export const calculateMazeDifficulty = (maze: Maze, cellsMetric: CellMetric[]) =
       (branchSum, branch) => {
         const branchDifficulty =
           branch.decisionPenalty *
-          branch.branchLengthPenalty.branchLength;
+          branch.branchLengthPenalty.branchLength+
+          branch.ambiguity
 
         return branchSum + branchDifficulty;
       },

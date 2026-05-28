@@ -18,6 +18,16 @@ export interface CellMetric {
 export interface BranchMetric {
   neighbor: Position;
   decisionPenalty: number;
+  ambiguity: number;
   branchLengthPenalty: BranchAnalysis;
   branchDifficulty?: number;
+}
+
+export interface DecisionPenaltyAnalysis {
+  penalties: number[];
+  /**
+   * Lower value = more ambiguous
+   * Higher value = more obvious correct path
+   */
+  ambiguity: number;
 }
