@@ -4,6 +4,7 @@ import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 import { traceBranchUntilDecision } from "./analysis/branchAnalysis";
 import { BranchMetric, CellMetric } from "./types";
 import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
+import { calculateBranchDifficulty, calculateMazeDifficulty } from "./scoring";
 
 export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
   let cellsMetric: CellMetric[] = [];
@@ -17,32 +18,26 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
 
       const penalties: number[] = analyzeDecisionPenalty(neighbors, cellsInfo);
 
-      const rsta: CellMetric = {
-        branches: neighbors.map((n, index) => {
-          return {
-            neighbor: n,
-            decisionPenalty: penalties[index],
-            branchLengthPenalty: traceBranchUntilDecision(n, current, maze),
-          };
-        }),
+      const calculatedBranches = neighbors.map((n, index) => {
+        const baseBranch: BranchMetric = {
+          neighbor: n,
+          decisionPenalty: penalties[index],
+          branchLengthPenalty: traceBranchUntilDecision(n, current, maze)    
+        };
+        return calculateBranchDifficulty(baseBranch);
+      });
+      const cellMetric: CellMetric = {
+        branches: calculatedBranches,
         position: current,
         distance: cellsInfo[current.row][current.col].distance,
+        nodeDifficulty: calculatedBranches.reduce(
+          (sum, b) => sum + b.branchDifficulty!,
+          0,
+        ),
       };
-      cellsMetric.push(rsta);
+      cellsMetric.push(cellMetric);
     }
   }
-
-  const totalDifficulty = cellsMetric.reduce((sum: number, m: CellMetric) => {
-    const branchLengths: number[] = m.branches.map(
-      (b) => b.branchLengthPenalty.branchLength,
-    );
-
-    const maxPenalty =
-      branchLengths.length > 0 ? Math.max(...branchLengths) : 0;
-
-    return sum + maxPenalty;
-  }, 0);
-
   const hardestDecisions = [...cellsMetric].sort((a, b) => {
     const maxB =
       b.branches.length > 0
@@ -56,6 +51,6 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
     return maxB - maxA;
   });
 
-  console.log("totalDifficulty: ", totalDifficulty);
   console.log(hardestDecisions);
+  calculateMazeDifficulty(maze, cellsMetric);
 };

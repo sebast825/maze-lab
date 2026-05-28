@@ -11,12 +11,13 @@ export interface BranchAnalysis {
 
 export interface CellMetric {
   position: Position;
-
   distance: number;
   branches: BranchMetric[];
+  nodeDifficulty: number;
 }
 export interface BranchMetric {
   neighbor: Position;
   decisionPenalty: number;
   branchLengthPenalty: BranchAnalysis;
+  branchDifficulty?: number;
 }
