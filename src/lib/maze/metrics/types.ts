@@ -7,7 +7,7 @@ export interface BranchAnalysis {
   path: Position[];
   to: Position;
   endedBy: "dead-end" | "decision";
-  pathDirections : Direction[]
+  pathDirections: Direction[];
 }
 
 export interface CellMetric {
@@ -23,11 +23,11 @@ export interface BranchMetric {
   branchLengthPenalty: BranchAnalysis;
   branchDifficulty?: number;
   /**
- * Measures how "twisted" the path is.
- * Defined as the number of direction changes along the branch path.
- * Higher value = more turns = harder to mentally track the path.
- */
-  tortuosity: number
+   * Measures how "twisted" the path is.
+   * Defined as the number of direction changes along the branch path.
+   * Higher value = more turns = harder to mentally track the path.
+   */
+  tortuosity: number;
 }
 
 export interface DecisionPenaltyAnalysis {
@@ -38,3 +38,16 @@ export interface DecisionPenaltyAnalysis {
    */
   ambiguity: number;
 }
+
+export interface PathsMetrics {
+  avgTortuosity:number,
+  maxTortuosity:number
+  minTortuosity: number,
+  pathVariance:number,
+}
+
+export interface PathMetric  {
+  path: Position[];
+  directions: Direction[];
+  tortuosity: number;
+};

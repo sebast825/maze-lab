@@ -1,10 +1,21 @@
 import { CellInfo } from "@/lib/alogirthms/solving/types";
-import { Maze, Position } from "../types";
+import { Direction, Maze, Position } from "../types";
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
-import { countChangesOfDirections, traceBranchUntilDecision } from "./analysis/branchAnalysis";
-import { BranchMetric, CellMetric, DecisionPenaltyAnalysis } from "./types";
+import {
+  countChangesOfDirections,
+  getDirectionBetweenCells,
+  traceBranchUntilDecision,
+} from "./analysis/branchAnalysis";
+import {
+  BranchMetric,
+  CellMetric,
+  DecisionPenaltyAnalysis,
+  PathMetric,
+  PathsMetrics,
+} from "./types";
 import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
 import { calculateBranchDifficulty, calculateMazeDifficulty } from "./scoring";
+import { aggregatePathMetrics } from "./analysis/pathAnalysis";
 
 export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
   let cellsMetric: CellMetric[] = [];
@@ -16,16 +27,19 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
       //we only get the statistic if is a decision path
       if (neighbors.length <= 2) continue;
 
-      const decisionPenalty: DecisionPenaltyAnalysis = analyzeDecisionPenalty(neighbors, cellsInfo);
+      const decisionPenalty: DecisionPenaltyAnalysis = analyzeDecisionPenalty(
+        neighbors,
+        cellsInfo,
+      );
 
       const calculatedBranches = neighbors.map((n, index) => {
-        let traceBranch = traceBranchUntilDecision(n, current, maze)   
+        let traceBranch = traceBranchUntilDecision(n, current, maze);
         const baseBranch: BranchMetric = {
           neighbor: n,
           decisionPenalty: decisionPenalty.penalties[index],
           ambiguity: decisionPenalty.ambiguity,
-          branchLengthPenalty: traceBranch, 
-          tortuosity : countChangesOfDirections(traceBranch.pathDirections)
+          branchLengthPenalty: traceBranch,
+          tortuosity: countChangesOfDirections(traceBranch.pathDirections),
         };
         return calculateBranchDifficulty(baseBranch);
       });
@@ -56,4 +70,28 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
 
   console.log(hardestDecisions);
   calculateMazeDifficulty(maze, cellsMetric);
+};
+
+export const computePathMetrics = (paths: Position[][]): PathsMetrics => {
+  let pathMetrics: PathMetric[] = [];
+  paths.forEach((path) => {
+    const directions: Direction[] = [];
+    for (let i = 1; i < path.length; i++) {
+      const direction: Direction = getDirectionBetweenCells(
+        path[i - 1],
+        path[i],
+      );
+      directions.push(direction);
+    }
+    const tortuosity = countChangesOfDirections(directions);
+    pathMetrics.push({
+      path,
+      directions,
+      tortuosity,
+    });
+  });
+
+  let pathsMetrics = aggregatePathMetrics(pathMetrics);
+
+  return pathsMetrics;
 };
