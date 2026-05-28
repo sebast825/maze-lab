@@ -40,14 +40,26 @@ export interface DecisionPenaltyAnalysis {
 }
 
 export interface PathsMetrics {
-  avgTortuosity:number,
-  maxTortuosity:number
-  minTortuosity: number,
-  pathVariance:number,
+  avgTortuosity: number;
+  maxTortuosity: number;
+  minTortuosity: number;
+  pathVariance: number;
 }
 
-export interface PathMetric  {
+export interface PathMetric {
   path: Position[];
   directions: Direction[];
   tortuosity: number;
-};
+}
+
+export interface MazeMetrics {
+  mazeDifficultyFeatures: MazeDifficultyFeatures;
+  pathsMetrics: PathsMetrics;
+  score: number
+}
+export interface MazeDifficultyFeatures {
+  decisionPenalty: number;
+  branchLength: number;
+  ambiguity: number;
+  tortuosity: number;
+}

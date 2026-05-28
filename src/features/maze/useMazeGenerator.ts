@@ -6,7 +6,7 @@ import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
 import { createEmptyMaze } from "@/lib/maze/core";
 import { useState } from "react";
-import { getMetrics, computePathMetrics } from "@/lib/maze/metrics";
+import { calculateMazeDifficultyFeatures, computeMazeMetrics, computePathMetrics } from "@/lib/maze/metrics";
 
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
@@ -27,8 +27,8 @@ export const useMazeGenerator = () => {
 
 
     var rstaPaths: Position[][] = findAllPaths(maze, start, end);
-    getMetrics(cellInfo2,maze)
-    console.log(computePathMetrics(rstaPaths))
+    console.log(computeMazeMetrics(cellInfo2,maze,rstaPaths))
+
     const newMazeData: MazeData = {
       maze,
       start,

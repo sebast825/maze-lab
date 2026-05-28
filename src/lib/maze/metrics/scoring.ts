@@ -1,39 +1,37 @@
-import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
-import { Maze, Position } from "../types";
-import { CellMetric, BranchMetric } from "./types";
+import { CellMetric, BranchMetric, MazeDifficultyFeatures, PathsMetrics } from "./types";
+
+export const aggregateBranchMetrics = (
+  cellsMetric: CellMetric[],
+): MazeDifficultyFeatures => {
+  const features: MazeDifficultyFeatures = {
+    decisionPenalty: 0,
+    branchLength: 0,
+    ambiguity: 0,
+    tortuosity: 0,
+  };
+  cellsMetric.forEach((metric) => {
+    metric.branches.forEach((branch) => {
+      features.ambiguity += branch.ambiguity;
+      features.decisionPenalty += branch.decisionPenalty;
+      features.branchLength += branch.branchLengthPenalty.branchLength;
+      features.tortuosity += branch.tortuosity;
+    });
+  });
+  
+  return features;
+};
 
 export const calculateMazeDifficulty = (
-  maze: Maze,
-  cellsMetric: CellMetric[],
-) => {
-  let decisionPenalty = 0;
-  let branchLengthPenalty = 0;
-  let ambiguity = 0;
-  let changesOfDirection = 0;
-  const totalNodesDifficulty = cellsMetric.reduce((sum, metric) => {
-    const nodeDifficulty = metric.branches.reduce((branchSum, branch) => {
-      decisionPenalty += branch.decisionPenalty;
-      branchLengthPenalty += branch.branchLengthPenalty.branchLength;
-      changesOfDirection += branch.tortuosity;
-      ambiguity += branch.ambiguity;
-      const branchDifficulty =
-        branch.decisionPenalty * branch.branchLengthPenalty.branchLength +
-        branch.ambiguity +
-        branch.tortuosity;
+  totalIntersections: number,
+  mazeDifficultyFeatures: MazeDifficultyFeatures,
+  pathsMetrics: PathsMetrics 
+): number => {
+  let scoreFeatures : number = mazeDifficultyFeatures.ambiguity + mazeDifficultyFeatures.branchLength + mazeDifficultyFeatures.decisionPenalty + mazeDifficultyFeatures.tortuosity
+let scoreMetrics :number = pathsMetrics.maxTortuosity + pathsMetrics.minTortuosity
 
-      return branchSum + branchDifficulty;
-    }, 0);
 
-    return sum + nodeDifficulty;
-  }, 0);
-  console.log("decisionPenalty: ", decisionPenalty);
-  console.log("branchLengthPenalty: ", branchLengthPenalty);
-  console.log("ambiguity: ", ambiguity);
-  console.log("changesOfDirection: ", changesOfDirection);
-
-  const totalIntersections: number = getTotalIntersections(maze);
-  const dificulty = totalNodesDifficulty / totalIntersections;
-  console.log("totalDifficulty: ", dificulty.toFixed(2));
+  const score = (scoreFeatures+scoreMetrics) / totalIntersections;
+ return Number(score.toFixed(2));
 };
 
 export const calculateBranchDifficulty = (
@@ -44,16 +42,4 @@ export const calculateBranchDifficulty = (
   return { ...branch, branchDifficulty };
 };
 
-const getTotalIntersections = (maze: Maze): number => {
-  let interesections: number = 0;
-  for (let r = 0; r < maze.rows; r++) {
-    for (let c = 0; c < maze.cols; c++) {
-      const neighbors: Position[] = getNeighborsByOpenWall(maze, {
-        row: r,
-        col: c,
-      });
-      if (neighbors.length >= 3) interesections++;
-    }
-  }
-  return interesections;
-};
+

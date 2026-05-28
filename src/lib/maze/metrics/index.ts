@@ -10,15 +10,48 @@ import {
   BranchMetric,
   CellMetric,
   DecisionPenaltyAnalysis,
+  MazeDifficultyFeatures,
+  MazeMetrics,
   PathMetric,
   PathsMetrics,
 } from "./types";
 import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
-import { calculateBranchDifficulty, calculateMazeDifficulty } from "./scoring";
+import {
+  aggregateBranchMetrics,
+  calculateBranchDifficulty,
+  calculateMazeDifficulty,
+} from "./scoring";
 import { aggregatePathMetrics } from "./analysis/pathAnalysis";
+import { getTotalIntersections } from "./utils";
 
-export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
-  let cellsMetric: CellMetric[] = [];
+export const computeMazeMetrics = (
+  mazeCellData: CellInfo[][],
+  maze: Maze,
+  paths: Position[][],
+): MazeMetrics => {
+  const mazeDifficultyFeatures: MazeDifficultyFeatures =
+    calculateMazeDifficultyFeatures(mazeCellData, maze);
+  const pathsMetrics: PathsMetrics = computePathMetrics(paths);
+
+  const totalIntersections: number = getTotalIntersections(maze);
+
+  const mazeMetrics: MazeMetrics = {
+    mazeDifficultyFeatures,
+    pathsMetrics,
+    score: calculateMazeDifficulty(
+      totalIntersections,
+      mazeDifficultyFeatures,
+      pathsMetrics,
+    ),
+  };
+  return mazeMetrics;
+};
+
+export const calculateMazeDifficultyFeatures = (
+  mazeCellData: CellInfo[][],
+  maze: Maze,
+): MazeDifficultyFeatures => {
+  let cellMetrics: CellMetric[] = [];
 
   for (let r = 0; r < maze.rows; r++) {
     for (let c = 0; c < maze.cols; c++) {
@@ -29,7 +62,7 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
 
       const decisionPenalty: DecisionPenaltyAnalysis = analyzeDecisionPenalty(
         neighbors,
-        cellsInfo,
+        mazeCellData,
       );
 
       const calculatedBranches = neighbors.map((n, index) => {
@@ -46,30 +79,17 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
       const cellMetric: CellMetric = {
         branches: calculatedBranches,
         position: current,
-        distance: cellsInfo[current.row][current.col].distance,
+        distance: mazeCellData[current.row][current.col].distance,
         nodeDifficulty: calculatedBranches.reduce(
           (sum, b) => sum + b.branchDifficulty!,
           0,
         ),
       };
-      cellsMetric.push(cellMetric);
+      cellMetrics.push(cellMetric);
     }
   }
-  const hardestDecisions = [...cellsMetric].sort((a, b) => {
-    const maxB =
-      b.branches.length > 0
-        ? Math.max(...b.branches.map((br) => br.decisionPenalty))
-        : 0;
-    const maxA =
-      a.branches.length > 0
-        ? Math.max(...a.branches.map((br) => br.decisionPenalty))
-        : 0;
 
-    return maxB - maxA;
-  });
-
-  console.log(hardestDecisions);
-  calculateMazeDifficulty(maze, cellsMetric);
+  return aggregateBranchMetrics(cellMetrics);
 };
 
 export const computePathMetrics = (paths: Position[][]): PathsMetrics => {

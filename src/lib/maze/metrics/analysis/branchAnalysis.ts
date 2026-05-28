@@ -1,7 +1,9 @@
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 import { Position, Maze, Direction } from "../../types";
-import { BranchAnalysis } from "../types";
+import { BranchAnalysis, MazeDifficultyFeatures } from "../types";
 import { getNeighborsNotVisited } from "../../core";
+
+
 
 export const traceBranchUntilDecision = (
   initBranchPosition: Position,
