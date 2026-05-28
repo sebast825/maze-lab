@@ -1,7 +1,7 @@
 import { CellInfo } from "@/lib/alogirthms/solving/types";
 import { Maze, Position } from "../types";
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
-import { traceBranchUntilDecision } from "./analysis/branchAnalysis";
+import { countChangesOfDirections, traceBranchUntilDecision } from "./analysis/branchAnalysis";
 import { BranchMetric, CellMetric, DecisionPenaltyAnalysis } from "./types";
 import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
 import { calculateBranchDifficulty, calculateMazeDifficulty } from "./scoring";
@@ -19,11 +19,13 @@ export const getMetrics = (cellsInfo: CellInfo[][], maze: Maze) => {
       const decisionPenalty: DecisionPenaltyAnalysis = analyzeDecisionPenalty(neighbors, cellsInfo);
 
       const calculatedBranches = neighbors.map((n, index) => {
+        let traceBranch = traceBranchUntilDecision(n, current, maze)   
         const baseBranch: BranchMetric = {
           neighbor: n,
           decisionPenalty: decisionPenalty.penalties[index],
           ambiguity: decisionPenalty.ambiguity,
-          branchLengthPenalty: traceBranchUntilDecision(n, current, maze)    
+          branchLengthPenalty: traceBranch, 
+          tortuosity : countChangesOfDirections(traceBranch.pathDirections)
         };
         return calculateBranchDifficulty(baseBranch);
       });

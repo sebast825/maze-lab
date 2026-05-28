@@ -35,3 +35,5 @@ export interface MazeData {
   end: Position;
   solution?: Position[][];
 }
+
+export type Direction = "north" | "south" | "east" | "west"

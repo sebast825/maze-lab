@@ -1,6 +1,6 @@
 import { createEmptyMaze } from "../../../core";
 import { removeWallBetween } from "../../../walls";
-import { traceBranchUntilDecision } from "../branchAnalysis";
+import { getDirectionBetweenCells, traceBranchUntilDecision } from "../branchAnalysis";
 
 
 describe("traceBranchUntilDecision - Edge Cases", () => {
@@ -150,3 +150,37 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     });
   });
 })
+
+
+describe("getDirectionBetweenCells", () => {
+  // We use test.each to run the same assertion logic over all cardinal directions
+  test.each([
+    {
+      current: { row: 1, col: 1 },
+      next: { row: 0, col: 1 },
+      expected: "north",
+      description: "should return 'north' when moving up one row",
+    },
+    {
+      current: { row: 1, col: 1 },
+      next: { row: 2, col: 1 },
+      expected: "south",
+      description: "should return 'south' when moving down one row",
+    },
+    {
+      current: { row: 1, col: 1 },
+      next: { row: 1, col: 2 },
+      expected: "east",
+      description: "should return 'east' when moving right one column",
+    },
+    {
+      current: { row: 1, col: 1 },
+      next: { row: 1, col: 0 },
+      expected: "west",
+      description: "should return 'west' when moving left one column",
+    },
+  ])("$description", ({ current, next, expected }) => {
+    const result = getDirectionBetweenCells(current, next);
+    expect(result).toBe(expected);
+  });
+});
