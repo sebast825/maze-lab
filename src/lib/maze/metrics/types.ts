@@ -15,11 +15,12 @@ export interface CellMetric {
   distance: number;
   branches: BranchMetric[];
   nodeDifficulty: number;
+  ambiguity: number;
 }
 export interface BranchMetric {
   neighbor: Position;
+  //difference between the best option and if choose to take this branch
   decisionPenalty: number;
-  ambiguity: number;
   branchLengthPenalty: BranchAnalysis;
   branchDifficulty?: number;
   /**

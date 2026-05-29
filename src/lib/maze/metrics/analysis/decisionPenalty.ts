@@ -5,15 +5,18 @@ import { DecisionPenaltyAnalysis } from "../types";
 export const analyzeDecisionPenalty = (
   neighbors: Position[],
   cellsInfo: CellInfo[][],
-): DecisionPenaltyAnalysis=> {
+): DecisionPenaltyAnalysis => {
   const distances: number[] = neighbors.map(
     (n) => cellsInfo[n.row][n.col].distance,
   );
   const minDistance: number = Math.min(...distances);
+  // Distance difference from the optimal branch.
+
   const penalties: number[] = distances.map((d) => d - minDistance);
 
   const sortedDistances = [...distances].sort((a, b) => a - b);
-  const ambiguity =  sortedDistances[1] - minDistance
-  return {penalties,ambiguity};
- 
+  // Separation between the best and second-best branch.
+  // Lower value = higher ambiguity.
+  const ambiguity = sortedDistances[1] - minDistance;
+  return { penalties, ambiguity };
 };

@@ -74,8 +74,7 @@ const calculateMazeDifficultyFeatures = (
         );
         const baseBranch: BranchMetric = {
           neighbor: n,
-          decisionPenalty: decisionPenalty.penalties[index],
-          ambiguity: decisionPenalty.ambiguity,
+          decisionPenalty: decisionPenalty.penalties[index],         
           branchLengthPenalty: traceBranch,
           tortuosity: countChangesOfDirections(traceBranch.pathDirections),
         };
@@ -90,6 +89,7 @@ const calculateMazeDifficultyFeatures = (
           (sum, b) => sum + b.branchDifficulty!,
           0,
         ),
+          ambiguity: decisionPenalty.ambiguity,
       };
       cellMetrics.push(cellMetric);
     }

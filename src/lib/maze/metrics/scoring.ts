@@ -20,8 +20,9 @@ export const aggregateBranchMetrics = (
     decisionBranchCount: 0,
   };
   cellsMetric.forEach((cell) => {
+    features.ambiguity += cell.ambiguity;
+
     cell.branches.forEach((branch) => {
-      features.ambiguity += branch.ambiguity;
       features.decisionPenalty += branch.decisionPenalty;
       features.tortuosity += branch.tortuosity;
       if (branch.branchLengthPenalty.endedBy == "dead-end") {
