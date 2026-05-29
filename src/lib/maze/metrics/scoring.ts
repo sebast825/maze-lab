@@ -3,8 +3,7 @@ import {
   BranchMetric,
   MazeDifficultyFeatures,
   PathsMetrics,
-
-  MazeDifficultyResult ,
+  MazeDifficultyResult,
 } from "./types";
 
 export const aggregateBranchMetrics = (
@@ -16,23 +15,23 @@ export const aggregateBranchMetrics = (
     tortuosity: 0,
     deadEndBranchLength: 0,
     decisionBranchLength: 0,
-    deadEndBranchCount:0,
-    decisionBranchCount:0
+    deadEndBranchCount: 0,
+    decisionBranchCount: 0,
   };
   cellsMetric.forEach((cell) => {
     cell.branches.forEach((branch) => {
       features.ambiguity += branch.ambiguity;
       features.decisionPenalty += branch.decisionPenalty;
       features.tortuosity += branch.tortuosity;
-      if(    branch.branchLengthPenalty.endedBy == "dead-end"){
-         features.deadEndBranchLength +=branch.branchLengthPenalty.branchLength
-          features.deadEndBranchCount ++
+      if (branch.branchLengthPenalty.endedBy == "dead-end") {
+        features.deadEndBranchLength += branch.branchLengthPenalty.branchLength;
+        features.deadEndBranchCount++;
       }
-       if(    branch.branchLengthPenalty.endedBy == "decision"){
-         features.decisionBranchLength +=branch.branchLengthPenalty.branchLength
-          features.decisionBranchCount ++
+      if (branch.branchLengthPenalty.endedBy == "decision") {
+        features.decisionBranchLength +=
+          branch.branchLengthPenalty.branchLength;
+        features.decisionBranchCount++;
       }
-     
     });
   });
 
@@ -43,11 +42,17 @@ export const calculateMazeDifficulty = (
   totalIntersections: number,
   mazeDifficultyFeatures: MazeDifficultyFeatures,
   pathsMetrics: PathsMetrics,
-): MazeDifficultyResult  => {
+  shortestPathLength: number,
+  totalPaths: number,
+): MazeDifficultyResult => {
   const scoreFeatures =
     mazeDifficultyFeatures.ambiguity +
-    (mazeDifficultyFeatures.deadEndBranchLength / Math.max(1,mazeDifficultyFeatures.deadEndBranchCount)) * 1.1 +
-    (mazeDifficultyFeatures.decisionBranchLength / Math.max(1,mazeDifficultyFeatures.decisionBranchCount)) *.5 +
+    (mazeDifficultyFeatures.deadEndBranchLength /
+      Math.max(1, mazeDifficultyFeatures.deadEndBranchCount)) *
+      1.1 +
+    (mazeDifficultyFeatures.decisionBranchLength /
+      Math.max(1, mazeDifficultyFeatures.decisionBranchCount)) *
+      0.5 +
     mazeDifficultyFeatures.decisionPenalty +
     mazeDifficultyFeatures.tortuosity;
 
@@ -58,17 +63,16 @@ export const calculateMazeDifficulty = (
     pathsMetrics.avgTurnDensity * 0.5 +
     pathsMetrics.shortestPathTurnDensity * 3;
 
-  console.log("totalinterseciton:", totalIntersections);
-
   const score =
-    (scoreFeatures + scoreMetrics * 1.3) /
-    Math.sqrt(totalIntersections);
+    (scoreFeatures + scoreMetrics * 1.3) / Math.sqrt(totalIntersections);
 
   return {
     mazeDifficultyFeatures,
     pathsMetrics,
     score: Number(score.toFixed(2)),
-    
+    shortestPathLength,
+    totalPaths,
+    totalIntersections,
   };
 };
 

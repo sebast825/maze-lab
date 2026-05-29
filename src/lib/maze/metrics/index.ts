@@ -29,18 +29,20 @@ export const computeMazeMetrics = (
   mazeCellData: CellInfo[][],
   maze: Maze,
   paths: Position[][],
+  shortestPathLength: number,
 ): MazeDifficultyResult => {
   const mazeDifficultyFeatures: MazeDifficultyFeatures =
     calculateMazeDifficultyFeatures(mazeCellData, maze);
   const pathsMetrics: PathsMetrics = computePathMetrics(paths);
   console.log("maze rows and cols: ", maze.rows, " ", maze.cols);
   const totalIntersections: number = getTotalIntersections(maze);
-  console.log("total paths: ", paths.length);
-  console.log("dead en no modify", mazeDifficultyFeatures.deadEndBranchCount);
+
   return calculateMazeDifficulty(
     totalIntersections,
     mazeDifficultyFeatures,
     pathsMetrics,
+    shortestPathLength,
+    paths.length,
   );
 };
 

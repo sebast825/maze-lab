@@ -75,6 +75,9 @@ export interface MazeDifficultyResult {
   mazeDifficultyFeatures: MazeDifficultyFeatures;
   pathsMetrics: PathsMetrics;
   score: number;
+  totalIntersections: number;
+  shortestPathLength: number;
+  totalPaths: number;
 }
 export interface MazeDifficultyFeatures {
   // Sum of local branch penalties across decision nodes.
