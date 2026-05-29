@@ -14,6 +14,7 @@ import {
   MazeDifficultyFeatures,
   MazeDifficultyResult,
   PathMetric,
+  PathOverlapMetrics,
   PathsMetrics,
 } from "./types";
 import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
@@ -22,7 +23,7 @@ import {
   calculateBranchDifficulty,
   calculateMazeDifficulty,
 } from "./scoring";
-import { aggregatePathMetrics } from "./analysis/pathAnalysis";
+import { aggregatePathMetrics, computePathVariance } from "./analysis/pathAnalysis";
 import { getTotalIntersections } from "./utils";
 
 export const computeMazeMetrics = (
@@ -36,13 +37,14 @@ export const computeMazeMetrics = (
   const pathsMetrics: PathsMetrics = computePathMetrics(paths);
   console.log("maze rows and cols: ", maze.rows, " ", maze.cols);
   const totalIntersections: number = getTotalIntersections(maze);
-
+  const pathOverlapMetrics: PathOverlapMetrics = computePathVariance(paths);
   return calculateMazeDifficulty(
     totalIntersections,
     mazeDifficultyFeatures,
     pathsMetrics,
     shortestPathLength,
     paths.length,
+    pathOverlapMetrics
   );
 };
 
@@ -108,6 +110,7 @@ const computePathMetrics = (paths: Position[][]): PathsMetrics => {
       directions.push(direction);
     }
     const tortuosity = countChangesOfDirections(directions);
+
     pathMetrics.push({
       path,
       directions,
@@ -120,3 +123,5 @@ const computePathMetrics = (paths: Position[][]): PathsMetrics => {
 
   return pathsMetrics;
 };
+
+

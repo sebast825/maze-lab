@@ -74,6 +74,8 @@ export interface PathMetric {
 export interface MazeDifficultyResult {
   mazeDifficultyFeatures: MazeDifficultyFeatures;
   pathsMetrics: PathsMetrics;
+  pathOverlapsMetrics: PathOverlapMetrics;
+
   score: number;
   totalIntersections: number;
   shortestPathLength: number;
@@ -94,4 +96,16 @@ export interface MazeDifficultyFeatures {
   deadEndBranchCount: number;
   // Total amount of branches ending in another decision node.
   decisionBranchCount: number;
+}
+
+export interface PathOverlapMetrics {
+  // Number of cells that appear in more than one path.
+  repeatedCellCount: number;
+  // Total repeated usages across all paths.
+  // Example:
+  // if one cell appears in 4 paths,
+  // this contributes 4 repeated occurrences.
+  repeatedOccurrences: number;
+  // Number of cells visited by only one path.
+  uniqueCellCount: number;
 }

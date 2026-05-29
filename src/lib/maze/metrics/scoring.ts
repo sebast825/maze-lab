@@ -4,6 +4,7 @@ import {
   MazeDifficultyFeatures,
   PathsMetrics,
   MazeDifficultyResult,
+  PathOverlapMetrics,
 } from "./types";
 
 export const aggregateBranchMetrics = (
@@ -44,6 +45,7 @@ export const calculateMazeDifficulty = (
   pathsMetrics: PathsMetrics,
   shortestPathLength: number,
   totalPaths: number,
+  pathOverlapsMetrics: PathOverlapMetrics,
 ): MazeDifficultyResult => {
   const scoreFeatures =
     mazeDifficultyFeatures.ambiguity +
@@ -62,13 +64,17 @@ export const calculateMazeDifficulty = (
     pathsMetrics.avgTortuosity +
     pathsMetrics.avgTurnDensity * 0.5 +
     pathsMetrics.shortestPathTurnDensity * 3;
-
+  const pathOverlaps =
+    pathOverlapsMetrics.uniqueCellCount * 1.5 -
+    pathOverlapsMetrics.repeatedOccurrences * 0.8;
   const score =
-    (scoreFeatures + scoreMetrics * 1.3) / Math.sqrt(totalIntersections);
+    (scoreFeatures + scoreMetrics * 1.3 + pathOverlaps) /
+    Math.sqrt(totalIntersections);
 
   return {
     mazeDifficultyFeatures,
     pathsMetrics,
+    pathOverlapsMetrics,
     score: Number(score.toFixed(2)),
     shortestPathLength,
     totalPaths,
