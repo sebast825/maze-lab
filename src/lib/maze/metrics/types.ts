@@ -31,10 +31,15 @@ export interface BranchMetric {
 }
 
 export interface DecisionPenaltyAnalysis {
+  /**
+   * Difference from the best available path.
+   * 0 = optimal branch
+   * Higher value = branch moves farther away from the solution
+   */
   penalties: number[];
   /**
-   * Lower value = more ambiguous
-   * Higher value = more obvious correct path
+   * Difference between the best and second-best branch.
+   * Lower value = harder to distinguish the correct path.
    */
   ambiguity: number;
 }
@@ -43,23 +48,47 @@ export interface PathsMetrics {
   avgTortuosity: number;
   maxTortuosity: number;
   minTortuosity: number;
+  // Measures how different valid solution paths are from each other.
   pathVariance: number;
+  /**
+   * Turn density of the shortest valid solution path.
+   * Higher value = shortest route is more visually confusing.
+   */
+  shortestPathTurnDensity: number;
+  //Average turn density across all valid solution paths.
+  avgTurnDensity: number;
 }
 
 export interface PathMetric {
   path: Position[];
   directions: Direction[];
+  //Total number of direction changes along the path.
   tortuosity: number;
+  /**
+   * Ratio between turns and path length.
+   * Higher value = more turns per step.
+   */
+  turnDensity: number;
 }
 
-export interface MazeMetrics {
+export interface MazeDifficultyResult {
   mazeDifficultyFeatures: MazeDifficultyFeatures;
   pathsMetrics: PathsMetrics;
-  score: number
+  score: number;
 }
 export interface MazeDifficultyFeatures {
+  // Sum of local branch penalties across decision nodes.
   decisionPenalty: number;
-  branchLength: number;
+  // Global ambiguity accumulated across intersections.
   ambiguity: number;
+  // Total branch tortuosity accumulated across the maze.
   tortuosity: number;
+  // Total depth of branches ending in dead ends.
+  deadEndBranchLength: number;
+  // Total depth of branches ending in other decisions.
+  decisionBranchLength: number;
+  // Total amount of dead-end branches.
+  deadEndBranchCount: number;
+  // Total amount of branches ending in another decision node.
+  decisionBranchCount: number;
 }

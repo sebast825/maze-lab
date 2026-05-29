@@ -7,11 +7,12 @@ import {
   traceBranchUntilDecision,
 } from "./analysis/branchAnalysis";
 import {
+  BranchAnalysis,
   BranchMetric,
   CellMetric,
   DecisionPenaltyAnalysis,
   MazeDifficultyFeatures,
-  MazeMetrics,
+  MazeDifficultyResult,
   PathMetric,
   PathsMetrics,
 } from "./types";
@@ -28,26 +29,22 @@ export const computeMazeMetrics = (
   mazeCellData: CellInfo[][],
   maze: Maze,
   paths: Position[][],
-): MazeMetrics => {
+): MazeDifficultyResult => {
   const mazeDifficultyFeatures: MazeDifficultyFeatures =
     calculateMazeDifficultyFeatures(mazeCellData, maze);
   const pathsMetrics: PathsMetrics = computePathMetrics(paths);
-
+  console.log("maze rows and cols: ", maze.rows, " ", maze.cols);
   const totalIntersections: number = getTotalIntersections(maze);
-
-  const mazeMetrics: MazeMetrics = {
+  console.log("total paths: ", paths.length);
+  console.log("dead en no modify", mazeDifficultyFeatures.deadEndBranchCount);
+  return calculateMazeDifficulty(
+    totalIntersections,
     mazeDifficultyFeatures,
     pathsMetrics,
-    score: calculateMazeDifficulty(
-      totalIntersections,
-      mazeDifficultyFeatures,
-      pathsMetrics,
-    ),
-  };
-  return mazeMetrics;
+  );
 };
 
-export const calculateMazeDifficultyFeatures = (
+const calculateMazeDifficultyFeatures = (
   mazeCellData: CellInfo[][],
   maze: Maze,
 ): MazeDifficultyFeatures => {
@@ -66,7 +63,11 @@ export const calculateMazeDifficultyFeatures = (
       );
 
       const calculatedBranches = neighbors.map((n, index) => {
-        let traceBranch = traceBranchUntilDecision(n, current, maze);
+        let traceBranch: BranchAnalysis = traceBranchUntilDecision(
+          n,
+          current,
+          maze,
+        );
         const baseBranch: BranchMetric = {
           neighbor: n,
           decisionPenalty: decisionPenalty.penalties[index],
@@ -74,6 +75,7 @@ export const calculateMazeDifficultyFeatures = (
           branchLengthPenalty: traceBranch,
           tortuosity: countChangesOfDirections(traceBranch.pathDirections),
         };
+
         return calculateBranchDifficulty(baseBranch);
       });
       const cellMetric: CellMetric = {
@@ -92,7 +94,7 @@ export const calculateMazeDifficultyFeatures = (
   return aggregateBranchMetrics(cellMetrics);
 };
 
-export const computePathMetrics = (paths: Position[][]): PathsMetrics => {
+const computePathMetrics = (paths: Position[][]): PathsMetrics => {
   let pathMetrics: PathMetric[] = [];
   paths.forEach((path) => {
     const directions: Direction[] = [];
@@ -108,6 +110,7 @@ export const computePathMetrics = (paths: Position[][]): PathsMetrics => {
       path,
       directions,
       tortuosity,
+      turnDensity: tortuosity / path.length,
     });
   });
 
