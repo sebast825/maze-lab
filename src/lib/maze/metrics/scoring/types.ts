@@ -62,6 +62,7 @@ export interface MazeRawMetrics {
 export interface MazeScoringResult {
   raw: MazeRawMetrics;
   derived: MazeDerivedMetrics;
+  weighted: MazeWeightedMetrics;
   scores: MazeScores;
 }
 
@@ -71,3 +72,5 @@ export interface MazeScores {
   overlaps: number;
   total: number;
 }
+
+export type MazeWeightedMetrics = MazeDerivedMetrics;

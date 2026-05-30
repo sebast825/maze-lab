@@ -12,7 +12,7 @@ interface Props {
 export function MazeAnalysisPanel({ data }: Props) {
 
   useEffect(()=>{console.log(data)},[data])
-  const { raw, derived, scores } = data;
+  const { raw, scores ,weighted} = data;
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
@@ -37,9 +37,9 @@ export function MazeAnalysisPanel({ data }: Props) {
           </h3>
 
           <div className="grid gap-4 lg:grid-cols-3">
-            <MetricCard title="Features" data={derived.features} />
-            <MetricCard title="Paths" data={derived.paths} />
-            <MetricCard title="Path Overlaps" data={derived.overlaps} />
+            <MetricCard title="Features" data={weighted.features} />
+            <MetricCard title="Paths" data={weighted.paths} />
+            <MetricCard title="Path Overlaps" data={weighted.overlaps} />
           </div>
         </section>
       </main>

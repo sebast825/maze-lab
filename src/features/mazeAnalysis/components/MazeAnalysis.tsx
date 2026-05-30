@@ -13,7 +13,7 @@ import { DrawMode } from "./drawMode";
 import { AnalysisMode } from "../types";
 import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
-import { MazeAnalysisPanel } from "./mazeAnalysisPanel/scoreComparison";
+import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
