@@ -1,9 +1,20 @@
 import { MazeData, Position } from "@/lib/maze/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MazeBenchmark } from "@/features/mazeAnalysis/benchmarkData/types";
 
-export const useMazeAnalysis = () => {
+import {
+  MazeRawMetrics,
+  MazeScoringResult,
+  Weights,
+} from "@/lib/maze/metrics/scoring/types";
+import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
+
+export const useMazeAnalysis = (weights: Weights) => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
+  const [rawData, setRawData] = useState<MazeRawMetrics | null>(null);
+
+  const [mazeScoreResult, setMazeScoreResult] =
+    useState<MazeScoringResult | null>(null);
 
   const createMaze = (mazeBenchmark: MazeBenchmark) => {
     let end: Position = {
@@ -19,7 +30,29 @@ export const useMazeAnalysis = () => {
       solution: mazeBenchmark.paths,
     };
     setMazeData(newMazeData);
-  };
+    const {
+      mazeDifficultyFeatures,
+      pathsMetrics,
+      pathOverlapMetrics,
+      totalIntersections,
+      shortestPathLength,
+      totalPaths,
+    } = mazeBenchmark.metrics;
 
-  return { mazeData, createMaze };
+    setRawData({
+      features: mazeDifficultyFeatures,
+      paths: pathsMetrics,
+      overlaps: pathOverlapMetrics,
+      totalIntersections,
+      shortestPathLength,
+      totalPaths,
+    });
+  };
+  useEffect(() => {
+    console.log(weights)
+    if (!rawData) return;
+    setMazeScoreResult(analyzeMaze(rawData, weights));
+  }, [rawData, weights]);
+
+  return { mazeData, createMaze, mazeScoreResult };
 };

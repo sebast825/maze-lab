@@ -13,15 +13,17 @@ import { DrawMode } from "./drawMode";
 import { AnalysisMode } from "../types";
 import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
+import { MazeAnalysisPanel } from "./mazeAnalysisPanel/scoreComparison";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
   const CELL_SIZE = 20;
   const [gameMode, setGameMode] = useState<AnalysisMode>("DRAW");
-  const { mazeData, createMaze } = useMazeAnalysis();
   const [showPath, setShowPath] = useState<boolean>(true);
-  const { weights, setWeights,resetWeights } = useScoreWeights();
+  const { weights, setWeights, resetWeights } = useScoreWeights();
+  const { mazeData, createMaze, mazeScoreResult } = useMazeAnalysis(weights);
+
   const handleUndoDraw = () => {
     drawingRef.current?.undo();
   };
@@ -76,13 +78,16 @@ export function MazeAnalysis() {
                 )}
               </ToolBar>
             </div>
-             <ScoreWeightsPanel
+            <ScoreWeightsPanel
               weights={weights}
               onApply={(newWeights) => {
                 setWeights(newWeights);
               }}
-              onResset = {()=>resetWeights()}
+              onResset={() => resetWeights()}
             />
+            {mazeScoreResult && (
+              <MazeAnalysisPanel data={mazeScoreResult}></MazeAnalysisPanel>
+            )}
             {/* Mazes */}
             <div className="relative w-full  overflow-auto border border-black rounded bg-slate-950 ">
               <div className="grid min-h-full min-w-full place-items-center">
@@ -106,8 +111,6 @@ export function MazeAnalysis() {
                 </div>
               </div>
             </div>
-
-           
           </div>
         </main>
       </div>
