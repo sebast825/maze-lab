@@ -1,3 +1,4 @@
+import path from "path";
 import {
   CellMetric,
   BranchMetric,
@@ -5,7 +6,9 @@ import {
   PathsMetrics,
   MazeDifficultyResult,
   PathOverlapMetrics,
-} from "./types";
+} from "../types";
+import { defaultWeights } from "./defaultWeights";
+import { Weights } from "./types";
 
 export const aggregateBranchMetrics = (
   cellsMetric: CellMetric[],
@@ -47,31 +50,36 @@ export const calculateMazeDifficulty = (
   shortestPathLength: number,
   totalPaths: number,
   pathOverlapsMetrics: PathOverlapMetrics,
+  customWeights?: Weights,
 ): MazeDifficultyResult => {
+  const weights: Weights = customWeights ? customWeights : defaultWeights;
   const scoreFeatures =
-    mazeDifficultyFeatures.ambiguity +
+    mazeDifficultyFeatures.ambiguity * weights.features.ambiguity +
     (mazeDifficultyFeatures.deadEndBranchLength /
       Math.max(1, mazeDifficultyFeatures.deadEndBranchCount)) *
-      1.1 +
+      weights.features.averageDeadEndCost +
     (mazeDifficultyFeatures.decisionBranchLength /
       Math.max(1, mazeDifficultyFeatures.decisionBranchCount)) *
-      0.5 +
-    mazeDifficultyFeatures.decisionPenalty +
-    mazeDifficultyFeatures.tortuosity;
+      weights.features.averageDecisionCost +
+    mazeDifficultyFeatures.decisionPenalty * weights.features.decisionPenalty +
+    mazeDifficultyFeatures.tortuosity * weights.features.tortuosity;
 
-  const scoreMetrics =
-    pathsMetrics.maxTortuosity +
-    pathsMetrics.minTortuosity +
-    pathsMetrics.avgTortuosity +
-    pathsMetrics.avgTurnDensity * 0.5 +
-    pathsMetrics.shortestPathTurnDensity * 3;
-  const pathOverlaps =
-    pathOverlapsMetrics.uniqueCellCount * 1.5 -
-    pathOverlapsMetrics.repeatedOccurrences * 0.8;
+  const scorePaths =
+    pathsMetrics.maxTortuosity * weights.paths.maxTortuosity +
+    pathsMetrics.minTortuosity * weights.paths.minTortuosity +
+    pathsMetrics.avgTortuosity * weights.paths.avgTortuosity +
+    pathsMetrics.avgTurnDensity * weights.paths.avgTurnDensity +
+    pathsMetrics.shortestPathTurnDensity *
+      weights.paths.shortestPathTurnDensity;
+  const scorepathOverlaps =
+    pathOverlapsMetrics.uniqueCellCount * weights.pathOverlaps.uniqueCellCount -
+    pathOverlapsMetrics.repeatedOccurrences *
+      weights.pathOverlaps.repeatedOccurrences;
   const score =
-    (scoreFeatures + scoreMetrics * 1.3 + pathOverlaps) /
-    Math.sqrt(totalIntersections);
-
+    (scoreFeatures * weights.features.total +
+      scorePaths * weights.paths.total +
+      scorepathOverlaps * weights.pathOverlaps.total) /
+    (Math.sqrt(totalIntersections) * weights.totalIntersections);
   return {
     mazeDifficultyFeatures,
     pathsMetrics,

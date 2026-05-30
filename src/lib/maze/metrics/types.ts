@@ -110,3 +110,4 @@ export interface PathOverlapMetrics {
   // Number of cells visited by only one path.
   uniqueCellCount: number;
 }
+
