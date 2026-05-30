@@ -3,11 +3,13 @@
 import { DrawingCanvas, DrawingCanvasRef } from "@/features/maze/drawingCanvas";
 import { CharacterCanvas } from "@/features/maze/characterCanvas";
 import { MazeCanvas } from "@/features/maze/mazeCanvas";
-import { Menu } from "@/features/maze/menu";
+
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
 import { useState, useRef } from "react";
+import { ToolBar } from "@/components/toolBar";
+import { Actions, Controls, Modes } from "@/features/maze/menu";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -42,15 +44,17 @@ export default function Home() {
   };
 
   return (
+    
     <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4">
+ 
       {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
       <main className="flex flex-col flex-1 w-full max-w-full items-center justify-between  my-10">
         {/* 2. Added centering to the direct wrapper container */}
         <div className="flex flex-col items-center w-full">
           {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
           <div className="w-full max-w-3xl mb-6">
-            <Menu>
-              <Menu.Controls
+            <ToolBar>
+              <Controls
                 algorithm={algorithm}
                 onAlgorithmChange={setAlgorithm}
                 rows={rows}
@@ -59,7 +63,7 @@ export default function Home() {
                 onColsChange={setCols}
                 onGenerate={handleGenerate}
               />
-              <Menu.Actions
+              <Actions
                 generateMaze={handleGenerate}
                 onShowPath={() => setShowPath(!showPath)}
                 showPath={showPath}
@@ -68,7 +72,7 @@ export default function Home() {
               />
 
               {mazeData && (
-                <Menu.Modes
+                <Modes
                   currentMode={gameMode}
                   toggleCharacter={() =>
                     gameMode != "CHARACTER"
@@ -85,7 +89,7 @@ export default function Home() {
                   drawCanvas={gameMode == "DRAW"}
                 />
               )}
-            </Menu>
+            </ToolBar>
           </div>
           <div className="relative w-full  overflow-auto border border-black rounded bg-slate-950 ">
             <div className="grid min-h-full min-w-full place-items-center">
