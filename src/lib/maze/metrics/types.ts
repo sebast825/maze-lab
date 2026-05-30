@@ -72,16 +72,7 @@ export interface PathMetric {
   turnDensity: number;
 }
 
-export interface MazeDifficultyResult {
-  mazeDifficultyFeatures: MazeDifficultyFeatures;
-  pathsMetrics: PathsMetrics;
-  pathOverlapsMetrics: PathOverlapMetrics;
 
-  score: number;
-  totalIntersections: number;
-  shortestPathLength: number;
-  totalPaths: number;
-}
 export interface MazeDifficultyFeatures {
   // Sum of local branch penalties across decision nodes.
   decisionPenalty: number;

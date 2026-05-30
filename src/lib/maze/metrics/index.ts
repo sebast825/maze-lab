@@ -12,40 +12,45 @@ import {
   CellMetric,
   DecisionPenaltyAnalysis,
   MazeDifficultyFeatures,
-  MazeDifficultyResult,
   PathMetric,
   PathOverlapMetrics,
   PathsMetrics,
 } from "./types";
 import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
+
 import {
-  aggregateBranchMetrics,
-  calculateBranchDifficulty,
-  calculateMazeDifficulty,
-} from "./scoring";
-import { aggregatePathMetrics, computePathVariance } from "./analysis/pathAnalysis";
+  aggregatePathMetrics,
+  computePathVariance,
+} from "./analysis/pathAnalysis";
 import { getTotalIntersections } from "./utils";
+import { aggregateBranchMetrics, analyzeMaze, calculateBranchDifficulty } from "./scoring/scoring";
+import { MazeRawMetrics, MazeScoringResult } from "./scoring/types";
+import { defaultWeights } from "./scoring/defaultWeights";
 
 export const computeMazeMetrics = (
   mazeCellData: CellInfo[][],
   maze: Maze,
   paths: Position[][],
   shortestPathLength: number,
-): MazeDifficultyResult => {
-  const mazeDifficultyFeatures: MazeDifficultyFeatures =
-    calculateMazeDifficultyFeatures(mazeCellData, maze);
+): MazeScoringResult => {
+  const features: MazeDifficultyFeatures = calculateMazeDifficultyFeatures(
+    mazeCellData,
+    maze,
+  );
   const pathsMetrics: PathsMetrics = computePathMetrics(paths);
   console.log("maze rows and cols: ", maze.rows, " ", maze.cols);
   const totalIntersections: number = getTotalIntersections(maze);
   const pathOverlapMetrics: PathOverlapMetrics = computePathVariance(paths);
-  return calculateMazeDifficulty(
+
+  const rawMetrics: MazeRawMetrics = {
+    features,
+    paths: pathsMetrics,
+    overlaps: pathOverlapMetrics,
     totalIntersections,
-    mazeDifficultyFeatures,
-    pathsMetrics,
     shortestPathLength,
-    paths.length,
-    pathOverlapMetrics
-  );
+    totalPaths: paths.length,
+  };
+  return analyzeMaze(rawMetrics,defaultWeights);
 };
 
 const calculateMazeDifficultyFeatures = (
@@ -74,7 +79,7 @@ const calculateMazeDifficultyFeatures = (
         );
         const baseBranch: BranchMetric = {
           neighbor: n,
-          decisionPenalty: decisionPenalty.penalties[index],         
+          decisionPenalty: decisionPenalty.penalties[index],
           branchLengthPenalty: traceBranch,
           tortuosity: countChangesOfDirections(traceBranch.pathDirections),
         };
@@ -89,7 +94,7 @@ const calculateMazeDifficultyFeatures = (
           (sum, b) => sum + b.branchDifficulty!,
           0,
         ),
-          ambiguity: decisionPenalty.ambiguity,
+        ambiguity: decisionPenalty.ambiguity,
       };
       cellMetrics.push(cellMetric);
     }
@@ -123,5 +128,3 @@ const computePathMetrics = (paths: Position[][]): PathsMetrics => {
 
   return pathsMetrics;
 };
-
-

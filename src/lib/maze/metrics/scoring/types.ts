@@ -1,13 +1,19 @@
+import {
+  PathsMetrics,
+  MazeDifficultyFeatures,
+  PathOverlapMetrics,
+} from "../types";
 
 export interface Weights {
   features: {
-    ambiguity:number;
-    averageDeadEndCost: number;
-    averageDecisionCost: number;
+    ambiguity: number;
+    deadEndAvg: number;
+    decisionAvg: number;
     decisionPenalty: number;
     tortuosity: number;
     total: number;
   };
+
   paths: {
     maxTortuosity: number;
     minTortuosity: number;
@@ -16,10 +22,52 @@ export interface Weights {
     shortestPathTurnDensity: number;
     total: number;
   };
-  pathOverlaps: {
-    repeatedOccurrences: number;
+
+  overlaps: {
     uniqueCellCount: number;
+    repeatedOccurrences: number;
     total: number;
   };
-  totalIntersections : number
+
+  global: {
+    intersectionPenalty: number;
+  };
+}
+
+export interface MazeDerivedFeatures {
+  ambiguity: number;
+  deadEndAvg: number;
+  decisionAvg: number;
+  decisionPenalty: number;
+  tortuosity: number;
+}
+
+export interface MazeDerivedMetrics {
+  features: MazeDerivedFeatures;
+  paths: PathsMetrics;
+  overlaps: {
+    uniqueCellCount: number;
+    repeatedOccurrences: number;
+  };
+}
+export interface MazeRawMetrics {
+  features: MazeDifficultyFeatures;
+  paths: PathsMetrics;
+  overlaps: PathOverlapMetrics;
+  totalIntersections: number;
+  shortestPathLength: number;
+  totalPaths: number;
+}
+
+export interface MazeScoringResult {
+  raw: MazeRawMetrics;
+  derived: MazeDerivedMetrics;
+  scores: MazeScores;
+}
+
+export interface MazeScores {
+  features: number;
+  paths: number;
+  overlaps: number;
+  total: number;
 }

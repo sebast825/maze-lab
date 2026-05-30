@@ -1,14 +1,11 @@
-import path from "path";
+import { CellMetric, BranchMetric, MazeDifficultyFeatures } from "../types";
 import {
-  CellMetric,
-  BranchMetric,
-  MazeDifficultyFeatures,
-  PathsMetrics,
-  MazeDifficultyResult,
-  PathOverlapMetrics,
-} from "../types";
-import { defaultWeights } from "./defaultWeights";
-import { Weights } from "./types";
+  MazeDerivedMetrics,
+  MazeRawMetrics,
+  MazeScores,
+  MazeScoringResult,
+  Weights,
+} from "./types";
 
 export const aggregateBranchMetrics = (
   cellsMetric: CellMetric[],
@@ -43,58 +40,87 @@ export const aggregateBranchMetrics = (
   return features;
 };
 
-export const calculateMazeDifficulty = (
-  totalIntersections: number,
-  mazeDifficultyFeatures: MazeDifficultyFeatures,
-  pathsMetrics: PathsMetrics,
-  shortestPathLength: number,
-  totalPaths: number,
-  pathOverlapsMetrics: PathOverlapMetrics,
-  customWeights?: Weights,
-): MazeDifficultyResult => {
-  const weights: Weights = customWeights ? customWeights : defaultWeights;
-  const scoreFeatures =
-    mazeDifficultyFeatures.ambiguity * weights.features.ambiguity +
-    (mazeDifficultyFeatures.deadEndBranchLength /
-      Math.max(1, mazeDifficultyFeatures.deadEndBranchCount)) *
-      weights.features.averageDeadEndCost +
-    (mazeDifficultyFeatures.decisionBranchLength /
-      Math.max(1, mazeDifficultyFeatures.decisionBranchCount)) *
-      weights.features.averageDecisionCost +
-    mazeDifficultyFeatures.decisionPenalty * weights.features.decisionPenalty +
-    mazeDifficultyFeatures.tortuosity * weights.features.tortuosity;
-
-  const scorePaths =
-    pathsMetrics.maxTortuosity * weights.paths.maxTortuosity +
-    pathsMetrics.minTortuosity * weights.paths.minTortuosity +
-    pathsMetrics.avgTortuosity * weights.paths.avgTortuosity +
-    pathsMetrics.avgTurnDensity * weights.paths.avgTurnDensity +
-    pathsMetrics.shortestPathTurnDensity *
-      weights.paths.shortestPathTurnDensity;
-  const scorepathOverlaps =
-    pathOverlapsMetrics.uniqueCellCount * weights.pathOverlaps.uniqueCellCount -
-    pathOverlapsMetrics.repeatedOccurrences *
-      weights.pathOverlaps.repeatedOccurrences;
-  const score =
-    (scoreFeatures * weights.features.total +
-      scorePaths * weights.paths.total +
-      scorepathOverlaps * weights.pathOverlaps.total) /
-    (Math.sqrt(totalIntersections) * weights.totalIntersections);
-  return {
-    mazeDifficultyFeatures,
-    pathsMetrics,
-    pathOverlapsMetrics,
-    score: Number(score.toFixed(2)),
-    shortestPathLength,
-    totalPaths,
-    totalIntersections,
-  };
-};
-
 export const calculateBranchDifficulty = (
   branch: BranchMetric,
 ): BranchMetric => {
   const branchDifficulty =
     branch.decisionPenalty * branch.branchLengthPenalty.branchLength;
   return { ...branch, branchDifficulty };
+};
+export const analyzeMaze = (
+  raw: MazeRawMetrics,
+  weights: Weights,
+): MazeScoringResult => {
+  const derived = deriveMazeMetrics(raw);
+  const scores = calculateMazeScore(derived, raw, weights);
+
+  return {
+    raw,
+    derived,
+    scores,
+  };
+};
+const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
+  const deadEndAvg =
+    raw.features.deadEndBranchLength /
+    Math.max(1, raw.features.deadEndBranchCount);
+
+  const decisionAvg =
+    raw.features.decisionBranchLength /
+    Math.max(1, raw.features.decisionBranchCount);
+
+  return {
+    features: {
+      ambiguity: raw.features.ambiguity,
+      deadEndAvg,
+      decisionAvg,
+      decisionPenalty: raw.features.decisionPenalty,
+      tortuosity: raw.features.tortuosity,
+    },
+
+    paths: raw.paths,
+
+    overlaps: {
+      uniqueCellCount: raw.overlaps.uniqueCellCount,
+      repeatedOccurrences: raw.overlaps.repeatedOccurrences,
+    },
+  };
+};
+
+const calculateMazeScore = (
+  derived: MazeDerivedMetrics,
+  raw: MazeRawMetrics,
+  weights: Weights,
+): MazeScores => {
+  const scoreFeatures =
+    derived.features.ambiguity * weights.features.ambiguity +
+    derived.features.deadEndAvg * weights.features.deadEndAvg +
+    derived.features.decisionAvg * weights.features.decisionAvg +
+    derived.features.decisionPenalty * weights.features.decisionPenalty +
+    derived.features.tortuosity * weights.features.tortuosity;
+
+  const scorePaths =
+    derived.paths.maxTortuosity * weights.paths.maxTortuosity +
+    derived.paths.minTortuosity * weights.paths.minTortuosity +
+    derived.paths.avgTortuosity * weights.paths.avgTortuosity +
+    derived.paths.avgTurnDensity * weights.paths.avgTurnDensity +
+    derived.paths.shortestPathTurnDensity *
+      weights.paths.shortestPathTurnDensity;
+
+  const scoreOverlaps =
+    derived.overlaps.uniqueCellCount * weights.overlaps.uniqueCellCount -
+    derived.overlaps.repeatedOccurrences * weights.overlaps.repeatedOccurrences;
+
+  const total =
+    (scoreFeatures * weights.features.total +
+      scorePaths * weights.paths.total +
+      scoreOverlaps * weights.overlaps.total) /
+    (Math.sqrt(raw.totalIntersections) * weights.global.intersectionPenalty);
+
+  return {
+    features: scoreFeatures,
+    paths: scorePaths,
+    overlaps: scoreOverlaps,
+    total: Number(total.toFixed(2)),
+  };
 };
