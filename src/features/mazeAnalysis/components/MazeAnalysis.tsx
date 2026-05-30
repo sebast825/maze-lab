@@ -11,6 +11,8 @@ import { ToolBar } from "@/components/toolBar";
 import { BenchmarkSelector } from "./benchmarkSelector";
 import { DrawMode } from "./drawMode";
 import { AnalysisMode } from "../types";
+import { useScoreWeights } from "../useScoreWeights";
+import { ScoreWeightsPanel } from "./scoreWeightsPanel";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
@@ -19,7 +21,7 @@ export function MazeAnalysis() {
   const [gameMode, setGameMode] = useState<AnalysisMode>("DRAW");
   const { mazeData, createMaze } = useMazeAnalysis();
   const [showPath, setShowPath] = useState<boolean>(true);
-
+  const { weights, setWeights,resetWeights } = useScoreWeights();
   const handleUndoDraw = () => {
     drawingRef.current?.undo();
   };
@@ -35,9 +37,10 @@ export function MazeAnalysis() {
     if (!getMazeRawData) return;
     createMaze(getMazeRawData);
   }, [selectedId]);
+
   return (
     <>
-      <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4">
+      <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans   px-4">
         {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
         <main className="flex flex-col flex-1 w-full max-w-full items-center justify-between  my-10">
           {/* 2. Added centering to the direct wrapper container */}
@@ -73,6 +76,13 @@ export function MazeAnalysis() {
                 )}
               </ToolBar>
             </div>
+             <ScoreWeightsPanel
+              weights={weights}
+              onApply={(newWeights) => {
+                setWeights(newWeights);
+              }}
+              onResset = {()=>resetWeights()}
+            />
             {/* Mazes */}
             <div className="relative w-full  overflow-auto border border-black rounded bg-slate-950 ">
               <div className="grid min-h-full min-w-full place-items-center">
@@ -96,6 +106,8 @@ export function MazeAnalysis() {
                 </div>
               </div>
             </div>
+
+           
           </div>
         </main>
       </div>
