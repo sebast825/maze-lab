@@ -13,3 +13,10 @@ export const sizeVariants = {
   sm: "p-2.5", 
   md: "p-4",   
 };
+
+export const PANEL_CLASSES = {
+  container: "rounded-lg bg-slate-900 p-4 border border-slate-700 w-full -mx-4 px-4 sm:mx-0 sm:w-auto",
+  card: "rounded border border-slate-700 bg-slate-800 p-4",
+  input: "rounded bg-slate-700 text-white px-2 py-1 outline-none focus:ring-1 focus:ring-purple-500",
+  title: "mb-4 text-xl font-semibold",
+} as const;
