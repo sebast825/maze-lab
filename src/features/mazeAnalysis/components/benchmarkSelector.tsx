@@ -36,7 +36,7 @@ export const BenchmarkSelector = ({
 
         {benchmarks.map((benchmark) => (
           <option key={benchmark.id} value={benchmark.id}>
-            {benchmark.name}
+            {benchmark.name}  - {benchmark.algorithm}
           </option>
         ))}
       </select>

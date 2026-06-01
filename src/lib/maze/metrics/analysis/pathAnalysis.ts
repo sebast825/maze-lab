@@ -9,19 +9,21 @@ export const aggregatePathMetrics = (paths: PathMetric[]): PathsMetrics => {
       : prevPath;
   });
 
-  const turnDensities  = paths.map((p) => p.turnDensity)
-    return {
+  const turnDensities = paths.map((p) => p.turnDensity);
+  return {
     avgTortuosity: avg(tortuosities),
     minTortuosity: Math.min(...tortuosities),
     maxTortuosity: Math.max(...tortuosities),
     pathVariance: 0,
-    avgTurnDensity :avg(turnDensities ),
-    shortestPathTurnDensity: minPath.turnDensity
+    avgTurnDensity: avg(turnDensities),
+    shortestPathTurnDensity: minPath.turnDensity,
   };
 };
 const avg = (arr: number[]) => arr.reduce((sum, v) => sum + v, 0) / arr.length;
 
-export const computePathVariance = (paths: Position[][]): PathOverlapMetrics => {
+export const computePathVariance = (
+  paths: Position[][],
+): PathOverlapMetrics => {
   const cellFrequency = new Map<string, number>();
 
   paths.forEach((path) => {
@@ -47,9 +49,20 @@ export const computePathVariance = (paths: Position[][]): PathOverlapMetrics => 
       uniqueCellCount++;
     }
   });
+
+  const pathLengths = paths.map((path) => path.length);
+  const shortestPath = Math.min(...pathLengths);
+  
+  const avgRedundantLength =
+    pathLengths.reduce((total, length) => total + (length - shortestPath), 0) /
+    pathLengths.length;
+  const maxRedundantLength = Math.max(...pathLengths) - shortestPath;
+
   return {
     repeatedCellCount,
     repeatedOccurrences,
     uniqueCellCount,
+    avgRedundantLength,
+    maxRedundantLength,
   };
 };

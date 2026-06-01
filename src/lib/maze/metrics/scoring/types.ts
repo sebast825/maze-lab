@@ -26,6 +26,8 @@ export interface Weights {
   overlaps: {
     uniqueCellCount: number;
     repeatedOccurrences: number;
+    avgRedundantLength: number;
+    maxRedundantLength: number;
     total: number;
   };
 
@@ -48,6 +50,8 @@ export interface MazeDerivedMetrics {
   overlaps: {
     uniqueCellCount: number;
     repeatedOccurrences: number;
+    avgRedundantLength: number;
+    maxRedundantLength: number;
   };
 }
 export interface MazeRawMetrics {

@@ -72,7 +72,6 @@ export interface PathMetric {
   turnDensity: number;
 }
 
-
 export interface MazeDifficultyFeatures {
   // Sum of local branch penalties across decision nodes.
   decisionPenalty: number;
@@ -100,5 +99,8 @@ export interface PathOverlapMetrics {
   repeatedOccurrences: number;
   // Number of cells visited by only one path.
   uniqueCellCount: number;
+  //avg difference between path length and shortest
+  avgRedundantLength: number;
+  //difference between path longest and shortest path length
+  maxRedundantLength: number;
 }
-
