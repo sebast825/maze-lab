@@ -1,9 +1,5 @@
+import { MazeRawMetrics } from "@/lib/maze/metrics/scoring/types";
 import { AlgorithmType } from "../../../lib/alogirthms/generation";
-import {
-  MazeDifficultyFeatures,
-  PathsMetrics,
-  PathOverlapMetrics,
-} from "../../../lib/maze/metrics/types";
 import { Maze, Position } from "../../../lib/maze/types";
 
 export interface MazeBenchmark {
@@ -11,14 +7,6 @@ export interface MazeBenchmark {
   id: number;
   algorithm: AlgorithmType;
   maze: Maze;
-      paths: Position[][];
-
-  metrics: {
-    totalIntersections: number;
-    totalPaths: number;
-    shortestPathLength: number;
-    mazeDifficultyFeatures: MazeDifficultyFeatures;
-    pathsMetrics: PathsMetrics;
-    pathOverlapMetrics: PathOverlapMetrics;
-  };
+  paths: Position[][];
+  metrics: MazeRawMetrics;
 }

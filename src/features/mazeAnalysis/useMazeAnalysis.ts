@@ -31,25 +31,24 @@ export const useMazeAnalysis = (weights: Weights) => {
     };
     setMazeData(newMazeData);
     const {
-      mazeDifficultyFeatures,
-      pathsMetrics,
-      pathOverlapMetrics,
+      features,
+      paths,
+      overlaps,
       totalIntersections,
       shortestPathLength,
       totalPaths,
     } = mazeBenchmark.metrics;
 
     setRawData({
-      features: mazeDifficultyFeatures,
-      paths: pathsMetrics,
-      overlaps: pathOverlapMetrics,
+      features: features,
+      paths: paths,
+      overlaps: overlaps,
       totalIntersections,
       shortestPathLength,
       totalPaths,
     });
   };
   useEffect(() => {
-    console.log(weights)
     if (!rawData) return;
     setMazeScoreResult(analyzeMaze(rawData, weights));
   }, [rawData, weights]);

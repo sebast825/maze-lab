@@ -4189,7 +4189,7 @@ export const RawMazeData: MazeBenchmark[] = [
       totalIntersections: 76,
       totalPaths: 2,
       shortestPathLength: 46,
-      mazeDifficultyFeatures: {
+      features: {
         decisionPenalty: 270,
         ambiguity: 134,
         tortuosity: 187,
@@ -4198,7 +4198,7 @@ export const RawMazeData: MazeBenchmark[] = [
         deadEndBranchCount: 68,
         decisionBranchCount: 134,
       },
-      pathsMetrics: {
+      paths: {
         avgTortuosity: 27.5,
         minTortuosity: 25,
         maxTortuosity: 30,
@@ -4206,7 +4206,7 @@ export const RawMazeData: MazeBenchmark[] = [
         avgTurnDensity: 0.5386847195357833,
         shortestPathTurnDensity: 0.5319148936170213,
       },
-      pathOverlapMetrics: {
+      overlaps: {
         repeatedCellCount: 43,
         repeatedOccurrences: 86,
         uniqueCellCount: 16,
@@ -8784,7 +8784,7 @@ export const RawMazeData: MazeBenchmark[] = [
       totalIntersections: 62,
       totalPaths: 2,
       shortestPathLength: 86,
-      mazeDifficultyFeatures: {
+      features: {
         decisionPenalty: 248,
         ambiguity: 124,
         tortuosity: 222,
@@ -8793,7 +8793,7 @@ export const RawMazeData: MazeBenchmark[] = [
         deadEndBranchCount: 62,
         decisionBranchCount: 124,
       },
-      pathsMetrics: {
+      paths: {
         avgTortuosity: 63,
         minTortuosity: 52,
         maxTortuosity: 74,
@@ -8801,7 +8801,7 @@ export const RawMazeData: MazeBenchmark[] = [
         avgTurnDensity: 0.6262842030312278,
         shortestPathTurnDensity: 0.5977011494252874,
       },
-      pathOverlapMetrics: {
+      overlaps: {
         repeatedCellCount: 68,
         repeatedOccurrences: 136,
         uniqueCellCount: 64,
