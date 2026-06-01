@@ -3,13 +3,16 @@
 import { DrawingCanvas, DrawingCanvasRef } from "@/features/maze/drawingCanvas";
 import { CharacterCanvas } from "@/features/maze/characterCanvas";
 import { MazeCanvas } from "@/features/maze/mazeCanvas";
-
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ToolBar } from "@/components/toolBar";
 import { Actions, Controls, Modes } from "@/features/maze/menu";
+import { ActionButton } from "@/components/actionButton";
+import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
+import { MazeBenchmark } from "@/features/mazeAnalysis/benchmarkData/types";
+import { RawMazeData } from "@/features/mazeAnalysis/benchmarkData/rawData";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -20,6 +23,7 @@ export default function Home() {
 
   const [showPath, setShowPath] = useState<boolean>(false);
   const { mazeData, createMaze } = useMazeGenerator();
+  const { metrics, calculateMetrics } = useMazeMetrics();
 
   const { handleExportToPDF } = useCanvasPDF();
 
@@ -42,11 +46,21 @@ export default function Home() {
     handleClearDraw();
     setShowPath(false);
   };
+  useEffect(() => {
+    if (!metrics || !mazeData) return;
+    const rawData: MazeBenchmark = {
+      name: "",
+      id: RawMazeData.length+1,
+      algorithm,
+      maze: mazeData?.maze!,
+      paths: mazeData?.solution!,
+      metrics: metrics.raw,
+    };
+    console.log(rawData);
+  }, [metrics]);
 
   return (
-    
     <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4">
- 
       {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
       <main className="flex flex-col flex-1 w-full max-w-full items-center justify-between  my-10">
         {/* 2. Added centering to the direct wrapper container */}
@@ -72,22 +86,32 @@ export default function Home() {
               />
 
               {mazeData && (
-                <Modes
-                  currentMode={gameMode}
-                  toggleCharacter={() =>
-                    gameMode != "CHARACTER"
-                      ? setGameMode("CHARACTER")
-                      : setGameMode("VIEW")
-                  }
-                  toggleDraw={() =>
-                    gameMode != "DRAW"
-                      ? setGameMode("DRAW")
-                      : setGameMode("VIEW")
-                  }
-                  undoLast={() => handleUndoDraw()}
-                  clearAll={() => handleClearDraw()}
-                  drawCanvas={gameMode == "DRAW"}
-                />
+                <>
+                  <Modes
+                    currentMode={gameMode}
+                    toggleCharacter={() =>
+                      gameMode != "CHARACTER"
+                        ? setGameMode("CHARACTER")
+                        : setGameMode("VIEW")
+                    }
+                    toggleDraw={() =>
+                      gameMode != "DRAW"
+                        ? setGameMode("DRAW")
+                        : setGameMode("VIEW")
+                    }
+                    undoLast={() => handleUndoDraw()}
+                    clearAll={() => handleClearDraw()}
+                    drawCanvas={gameMode == "DRAW"}
+                  />
+                  <ActionButton
+                    color="red"
+                    action={() => {
+                      calculateMetrics(mazeData);
+                    }}
+                  >
+                    Benchmark Data
+                  </ActionButton>
+                </>
               )}
             </ToolBar>
           </div>
