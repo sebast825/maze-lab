@@ -46,7 +46,7 @@ export function MazeAnalysis() {
         {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
         <main className="flex flex-col flex-1 w-full max-w-full items-center justify-between  my-10">
           {/* 2. Added centering to the direct wrapper container */}
-          <div className="flex flex-col items-center w-full">
+          <div className="flex flex-col items-center w-full gap-5">
             {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
             <div className="w-full max-w-3xl mb-6">
               <ToolBar>
@@ -78,39 +78,46 @@ export function MazeAnalysis() {
                 )}
               </ToolBar>
             </div>
-            <ScoreWeightsPanel
-              weights={weights}
-              onApply={(newWeights) => {
-                setWeights(newWeights);
-              }}
-              onResset={() => resetWeights()}
-            />
-            {mazeScoreResult && (
+            {/* Mazes */}
+            <div className="flex flex-col xl:flex-row items-center xl:items-start justify-center gap-5 w-full  ">
+              
+
+              <ScoreWeightsPanel
+                weights={weights}
+                onApply={setWeights}
+                onResset={resetWeights}
+              />
+                {mazeScoreResult && (
               <MazeAnalysisPanel data={mazeScoreResult}></MazeAnalysisPanel>
             )}
-            {/* Mazes */}
-            <div className="relative w-full  overflow-auto border border-black rounded bg-slate-950 ">
-              <div className="grid min-h-full min-w-full place-items-center">
-                <div className="w-fit relative min-h-full">
-                  {mazeData && mazeData.end && (
-                    <MazeCanvas
-                      mazeData={mazeData}
-                      cellSize={CELL_SIZE}
-                      showPath={showPath}
-                    />
-                  )}
-
-                  {gameMode == "DRAW" && mazeData && (
-                    <DrawingCanvas
-                      cols={mazeData?.maze.cols}
-                      rows={mazeData?.maze.rows}
-                      cellSize={CELL_SIZE}
-                      ref={drawingRef}
-                    />
-                  )}
-                </div>
-              </div>
             </div>
+            {mazeData && (
+                <div className="w-full lg:w-auto">
+                  <div className="relative overflow-auto border border-black rounded bg-slate-950">
+                    <div className="grid min-h-full min-w-full place-items-center">
+                      <div className="w-fit relative min-h-full">
+                        {mazeData.end && (
+                          <MazeCanvas
+                            mazeData={mazeData}
+                            cellSize={CELL_SIZE}
+                            showPath={showPath}
+                          />
+                        )}
+
+                        {gameMode === "DRAW" && (
+                          <DrawingCanvas
+                            cols={mazeData.maze.cols}
+                            rows={mazeData.maze.rows}
+                            cellSize={CELL_SIZE}
+                            ref={drawingRef}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+          
           </div>
         </main>
       </div>

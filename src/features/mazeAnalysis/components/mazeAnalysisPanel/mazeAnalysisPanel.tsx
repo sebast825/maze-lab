@@ -19,16 +19,16 @@ export function MazeAnalysisPanel({ data }: Props) {
 
   return (
     <div
-      className={`flex flex-col lg:flex-row gap-8 ${PANEL_CLASSES.container}`}
+      className={`flex flex-col lg:flex-row gap-6 ${PANEL_CLASSES.container}`}
     >
-      <main className="flex-1 space-y-8">
+      <main className="w-fit space-y-8">
         {/* RAW METRICS */}
         <section>
           <h3 className={`${PANEL_CLASSES.title}  text-cyan-300`}>
             Raw Metrics
           </h3>
 
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="flex flex-wrap gap-4">
             <MetricCard title="Features" data={raw.features} />
             <MetricCard title="Paths" data={raw.paths} />
             <MetricCard title="Path Overlaps" data={raw.overlaps} />
@@ -40,8 +40,7 @@ export function MazeAnalysisPanel({ data }: Props) {
           <h3 className={`${PANEL_CLASSES.title}  text-purple-300`}>
             Weighted Metrics
           </h3>
-
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="flex flex-wrap gap-4">
             <MetricCard title="Features" data={weighted.features} />
             <MetricCard title="Paths" data={weighted.paths} />
             <MetricCard title="Path Overlaps" data={weighted.overlaps} />
@@ -49,7 +48,7 @@ export function MazeAnalysisPanel({ data }: Props) {
         </section>
       </main>
 
-      <aside className="lg:w-80 shrink-0">
+      <aside className="shrink-0">
         {/* SCORE BREAKDOWN */}
         <section>
           <h3 className={`${PANEL_CLASSES.title}  text-green-300`}>
