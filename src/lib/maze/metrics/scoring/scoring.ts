@@ -146,10 +146,12 @@ const calculateMazeScore = (
     weighted.overlaps.repeatedOccurrences +
     weighted.overlaps.avgRedundantLength +
     weighted.overlaps.maxRedundantLength;
+
+  let totalFeatures = scoreFeatures * weights.features.total;
+  let totalScores = scorePaths * weights.paths.total;
+  let totalOverlaps = scoreOverlaps * weights.overlaps.total;
   const total =
-    (scoreFeatures * weights.features.total +
-      scorePaths * weights.paths.total +
-      scoreOverlaps * weights.overlaps.total) /
+    (totalFeatures + totalScores + totalOverlaps) /
     (Math.sqrt(raw.totalIntersections) * weights.global.intersectionPenalty);
 
   return {
@@ -157,9 +159,9 @@ const calculateMazeScore = (
     derived,
     weighted,
     scores: {
-      features: scoreFeatures,
-      paths: scorePaths,
-      overlaps: scoreOverlaps,
+      features: totalFeatures,
+      paths: totalScores,
+      overlaps: totalOverlaps,
       total,
     },
   };
