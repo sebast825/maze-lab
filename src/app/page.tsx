@@ -12,7 +12,7 @@ import { Actions, Controls, Modes } from "@/features/maze/menu";
 import { ActionButton } from "@/components/actionButton";
 import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
 import { MazeBenchmark } from "@/features/mazeAnalysis/benchmarkData/types";
-import { RawMazeData } from "@/features/mazeAnalysis/benchmarkData/rawData";
+import { benchmark20x20 } from "@/features/mazeAnalysis/benchmarkData/rawData/benchmark20x20";
 import { defaultWeights } from "@/lib/maze/metrics/scoring/defaultWeights";
 import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
 
@@ -52,7 +52,7 @@ export default function Home() {
     if (!metrics || !mazeData) return;
     const rawData: MazeBenchmark = {
       name: "",
-      id: RawMazeData.length+1,
+      id: benchmark20x20.length+1,
       algorithm,
       maze: mazeData?.maze!,
       paths: mazeData?.solution!,

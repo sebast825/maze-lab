@@ -4,7 +4,7 @@ import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { computeMazeMetrics } from "@/lib/maze/metrics";
 import { MazeData } from "@/lib/maze/types";
 import { MazeScoringResult } from "@/lib/maze/metrics/scoring/types";
-import { RawMazeData } from "../mazeAnalysis/benchmarkData/rawData";
+import { benchmark20x20 } from "../mazeAnalysis/benchmarkData/rawData/benchmark20x20";
 import { MazeBenchmark } from "../mazeAnalysis/benchmarkData/types";
 
 export const useMazeMetrics = () => {

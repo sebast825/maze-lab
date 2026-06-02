@@ -1,4 +1,5 @@
-import { MazeBenchmark } from "./types";
+import { MazeBenchmark } from "../types";
+
 
 /**
  * 
@@ -17,7 +18,7 @@ name: "Highly tortuous optimal path"
 name: "Many equivalent routes"
 name: "Dense decision network"
  */
-export const RawMazeData: MazeBenchmark[] = [
+export const benchmark20x20: MazeBenchmark[] = [
   {
     name: "One rect path with low ambiguity",
     id: 1,

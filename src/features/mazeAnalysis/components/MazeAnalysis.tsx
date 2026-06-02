@@ -1,7 +1,7 @@
 "use client";
 
 import { useMazeAnalysis } from "@/features/mazeAnalysis/useMazeAnalysis";
-import { RawMazeData } from "@/features/mazeAnalysis/benchmarkData/rawData";
+import { benchmark20x20 } from "@/features/mazeAnalysis/benchmarkData/rawData/benchmark20x20";
 import { useEffect, useRef, useState } from "react";
 import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { DrawingCanvas, DrawingCanvasRef } from "@/features/maze/drawingCanvas";
@@ -33,7 +33,7 @@ export function MazeAnalysis() {
 
   useEffect(() => {
     if (selectedId == "") return;
-    const getMazeRawData: MazeBenchmark | undefined = RawMazeData.find(
+    const getMazeRawData: MazeBenchmark | undefined = benchmark20x20.find(
       (e) => e.id == selectedId,
     );
     if (!getMazeRawData) return;
@@ -52,7 +52,7 @@ export function MazeAnalysis() {
               <ToolBar>
                 <BenchmarkSelector
                   selectedId={selectedId}
-                  benchmarks={RawMazeData}
+                  benchmarks={benchmark20x20}
                   onChange={(e) => setSelectedId(e)}
                 ></BenchmarkSelector>
                 {mazeData && (
