@@ -13,6 +13,8 @@ import { ActionButton } from "@/components/actionButton";
 import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
 import { MazeBenchmark } from "@/features/mazeAnalysis/benchmarkData/types";
 import { RawMazeData } from "@/features/mazeAnalysis/benchmarkData/rawData";
+import { defaultWeights } from "@/lib/maze/metrics/scoring/defaultWeights";
+import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -56,7 +58,8 @@ export default function Home() {
       paths: mazeData?.solution!,
       metrics: metrics.raw,
     };
-    console.log(rawData);
+    console.log("raw data: ",rawData);
+   // console.log("metrics, raw, derived ,weights and scores: ", analyzeMaze(metrics.raw,defaultWeights))
   }, [metrics]);
 
   return (
