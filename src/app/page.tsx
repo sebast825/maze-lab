@@ -59,7 +59,7 @@ export default function Home() {
       metrics: metrics.raw,
     };
     console.log("raw data: ",rawData);
-   // console.log("metrics, raw, derived ,weights and scores: ", analyzeMaze(metrics.raw,defaultWeights))
+    console.log("metrics, raw, derived ,weights and scores: ", analyzeMaze(metrics.raw,defaultWeights))
   }, [metrics]);
 
   return (
