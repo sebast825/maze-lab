@@ -12,7 +12,7 @@ import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
 export const useMazeAnalysis = (weights: Weights) => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
   const [rawData, setRawData] = useState<MazeRawMetrics | null>(null);
-
+  
   const [mazeScoreResult, setMazeScoreResult] =
     useState<MazeScoringResult | null>(null);
 

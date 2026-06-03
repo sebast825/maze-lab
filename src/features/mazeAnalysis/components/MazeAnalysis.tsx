@@ -15,6 +15,10 @@ import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
 import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
 import { rawDataSelector, RawDataSize } from "../benchmarkData";
+import {
+  exportBenchmarkMetrics,
+  getMetricStats,
+} from "../benchmarkData/helpers";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
@@ -41,6 +45,13 @@ export function MazeAnalysis() {
     createMaze(getMazeRawData);
   }, [selectedId]);
 
+  const generateMetricsReport = () => {
+    const rows = exportBenchmarkMetrics(rawDataSelector[size]);
+    console.log("For maze with size: ", size);
+
+    console.table(rows);
+    console.table(getMetricStats(rows));
+  };
   return (
     <>
       <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans   px-4">
@@ -51,39 +62,45 @@ export function MazeAnalysis() {
             {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
             <div className="w-fit  mb-6 ">
               <ToolBar>
-                  <div className="flex  sm:flex-row flex-col gap-4">
-                   
-                <BenchmarkSelector
-                  size={size}
-                  onSizeChange={(e) => setSize(e)}
-                  selectedId={selectedId}
-                  benchmarks={rawDataSelector[size]}
-                  onChange={(e) => setSelectedId(e)}
-                ></BenchmarkSelector>
-       <div className="flex flex-row gap-4">
-                {mazeData && (
-                  <ActionButton
-                    action={() => setShowPath(!showPath)}
-                    text={showPath ? "Hide Path" : "Show Path"}
-                    color="purple"
-                    
-                  />
-                )}
+                <div className="flex  sm:flex-row flex-col gap-4">
+                  <BenchmarkSelector
+                    size={size}
+                    onSizeChange={(e) => setSize(e)}
+                    selectedId={selectedId}
+                    benchmarks={rawDataSelector[size]}
+                    onChange={(e) => setSelectedId(e)}
+                  ></BenchmarkSelector>
+                  <div className="flex flex-row gap-4">
+                    {mazeData && (
+                      <ActionButton
+                        action={() => setShowPath(!showPath)}
+                        text={showPath ? "Hide Path" : "Show Path"}
+                        color="purple"
+                      />
+                    )}
 
-                {mazeData && (
-                  <DrawMode
-                    currentMode={gameMode}
-                    toggleDraw={() =>
-                      gameMode != "DRAW"
-                        ? setGameMode("DRAW")
-                        : setGameMode("VIEW")
-                    }
-                    undoLast={() => handleUndoDraw()}
-                    clearAll={() => handleClearDraw()}
-                    drawCanvas={gameMode == "DRAW"}
-                  ></DrawMode>
-                )}
-       </div>
+                    {mazeData && (
+                      <DrawMode
+                        currentMode={gameMode}
+                        toggleDraw={() =>
+                          gameMode != "DRAW"
+                            ? setGameMode("DRAW")
+                            : setGameMode("VIEW")
+                        }
+                        undoLast={() => handleUndoDraw()}
+                        clearAll={() => handleClearDraw()}
+                        drawCanvas={gameMode == "DRAW"}
+                      ></DrawMode>
+                    )}
+                  </div>
+                  {size && (
+                    <ActionButton
+                      action={() => generateMetricsReport()}
+                      color={"blue"}
+                    >
+                      Log metrics
+                    </ActionButton>
+                  )}
                 </div>
               </ToolBar>
             </div>
