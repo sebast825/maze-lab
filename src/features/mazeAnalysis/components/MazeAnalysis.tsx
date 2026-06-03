@@ -14,6 +14,7 @@ import { AnalysisMode } from "../types";
 import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
 import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
+import { rawDataSelector, RawDataSize } from "../benchmarkData";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
@@ -23,7 +24,7 @@ export function MazeAnalysis() {
   const [showPath, setShowPath] = useState<boolean>(true);
   const { weights, setWeights, resetWeights } = useScoreWeights();
   const { mazeData, createMaze, mazeScoreResult } = useMazeAnalysis(weights);
-
+  const [size, setSize] = useState<RawDataSize>("30*30");
   const handleUndoDraw = () => {
     drawingRef.current?.undo();
   };
@@ -33,9 +34,9 @@ export function MazeAnalysis() {
 
   useEffect(() => {
     if (selectedId == "") return;
-    const getMazeRawData: MazeBenchmark | undefined = benchmark20x20.find(
-      (e) => e.id == selectedId,
-    );
+    const getMazeRawData: MazeBenchmark | undefined = rawDataSelector[
+      size
+    ].find((e) => e.id == selectedId);
     if (!getMazeRawData) return;
     createMaze(getMazeRawData);
   }, [selectedId]);
@@ -48,18 +49,24 @@ export function MazeAnalysis() {
           {/* 2. Added centering to the direct wrapper container */}
           <div className="flex flex-col items-center w-full gap-5">
             {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
-            <div className="w-full max-w-3xl mb-6">
+            <div className="w-fit  mb-6 ">
               <ToolBar>
+                  <div className="flex  sm:flex-row flex-col gap-4">
+                   
                 <BenchmarkSelector
+                  size={size}
+                  onSizeChange={(e) => setSize(e)}
                   selectedId={selectedId}
-                  benchmarks={benchmark20x20}
+                  benchmarks={rawDataSelector[size]}
                   onChange={(e) => setSelectedId(e)}
                 ></BenchmarkSelector>
+       <div className="flex flex-row gap-4">
                 {mazeData && (
                   <ActionButton
                     action={() => setShowPath(!showPath)}
                     text={showPath ? "Hide Path" : "Show Path"}
                     color="purple"
+                    
                   />
                 )}
 
@@ -76,48 +83,47 @@ export function MazeAnalysis() {
                     drawCanvas={gameMode == "DRAW"}
                   ></DrawMode>
                 )}
+       </div>
+                </div>
               </ToolBar>
             </div>
             {/* Mazes */}
             <div className="flex flex-col xl:flex-row items-center xl:items-start justify-center gap-5 w-full  ">
-              
-
               <ScoreWeightsPanel
                 weights={weights}
                 onApply={setWeights}
                 onResset={resetWeights}
               />
-                {mazeScoreResult && (
-              <MazeAnalysisPanel data={mazeScoreResult}></MazeAnalysisPanel>
-            )}
+              {mazeScoreResult && (
+                <MazeAnalysisPanel data={mazeScoreResult}></MazeAnalysisPanel>
+              )}
             </div>
             {mazeData && (
-                <div className="w-full lg:w-auto">
-                  <div className="relative overflow-auto border border-black rounded bg-slate-950">
-                    <div className="grid min-h-full min-w-full place-items-center">
-                      <div className="w-fit relative min-h-full">
-                        {mazeData.end && (
-                          <MazeCanvas
-                            mazeData={mazeData}
-                            cellSize={CELL_SIZE}
-                            showPath={showPath}
-                          />
-                        )}
+              <div className="w-full lg:w-auto">
+                <div className="relative overflow-auto border border-black rounded bg-slate-950">
+                  <div className="grid min-h-full min-w-full place-items-center">
+                    <div className="w-fit relative min-h-full">
+                      {mazeData.end && (
+                        <MazeCanvas
+                          mazeData={mazeData}
+                          cellSize={CELL_SIZE}
+                          showPath={showPath}
+                        />
+                      )}
 
-                        {gameMode === "DRAW" && (
-                          <DrawingCanvas
-                            cols={mazeData.maze.cols}
-                            rows={mazeData.maze.rows}
-                            cellSize={CELL_SIZE}
-                            ref={drawingRef}
-                          />
-                        )}
-                      </div>
+                      {gameMode === "DRAW" && (
+                        <DrawingCanvas
+                          cols={mazeData.maze.cols}
+                          rows={mazeData.maze.rows}
+                          cellSize={CELL_SIZE}
+                          ref={drawingRef}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
-              )}
-          
+              </div>
+            )}
           </div>
         </main>
       </div>
