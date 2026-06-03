@@ -11,7 +11,6 @@ export const exportBenchmarkMetrics = (benchmarks: MazeBenchmark[]) => {
     totalIntersections: benchmark.metrics.totalIntersections,
     totalPaths: benchmark.metrics.totalPaths,
     shortestPathLength: benchmark.metrics.shortestPathLength,
-
     decisionPenalty: benchmark.metrics.features.decisionPenalty,
     ambiguity: benchmark.metrics.features.ambiguity,
     tortuosity: benchmark.metrics.features.tortuosity,
@@ -19,6 +18,8 @@ export const exportBenchmarkMetrics = (benchmarks: MazeBenchmark[]) => {
     decisionBranchLength: benchmark.metrics.features.decisionBranchLength,
     deadEndBranchCount: benchmark.metrics.features.deadEndBranchCount,
     decisionBranchCount: benchmark.metrics.features.decisionBranchCount,
+        difficulty : benchmark.metrics.features.difficulty,
+
 
     avgTortuosity: round(benchmark.metrics.paths.avgTortuosity),
     minTortuosity: round(benchmark.metrics.paths.minTortuosity),
