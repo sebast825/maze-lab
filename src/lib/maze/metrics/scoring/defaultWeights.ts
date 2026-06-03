@@ -7,6 +7,7 @@ export const defaultWeights: Weights = {
     decisionAvg: 2,
     decisionPenalty: 1,
     tortuosity: 1,
+    difficulty:1,
     total: 1,
   },
 

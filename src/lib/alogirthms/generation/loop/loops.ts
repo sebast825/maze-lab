@@ -13,7 +13,7 @@ export const createLopps = (
   maze: Maze,
 ): Maze => {
   const backBone: BackBone = getBackBone(cellInfo, start, end);
-  addColorToBackBone(backBone.route, maze);
+  //addColorToBackBone(backBone.route, maze);
   const structure: MazeStructureAnalysis = getMazeStructure(
     cellInfo,
     backBone.route,

@@ -11,6 +11,7 @@ export interface Weights {
     decisionAvg: number;
     decisionPenalty: number;
     tortuosity: number;
+    difficulty:number
     total: number;
   };
 
@@ -42,6 +43,7 @@ export interface MazeDerivedFeatures {
   decisionAvg: number;
   decisionPenalty: number;
   tortuosity: number;
+  difficulty: number;
 }
 
 export interface MazeDerivedMetrics {

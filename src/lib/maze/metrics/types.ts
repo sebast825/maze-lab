@@ -87,6 +87,8 @@ export interface MazeDifficultyFeatures {
   deadEndBranchCount: number;
   // Total amount of branches ending in another decision node.
   decisionBranchCount: number;
+  //
+  difficulty: number;
 }
 
 export interface PathOverlapMetrics {

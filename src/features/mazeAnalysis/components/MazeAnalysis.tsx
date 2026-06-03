@@ -1,11 +1,9 @@
 "use client";
 
 import { useMazeAnalysis } from "@/features/mazeAnalysis/useMazeAnalysis";
-import { benchmark20x20 } from "@/features/mazeAnalysis/benchmarkData/rawData/benchmark20x20";
 import { useEffect, useRef, useState } from "react";
 import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { DrawingCanvas, DrawingCanvasRef } from "@/features/maze/drawingCanvas";
-import { MazeBenchmark } from "@/features/mazeAnalysis/benchmarkData/types";
 import { ActionButton } from "@/components/actionButton";
 import { ToolBar } from "@/components/toolBar";
 import { BenchmarkSelector } from "./benchmarkSelector";
@@ -14,11 +12,10 @@ import { AnalysisMode } from "../types";
 import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
 import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
-import { rawDataSelector, RawDataSize } from "../benchmarkData";
-import {
-  exportBenchmarkMetrics,
-  getMetricStats,
-} from "../benchmarkData/helpers";
+import { rawDataSelector, RawDataSize } from "@/lib/maze/benchmark";
+import { exportBenchmarkMetrics, getMetricStats } from "@/lib/maze/benchmark/helpers";
+import { MazeBenchmark } from "@/lib/maze/benchmark/types";
+
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");

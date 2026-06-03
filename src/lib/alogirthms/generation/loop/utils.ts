@@ -13,7 +13,6 @@ export const removeWallAtSomeCandiates = (
   candidates: LoopCandidate[],
   maze: Maze,
 ) => {
-  console.log(candidates.length);
   for (let i = 0; i < 10 && i < candidates.length; i++) {
     let candidate: LoopCandidate | undefined = candidates[i];
     console.log(i);

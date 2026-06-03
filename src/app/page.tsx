@@ -11,10 +11,11 @@ import { ToolBar } from "@/components/toolBar";
 import { Actions, Controls, Modes } from "@/features/maze/menu";
 import { ActionButton } from "@/components/actionButton";
 import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
-import { MazeBenchmark } from "@/features/mazeAnalysis/benchmarkData/types";
-import { benchmark20x20 } from "@/features/mazeAnalysis/benchmarkData/rawData/benchmark20x20";
+
 import { defaultWeights } from "@/lib/maze/metrics/scoring/defaultWeights";
 import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
+import benchmark20x20  from "@/lib/maze/benchmark/rawData/20x20.json";
+import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -32,7 +33,6 @@ export default function Home() {
   const [gameMode, setGameMode] = useState<GameMode>("DRAW");
 
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
-
   // Absolute constant sizing configuration for grid rendering units
   const CELL_SIZE = 25;
 

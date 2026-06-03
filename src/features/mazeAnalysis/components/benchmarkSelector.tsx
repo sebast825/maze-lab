@@ -1,7 +1,9 @@
 // features/maze-analysis/components/BenchmarkSelector.tsx
 
-import { MazeBenchmark } from "@/features/mazeAnalysis/benchmarkData/types";
-import { rawDataSelector, RawDataSize } from "../benchmarkData";
+import { RawDataSize, rawDataSelector } from "@/lib/maze/benchmark";
+import { MazeBenchmark } from "@/lib/maze/benchmark/types";
+
+
 
 interface BenchmarkSelectorProps {
   selectedId: number | string;

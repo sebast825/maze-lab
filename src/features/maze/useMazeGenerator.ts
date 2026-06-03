@@ -6,6 +6,7 @@ import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
 import { createEmptyMaze } from "@/lib/maze/core";
+import { benchmark20x20 } from "../mazeAnalysis/benchmarkData/rawData/benchmark20x20";
 
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
@@ -14,8 +15,8 @@ export const useMazeGenerator = () => {
     rows = Math.max(2, rows);
     cols = Math.max(2, cols);
 
-    const maze = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
-
+   const maze  = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
+//const maze = benchmark20x20[10].maze
     const start: Position = { row: 0, col: 0 };
     const end: Position = { row: rows - 1, col: cols - 1 };
 

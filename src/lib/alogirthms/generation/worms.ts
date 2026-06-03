@@ -43,7 +43,7 @@ export const generateWorms: MazeGeneratorFn = (maze: Maze): Maze => {
     wormId++;
     while (currentWorm < wormMaxLength) {
       removeUnvisited(current);
-       maze.cells[current.row][current.col].groupId = wormId;
+      // maze.cells[current.row][current.col].groupId = wormId;
       maze.cells[current.row][current.col].visited = true;
 
       const neighbors: Position[] = getNeighborsNotVisited(maze, {

@@ -37,8 +37,9 @@ export const computeMazeMetrics = (
     mazeCellData,
     maze,
   );
+//  console.log("maze: ", maze)
   const pathsMetrics: PathsMetrics = computePathMetrics(paths);
-  console.log("maze rows and cols: ", maze.rows, " ", maze.cols);
+ //console.log("maze rows and cols: ", maze.rows, " ", maze.cols);
   const totalIntersections: number = getTotalIntersections(maze);
   const pathOverlapMetrics: PathOverlapMetrics = computePathVariance(paths);
 

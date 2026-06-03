@@ -6,7 +6,6 @@ import {
   MazeWeightedMetrics,
   Weights,
 } from "./types";
-import path from "path";
 
 export const aggregateBranchMetrics = (
   cellsMetric: CellMetric[],
@@ -19,9 +18,11 @@ export const aggregateBranchMetrics = (
     decisionBranchLength: 0,
     deadEndBranchCount: 0,
     decisionBranchCount: 0,
+    difficulty: 0,
   };
   cellsMetric.forEach((cell) => {
     features.ambiguity += cell.ambiguity;
+    features.difficulty += cell.nodeDifficulty;
 
     cell.branches.forEach((branch) => {
       features.decisionPenalty += branch.decisionPenalty;
@@ -73,6 +74,7 @@ const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
       decisionAvg,
       decisionPenalty: raw.features.decisionPenalty,
       tortuosity: raw.features.tortuosity,
+      difficulty: raw.features.difficulty,
     },
 
     paths: raw.paths,
@@ -99,6 +101,7 @@ const calculateMazeScore = (
       decisionPenalty:
         derived.features.decisionPenalty * weights.features.decisionPenalty,
       tortuosity: derived.features.tortuosity * weights.features.tortuosity,
+      difficulty: derived.features.difficulty * weights.features.difficulty,
     },
 
     paths: {
@@ -132,7 +135,8 @@ const calculateMazeScore = (
     weighted.features.deadEndAvg +
     weighted.features.decisionAvg +
     weighted.features.decisionPenalty +
-    weighted.features.tortuosity;
+    weighted.features.tortuosity +
+    weighted.features.difficulty;
 
   const scorePaths =
     weighted.paths.maxTortuosity +
