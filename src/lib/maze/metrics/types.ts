@@ -21,7 +21,7 @@ export interface BranchMetric {
   neighbor: Position;
   //difference between the best option and if choose to take this branch
   decisionPenalty: number;
-  branchLengthPenalty: BranchAnalysis;
+  branchAnalysis: BranchAnalysis;
   branchDifficulty?: number;
   /**
    * Measures how "twisted" the path is.

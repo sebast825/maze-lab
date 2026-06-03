@@ -27,13 +27,13 @@ export const aggregateBranchMetrics = (
     cell.branches.forEach((branch) => {
       features.decisionPenalty += branch.decisionPenalty;
       features.tortuosity += branch.tortuosity;
-      if (branch.branchLengthPenalty.endedBy == "dead-end") {
-        features.deadEndBranchLength += branch.branchLengthPenalty.branchLength;
+      if (branch.branchAnalysis.endedBy == "dead-end") {
+        features.deadEndBranchLength += branch.branchAnalysis.branchLength;
         features.deadEndBranchCount++;
       }
-      if (branch.branchLengthPenalty.endedBy == "decision") {
+      if (branch.branchAnalysis.endedBy == "decision") {
         features.decisionBranchLength +=
-          branch.branchLengthPenalty.branchLength;
+          branch.branchAnalysis.branchLength;
         features.decisionBranchCount++;
       }
     });
@@ -46,7 +46,7 @@ export const calculateBranchDifficulty = (
   branch: BranchMetric,
 ): BranchMetric => {
   const branchDifficulty =
-    branch.decisionPenalty * branch.branchLengthPenalty.branchLength;
+    branch.decisionPenalty * branch.branchAnalysis.branchLength;
   return { ...branch, branchDifficulty };
 };
 export const analyzeMaze = (

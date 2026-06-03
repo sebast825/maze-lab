@@ -37,6 +37,7 @@ export const computeMazeMetrics = (
     mazeCellData,
     maze,
   );
+  
 //  console.log("maze: ", maze)
   const pathsMetrics: PathsMetrics = computePathMetrics(paths);
  //console.log("maze rows and cols: ", maze.rows, " ", maze.cols);
@@ -81,7 +82,7 @@ const calculateMazeDifficultyFeatures = (
         const baseBranch: BranchMetric = {
           neighbor: n,
           decisionPenalty: decisionPenalty.penalties[index],
-          branchLengthPenalty: traceBranch,
+          branchAnalysis: traceBranch,
           tortuosity: countChangesOfDirections(traceBranch.pathDirections),
         };
 
