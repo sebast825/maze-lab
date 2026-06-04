@@ -4,8 +4,10 @@ import {
 } from "@/lib/maze/benchmark";
 import { exportBenchmarkMetrics } from "@/lib/maze/benchmark/helpers";
 
-//allow us check diderence in metrics, to check redunant metrics that doesn't aport value
-export const correlation = (x: number[], y: number[]): number => {
+export const correlation = (
+  x: number[],
+  y: number[],
+): number => {
   const n = x.length;
 
   const avgX = x.reduce((a, b) => a + b, 0) / n;
@@ -27,7 +29,7 @@ export const correlation = (x: number[], y: number[]): number => {
   return numerator / Math.sqrt(denomX * denomY);
 };
 
-const metrics = [
+const featureMetrics = [
   "decisionPenalty",
   "difficulty",
   "ambiguity",
@@ -38,17 +40,31 @@ const metrics = [
   "decisionBranchCount",
 ] as const;
 
-//change dataset to use generated/manual data
+const pathMetrics = [
+  "avgTortuosity",
+  "maxTortuosity",
+  "minTortuosity",
+  "avgTurnDensity",
+  "shortestPathTurnDensity",
+] as const;
+
+type MetricKey =
+  | (typeof featureMetrics)[number]
+  | (typeof pathMetrics)[number];
+
+type MetricRow = {
+  [K in MetricKey]: number;
+};
 
 const DATASET = rawDataGeneratedSelector;
-// const DATASET = manualSelector;
+// const DATASET = rawDataManualSelector;
 
-const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
-  const rows = exportBenchmarkMetrics(DATASET[mazeSize]);
-
-  console.log("\n====================================");
-  console.log(`Maze Size: ${mazeSize}`);
-  console.log("====================================");
+const analyzeMetricGroup = (
+  title: string,
+  rows: MetricRow[],
+  metrics: readonly MetricKey[],
+) => {
+  console.log(`\n${title}`);
 
   for (let i = 0; i < metrics.length; i++) {
     for (let j = i + 1; j < metrics.length; j++) {
@@ -60,9 +76,35 @@ const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
         rows.map((r) => r[metricB]),
       );
 
-      console.log(`${metricA} ↔ ${metricB}: ${value.toFixed(4)}`);
+      console.log(
+        `${metricA} ↔ ${metricB}: ${value.toFixed(4)}`,
+      );
     }
   }
+};
+
+const analyzeMetricCorrelations = (
+  mazeSize: keyof typeof DATASET,
+) => {
+  const rows = exportBenchmarkMetrics(
+    DATASET[mazeSize],
+  ) as MetricRow[];
+
+  console.log("\n====================================");
+  console.log(`Maze Size: ${mazeSize}`);
+  console.log("====================================");
+
+  analyzeMetricGroup(
+    "Feature Metrics",
+    rows,
+    featureMetrics,
+  );
+
+  analyzeMetricGroup(
+    "Path Metrics",
+    rows,
+    pathMetrics,
+  );
 };
 
 analyzeMetricCorrelations("20*20");
