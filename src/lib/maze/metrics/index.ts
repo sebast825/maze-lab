@@ -96,7 +96,6 @@ const calculateMazeDifficultyFeatures = (
           (sum, b) => sum + b.branchDifficulty!,
           0,
         ),
-        ambiguity: decisionPenalty.ambiguity,
       };
       cellMetrics.push(cellMetric);
     }

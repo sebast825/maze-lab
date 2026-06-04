@@ -10992,18 +10992,14 @@
     "metrics": {
       "features": {
         "decisionPenalty": 888,
-        "ambiguity": 440,
-        "tortuosity": 153,
+        "tortuosity": 43.61666666666665,
         "deadEndBranchLength": 228,
         "decisionBranchLength": 460,
         "deadEndBranchCount": 220,
-        "decisionBranchCount": 448,
-        "difficulty": 918
+        "decisionBranchCount": 448
       },
       "paths": {
         "avgTortuosity": 44.666666666666664,
-        "minTortuosity": 22,
-        "maxTortuosity": 62,
         "pathVariance": 0,
         "avgTurnDensity": 0.3759008017620362,
         "shortestPathTurnDensity": 0.29333333333333333
@@ -23616,18 +23612,14 @@
     "metrics": {
       "features": {
         "decisionPenalty": 592,
-        "ambiguity": 290,
-        "tortuosity": 466,
+        "tortuosity": 111.58769841269843,
         "deadEndBranchLength": 176,
         "decisionBranchLength": 864,
         "deadEndBranchCount": 147,
-        "decisionBranchCount": 294,
-        "difficulty": 1236
+        "decisionBranchCount": 294
       },
       "paths": {
         "avgTortuosity": 109.33333333333333,
-        "minTortuosity": 74,
-        "maxTortuosity": 154,
         "pathVariance": 0,
         "avgTurnDensity": 0.6327558276528188,
         "shortestPathTurnDensity": 0.6548672566371682
@@ -35445,18 +35437,14 @@
     "metrics": {
       "features": {
         "decisionPenalty": 476,
-        "ambiguity": 234,
-        "tortuosity": 536,
+        "tortuosity": 83.67869893264631,
         "deadEndBranchLength": 249,
         "decisionBranchLength": 832,
         "deadEndBranchCount": 117,
-        "decisionBranchCount": 240,
-        "difficulty": 1360
+        "decisionBranchCount": 240
       },
       "paths": {
         "avgTortuosity": 87,
-        "minTortuosity": 59,
-        "maxTortuosity": 126,
         "pathVariance": 0,
         "avgTurnDensity": 0.5796230359695022,
         "shortestPathTurnDensity": 0.5619047619047619
@@ -47704,18 +47692,14 @@
     "metrics": {
       "features": {
         "decisionPenalty": 510,
-        "ambiguity": 254,
-        "tortuosity": 453,
+        "tortuosity": 80.22689181733301,
         "deadEndBranchLength": 299,
         "decisionBranchLength": 700,
         "deadEndBranchCount": 124,
-        "decisionBranchCount": 258,
-        "difficulty": 1314
+        "decisionBranchCount": 258
       },
       "paths": {
         "avgTortuosity": 89.71428571428571,
-        "minTortuosity": 54,
-        "maxTortuosity": 124,
         "pathVariance": 0,
         "avgTurnDensity": 0.621647844502626,
         "shortestPathTurnDensity": 0.6352941176470588
@@ -59625,18 +59609,14 @@
     "metrics": {
       "features": {
         "decisionPenalty": 960,
-        "ambiguity": 454,
-        "tortuosity": 146,
+        "tortuosity": 45.67857142857142,
         "deadEndBranchLength": 235,
         "decisionBranchLength": 376,
         "deadEndBranchCount": 249,
-        "decisionBranchCount": 460,
-        "difficulty": 854
+        "decisionBranchCount": 460
       },
       "paths": {
         "avgTortuosity": 54,
-        "minTortuosity": 26,
-        "maxTortuosity": 74,
         "pathVariance": 0,
         "avgTurnDensity": 0.4581068916799608,
         "shortestPathTurnDensity": 0.37681159420289856
@@ -70190,18 +70170,14 @@
     "metrics": {
       "features": {
         "decisionPenalty": 992,
-        "ambiguity": 470,
-        "tortuosity": 93,
+        "tortuosity": 31.547619047619044,
         "deadEndBranchLength": 226,
         "decisionBranchLength": 362,
         "deadEndBranchCount": 257,
-        "decisionBranchCount": 476,
-        "difficulty": 834
+        "decisionBranchCount": 476
       },
       "paths": {
         "avgTortuosity": 37,
-        "minTortuosity": 24,
-        "maxTortuosity": 46,
         "pathVariance": 0,
         "avgTurnDensity": 0.37818925586616575,
         "shortestPathTurnDensity": 0.36923076923076925
@@ -81727,18 +81703,14 @@
     "metrics": {
       "features": {
         "decisionPenalty": 976,
-        "ambiguity": 460,
-        "tortuosity": 177,
+        "tortuosity": 57.77857142857144,
         "deadEndBranchLength": 181,
         "decisionBranchLength": 470,
         "deadEndBranchCount": 254,
-        "decisionBranchCount": 464,
-        "difficulty": 856
+        "decisionBranchCount": 464
       },
       "paths": {
         "avgTortuosity": 54.5,
-        "minTortuosity": 44,
-        "maxTortuosity": 65,
         "pathVariance": 0,
         "avgTurnDensity": 0.5278080079731526,
         "shortestPathTurnDensity": 0.5057471264367817
@@ -93284,18 +93256,14 @@
     "metrics": {
       "features": {
         "decisionPenalty": 998,
-        "ambiguity": 456,
-        "tortuosity": 155,
+        "tortuosity": 54.472222222222236,
         "deadEndBranchLength": 189,
         "decisionBranchLength": 428,
         "deadEndBranchCount": 267,
-        "decisionBranchCount": 464,
-        "difficulty": 812
+        "decisionBranchCount": 464
       },
       "paths": {
         "avgTortuosity": 74,
-        "minTortuosity": 59,
-        "maxTortuosity": 101,
         "pathVariance": 0,
         "avgTurnDensity": 0.5318958883421027,
         "shortestPathTurnDensity": 0.5130434782608696

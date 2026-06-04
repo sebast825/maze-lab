@@ -6,7 +6,6 @@ import {
 
 export interface Weights {
   features: {
-    ambiguity: number;
     deadEndAvg: number;
     decisionAvg: number;
     decisionPenalty: number;
@@ -35,7 +34,6 @@ export interface Weights {
 }
 
 export interface MazeDerivedFeatures {
-  ambiguity: number;
   deadEndAvg: number;
   decisionAvg: number;
   decisionPenalty: number;

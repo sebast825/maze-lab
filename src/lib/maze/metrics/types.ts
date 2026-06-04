@@ -15,7 +15,6 @@ export interface CellMetric {
   distance: number;
   branches: BranchMetric[];
   nodeDifficulty: number;
-  ambiguity: number;
 }
 export interface BranchMetric {
   neighbor: Position;
@@ -73,8 +72,6 @@ export interface PathMetric {
 export interface MazeDifficultyFeatures {
   // Sum of local branch penalties across decision nodes.
   decisionPenalty: number;
-  // Global ambiguity accumulated across intersections.
-  ambiguity: number;
   // Total branch tortuosity accumulated across the maze.
   tortuosity: number;
   // Total depth of branches ending in dead ends.

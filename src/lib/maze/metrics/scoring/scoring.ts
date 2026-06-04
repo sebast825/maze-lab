@@ -12,7 +12,7 @@ export const aggregateBranchMetrics = (
 ): MazeDifficultyFeatures => {
   const features: MazeDifficultyFeatures = {
     decisionPenalty: 0,
-    ambiguity: 0,
+
     tortuosity: 0,
     deadEndBranchLength: 0,
     decisionBranchLength: 0,
@@ -20,7 +20,6 @@ export const aggregateBranchMetrics = (
     decisionBranchCount: 0,
   };
   cellsMetric.forEach((cell) => {
-    features.ambiguity += cell.ambiguity;
 
     cell.branches.forEach((branch) => {
       features.decisionPenalty += branch.decisionPenalty;
@@ -67,7 +66,6 @@ const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
 
   return {
     features: {
-      ambiguity: raw.features.ambiguity,
       deadEndAvg,
       decisionAvg,
       decisionPenalty: raw.features.decisionPenalty,
@@ -92,7 +90,6 @@ const calculateMazeScore = (
 ): MazeScoringResult => {
   const weighted: MazeWeightedMetrics = {
     features: {
-      ambiguity: derived.features.ambiguity * weights.features.ambiguity,
       deadEndAvg: derived.features.deadEndAvg * weights.features.deadEndAvg,
       decisionAvg: derived.features.decisionAvg * weights.features.decisionAvg,
       decisionPenalty:
@@ -125,7 +122,6 @@ const calculateMazeScore = (
     },
   };
   const scoreFeatures =
-    weighted.features.ambiguity +
     weighted.features.deadEndAvg +
     weighted.features.decisionAvg +
     weighted.features.decisionPenalty +

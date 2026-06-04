@@ -4,11 +4,40 @@ import {
 } from "@/lib/maze/benchmark";
 import { exportBenchmarkMetrics } from "@/lib/maze/benchmark/helpers";
 
-export const correlation = (
-  x: number[],
-  y: number[],
-): number => {
+// --- Dataset Configuration  ---
+const DATASET = rawDataGeneratedSelector;
+// const DATASET = rawDataManualSelector;
+
+const featureMetrics = [
+  "decisionPenalty",
+  "tortuosity",
+  "deadEndBranchLength",
+  "decisionBranchLength",
+  "deadEndBranchCount",
+  "decisionBranchCount",
+] as const;
+
+const pathMetrics = [
+  "avgTurnDensity",
+  "shortestPathTurnDensity",
+] as const;
+
+type RawMetricKey = (typeof featureMetrics)[number] | (typeof pathMetrics)[number];
+type RawMetricRow = { [K in RawMetricKey]: number };
+
+const derivedMetrics = [
+  "avgDecisionPenalty",
+  "avgDeadEndLength",
+  "avgDecisionLength",
+  "tortuosity",
+] as const;
+
+type DerivedMetricKey = (typeof derivedMetrics)[number];
+type DerivedMetricRow = { [K in DerivedMetricKey]: number };
+
+export const correlation = (x: number[], y: number[]): number => {
   const n = x.length;
+  if (n === 0) return 0;
 
   const avgX = x.reduce((a, b) => a + b, 0) / n;
   const avgY = y.reduce((a, b) => a + b, 0) / n;
@@ -26,43 +55,15 @@ export const correlation = (
     denomY += dy * dy;
   }
 
+  if (denomX === 0 || denomY === 0) return 0;
+
   return numerator / Math.sqrt(denomX * denomY);
 };
 
-const featureMetrics = [
-  "decisionPenalty",
-  "difficulty",
-  "ambiguity",
-  "tortuosity",
-  "deadEndBranchLength",
-  "decisionBranchLength",
-  "deadEndBranchCount",
-  "decisionBranchCount",
-] as const;
-
-const pathMetrics = [
-  "avgTortuosity",
-  "maxTortuosity",
-  "minTortuosity",
-  "avgTurnDensity",
-  "shortestPathTurnDensity",
-] as const;
-
-type MetricKey =
-  | (typeof featureMetrics)[number]
-  | (typeof pathMetrics)[number];
-
-type MetricRow = {
-  [K in MetricKey]: number;
-};
-
-const DATASET = rawDataGeneratedSelector;
-// const DATASET = rawDataManualSelector;
-
 const analyzeMetricGroup = (
   title: string,
-  rows: MetricRow[],
-  metrics: readonly MetricKey[],
+  rows: RawMetricRow[],
+  metrics: readonly RawMetricKey[],
 ) => {
   console.log(`\n${title}`);
 
@@ -76,36 +77,53 @@ const analyzeMetricGroup = (
         rows.map((r) => r[metricB]),
       );
 
-      console.log(
-        `${metricA} ↔ ${metricB}: ${value.toFixed(4)}`,
-      );
+      console.log(`${metricA} ↔ ${metricB}: ${value.toFixed(4)}`);
     }
   }
 };
 
-const analyzeMetricCorrelations = (
-  mazeSize: keyof typeof DATASET,
-) => {
-  const rows = exportBenchmarkMetrics(
-    DATASET[mazeSize],
-  ) as MetricRow[];
+const analyzeDerivedMetrics = (rows: RawMetricRow[]) => {
+  const derivedRows: DerivedMetricRow[] = rows.map((r) => {
+    const totalBranches = r.deadEndBranchCount + r.decisionBranchCount;
+
+    return {
+      avgDecisionPenalty: totalBranches > 0 ? r.decisionPenalty / totalBranches : 0,
+      avgDeadEndLength: r.deadEndBranchCount > 0 ? r.deadEndBranchLength / r.deadEndBranchCount : 0,
+      avgDecisionLength: r.decisionBranchCount > 0 ? r.decisionBranchLength / r.decisionBranchCount : 0,
+      tortuosity: r.tortuosity,
+    };
+  });
+
+  console.log("\nDerived Metrics");
+
+  for (let i = 0; i < derivedMetrics.length; i++) {
+    for (let j = i + 1; j < derivedMetrics.length; j++) {
+      const metricA = derivedMetrics[i];
+      const metricB = derivedMetrics[j];
+
+      const value = correlation(
+        derivedRows.map((r) => r[metricA]),
+        derivedRows.map((r) => r[metricB]),
+      );
+
+      console.log(`${metricA} ↔ ${metricB}: ${value.toFixed(4)}`);
+    }
+  }
+};
+
+
+const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
+  const rows = exportBenchmarkMetrics(DATASET[mazeSize]) as RawMetricRow[];
 
   console.log("\n====================================");
   console.log(`Maze Size: ${mazeSize}`);
   console.log("====================================");
 
-  analyzeMetricGroup(
-    "Feature Metrics",
-    rows,
-    featureMetrics,
-  );
-
-  analyzeMetricGroup(
-    "Path Metrics",
-    rows,
-    pathMetrics,
-  );
+  analyzeMetricGroup("Feature Metrics", rows, featureMetrics);
+  analyzeMetricGroup("Path Metrics", rows, pathMetrics);
+  analyzeDerivedMetrics(rows);
 };
+
 
 analyzeMetricCorrelations("20*20");
 analyzeMetricCorrelations("30*30");
