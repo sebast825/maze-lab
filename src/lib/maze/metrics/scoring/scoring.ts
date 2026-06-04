@@ -103,8 +103,7 @@ const calculateMazeScore = (
         derived.paths.avgTurnDensity * weights.paths.avgTurnDensity,
       shortestPathTurnDensity:
         derived.paths.shortestPathTurnDensity *
-        weights.paths.shortestPathTurnDensity,
-      pathVariance: derived.paths.pathVariance,
+        weights.paths.shortestPathTurnDensity
     },
 
     overlaps: {

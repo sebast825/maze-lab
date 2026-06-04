@@ -12,7 +12,6 @@ export const aggregatePathMetrics = (paths: PathMetric[]): PathsMetrics => {
   const turnDensities = paths.map((p) => p.turnDensity);
   return {
     avgTortuosity: avg(tortuosities),
-    pathVariance: 0,
     avgTurnDensity: avg(turnDensities),
     shortestPathTurnDensity: minPath.turnDensity,
   };

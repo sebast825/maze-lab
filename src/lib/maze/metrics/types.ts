@@ -46,8 +46,6 @@ export interface DecisionPenaltyAnalysis {
 
 export interface PathsMetrics {
   avgTortuosity: number;
-  // Measures how different valid solution paths are from each other.
-  pathVariance: number;
   /**
    * Turn density of the shortest valid solution path.
    * Higher value = shortest route is more visually confusing.
