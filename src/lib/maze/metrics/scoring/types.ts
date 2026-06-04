@@ -5,11 +5,7 @@ import {
 } from "../types";
 
 export interface Weights {
-  features: {
-    deadEndAvg: number;
-    decisionAvg: number;
-    decisionPenalty: number;
-    tortuosity: number;
+  features: MazeDerivedFeatures & {
     total: number;
   };
 
@@ -35,7 +31,7 @@ export interface Weights {
 
 export interface MazeDerivedFeatures {
   deadEndAvg: number;
-  decisionAvg: number;
+  decisionEndAvg: number;
   decisionPenalty: number;
   tortuosity: number;
 }

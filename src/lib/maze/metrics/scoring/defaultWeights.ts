@@ -3,7 +3,7 @@ import { Weights } from "./types";
 export const defaultWeights: Weights = {
   features: {
     deadEndAvg: 1.1,
-    decisionAvg: 2,
+    decisionEndAvg: 2,
     decisionPenalty: 1,
     tortuosity: 1,
     total: 1,

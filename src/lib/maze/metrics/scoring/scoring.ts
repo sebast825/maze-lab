@@ -58,14 +58,14 @@ const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
     raw.features.deadEndBranchLength /
     Math.max(1, raw.features.deadEndBranchCount);
 
-  const decisionAvg =
+  const decisionEndAvg =
     raw.features.decisionBranchLength /
     Math.max(1, raw.features.decisionBranchCount);
 
   return {
     features: {
       deadEndAvg,
-      decisionAvg,
+      decisionEndAvg,
       decisionPenalty: raw.features.decisionPenalty,
       tortuosity: raw.features.tortuosity,
     },
@@ -92,7 +92,7 @@ const calculateMazeScore = (
   const weighted: MazeWeightedMetrics = {
     features: {
       deadEndAvg: derived.features.deadEndAvg * weights.features.deadEndAvg,
-      decisionAvg: derived.features.decisionAvg * weights.features.decisionAvg,
+      decisionAvg: derived.features.decisionEndAvg * weights.features.decisionEndAvg,
       decisionPenaltyAvg:
         (derived.features.decisionPenalty / totalBranches) *
         weights.features.decisionPenalty,
