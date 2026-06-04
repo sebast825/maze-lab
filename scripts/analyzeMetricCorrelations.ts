@@ -1,11 +1,11 @@
-import { rawDataSelector } from "@/lib/maze/benchmark";
+import {
+  rawDataGeneratedSelector,
+  rawDataManualSelector,
+} from "@/lib/maze/benchmark";
 import { exportBenchmarkMetrics } from "@/lib/maze/benchmark/helpers";
 
 //allow us check diderence in metrics, to check redunant metrics that doesn't aport value
-export const correlation = (
-  x: number[],
-  y: number[],
-): number => {
+export const correlation = (x: number[], y: number[]): number => {
   const n = x.length;
 
   const avgX = x.reduce((a, b) => a + b, 0) / n;
@@ -38,12 +38,13 @@ const metrics = [
   "decisionBranchCount",
 ] as const;
 
-const analyzeMetricCorrelations = (
-  mazeSize: keyof typeof rawDataSelector,
-) => {
-  const rows = exportBenchmarkMetrics(
-    rawDataSelector[mazeSize],
-  );
+//change dataset to use generated/manual data
+
+const DATASET = rawDataGeneratedSelector;
+// const DATASET = manualSelector;
+
+const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
+  const rows = exportBenchmarkMetrics(DATASET[mazeSize]);
 
   console.log("\n====================================");
   console.log(`Maze Size: ${mazeSize}`);
@@ -59,9 +60,7 @@ const analyzeMetricCorrelations = (
         rows.map((r) => r[metricB]),
       );
 
-      console.log(
-        `${metricA} ↔ ${metricB}: ${value.toFixed(4)}`,
-      );
+      console.log(`${metricA} ↔ ${metricB}: ${value.toFixed(4)}`);
     }
   }
 };

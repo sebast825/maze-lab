@@ -12,7 +12,7 @@ import { AnalysisMode } from "../types";
 import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
 import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
-import { rawDataSelector, RawDataSize } from "@/lib/maze/benchmark";
+import { rawDataManualSelector, RawDataSize } from "@/lib/maze/benchmark";
 import { exportBenchmarkMetrics, getMetricStats } from "@/lib/maze/benchmark/helpers";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 
@@ -35,7 +35,7 @@ export function MazeAnalysis() {
 
   useEffect(() => {
     if (selectedId == "") return;
-    const getMazeRawData: MazeBenchmark | undefined = rawDataSelector[
+    const getMazeRawData: MazeBenchmark | undefined = rawDataManualSelector[
       size
     ].find((e) => e.id == selectedId);
     if (!getMazeRawData) return;
@@ -43,7 +43,7 @@ export function MazeAnalysis() {
   }, [selectedId]);
 
   const generateMetricsReport = () => {
-    const rows = exportBenchmarkMetrics(rawDataSelector[size]);
+    const rows = exportBenchmarkMetrics(rawDataManualSelector[size]);
     console.log("For maze with size: ", size);
 
     console.table(rows);
@@ -64,7 +64,7 @@ export function MazeAnalysis() {
                     size={size}
                     onSizeChange={(e) => setSize(e)}
                     selectedId={selectedId}
-                    benchmarks={rawDataSelector[size]}
+                    benchmarks={rawDataManualSelector[size]}
                     onChange={(e) => setSelectedId(e)}
                   ></BenchmarkSelector>
                   <div className="flex flex-row gap-4">

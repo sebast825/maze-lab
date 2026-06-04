@@ -14,7 +14,7 @@ import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
 
 import { defaultWeights } from "@/lib/maze/metrics/scoring/defaultWeights";
 import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
-import benchmark20x20  from "@/lib/maze/benchmark/rawData/20x20.json";
+import benchmark20x20  from "@/lib/maze/benchmark/rawData/manual/20x20.json";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";

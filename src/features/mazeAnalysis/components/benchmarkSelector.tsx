@@ -1,6 +1,6 @@
 // features/maze-analysis/components/BenchmarkSelector.tsx
 
-import { RawDataSize, rawDataSelector } from "@/lib/maze/benchmark";
+import { RawDataSize, rawDataManualSelector } from "@/lib/maze/benchmark";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 
 
@@ -34,7 +34,7 @@ export const BenchmarkSelector = ({
           }}
           className="px-3 py-2 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          {Object.keys(rawDataSelector).map((key) => (
+          {Object.keys(rawDataManualSelector).map((key) => (
             <option key={key} value={key}>
               {key}
             </option>
