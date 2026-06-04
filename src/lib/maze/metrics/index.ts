@@ -83,7 +83,7 @@ const calculateMazeDifficultyFeatures = (
           neighbor: n,
           decisionPenalty: decisionPenalty.penalties[index],
           branchAnalysis: traceBranch,
-          tortuosity: countChangesOfDirections(traceBranch.pathDirections),
+          tortuosity: countChangesOfDirections(traceBranch.pathDirections)/Math.max(1, traceBranch.branchLength),
         };
 
         return calculateBranchDifficulty(baseBranch);
