@@ -1,6 +1,6 @@
-import benchmark30x30 from "./rawData/30x30.json";
-import benchmark40x40 from "./rawData/40x40.json";
-import benchmark20x20 from "./rawData/20x20.json";
+import benchmark30x30 from "./rawData/manual/30x30.json";
+import benchmark40x40 from "./rawData/manual/40x40.json";
+import benchmark20x20 from "./rawData/manual/20x20.json";
 import { MazeBenchmark } from "./types";
 
 export const rawDataSelector: Record<RawDataSize, MazeBenchmark[]> = {

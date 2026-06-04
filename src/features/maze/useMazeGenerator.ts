@@ -6,7 +6,6 @@ import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
 import { createEmptyMaze } from "@/lib/maze/core";
-import { benchmark20x20 } from "../mazeAnalysis/benchmarkData/rawData/benchmark20x20";
 
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);

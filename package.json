@@ -10,7 +10,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "regenerate-metrics": "tsx scripts/regenerateMetrics.ts",
-    "analyzeMetricCorrelations": "tsx scripts/analyzeMetricCorrelations.ts"
+    "analyzeMetricCorrelations": "tsx scripts/analyzeMetricCorrelations.ts",
+        "generate-dataset": "tsx scripts/generateDataset.ts"
+
 
   },
   "dependencies": {
