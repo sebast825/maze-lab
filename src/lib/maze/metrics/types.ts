@@ -47,8 +47,6 @@ export interface DecisionPenaltyAnalysis {
 
 export interface PathsMetrics {
   avgTortuosity: number;
-  maxTortuosity: number;
-  minTortuosity: number;
   // Measures how different valid solution paths are from each other.
   pathVariance: number;
   /**
@@ -87,8 +85,6 @@ export interface MazeDifficultyFeatures {
   deadEndBranchCount: number;
   // Total amount of branches ending in another decision node.
   decisionBranchCount: number;
-  //
-  difficulty: number;
 }
 
 export interface PathOverlapMetrics {

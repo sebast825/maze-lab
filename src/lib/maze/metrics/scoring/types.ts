@@ -11,13 +11,10 @@ export interface Weights {
     decisionAvg: number;
     decisionPenalty: number;
     tortuosity: number;
-    difficulty:number
     total: number;
   };
 
   paths: {
-    maxTortuosity: number;
-    minTortuosity: number;
     avgTortuosity: number;
     avgTurnDensity: number;
     shortestPathTurnDensity: number;
@@ -43,7 +40,6 @@ export interface MazeDerivedFeatures {
   decisionAvg: number;
   decisionPenalty: number;
   tortuosity: number;
-  difficulty: number;
 }
 
 export interface MazeDerivedMetrics {
