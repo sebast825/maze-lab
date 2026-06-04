@@ -73,4 +73,21 @@ export interface MazeScores {
   total: number;
 }
 
-export type MazeWeightedMetrics = MazeDerivedMetrics;
+export type MazeWeightedMetrics = {
+  features: {
+    deadEndAvg: number;
+
+    decisionAvg: number;
+    // decisionPenalty / totalBranches
+    // average penalty per decision branch (normalizes total penalty by number of choices)
+    decisionPenaltyAvg: number;
+    tortuosity: number;
+  };
+  paths: PathsMetrics;
+  overlaps: {
+    uniqueCellCount: number;
+    repeatedOccurrences: number;
+    avgRedundantLength: number;
+    maxRedundantLength: number;
+  };
+};

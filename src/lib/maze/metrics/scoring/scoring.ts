@@ -20,7 +20,6 @@ export const aggregateBranchMetrics = (
     decisionBranchCount: 0,
   };
   cellsMetric.forEach((cell) => {
-
     cell.branches.forEach((branch) => {
       features.decisionPenalty += branch.decisionPenalty;
       features.tortuosity += branch.tortuosity;
@@ -29,8 +28,7 @@ export const aggregateBranchMetrics = (
         features.deadEndBranchCount++;
       }
       if (branch.branchAnalysis.endedBy == "decision") {
-        features.decisionBranchLength +=
-          branch.branchAnalysis.branchLength;
+        features.decisionBranchLength += branch.branchAnalysis.branchLength;
         features.decisionBranchCount++;
       }
     });
@@ -88,12 +86,16 @@ const calculateMazeScore = (
   raw: MazeRawMetrics,
   weights: Weights,
 ): MazeScoringResult => {
+  const totalBranches =
+    raw.features.deadEndBranchCount + raw.features.decisionBranchCount;
+
   const weighted: MazeWeightedMetrics = {
     features: {
       deadEndAvg: derived.features.deadEndAvg * weights.features.deadEndAvg,
       decisionAvg: derived.features.decisionAvg * weights.features.decisionAvg,
-      decisionPenalty:
-        derived.features.decisionPenalty * weights.features.decisionPenalty,
+      decisionPenaltyAvg:
+        (derived.features.decisionPenalty / totalBranches) *
+        weights.features.decisionPenalty,
       tortuosity: derived.features.tortuosity * weights.features.tortuosity,
     },
 
@@ -103,7 +105,7 @@ const calculateMazeScore = (
         derived.paths.avgTurnDensity * weights.paths.avgTurnDensity,
       shortestPathTurnDensity:
         derived.paths.shortestPathTurnDensity *
-        weights.paths.shortestPathTurnDensity
+        weights.paths.shortestPathTurnDensity,
     },
 
     overlaps: {
@@ -123,7 +125,7 @@ const calculateMazeScore = (
   const scoreFeatures =
     weighted.features.deadEndAvg +
     weighted.features.decisionAvg +
-    weighted.features.decisionPenalty +
+    weighted.features.decisionPenaltyAvg +
     weighted.features.tortuosity;
 
   const scorePaths =
