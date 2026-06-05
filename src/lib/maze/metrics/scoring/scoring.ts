@@ -38,13 +38,7 @@ export const aggregateBranchMetrics = (
   return features;
 };
 
-export const calculateBranchDifficulty = (
-  branch: BranchMetric,
-): BranchMetric => {
-  const branchDifficulty =
-    branch.decisionPenalty * branch.branchAnalysis.branchLength;
-  return { ...branch, branchDifficulty };
-};
+
 export const analyzeMaze = (
   raw: MazeRawMetrics,
   weights: Weights,

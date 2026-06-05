@@ -14,14 +14,12 @@ export interface CellMetric {
   position: Position;
   distance: number;
   branches: BranchMetric[];
-  nodeDifficulty: number;
 }
 export interface BranchMetric {
   neighbor: Position;
   //difference between the best option and if choose to take this branch
   decisionPenalty: number;
   branchAnalysis: BranchAnalysis;
-  branchDifficulty?: number;
   /**
    * Measures how "twisted" the path is.
    * Defined as the number of direction changes along the branch path.

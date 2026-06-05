@@ -22,11 +22,7 @@ import {
   computePathVariance,
 } from "./analysis/pathAnalysis";
 import { getTotalIntersections } from "./utils";
-import {
-  aggregateBranchMetrics,
-  analyzeMaze,
-  calculateBranchDifficulty,
-} from "./scoring/scoring";
+import { aggregateBranchMetrics, analyzeMaze } from "./scoring/scoring";
 import {
   AlternativeRawPathMetrics,
   MazeRawMetrics,
@@ -94,16 +90,12 @@ const calculateMazeDifficultyFeatures = (
             Math.max(1, traceBranch.branchLength),
         };
 
-        return calculateBranchDifficulty(baseBranch);
+        return baseBranch;
       });
       const cellMetric: CellMetric = {
         branches: calculatedBranches,
         position: current,
         distance: mazeCellData[current.row][current.col].distance,
-        nodeDifficulty: calculatedBranches.reduce(
-          (sum, b) => sum + b.branchDifficulty!,
-          0,
-        ),
       };
       cellMetrics.push(cellMetric);
     }
