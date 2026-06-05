@@ -83,17 +83,35 @@ export interface MazeDifficultyFeatures {
 }
 
 export interface PathOverlapMetrics {
-  // Number of cells that appear in more than one path.
-  repeatedCellCount: number;
-  // Total repeated usages across all paths.
-  // Example:
-  // if one cell appears in 4 paths,
-  // this contributes 4 repeated occurrences.
-  repeatedOccurrences: number;
-  // Number of cells visited by only one path.
-  uniqueCellCount: number;
-  //avg difference between path length and shortest
-  avgRedundantLength: number;
-  //difference between path longest and shortest path length
-  maxRedundantLength: number;
+
+
+  /**
+   * Ratio of total path cell usage that overlaps with other paths.
+   * Normalized measure of how much solutions reuse the same space.
+   *
+   * Interpretation:
+   * - high → strong shared backbone / constrained solution space
+   * - low → diverse, independent paths
+   */
+  repeatRatio: number;
+
+
+  /**
+   * how costly it is to choose an alternative route
+   * 
+   * Interpretation:
+   * - 0 → all paths are optimal
+   * - higher → more detours required on average
+   */
+  avgPathDetourRatio: number;
+
+  /**
+   * Worst-case extra cost compared to shortest path.
+   * Captures extreme difficulty spikes in solution space.
+   *
+   * Interpretation:
+   * - high → some paths are significantly misleading
+   * - low → all solutions are similarly efficient
+   */
+  maxPathDetourRatio: number;
 }

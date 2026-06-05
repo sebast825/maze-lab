@@ -1,3 +1,4 @@
+import { Repeat } from "lucide-react";
 import { CellMetric, BranchMetric, MazeDifficultyFeatures } from "../types";
 import {
   MazeDerivedMetrics,
@@ -73,10 +74,8 @@ const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
     paths: raw.paths,
 
     overlaps: {
-      uniqueCellCount: raw.overlaps.uniqueCellCount,
-      repeatedOccurrences: raw.overlaps.repeatedOccurrences,
-      avgRedundantLength: raw.overlaps.avgRedundantLength,
-      maxRedundantLength: raw.overlaps.maxRedundantLength,
+      repeatRatio: raw.overlaps.repeatRatio,
+      avgPathDetourRatio: raw.overlaps.avgPathDetourRatio,
     },
   };
 };
@@ -109,17 +108,8 @@ const calculateMazeScore = (
     },
 
     overlaps: {
-      uniqueCellCount:
-        derived.overlaps.uniqueCellCount * weights.overlaps.uniqueCellCount,
-      repeatedOccurrences:
-        derived.overlaps.repeatedOccurrences *
-        weights.overlaps.repeatedOccurrences,
-      avgRedundantLength:
-        derived.overlaps.avgRedundantLength *
-        weights.overlaps.avgRedundantLength,
-      maxRedundantLength:
-        derived.overlaps.maxRedundantLength *
-        weights.overlaps.maxRedundantLength,
+      repeatRatio: derived.overlaps.repeatRatio * weights.overlaps.repeatRatio,
+      avgPathDetourRatio:  derived.overlaps.avgPathDetourRatio * weights.overlaps.avgPathDetourRatio,
     },
   };
   const scoreFeatures =
@@ -134,10 +124,8 @@ const calculateMazeScore = (
     weighted.paths.shortestPathTurnDensity;
 
   const scoreOverlaps =
-    weighted.overlaps.uniqueCellCount -
-    weighted.overlaps.repeatedOccurrences +
-    weighted.overlaps.avgRedundantLength +
-    weighted.overlaps.maxRedundantLength;
+    weighted.overlaps.repeatRatio -
+    weighted.overlaps.avgPathDetourRatio;
 
   let totalFeatures = scoreFeatures * weights.features.total;
   let totalScores = scorePaths * weights.paths.total;

@@ -17,10 +17,8 @@ export interface Weights {
   };
 
   overlaps: {
-    uniqueCellCount: number;
-    repeatedOccurrences: number;
-    avgRedundantLength: number;
-    maxRedundantLength: number;
+    repeatRatio: number;
+    avgPathDetourRatio: number;
     total: number;
   };
 
@@ -40,10 +38,8 @@ export interface MazeDerivedMetrics {
   features: MazeDerivedFeatures;
   paths: PathsMetrics;
   overlaps: {
-    uniqueCellCount: number;
-    repeatedOccurrences: number;
-    avgRedundantLength: number;
-    maxRedundantLength: number;
+    repeatRatio: number;
+    avgPathDetourRatio: number;
   };
 }
 export interface MazeRawMetrics {
@@ -81,9 +77,9 @@ export type MazeWeightedMetrics = {
   };
   paths: PathsMetrics;
   overlaps: {
-    uniqueCellCount: number;
-    repeatedOccurrences: number;
-    avgRedundantLength: number;
-    maxRedundantLength: number;
+    repeatRatio: number;
+    avgPathDetourRatio: number;
   };
 };
+
+

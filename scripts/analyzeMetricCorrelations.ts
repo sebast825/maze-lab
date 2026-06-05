@@ -5,8 +5,8 @@ import {
 import { exportBenchmarkMetrics } from "@/lib/maze/benchmark/helpers";
 
 // --- Dataset Configuration  ---
-const DATASET = rawDataGeneratedSelector;
-// const DATASET = rawDataManualSelector;
+//const DATASET = rawDataGeneratedSelector;
+ const DATASET = rawDataManualSelector;
 
 const featureMetrics = [
   "decisionPenalty",
@@ -21,8 +21,13 @@ const pathMetrics = [
   "avgTurnDensity",
   "shortestPathTurnDensity",
 ] as const;
+const overlapPathsMetrics = [
+  "repeatRatio",
+  "avgPathDetourRatio",
+   "maxPathDetourRatio"
+] as const;
 
-type RawMetricKey = (typeof featureMetrics)[number] | (typeof pathMetrics)[number];
+type RawMetricKey = (typeof featureMetrics)[number] | (typeof pathMetrics)[number] | (typeof overlapPathsMetrics)[number];
 type RawMetricRow = { [K in RawMetricKey]: number };
 
 const derivedMetrics = [
@@ -36,6 +41,7 @@ type DerivedMetricKey = (typeof derivedMetrics)[number];
 type DerivedMetricRow = { [K in DerivedMetricKey]: number };
 
 export const correlation = (x: number[], y: number[]): number => {
+
   const n = x.length;
   if (n === 0) return 0;
 
@@ -66,12 +72,11 @@ const analyzeMetricGroup = (
   metrics: readonly RawMetricKey[],
 ) => {
   console.log(`\n${title}`);
-
+ 
   for (let i = 0; i < metrics.length; i++) {
     for (let j = i + 1; j < metrics.length; j++) {
       const metricA = metrics[i];
       const metricB = metrics[j];
-
       const value = correlation(
         rows.map((r) => r[metricA]),
         rows.map((r) => r[metricB]),
@@ -119,9 +124,12 @@ const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
   console.log(`Maze Size: ${mazeSize}`);
   console.log("====================================");
 
+    analyzeMetricGroup("Overlap Metrics", rows, overlapPathsMetrics);
+
+  /*
   analyzeMetricGroup("Feature Metrics", rows, featureMetrics);
   analyzeMetricGroup("Path Metrics", rows, pathMetrics);
-  analyzeDerivedMetrics(rows);
+  analyzeDerivedMetrics(rows);*/
 };
 
 

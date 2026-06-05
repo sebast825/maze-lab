@@ -13,16 +13,14 @@ export const defaultWeights: Weights = {
     avgTortuosity: 1,
     avgTurnDensity: 0.5,
     shortestPathTurnDensity: 3,
-    total: 1,
+    total: 1
   },
 
   overlaps: {
-    uniqueCellCount: .2,
-    //mantain  low in case share almost all path has not big influence
-    repeatedOccurrences: 0.05,
+    repeatRatio:1,
+    avgPathDetourRatio:1,
     total: 1,
-    avgRedundantLength: 2,
-    maxRedundantLength: .5
+   
   },
 
   global: {

@@ -21,6 +21,7 @@ const avg = (arr: number[]) => arr.reduce((sum, v) => sum + v, 0) / arr.length;
 export const computePathVariance = (
   paths: Position[][],
 ): PathOverlapMetrics => {
+  console.log("entramos en variance")
   const cellFrequency = new Map<string, number>();
 
   paths.forEach((path) => {
@@ -29,37 +30,47 @@ export const computePathVariance = (
     path.forEach((pos) => {
       uniqueCellsInPath.add(`${pos.row},${pos.col}`);
     });
+
     uniqueCellsInPath.forEach((cellKey) => {
       cellFrequency.set(cellKey, (cellFrequency.get(cellKey) || 0) + 1);
     });
   });
 
   let repeatedCellCount = 0;
-  let repeatedOccurrences = 0;
   let uniqueCellCount = 0;
 
   cellFrequency.forEach((count) => {
-    if (count > 1) {
-      repeatedCellCount++;
-      repeatedOccurrences += count;
-    } else {
-      uniqueCellCount++;
-    }
+    if (count > 1) repeatedCellCount++;
+    else uniqueCellCount++;
   });
+  console.log(repeatedCellCount, uniqueCellCount);
+  const pathLengths = paths.map((p) => p.length);
 
-  const pathLengths = paths.map((path) => path.length);
   const shortestPath = Math.min(...pathLengths);
-  
-  const avgRedundantLength =
-    pathLengths.reduce((total, length) => total + (length - shortestPath), 0) /
-    pathLengths.length;
-  const maxRedundantLength = Math.max(...pathLengths) - shortestPath;
+  const longestPath = Math.max(...pathLengths);
 
-  return {
+  const totalCells = repeatedCellCount + uniqueCellCount;
+
+  const repeatRatio = totalCells > 0 ? repeatedCellCount / totalCells : 0;
+
+  const uniqueCellRatio = totalCells > 0 ? uniqueCellCount / totalCells : 0;
+
+  const avgPathDetourRatio =
+    pathLengths.reduce((sum, len) => sum + (len - shortestPath), 0) /
+    (pathLengths.length * Math.max(1, shortestPath));
+
+  const maxPathDetourRatio =
+    (longestPath - shortestPath) / Math.max(1, shortestPath);
+  console.log({
     repeatedCellCount,
-    repeatedOccurrences,
     uniqueCellCount,
-    avgRedundantLength,
-    maxRedundantLength,
+    totalCells,
+    repeatRatio,
+    uniqueCellRatio,
+  });
+  return {
+    repeatRatio,
+    avgPathDetourRatio,
+    maxPathDetourRatio,
   };
 };

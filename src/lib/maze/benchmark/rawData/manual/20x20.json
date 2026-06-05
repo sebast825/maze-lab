@@ -4176,16 +4176,13 @@
       },
       "paths": {
         "avgTortuosity": 27.5,
-        "pathVariance": 0,
         "avgTurnDensity": 0.5386847195357833,
         "shortestPathTurnDensity": 0.5319148936170213
       },
       "overlaps": {
-        "repeatedCellCount": 43,
-        "repeatedOccurrences": 86,
-        "uniqueCellCount": 16,
-        "avgRedundantLength": 4,
-        "maxRedundantLength": 8
+        "repeatRatio": 0.7288135593220338,
+        "avgPathDetourRatio": 0.0851063829787234,
+        "maxPathDetourRatio": 0.1702127659574468
       },
       "totalIntersections": 67,
       "shortestPathLength": 46,
@@ -8770,16 +8767,13 @@
       },
       "paths": {
         "avgTortuosity": 63,
-        "pathVariance": 0,
         "avgTurnDensity": 0.6262842030312278,
         "shortestPathTurnDensity": 0.5977011494252874
       },
       "overlaps": {
-        "repeatedCellCount": 68,
-        "repeatedOccurrences": 136,
-        "uniqueCellCount": 64,
-        "avgRedundantLength": 13,
-        "maxRedundantLength": 26
+        "repeatRatio": 0.5151515151515151,
+        "avgPathDetourRatio": 0.14942528735632185,
+        "maxPathDetourRatio": 0.2988505747126437
       },
       "totalIntersections": 62,
       "shortestPathLength": 86,
@@ -13316,16 +13310,13 @@
       },
       "paths": {
         "avgTortuosity": 62,
-        "pathVariance": 0,
         "avgTurnDensity": 0.6494190921068391,
         "shortestPathTurnDensity": 0.6376811594202898
       },
       "overlaps": {
-        "repeatedCellCount": 65,
-        "repeatedOccurrences": 130,
-        "uniqueCellCount": 60,
-        "avgRedundantLength": 26,
-        "maxRedundantLength": 52
+        "repeatRatio": 0.52,
+        "avgPathDetourRatio": 0.37681159420289856,
+        "maxPathDetourRatio": 0.7536231884057971
       },
       "totalIntersections": 58,
       "shortestPathLength": 68,
@@ -17705,16 +17696,13 @@
       },
       "paths": {
         "avgTortuosity": 43.5,
-        "pathVariance": 0,
         "avgTurnDensity": 0.5093572633839546,
         "shortestPathTurnDensity": 0.5471698113207547
       },
       "overlaps": {
-        "repeatedCellCount": 48,
-        "repeatedOccurrences": 96,
-        "uniqueCellCount": 80,
-        "avgRedundantLength": 35,
-        "maxRedundantLength": 70
+        "repeatRatio": 0.375,
+        "avgPathDetourRatio": 0.660377358490566,
+        "maxPathDetourRatio": 1.320754716981132
       },
       "totalIntersections": 44,
       "shortestPathLength": 52,
@@ -22286,16 +22274,13 @@
       },
       "paths": {
         "avgTortuosity": 65.5,
-        "pathVariance": 0,
         "avgTurnDensity": 0.5847484652794388,
         "shortestPathTurnDensity": 0.5765765765765766
       },
       "overlaps": {
-        "repeatedCellCount": 104,
-        "repeatedOccurrences": 208,
-        "uniqueCellCount": 16,
-        "avgRedundantLength": 1,
-        "maxRedundantLength": 2
+        "repeatRatio": 0.8666666666666667,
+        "avgPathDetourRatio": 0.009009009009009009,
+        "maxPathDetourRatio": 0.018018018018018018
       },
       "totalIntersections": 50,
       "shortestPathLength": 110,
@@ -26563,16 +26548,13 @@
       },
       "paths": {
         "avgTortuosity": 48.5,
-        "pathVariance": 0,
         "avgTurnDensity": 0.6551124931406622,
         "shortestPathTurnDensity": 0.647887323943662
       },
       "overlaps": {
-        "repeatedCellCount": 55,
-        "repeatedOccurrences": 110,
-        "uniqueCellCount": 38,
-        "avgRedundantLength": 3,
-        "maxRedundantLength": 6
+        "repeatRatio": 0.5913978494623656,
+        "avgPathDetourRatio": 0.04225352112676056,
+        "maxPathDetourRatio": 0.08450704225352113
       },
       "totalIntersections": 53,
       "shortestPathLength": 70,
@@ -30576,16 +30558,13 @@
       },
       "paths": {
         "avgTortuosity": 19,
-        "pathVariance": 0,
         "avgTurnDensity": 0.46213476446034585,
         "shortestPathTurnDensity": 0.4358974358974359
       },
       "overlaps": {
-        "repeatedCellCount": 22,
-        "repeatedOccurrences": 44,
-        "uniqueCellCount": 38,
-        "avgRedundantLength": 2,
-        "maxRedundantLength": 4
+        "repeatRatio": 0.36666666666666664,
+        "avgPathDetourRatio": 0.05128205128205128,
+        "maxPathDetourRatio": 0.10256410256410256
       },
       "totalIntersections": 99,
       "shortestPathLength": 38,
@@ -34733,16 +34712,13 @@
       },
       "paths": {
         "avgTortuosity": 33,
-        "pathVariance": 0,
         "avgTurnDensity": 0.5654779742283488,
         "shortestPathTurnDensity": 0.5957446808510638
       },
       "overlaps": {
-        "repeatedCellCount": 44,
-        "repeatedOccurrences": 88,
-        "uniqueCellCount": 30,
-        "avgRedundantLength": 12,
-        "maxRedundantLength": 24
+        "repeatRatio": 0.5945945945945946,
+        "avgPathDetourRatio": 0.2553191489361702,
+        "maxPathDetourRatio": 0.5106382978723404
       },
       "totalIntersections": 103,
       "shortestPathLength": 46,
@@ -38978,16 +38954,13 @@
       },
       "paths": {
         "avgTortuosity": 38,
-        "pathVariance": 0,
         "avgTurnDensity": 0.5432426906563075,
         "shortestPathTurnDensity": 0.5522388059701493
       },
       "overlaps": {
-        "repeatedCellCount": 64,
-        "repeatedOccurrences": 128,
-        "uniqueCellCount": 12,
-        "avgRedundantLength": 3,
-        "maxRedundantLength": 6
+        "repeatRatio": 0.8421052631578947,
+        "avgPathDetourRatio": 0.04477611940298507,
+        "maxPathDetourRatio": 0.08955223880597014
       },
       "totalIntersections": 108,
       "shortestPathLength": 66,
@@ -43119,16 +43092,13 @@
       },
       "paths": {
         "avgTortuosity": 33,
-        "pathVariance": 0,
         "avgTurnDensity": 0.5755102040816327,
         "shortestPathTurnDensity": 0.5510204081632653
       },
       "overlaps": {
-        "repeatedCellCount": 40,
-        "repeatedOccurrences": 80,
-        "uniqueCellCount": 34,
-        "avgRedundantLength": 8,
-        "maxRedundantLength": 16
+        "repeatRatio": 0.5405405405405406,
+        "avgPathDetourRatio": 0.16326530612244897,
+        "maxPathDetourRatio": 0.32653061224489793
       },
       "totalIntersections": 99,
       "shortestPathLength": 48,
@@ -47356,16 +47326,13 @@
       },
       "paths": {
         "avgTortuosity": 39,
-        "pathVariance": 0,
         "avgTurnDensity": 0.5678092399403875,
         "shortestPathTurnDensity": 0.5901639344262295
       },
       "overlaps": {
-        "repeatedCellCount": 52,
-        "repeatedOccurrences": 104,
-        "uniqueCellCount": 34,
-        "avgRedundantLength": 8,
-        "maxRedundantLength": 16
+        "repeatRatio": 0.6046511627906976,
+        "avgPathDetourRatio": 0.13114754098360656,
+        "maxPathDetourRatio": 0.26229508196721313
       },
       "totalIntersections": 100,
       "shortestPathLength": 60,
@@ -51881,16 +51848,13 @@
       },
       "paths": {
         "avgTortuosity": 56,
-        "pathVariance": 0,
         "avgTurnDensity": 0.5311542390194075,
         "shortestPathTurnDensity": 0.5168539325842697
       },
       "overlaps": {
-        "repeatedCellCount": 89,
-        "repeatedOccurrences": 178,
-        "uniqueCellCount": 32,
-        "avgRedundantLength": 16,
-        "maxRedundantLength": 32
+        "repeatRatio": 0.7355371900826446,
+        "avgPathDetourRatio": 0.1797752808988764,
+        "maxPathDetourRatio": 0.3595505617977528
       },
       "totalIntersections": 45,
       "shortestPathLength": 88,

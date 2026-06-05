@@ -3,8 +3,8 @@ import { recalculateBenchmarkMetrics } from "../src/lib/maze/benchmark/recalcula
 import fs from "fs";
 
 
-const DATASET = rawDataGeneratedSelector;
-// const DATASET = rawDataManualSelector;
+//const DATASET = rawDataGeneratedSelector;
+ const DATASET = rawDataManualSelector;
 const FOLDER = DATASET === rawDataGeneratedSelector ? "generated" : "manual";
 console.log("Regenerating metrics...");
 

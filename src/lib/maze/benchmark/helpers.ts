@@ -25,11 +25,9 @@ export const exportBenchmarkMetrics = (benchmarks: MazeBenchmark[]) => {
       benchmark.metrics.paths.shortestPathTurnDensity,
     ),
 
-    repeatedCellCount: benchmark.metrics.overlaps.repeatedCellCount,
-    repeatedOccurrences: benchmark.metrics.overlaps.repeatedOccurrences,
-    uniqueCellCount: benchmark.metrics.overlaps.uniqueCellCount,
-    avgRedundantLength: round(benchmark.metrics.overlaps.avgRedundantLength),
-    maxRedundantLength: benchmark.metrics.overlaps.maxRedundantLength,
+    repeatRatio: benchmark.metrics.overlaps.repeatRatio,
+    avgPathDetourRatio: round(benchmark.metrics.overlaps.avgPathDetourRatio),
+    maxPathDetourRatio: benchmark.metrics.overlaps.maxPathDetourRatio,
   }));
 };
 //we give the result of exportBenchmarkMetrics to get the stats
