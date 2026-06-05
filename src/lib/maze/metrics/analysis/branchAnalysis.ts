@@ -1,7 +1,9 @@
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 import { Position, Maze, Direction } from "../../types";
-import { BranchAnalysis, MazeDifficultyFeatures } from "../types";
+import { BranchAnalysis, BranchMetric, DecisionPenaltyAnalysis, MazeDifficultyFeatures } from "../types";
 import { getNeighborsNotVisited } from "../../core";
+import { analyzeDecisionPenalty } from "./decisionPenalty";
+import { CellInfo } from "@/lib/alogirthms/solving/types";
 
 
 
@@ -81,3 +83,31 @@ export const countChangesOfDirections = (pathDirections: Direction[]) :number=> 
   }
   return count;
 }
+
+export const analyzeNodeBranches = (
+  neighbors: Position[],
+  mazeCellData: CellInfo[][],
+  current: Position,
+  maze: Maze,
+): BranchMetric[] => {
+  const decisionPenalty: DecisionPenaltyAnalysis = analyzeDecisionPenalty(
+    neighbors,
+    mazeCellData,
+  );
+
+  return neighbors.map((n, index) => {
+    let traceBranch: BranchAnalysis = traceBranchUntilDecision(
+      n,
+      current,
+      maze,
+    );
+    return {
+      neighbor: n,
+      decisionPenalty: decisionPenalty.penalties[index],
+      branchAnalysis: traceBranch,
+      tortuosity:
+        countChangesOfDirections(traceBranch.pathDirections) /
+        Math.max(1, traceBranch.branchLength),
+    };
+  });
+};

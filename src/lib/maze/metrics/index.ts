@@ -2,6 +2,7 @@ import { CellInfo } from "@/lib/alogirthms/solving/types";
 import { Direction, Maze, Position } from "../types";
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 import {
+  analyzeNodeBranches,
   countChangesOfDirections,
   getDirectionBetweenCells,
   traceBranchUntilDecision,
@@ -36,7 +37,7 @@ export const computeMazeMetrics = (
   paths: Position[][],
   shortestPathLength: number,
 ): MazeScoringResult => {
-  const features: MazeDifficultyFeatures = calculateMazeDifficultyFeatures(
+  const features: MazeDifficultyFeatures = computeMazeDifficultyFeatures(
     mazeCellData,
     maze,
   );
@@ -45,7 +46,6 @@ export const computeMazeMetrics = (
   const totalIntersections: number = getTotalIntersections(maze);
   const pathOverlapMetrics: AlternativeRawPathMetrics =
     computePathVariance(paths);
-  console.log(pathOverlapMetrics);
   const rawMetrics: MazeRawMetrics = {
     features,
     paths: pathsMetrics,
@@ -57,7 +57,7 @@ export const computeMazeMetrics = (
   return analyzeMaze(rawMetrics, defaultWeights);
 };
 
-const calculateMazeDifficultyFeatures = (
+const computeMazeDifficultyFeatures = (
   mazeCellData: CellInfo[][],
   maze: Maze,
 ): MazeDifficultyFeatures => {
@@ -67,33 +67,11 @@ const calculateMazeDifficultyFeatures = (
     for (let c = 0; c < maze.cols; c++) {
       const current: Position = { row: r, col: c };
       const neighbors: Position[] = getNeighborsByOpenWall(maze, current);
-      //we only get the statistic if is a decision path
+      //we only get the statistic if is a decision node
       if (neighbors.length <= 2) continue;
 
-      const decisionPenalty: DecisionPenaltyAnalysis = analyzeDecisionPenalty(
-        neighbors,
-        mazeCellData,
-      );
-
-      const calculatedBranches = neighbors.map((n, index) => {
-        let traceBranch: BranchAnalysis = traceBranchUntilDecision(
-          n,
-          current,
-          maze,
-        );
-        const baseBranch: BranchMetric = {
-          neighbor: n,
-          decisionPenalty: decisionPenalty.penalties[index],
-          branchAnalysis: traceBranch,
-          tortuosity:
-            countChangesOfDirections(traceBranch.pathDirections) /
-            Math.max(1, traceBranch.branchLength),
-        };
-
-        return baseBranch;
-      });
       const cellMetric: CellMetric = {
-        branches: calculatedBranches,
+        branches: analyzeNodeBranches(neighbors, mazeCellData, current, maze),
         position: current,
         distance: mazeCellData[current.row][current.col].distance,
       };
