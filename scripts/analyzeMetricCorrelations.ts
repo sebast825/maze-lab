@@ -1,12 +1,8 @@
-import {
-  rawDataGeneratedSelector,
-  rawDataManualSelector,
-} from "@/lib/maze/benchmark";
-import { exportBenchmarkMetrics } from "@/lib/maze/benchmark/helpers";
 
-// --- Dataset Configuration  ---
-//const DATASET = rawDataGeneratedSelector;
- const DATASET = rawDataManualSelector;
+import { exportBenchmarkMetrics } from "@/lib/maze/benchmark/helpers";
+import { DATASET } from "./dataset.config";
+
+
 
 const featureMetrics = [
   "decisionPenalty",

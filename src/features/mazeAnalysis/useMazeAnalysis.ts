@@ -1,6 +1,5 @@
 import { MazeData, Position } from "@/lib/maze/types";
 import { useEffect, useState } from "react";
-import { MazeBenchmark } from "@/features/mazeAnalysis/benchmarkData/types";
 
 import {
   MazeRawMetrics,
@@ -8,6 +7,7 @@ import {
   Weights,
 } from "@/lib/maze/metrics/scoring/types";
 import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
+import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 
 export const useMazeAnalysis = (weights: Weights) => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);

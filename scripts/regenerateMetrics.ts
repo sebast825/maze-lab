@@ -1,11 +1,10 @@
-import { rawDataGeneratedSelector, rawDataManualSelector } from "@/lib/maze/benchmark";
 import { recalculateBenchmarkMetrics } from "../src/lib/maze/benchmark/recalculateMetrics";
 import fs from "fs";
+import { DATASET, DATASET_MODE } from "./dataset.config";
 
 
-//const DATASET = rawDataGeneratedSelector;
- const DATASET = rawDataManualSelector;
-const FOLDER = DATASET === rawDataGeneratedSelector ? "generated" : "manual";
+
+const FOLDER = DATASET_MODE === "generated" ? "generated" : "manual";
 console.log("Regenerating metrics...");
 
 const updated2020 = recalculateBenchmarkMetrics(DATASET["20*20"]);
