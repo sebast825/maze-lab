@@ -2,8 +2,6 @@ import { recalculateBenchmarkMetrics } from "../src/lib/maze/benchmark/recalcula
 import fs from "fs";
 import { DATASET, DATASET_MODE } from "./dataset.config";
 
-
-
 const FOLDER = DATASET_MODE === "generated" ? "generated" : "manual";
 console.log("Regenerating metrics...");
 
@@ -33,6 +31,5 @@ fs.writeFileSync(
 );
 
 console.log("File 40x40 generated");
-
 
 console.log("Successful metrics regeneration...");

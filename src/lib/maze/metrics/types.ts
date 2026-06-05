@@ -82,36 +82,4 @@ export interface MazeDifficultyFeatures {
   decisionBranchCount: number;
 }
 
-export interface PathOverlapMetrics {
 
-
-  /**
-   * Ratio of total path cell usage that overlaps with other paths.
-   * Normalized measure of how much solutions reuse the same space.
-   *
-   * Interpretation:
-   * - high → strong shared backbone / constrained solution space
-   * - low → diverse, independent paths
-   */
-  repeatRatio: number;
-
-
-  /**
-   * how costly it is to choose an alternative route
-   * 
-   * Interpretation:
-   * - 0 → all paths are optimal
-   * - higher → more detours required on average
-   */
-  avgPathDetourRatio: number;
-
-  /**
-   * Worst-case extra cost compared to shortest path.
-   * Captures extreme difficulty spikes in solution space.
-   *
-   * Interpretation:
-   * - high → some paths are significantly misleading
-   * - low → all solutions are similarly efficient
-   */
-  maxPathDetourRatio: number;
-}

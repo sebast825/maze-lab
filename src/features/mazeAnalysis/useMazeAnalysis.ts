@@ -33,7 +33,7 @@ export const useMazeAnalysis = (weights: Weights) => {
     const {
       features,
       paths,
-      overlaps,
+      pathsAlternative,
       totalIntersections,
       shortestPathLength,
       totalPaths,
@@ -42,7 +42,7 @@ export const useMazeAnalysis = (weights: Weights) => {
     setRawData({
       features: features,
       paths: paths,
-      overlaps: overlaps,
+      pathsAlternative,
       totalIntersections,
       shortestPathLength,
       totalPaths,
@@ -50,6 +50,7 @@ export const useMazeAnalysis = (weights: Weights) => {
   };
   useEffect(() => {
     if (!rawData) return;
+    console.log(rawData)
     setMazeScoreResult(analyzeMaze(rawData, weights));
   }, [rawData, weights]);
 

@@ -1,5 +1,6 @@
 import { Position } from "../../types";
-import { PathMetric, PathOverlapMetrics, PathsMetrics } from "../types";
+import { AlternativeRawPathMetrics } from "../scoring/types";
+import { PathMetric, PathsMetrics } from "../types";
 
 export const aggregatePathMetrics = (paths: PathMetric[]): PathsMetrics => {
   const tortuosities = paths.map((p) => p.tortuosity);
@@ -20,8 +21,7 @@ const avg = (arr: number[]) => arr.reduce((sum, v) => sum + v, 0) / arr.length;
 
 export const computePathVariance = (
   paths: Position[][],
-): PathOverlapMetrics => {
-  console.log("entramos en variance")
+): AlternativeRawPathMetrics => {
   const cellFrequency = new Map<string, number>();
 
   paths.forEach((path) => {

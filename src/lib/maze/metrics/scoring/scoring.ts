@@ -49,6 +49,7 @@ export const analyzeMaze = (
   raw: MazeRawMetrics,
   weights: Weights,
 ): MazeScoringResult => {
+  console.log(raw.pathsAlternative)
   const derived = deriveMazeMetrics(raw);
   const scores: MazeScoringResult = calculateMazeScore(derived, raw, weights);
 
@@ -73,9 +74,9 @@ const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
 
     paths: raw.paths,
 
-    overlaps: {
-      repeatRatio: raw.overlaps.repeatRatio,
-      avgPathDetourRatio: raw.overlaps.avgPathDetourRatio,
+    pathsAlternative: {
+      repeatRatio: raw.pathsAlternative.repeatRatio,
+      avgPathDetourRatio: raw.pathsAlternative.avgPathDetourRatio,
     },
   };
 };
@@ -92,25 +93,23 @@ const calculateMazeScore = (
     features: {
       deadEndAvg: derived.features.deadEndAvg * weights.features.deadEndAvg,
       decisionAvg: derived.features.decisionEndAvg * weights.features.decisionEndAvg,
-      decisionPenaltyAvg:
-        (derived.features.decisionPenalty / totalBranches) *
+      decisionPenaltyAvg: (derived.features.decisionPenalty / totalBranches) *
         weights.features.decisionPenalty,
       tortuosity: derived.features.tortuosity * weights.features.tortuosity,
     },
 
     paths: {
       avgTortuosity: derived.paths.avgTortuosity * weights.paths.avgTortuosity,
-      avgTurnDensity:
-        derived.paths.avgTurnDensity * weights.paths.avgTurnDensity,
-      shortestPathTurnDensity:
-        derived.paths.shortestPathTurnDensity *
+      avgTurnDensity: derived.paths.avgTurnDensity * weights.paths.avgTurnDensity,
+      shortestPathTurnDensity: derived.paths.shortestPathTurnDensity *
         weights.paths.shortestPathTurnDensity,
     },
 
-    overlaps: {
-      repeatRatio: derived.overlaps.repeatRatio * weights.overlaps.repeatRatio,
-      avgPathDetourRatio:  derived.overlaps.avgPathDetourRatio * weights.overlaps.avgPathDetourRatio,
+    pathsAlternative: {
+      repeatRatio: derived.pathsAlternative.repeatRatio * weights.pathsAlternative.repeatRatio,
+      avgPathDetourRatio: derived.pathsAlternative.avgPathDetourRatio * weights.pathsAlternative.avgPathDetourRatio,
     },
+
   };
   const scoreFeatures =
     weighted.features.deadEndAvg +
@@ -123,15 +122,15 @@ const calculateMazeScore = (
     weighted.paths.avgTurnDensity +
     weighted.paths.shortestPathTurnDensity;
 
-  const scoreOverlaps =
-    weighted.overlaps.repeatRatio -
-    weighted.overlaps.avgPathDetourRatio;
+  const scorepathsAlternative =
+    weighted.pathsAlternative.repeatRatio -
+    weighted.pathsAlternative.avgPathDetourRatio;
 
   let totalFeatures = scoreFeatures * weights.features.total;
   let totalScores = scorePaths * weights.paths.total;
-  let totalOverlaps = scoreOverlaps * weights.overlaps.total;
+  let totalPathsAlternative = scorepathsAlternative * weights.pathsAlternative.total;
   const total =
-    (totalFeatures + totalScores + totalOverlaps) /
+    (totalFeatures + totalScores + totalPathsAlternative) /
     (Math.sqrt(raw.totalIntersections) * weights.global.intersectionPenalty);
 
   return {
@@ -141,7 +140,7 @@ const calculateMazeScore = (
     scores: {
       features: totalFeatures,
       paths: totalScores,
-      overlaps: totalOverlaps,
+      pathsAlternative: totalPathsAlternative,
       total,
     },
   };

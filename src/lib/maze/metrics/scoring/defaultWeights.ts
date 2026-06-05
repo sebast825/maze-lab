@@ -16,7 +16,7 @@ export const defaultWeights: Weights = {
     total: 1
   },
 
-  overlaps: {
+  pathsAlternative: {
     repeatRatio:1,
     avgPathDetourRatio:1,
     total: 1,

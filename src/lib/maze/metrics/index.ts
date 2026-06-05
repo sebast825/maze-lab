@@ -13,7 +13,6 @@ import {
   DecisionPenaltyAnalysis,
   MazeDifficultyFeatures,
   PathMetric,
-  PathOverlapMetrics,
   PathsMetrics,
 } from "./types";
 import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
@@ -23,8 +22,16 @@ import {
   computePathVariance,
 } from "./analysis/pathAnalysis";
 import { getTotalIntersections } from "./utils";
-import { aggregateBranchMetrics, analyzeMaze, calculateBranchDifficulty } from "./scoring/scoring";
-import { MazeRawMetrics, MazeScoringResult } from "./scoring/types";
+import {
+  aggregateBranchMetrics,
+  analyzeMaze,
+  calculateBranchDifficulty,
+} from "./scoring/scoring";
+import {
+  AlternativeRawPathMetrics,
+  MazeRawMetrics,
+  MazeScoringResult,
+} from "./scoring/types";
 import { defaultWeights } from "./scoring/defaultWeights";
 
 export const computeMazeMetrics = (
@@ -37,22 +44,21 @@ export const computeMazeMetrics = (
     mazeCellData,
     maze,
   );
-  
-//  console.log("maze: ", maze)
-  const pathsMetrics: PathsMetrics = computePathMetrics(paths);
- //console.log("maze rows and cols: ", maze.rows, " ", maze.cols);
-  const totalIntersections: number = getTotalIntersections(maze);
-  const pathOverlapMetrics: PathOverlapMetrics = computePathVariance(paths);
 
+  const pathsMetrics: PathsMetrics = computePathMetrics(paths);
+  const totalIntersections: number = getTotalIntersections(maze);
+  const pathOverlapMetrics: AlternativeRawPathMetrics =
+    computePathVariance(paths);
+  console.log(pathOverlapMetrics);
   const rawMetrics: MazeRawMetrics = {
     features,
     paths: pathsMetrics,
-    overlaps: pathOverlapMetrics,
+    pathsAlternative: pathOverlapMetrics,
     totalIntersections,
     shortestPathLength,
     totalPaths: paths.length,
   };
-  return analyzeMaze(rawMetrics,defaultWeights);
+  return analyzeMaze(rawMetrics, defaultWeights);
 };
 
 const calculateMazeDifficultyFeatures = (
@@ -83,7 +89,9 @@ const calculateMazeDifficultyFeatures = (
           neighbor: n,
           decisionPenalty: decisionPenalty.penalties[index],
           branchAnalysis: traceBranch,
-          tortuosity: countChangesOfDirections(traceBranch.pathDirections)/Math.max(1, traceBranch.branchLength),
+          tortuosity:
+            countChangesOfDirections(traceBranch.pathDirections) /
+            Math.max(1, traceBranch.branchLength),
         };
 
         return calculateBranchDifficulty(baseBranch);

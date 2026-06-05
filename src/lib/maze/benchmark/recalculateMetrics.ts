@@ -3,7 +3,6 @@ import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { computeMazeMetrics } from "../metrics";
 import { Position } from "../types";
 import { MazeBenchmark } from "./types";
-import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { MazeScoringResult } from "../metrics/scoring/types";
 
 export const recalculateBenchmarkMetrics = (
@@ -39,7 +38,7 @@ export const recalculateBenchmarkMetrics = (
       benchmark.paths,
       shortestPath.length,
     );
-
+    console.log(metrics.raw)
     return {
       ...benchmark,
       metrics: metrics.raw

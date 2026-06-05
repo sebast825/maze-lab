@@ -31,7 +31,7 @@ export function MazeAnalysisPanel({ data }: Props) {
           <div className="flex flex-wrap gap-4">
             <MetricCard title="Features" data={raw.features} />
             <MetricCard title="Paths" data={raw.paths} />
-            <MetricCard title="Path Overlaps" data={raw.overlaps} />
+            <MetricCard title="Path Alternative" data={raw.pathsAlternative} />
           </div>
         </section>
 
@@ -43,7 +43,7 @@ export function MazeAnalysisPanel({ data }: Props) {
           <div className="flex flex-wrap gap-4">
             <MetricCard title="Features" data={weighted.features} />
             <MetricCard title="Paths" data={weighted.paths} />
-            <MetricCard title="Path Overlaps" data={weighted.overlaps} />
+            <MetricCard title="Paths Alternative" data={weighted.pathsAlternative} />
           </div>
         </section>
       </main>
@@ -58,7 +58,7 @@ export function MazeAnalysisPanel({ data }: Props) {
           <div className={PANEL_CLASSES.card}>
             <ScoreRow label="Features Score" value={scores.features} />
             <ScoreRow label="Paths Score" value={scores.paths} />
-            <ScoreRow label="Overlaps Score" value={scores.overlaps} />
+            <ScoreRow label="Paths Alternative Score" value={scores.pathsAlternative} />
             <ScoreRow label="Final Score" value={scores.total} highlight />
           </div>
         </section>
