@@ -1,7 +1,6 @@
 import { Direction, Position } from "../types";
 
 export interface BranchAnalysis {
-  branchLength: number;
   lastNode: Position;
   from: Position;
   path: Position[];
@@ -48,21 +47,16 @@ export interface PathsMetrics {
    * Turn density of the shortest valid solution path.
    * Higher value = shortest route is more visually confusing.
    */
-  shortestPathTurnDensity: number;
-  //Average turn density across all valid solution paths.
-  avgTurnDensity: number;
+  shortestPathTortuosity: number;
+
 }
 
 export interface PathMetric {
   path: Position[];
   directions: Direction[];
-  //Total number of direction changes along the path.
+  //Total number of direction changes along the path divieded by the path length
   tortuosity: number;
-  /**
-   * Ratio between turns and path length.
-   * Higher value = more turns per step.
-   */
-  turnDensity: number;
+
 }
 
 export interface MazeDifficultyFeatures {

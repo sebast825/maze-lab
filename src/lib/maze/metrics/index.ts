@@ -93,13 +93,12 @@ const computePathMetrics = (paths: Position[][]): PathsMetrics => {
       );
       directions.push(direction);
     }
-    const tortuosity = countChangesOfDirections(directions);
+    const tortuosity = countChangesOfDirections(directions) / path.length;
 
     pathMetrics.push({
       path,
       directions,
-      tortuosity,
-      turnDensity: tortuosity / path.length,
+      tortuosity
     });
   });
 

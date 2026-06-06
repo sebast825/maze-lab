@@ -1,18 +1,20 @@
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 import { Position, Maze, Direction } from "../../types";
-import { BranchAnalysis, BranchMetric, DecisionPenaltyAnalysis, MazeDifficultyFeatures } from "../types";
+import {
+  BranchAnalysis,
+  BranchMetric,
+  DecisionPenaltyAnalysis,
+  MazeDifficultyFeatures,
+} from "../types";
 import { getNeighborsNotVisited } from "../../core";
 import { analyzeDecisionPenalty } from "./decisionPenalty";
 import { CellInfo } from "@/lib/alogirthms/solving/types";
-
-
 
 export const traceBranchUntilDecision = (
   initBranchPosition: Position,
   from: Position,
   maze: Maze,
 ): BranchAnalysis => {
-  let branchLength = 0;
   const visited = new Set<string>();
   visited.add(`${from.row},${from.col}`);
   const historyPath: Position[] = [];
@@ -30,21 +32,20 @@ export const traceBranchUntilDecision = (
 
     if (neighborsNotVisited.length === 0 || neighborsNotVisited.length >= 2) {
       return {
-        branchLength,
         path: historyPath,
         lastNode: current,
         from,
         to: initBranchPosition,
         endedBy: neighborsNotVisited.length === 0 ? "dead-end" : "decision",
-        pathDirections : pathDirections
+        pathDirections: pathDirections,
       };
     }
-    pathDirections.push(getDirectionBetweenCells(current, neighborsNotVisited[0]));
+    pathDirections.push(
+      getDirectionBetweenCells(current, neighborsNotVisited[0]),
+    );
     current = neighborsNotVisited[0];
 
     historyPath.push(current);
-
-    branchLength++;
   }
 };
 
@@ -75,14 +76,16 @@ export const getDirectionBetweenCells = (
   throw new Error("Unvalid direction");
 };
 
-export const countChangesOfDirections = (pathDirections: Direction[]) :number=> {
+export const countChangesOfDirections = (
+  pathDirections: Direction[],
+): number => {
   let count = 0;
-  
-  for(let i = 1; i < pathDirections.length; i++){
-    if(pathDirections[i] != pathDirections[i-1]) count ++
+
+  for (let i = 1; i < pathDirections.length; i++) {
+    if (pathDirections[i] != pathDirections[i - 1]) count++;
   }
   return count;
-}
+};
 
 export const analyzeNodeBranches = (
   neighbors: Position[],
@@ -107,7 +110,7 @@ export const analyzeNodeBranches = (
       branchAnalysis: traceBranch,
       tortuosity:
         countChangesOfDirections(traceBranch.pathDirections) /
-        Math.max(1, traceBranch.branchLength),
+        traceBranch.path.length,
     };
   });
 };

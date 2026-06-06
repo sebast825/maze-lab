@@ -38,7 +38,6 @@ export const recalculateBenchmarkMetrics = (
       benchmark.paths,
       shortestPath.length,
     );
-    console.log(metrics.raw)
     return {
       ...benchmark,
       metrics: metrics.raw

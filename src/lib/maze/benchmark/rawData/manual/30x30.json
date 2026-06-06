@@ -10992,16 +10992,15 @@
     "metrics": {
       "features": {
         "decisionPenalty": 888,
-        "tortuosity": 43.61666666666665,
-        "deadEndBranchLength": 228,
-        "decisionBranchLength": 460,
+        "tortuosity": 33.03571428571427,
+        "deadEndBranchLength": 448,
+        "decisionBranchLength": 908,
         "deadEndBranchCount": 220,
         "decisionBranchCount": 448
       },
       "paths": {
-        "avgTortuosity": 44.666666666666664,
-        "avgTurnDensity": 0.3759008017620362,
-        "shortestPathTurnDensity": 0.29333333333333333
+        "avgTortuosity": 0.3759008017620362,
+        "shortestPathTortuosity": 0.29333333333333333
       },
       "pathsAlternative": {
         "repeatRatio": 1,
@@ -23609,16 +23608,15 @@
     "metrics": {
       "features": {
         "decisionPenalty": 592,
-        "tortuosity": 111.58769841269843,
-        "deadEndBranchLength": 176,
-        "decisionBranchLength": 864,
+        "tortuosity": 88.4007936507937,
+        "deadEndBranchLength": 323,
+        "decisionBranchLength": 1158,
         "deadEndBranchCount": 147,
         "decisionBranchCount": 294
       },
       "paths": {
-        "avgTortuosity": 109.33333333333333,
-        "avgTurnDensity": 0.6327558276528188,
-        "shortestPathTurnDensity": 0.6548672566371682
+        "avgTortuosity": 0.6327558276528188,
+        "shortestPathTortuosity": 0.6548672566371682
       },
       "pathsAlternative": {
         "repeatRatio": 1,
@@ -35431,16 +35429,15 @@
     "metrics": {
       "features": {
         "decisionPenalty": 476,
-        "tortuosity": 83.67869893264631,
-        "deadEndBranchLength": 249,
-        "decisionBranchLength": 832,
+        "tortuosity": 68.964273308391,
+        "deadEndBranchLength": 366,
+        "decisionBranchLength": 1072,
         "deadEndBranchCount": 117,
         "decisionBranchCount": 240
       },
       "paths": {
-        "avgTortuosity": 87,
-        "avgTurnDensity": 0.5796230359695022,
-        "shortestPathTurnDensity": 0.5619047619047619
+        "avgTortuosity": 0.5796230359695022,
+        "shortestPathTortuosity": 0.5619047619047619
       },
       "pathsAlternative": {
         "repeatRatio": 1,
@@ -47683,16 +47680,15 @@
     "metrics": {
       "features": {
         "decisionPenalty": 510,
-        "tortuosity": 80.22689181733301,
-        "deadEndBranchLength": 299,
-        "decisionBranchLength": 700,
+        "tortuosity": 64.95412071588545,
+        "deadEndBranchLength": 423,
+        "decisionBranchLength": 958,
         "deadEndBranchCount": 124,
         "decisionBranchCount": 258
       },
       "paths": {
-        "avgTortuosity": 89.71428571428571,
-        "avgTurnDensity": 0.621647844502626,
-        "shortestPathTurnDensity": 0.6352941176470588
+        "avgTortuosity": 0.621647844502626,
+        "shortestPathTortuosity": 0.6352941176470588
       },
       "pathsAlternative": {
         "repeatRatio": 1,
@@ -59597,16 +59593,15 @@
     "metrics": {
       "features": {
         "decisionPenalty": 960,
-        "tortuosity": 45.67857142857142,
-        "deadEndBranchLength": 235,
-        "decisionBranchLength": 376,
+        "tortuosity": 33.583333333333314,
+        "deadEndBranchLength": 484,
+        "decisionBranchLength": 836,
         "deadEndBranchCount": 249,
         "decisionBranchCount": 460
       },
       "paths": {
-        "avgTortuosity": 54,
-        "avgTurnDensity": 0.4581068916799608,
-        "shortestPathTurnDensity": 0.37681159420289856
+        "avgTortuosity": 0.4581068916799608,
+        "shortestPathTortuosity": 0.37681159420289856
       },
       "pathsAlternative": {
         "repeatRatio": 1,
@@ -70155,16 +70150,15 @@
     "metrics": {
       "features": {
         "decisionPenalty": 992,
-        "tortuosity": 31.547619047619044,
-        "deadEndBranchLength": 226,
-        "decisionBranchLength": 362,
+        "tortuosity": 22.929761904761886,
+        "deadEndBranchLength": 483,
+        "decisionBranchLength": 838,
         "deadEndBranchCount": 257,
         "decisionBranchCount": 476
       },
       "paths": {
-        "avgTortuosity": 37,
-        "avgTurnDensity": 0.37818925586616575,
-        "shortestPathTurnDensity": 0.36923076923076925
+        "avgTortuosity": 0.37818925586616575,
+        "shortestPathTortuosity": 0.36923076923076925
       },
       "pathsAlternative": {
         "repeatRatio": 1,
@@ -81685,16 +81679,15 @@
     "metrics": {
       "features": {
         "decisionPenalty": 976,
-        "tortuosity": 57.77857142857144,
-        "deadEndBranchLength": 181,
-        "decisionBranchLength": 470,
+        "tortuosity": 42.19880952380952,
+        "deadEndBranchLength": 435,
+        "decisionBranchLength": 934,
         "deadEndBranchCount": 254,
         "decisionBranchCount": 464
       },
       "paths": {
-        "avgTortuosity": 54.5,
-        "avgTurnDensity": 0.5278080079731526,
-        "shortestPathTurnDensity": 0.5057471264367817
+        "avgTortuosity": 0.5278080079731526,
+        "shortestPathTortuosity": 0.5057471264367817
       },
       "pathsAlternative": {
         "repeatRatio": 1,
@@ -93235,16 +93228,15 @@
     "metrics": {
       "features": {
         "decisionPenalty": 998,
-        "tortuosity": 54.472222222222236,
-        "deadEndBranchLength": 189,
-        "decisionBranchLength": 428,
+        "tortuosity": 39.366666666666674,
+        "deadEndBranchLength": 456,
+        "decisionBranchLength": 892,
         "deadEndBranchCount": 267,
         "decisionBranchCount": 464
       },
       "paths": {
-        "avgTortuosity": 74,
-        "avgTurnDensity": 0.5318958883421027,
-        "shortestPathTurnDensity": 0.5130434782608696
+        "avgTortuosity": 0.5318958883421027,
+        "shortestPathTortuosity": 0.5130434782608696
       },
       "pathsAlternative": {
         "repeatRatio": 1,

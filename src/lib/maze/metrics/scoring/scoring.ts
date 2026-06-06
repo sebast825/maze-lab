@@ -25,11 +25,11 @@ export const aggregateBranchMetrics = (
       features.decisionPenalty += branch.decisionPenalty;
       features.tortuosity += branch.tortuosity;
       if (branch.branchAnalysis.endedBy == "dead-end") {
-        features.deadEndBranchLength += branch.branchAnalysis.branchLength;
+        features.deadEndBranchLength += branch.branchAnalysis.path.length;
         features.deadEndBranchCount++;
       }
       if (branch.branchAnalysis.endedBy == "decision") {
-        features.decisionBranchLength += branch.branchAnalysis.branchLength;
+        features.decisionBranchLength += branch.branchAnalysis.path.length;
         features.decisionBranchCount++;
       }
     });
@@ -43,7 +43,6 @@ export const analyzeMaze = (
   raw: MazeRawMetrics,
   weights: Weights,
 ): MazeScoringResult => {
-  console.log(raw.pathsAlternative)
   const derived = deriveMazeMetrics(raw);
   const scores: MazeScoringResult = calculateMazeScore(derived, raw, weights);
 
@@ -89,13 +88,12 @@ const calculateMazeScore = (
       decisionAvg: derived.features.decisionEndAvg * weights.features.decisionEndAvg,
       decisionPenaltyAvg: (derived.features.decisionPenalty / totalBranches) *
         weights.features.decisionPenalty,
-      tortuosity: derived.features.tortuosity * weights.features.tortuosity,
+      tortuosity: (derived.features.tortuosity/ totalBranches)  * weights.features.tortuosity,
     },
 
     paths: {
       avgTortuosity: derived.paths.avgTortuosity * weights.paths.avgTortuosity,
-      avgTurnDensity: derived.paths.avgTurnDensity * weights.paths.avgTurnDensity,
-      shortestPathTurnDensity: derived.paths.shortestPathTurnDensity *
+      shortestPathTortuosity: derived.paths.shortestPathTortuosity *
         weights.paths.shortestPathTurnDensity,
     },
 
@@ -113,8 +111,7 @@ const calculateMazeScore = (
 
   const scorePaths =
     weighted.paths.avgTortuosity +
-    weighted.paths.avgTurnDensity +
-    weighted.paths.shortestPathTurnDensity;
+    weighted.paths.shortestPathTortuosity;
 
   const scorepathsAlternative =
     weighted.pathsAlternative.repeatRatio -

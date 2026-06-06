@@ -20,9 +20,8 @@ export const exportBenchmarkMetrics = (benchmarks: MazeBenchmark[]) => {
 
     avgTortuosity: round(benchmark.metrics.paths.avgTortuosity),
 
-    avgTurnDensity: round(benchmark.metrics.paths.avgTurnDensity),
-    shortestPathTurnDensity: round(
-      benchmark.metrics.paths.shortestPathTurnDensity,
+    shortestPathTortuosity: round(
+      benchmark.metrics.paths.shortestPathTortuosity,
     ),
 
     repeatRatio: benchmark.metrics.pathsAlternative.repeatRatio,

@@ -10,11 +10,9 @@ export const aggregatePathMetrics = (paths: PathMetric[]): PathsMetrics => {
       : prevPath;
   });
 
-  const turnDensities = paths.map((p) => p.turnDensity);
   return {
     avgTortuosity: avg(tortuosities),
-    avgTurnDensity: avg(turnDensities),
-    shortestPathTurnDensity: minPath.turnDensity,
+    shortestPathTortuosity: minPath.tortuosity,
   };
 };
 const avg = (arr: number[]) => arr.reduce((sum, v) => sum + v, 0) / arr.length;

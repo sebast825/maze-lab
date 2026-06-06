@@ -10,7 +10,7 @@ const featureMetrics = [
   "decisionBranchCount",
 ] as const;
 
-const pathMetrics = ["avgTurnDensity", "shortestPathTurnDensity"] as const;
+const pathMetrics = ["avgTortuosity", "shortestPathTortuosity"] as const;
 
 const pathsFeatures = [
   "repeatRatio",
@@ -102,7 +102,33 @@ const buildAndAnalizeDerivedRows = (rows: RawMetricRow[]) => {
     "avgDecisionLength",
   ] as const);
 };
+const buildAndAnalizeTortuosityRows = (rows: RawMetricRow[]) => {
+  const tortuosityRows = rows.map((r) => {
+    const totalBranches = r.deadEndBranchCount + r.decisionBranchCount;
 
+    return {
+      tortuosity: r.tortuosity,
+      avgTortuosity: r.avgTortuosity,
+      totalBranches,
+      deadEndBranchCount: r.deadEndBranchCount,
+      decisionBranchCount: r.decisionBranchCount,
+      avgDeadEndLength: r.deadEndBranchLength / r.deadEndBranchCount,
+      avgDecisionLength: r.decisionBranchLength / r.decisionBranchCount,
+
+      avgBranchTortuosity: totalBranches > 0 ? r.tortuosity / totalBranches : 0,
+    };
+  });
+  analyzeMetricGroup("Tortuosity Investigation", tortuosityRows, [
+    "tortuosity",
+    "avgTortuosity",
+    "avgDeadEndLength",
+    "avgDecisionLength",
+     "avgBranchTortuosity",
+    // "totalBranches",
+    // "deadEndBranchCount",
+    // "decisionBranchCount",
+  ] as const);
+};
 const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
   const rows = exportBenchmarkMetrics(DATASET[mazeSize]) as RawMetricRow[];
 
@@ -133,7 +159,8 @@ const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
  
   );*/
 
-  buildAndAnalizeDerivedRows(rows);
+  //buildAndAnalizeDerivedRows(rows);
+  buildAndAnalizeTortuosityRows(rows);
 };
 
 analyzeMetricCorrelations("20*20");
