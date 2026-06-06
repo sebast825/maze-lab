@@ -11003,7 +11003,7 @@
         "shortestPathTortuosity": 0.29333333333333333
       },
       "pathsAlternative": {
-        "repeatRatio": 1,
+        "repeatRatio": 0.5509725272144623,
         "avgPathDetourRatio": 0.5466666666666666,
         "maxPathDetourRatio": 0.96
       },
@@ -23619,7 +23619,7 @@
         "shortestPathTortuosity": 0.6548672566371682
       },
       "pathsAlternative": {
-        "repeatRatio": 1,
+        "repeatRatio": 0.3434625173340411,
         "avgPathDetourRatio": 0.5398230088495575,
         "maxPathDetourRatio": 1.2035398230088497
       },
@@ -35440,7 +35440,7 @@
         "shortestPathTortuosity": 0.5619047619047619
       },
       "pathsAlternative": {
-        "repeatRatio": 1,
+        "repeatRatio": 0.4530535491028979,
         "avgPathDetourRatio": 0.43174603174603177,
         "maxPathDetourRatio": 1.0857142857142856
       },
@@ -47691,7 +47691,7 @@
         "shortestPathTortuosity": 0.6352941176470588
       },
       "pathsAlternative": {
-        "repeatRatio": 1,
+        "repeatRatio": 0.4572574399215236,
         "avgPathDetourRatio": 0.6957983193277311,
         "maxPathDetourRatio": 1.3176470588235294
       },
@@ -59604,7 +59604,7 @@
         "shortestPathTortuosity": 0.37681159420289856
       },
       "pathsAlternative": {
-        "repeatRatio": 1,
+        "repeatRatio": 0.5303160675138394,
         "avgPathDetourRatio": 0.6739130434782609,
         "maxPathDetourRatio": 1.1014492753623188
       },
@@ -70161,7 +70161,7 @@
         "shortestPathTortuosity": 0.36923076923076925
       },
       "pathsAlternative": {
-        "repeatRatio": 1,
+        "repeatRatio": 0.4391931013526514,
         "avgPathDetourRatio": 0.5025641025641026,
         "maxPathDetourRatio": 0.9538461538461539
       },
@@ -81690,7 +81690,7 @@
         "shortestPathTortuosity": 0.5057471264367817
       },
       "pathsAlternative": {
-        "repeatRatio": 1,
+        "repeatRatio": 0.3902479752792297,
         "avgPathDetourRatio": 0.1896551724137931,
         "maxPathDetourRatio": 0.45977011494252873
       },
@@ -93239,7 +93239,7 @@
         "shortestPathTortuosity": 0.5130434782608696
       },
       "pathsAlternative": {
-        "repeatRatio": 1,
+        "repeatRatio": 0.41263051594799194,
         "avgPathDetourRatio": 0.20869565217391303,
         "maxPathDetourRatio": 0.6260869565217392
       },

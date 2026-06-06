@@ -72,13 +72,15 @@ export type MazeWeightedMetrics = {
 };
 
 export interface AlternativePathMetrics {
-  /**
-   * Ratio of total path cell usage that overlaps with other paths.
-   * Normalized measure of how much solutions reuse the same space.
+  /* Average pairwise Jaccard similarity between all solution paths.
    *
-   * Interpretation:
-   * - high → strong shared backbone / constrained solution space
-   * - low → diverse, independent paths
+   * Measures how structurally similar paths are in terms of shared cells.
+   *
+   * - 0   => completely independent paths (no overlap)
+   * - 1   => identical paths
+   *
+   * Higher values indicate stronger convergence towards the same routes
+   * (less path diversity / more shared backbone).
    */
   repeatRatio: number;
 

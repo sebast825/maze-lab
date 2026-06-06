@@ -1,6 +1,7 @@
 import { Position } from "../../types";
 import { AlternativeRawPathMetrics } from "../scoring/types";
 import { PathMetric, PathsMetrics } from "../types";
+import { computeRepeatRatio } from "./computeRepeatRatio";
 
 export const aggregatePathMetrics = (paths: PathMetric[]): PathsMetrics => {
   const tortuosities = paths.map((p) => p.tortuosity);
@@ -41,17 +42,12 @@ export const computePathVariance = (
     if (count > 1) repeatedCellCount++;
     else uniqueCellCount++;
   });
-  console.log(repeatedCellCount, uniqueCellCount);
   const pathLengths = paths.map((p) => p.length);
 
   const shortestPath = Math.min(...pathLengths);
   const longestPath = Math.max(...pathLengths);
 
-  const totalCells = repeatedCellCount + uniqueCellCount;
-
-  const repeatRatio = totalCells > 0 ? repeatedCellCount / totalCells : 0;
-
-  const uniqueCellRatio = totalCells > 0 ? uniqueCellCount / totalCells : 0;
+  const repeatRatio = computeRepeatRatio(paths);
 
   const avgPathDetourRatio =
     pathLengths.reduce((sum, len) => sum + (len - shortestPath), 0) /
@@ -59,13 +55,7 @@ export const computePathVariance = (
 
   const maxPathDetourRatio =
     (longestPath - shortestPath) / Math.max(1, shortestPath);
-  console.log({
-    repeatedCellCount,
-    uniqueCellCount,
-    totalCells,
-    repeatRatio,
-    uniqueCellRatio,
-  });
+
   return {
     repeatRatio,
     avgPathDetourRatio,
