@@ -1,29 +1,42 @@
-import { exportBenchmarkMetrics } from "@/lib/maze/benchmark/helpers";
+import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
 import { DATASET } from "./dataset.config";
+import { BenchmarkMetricRow } from "@/lib/maze/benchmark/types";
 
-const featureMetrics = [
+export const featureMetrics = [
   "decisionPenalty",
   "tortuosity",
   "deadEndBranchLength",
   "decisionBranchLength",
   "deadEndBranchCount",
   "decisionBranchCount",
-] as const;
+] as const satisfies readonly (keyof BenchmarkMetricRow)[];
 
-const pathMetrics = ["avgTortuosity", "shortestPathTortuosity"] as const;
+export const pathMetrics = [
+  "avgTortuosity",
+  "shortestPathTortuosity",
+] as const satisfies readonly (keyof BenchmarkMetricRow)[];
 
-const pathsFeatures = [
+export const pathsFeatures = [
   "repeatRatio",
   "avgPathDetourRatio",
   "maxPathDetourRatio",
-] as const;
+] as const satisfies readonly (keyof BenchmarkMetricRow)[];
 
-type RawMetricKey =
-  | (typeof featureMetrics)[number]
-  | (typeof pathMetrics)[number]
-  | (typeof pathsFeatures)[number];
+export const derivedMetricsToAnalyze = [
+  "avgDecisionPenalty",
+  "avgDeadEndLength",
+  "avgDecisionLength",
+] as const satisfies readonly (keyof BenchmarkMetricRow)[];
 
-type RawMetricRow = Record<RawMetricKey, number>;
+export const tortuosityMetricsToAnalyze = [
+  "tortuosity",
+  "avgTortuosity",
+  "avgDeadEndLength",
+  "avgDecisionLength",
+  "avgBranchTortuosity",
+] as const satisfies readonly (keyof BenchmarkMetricRow)[];
+
+
 
 export const correlation = (x: number[], y: number[]): number => {
   const n = x.length;
@@ -53,7 +66,8 @@ export const correlation = (x: number[], y: number[]): number => {
   return numerator / Math.sqrt(denomX * denomY);
 };
 
-const analyzeMetricGroup = <T extends Record<string, number>>(
+//any becase may be string or number
+const analyzeMetricGroup = <T extends Record<string, any>>(
   title: string,
   rows: T[],
   metrics: readonly (keyof T)[],
@@ -77,90 +91,18 @@ const analyzeMetricGroup = <T extends Record<string, number>>(
   }
 };
 
-const buildAndAnalizeDerivedRows = (rows: RawMetricRow[]) => {
-  const derivedRows = rows.map((r) => {
-    const totalBranches = r.deadEndBranchCount + r.decisionBranchCount;
-
-    return {
-      avgDecisionPenalty:
-        totalBranches > 0 ? r.decisionPenalty / totalBranches : 0,
-
-      avgDeadEndLength:
-        r.deadEndBranchCount > 0
-          ? r.deadEndBranchLength / r.deadEndBranchCount
-          : 0,
-
-      avgDecisionLength:
-        r.decisionBranchCount > 0
-          ? r.decisionBranchLength / r.decisionBranchCount
-          : 0,
-    };
-  });
-  analyzeMetricGroup("Derived Metrics", derivedRows, [
-    "avgDecisionPenalty",
-    "avgDeadEndLength",
-    "avgDecisionLength",
-  ] as const);
-};
-const buildAndAnalizeTortuosityRows = (rows: RawMetricRow[]) => {
-  const tortuosityRows = rows.map((r) => {
-    const totalBranches = r.deadEndBranchCount + r.decisionBranchCount;
-
-    return {
-      tortuosity: r.tortuosity,
-      avgTortuosity: r.avgTortuosity,
-      totalBranches,
-      deadEndBranchCount: r.deadEndBranchCount,
-      decisionBranchCount: r.decisionBranchCount,
-      avgDeadEndLength: r.deadEndBranchLength / r.deadEndBranchCount,
-      avgDecisionLength: r.decisionBranchLength / r.decisionBranchCount,
-
-      avgBranchTortuosity: totalBranches > 0 ? r.tortuosity / totalBranches : 0,
-    };
-  });
-  analyzeMetricGroup("Tortuosity Investigation", tortuosityRows, [
-    "tortuosity",
-    "avgTortuosity",
-    "avgDeadEndLength",
-    "avgDecisionLength",
-     "avgBranchTortuosity",
-    // "totalBranches",
-    // "deadEndBranchCount",
-    // "decisionBranchCount",
-  ] as const);
-};
 const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
-  const rows = exportBenchmarkMetrics(DATASET[mazeSize]) as RawMetricRow[];
+  const rows: BenchmarkMetricRow[] = getBenchmarkMetricsRows(DATASET[mazeSize]);
 
   console.log("\n====================================");
   console.log(`Maze Size: ${mazeSize}`);
   console.log("====================================");
-  /*
-  analyzeMetricGroup(
-    "Feature Metrics",
-    rows,
-    featureMetrics,
-  );
-
-  analyzeMetricGroup(
-    "Path Metrics",
-    rows,
-    pathMetrics,
-  );
-
-  analyzeMetricGroup(
-    "Overlap Metrics",
-    rows,
-    pathsFeatures,
-  );
-
-  const derivedRows = buildAndAnalizeDerivedRows(rows);
-
  
-  );*/
 
-  //buildAndAnalizeDerivedRows(rows);
-  buildAndAnalizeTortuosityRows(rows);
+  analyzeMetricGroup("Features", rows, featureMetrics);
+  analyzeMetricGroup("Path", rows, pathMetrics);
+  analyzeMetricGroup("Path Features", rows, pathsFeatures);
+  analyzeMetricGroup("Tortuosity", rows, tortuosityMetricsToAnalyze);
 };
 
 analyzeMetricCorrelations("20*20");

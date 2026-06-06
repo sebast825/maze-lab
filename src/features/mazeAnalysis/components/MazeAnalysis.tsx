@@ -13,8 +13,9 @@ import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
 import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
 import { rawDataManualSelector, RawDataSize } from "@/lib/maze/benchmark";
-import { exportBenchmarkMetrics, getMetricStats } from "@/lib/maze/benchmark/helpers";
+import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
+import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
 
 
 export function MazeAnalysis() {
@@ -43,7 +44,7 @@ export function MazeAnalysis() {
   }, [selectedId]);
 
   const generateMetricsReport = () => {
-    const rows = exportBenchmarkMetrics(rawDataManualSelector[size]);
+    const rows = getBenchmarkMetricsRows(rawDataManualSelector[size]);
     console.log("For maze with size: ", size);
 
     console.table(rows);

@@ -22,3 +22,36 @@ export interface MetricStats {
   p95: number;
   max: number;
 }
+
+export interface BenchmarkMetricRow {
+  id: number;
+  name: string;
+
+  totalIntersections: number;
+  totalPaths: number;
+  shortestPathLength: number;
+
+  decisionPenalty: number;
+  tortuosity: number;
+
+  deadEndBranchLength: number;
+  decisionBranchLength: number;
+
+  deadEndBranchCount: number;
+  decisionBranchCount: number;
+
+  totalBranches: number;
+
+  avgDecisionPenalty: number;
+  avgBranchTortuosity: number;
+
+  avgDeadEndLength: number;
+  avgDecisionLength: number;
+
+  avgTortuosity: number;
+  shortestPathTortuosity: number;
+
+  repeatRatio: number;
+  avgPathDetourRatio: number;
+  maxPathDetourRatio: number;
+}
