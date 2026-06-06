@@ -10,3 +10,15 @@ export interface MazeBenchmark {
   paths: Position[][];
   metrics: MazeRawMetrics;
 }
+
+export interface MetricStats {
+  metric: string;
+  min: number;
+  p5: number;
+  p25: number;
+  p50: number;
+  avg: number;
+  p75: number;
+  p95: number;
+  max: number;
+}
