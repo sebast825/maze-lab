@@ -3,7 +3,6 @@ import { DATASET } from "./dataset.config";
 import { BenchmarkMetricRow } from "@/lib/maze/benchmark/types";
 
 export const featureMetrics = [
-  "decisionPenalty",
   "tortuosity",
   "deadEndBranchLength",
   "decisionBranchLength",
@@ -23,7 +22,6 @@ export const pathsFeatures = [
 ] as const satisfies readonly (keyof BenchmarkMetricRow)[];
 
 export const derivedMetricsToAnalyze = [
-  "avgDecisionPenalty",
   "avgDeadEndLength",
   "avgDecisionLength",
 ] as const satisfies readonly (keyof BenchmarkMetricRow)[];

@@ -6,7 +6,6 @@ import { saveMetricStats } from "@/lib/maze/benchmark/metricStats/saveMetrics";
 import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
 
 const metricsToAnalyze = [
-  "avgDecisionPenalty",
   "avgDeadEndLength",
   "avgDecisionLength",
   "avgTortuosity",

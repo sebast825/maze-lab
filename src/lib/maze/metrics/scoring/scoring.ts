@@ -12,7 +12,6 @@ export const aggregateBranchMetrics = (
   cellsMetric: CellMetric[],
 ): MazeDifficultyFeatures => {
   const features: MazeDifficultyFeatures = {
-    decisionPenalty: 0,
 
     tortuosity: 0,
     deadEndBranchLength: 0,
@@ -22,7 +21,6 @@ export const aggregateBranchMetrics = (
   };
   cellsMetric.forEach((cell) => {
     cell.branches.forEach((branch) => {
-      features.decisionPenalty += branch.decisionPenalty;
       features.tortuosity += branch.tortuosity;
       if (branch.branchAnalysis.endedBy == "dead-end") {
         features.deadEndBranchLength += branch.branchAnalysis.path.length;
@@ -61,7 +59,6 @@ const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
     features: {
       deadEndAvg,
       decisionEndAvg,
-      decisionPenalty: raw.features.decisionPenalty,
       tortuosity: raw.features.tortuosity,
     },
 
@@ -86,8 +83,7 @@ const calculateMazeScore = (
     features: {
       deadEndAvg: derived.features.deadEndAvg * weights.features.deadEndAvg,
       decisionAvg: derived.features.decisionEndAvg * weights.features.decisionEndAvg,
-      decisionPenaltyAvg: (derived.features.decisionPenalty / totalBranches) *
-        weights.features.decisionPenalty,
+
       tortuosity: (derived.features.tortuosity/ totalBranches)  * weights.features.tortuosity,
     },
 
@@ -106,7 +102,6 @@ const calculateMazeScore = (
   const scoreFeatures =
     weighted.features.deadEndAvg +
     weighted.features.decisionAvg +
-    weighted.features.decisionPenaltyAvg +
     weighted.features.tortuosity;
 
   const scorePaths =

@@ -16,8 +16,7 @@ export interface CellMetric {
 }
 export interface BranchMetric {
   neighbor: Position;
-  //difference between the best option and if choose to take this branch
-  decisionPenalty: number;
+
   branchAnalysis: BranchAnalysis;
   /**
    * Measures how "twisted" the path is.
@@ -27,19 +26,6 @@ export interface BranchMetric {
   tortuosity: number;
 }
 
-export interface DecisionPenaltyAnalysis {
-  /**
-   * Difference from the best available path.
-   * 0 = optimal branch
-   * Higher value = branch moves farther away from the solution
-   */
-  penalties: number[];
-  /**
-   * Difference between the best and second-best branch.
-   * Lower value = harder to distinguish the correct path.
-   */
-  ambiguity: number;
-}
 
 export interface PathsMetrics {
   avgTortuosity: number;
@@ -60,8 +46,6 @@ export interface PathMetric {
 }
 
 export interface MazeDifficultyFeatures {
-  // Sum of local branch penalties across decision nodes.
-  decisionPenalty: number;
   // Total branch tortuosity accumulated across the maze.
   tortuosity: number;
   // Total depth of branches ending in dead ends.

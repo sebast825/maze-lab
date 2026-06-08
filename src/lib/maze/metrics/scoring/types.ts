@@ -24,7 +24,6 @@ export interface Weights {
 export interface MazeDerivedFeatures {
   deadEndAvg: number;
   decisionEndAvg: number;
-  decisionPenalty: number;
   tortuosity: number;
 }
 
@@ -59,11 +58,7 @@ export interface MazeScores {
 export type MazeWeightedMetrics = {
   features: {
     deadEndAvg: number;
-
     decisionAvg: number;
-    // decisionPenalty / totalBranches
-    // average penalty per decision branch (normalizes total penalty by number of choices)
-    decisionPenaltyAvg: number;
     tortuosity: number;
   };
   paths: PathsMetrics;

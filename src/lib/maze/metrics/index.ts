@@ -5,18 +5,13 @@ import {
   analyzeNodeBranches,
   countChangesOfDirections,
   getDirectionBetweenCells,
-  traceBranchUntilDecision,
 } from "./analysis/branchAnalysis";
 import {
-  BranchAnalysis,
-  BranchMetric,
   CellMetric,
-  DecisionPenaltyAnalysis,
   MazeDifficultyFeatures,
   PathMetric,
   PathsMetrics,
 } from "./types";
-import { analyzeDecisionPenalty } from "./analysis/decisionPenalty";
 
 import {
   aggregatePathMetrics,
@@ -71,7 +66,7 @@ const computeMazeDifficultyFeatures = (
       if (neighbors.length <= 2) continue;
 
       const cellMetric: CellMetric = {
-        branches: analyzeNodeBranches(neighbors, mazeCellData, current, maze),
+        branches: analyzeNodeBranches(neighbors, current, maze),
         position: current,
         distance: mazeCellData[current.row][current.col].distance,
       };
@@ -98,7 +93,7 @@ const computePathMetrics = (paths: Position[][]): PathsMetrics => {
     pathMetrics.push({
       path,
       directions,
-      tortuosity
+      tortuosity,
     });
   });
 

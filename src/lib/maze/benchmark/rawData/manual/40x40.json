@@ -26861,7 +26861,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 1042,
         "tortuosity": 155.99808802308834,
         "deadEndBranchLength": 609,
         "decisionBranchLength": 1988,
@@ -53568,7 +53567,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 1114,
         "tortuosity": 159.35158730158724,
         "deadEndBranchLength": 548,
         "decisionBranchLength": 2110,
@@ -78707,7 +78705,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 814,
         "tortuosity": 111.1006228420702,
         "deadEndBranchLength": 684,
         "decisionBranchLength": 1838,
@@ -111918,7 +111915,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 840,
         "tortuosity": 117.92354336839627,
         "deadEndBranchLength": 651,
         "decisionBranchLength": 1904,
@@ -133665,7 +133661,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 1678,
         "tortuosity": 53.838888888888945,
         "deadEndBranchLength": 850,
         "decisionBranchLength": 1506,
@@ -157776,7 +157771,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 1642,
         "tortuosity": 57.382936507936556,
         "deadEndBranchLength": 824,
         "decisionBranchLength": 1558,
@@ -178035,7 +178029,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 1706,
         "tortuosity": 46.16681096681098,
         "deadEndBranchLength": 822,
         "decisionBranchLength": 1562,
@@ -198622,7 +198615,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 1692,
         "tortuosity": 77.83928571428575,
         "deadEndBranchLength": 782,
         "decisionBranchLength": 1642,
@@ -223725,7 +223717,6 @@
     ],
     "metrics": {
       "features": {
-        "decisionPenalty": 1700,
         "tortuosity": 81.99635642135642,
         "deadEndBranchLength": 787,
         "decisionBranchLength": 1632,
