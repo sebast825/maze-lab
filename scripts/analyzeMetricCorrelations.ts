@@ -33,6 +33,14 @@ export const tortuosityMetricsToAnalyze = [
   "avgDecisionLength",
   "avgBranchTortuosity",
 ] as const satisfies readonly (keyof BenchmarkMetricRow)[];
+export const cor = [
+  "avgDecisionLength",
+  "avgDeadEndLength",
+  "avgTortuosity",
+  "shortestPathTortuosity",
+  "repeatRatio",
+  "avgPathDetourRatio"
+] as const satisfies readonly (keyof BenchmarkMetricRow)[];
 
 
 
@@ -97,12 +105,17 @@ const analyzeMetricCorrelations = (mazeSize: keyof typeof DATASET) => {
   console.log("====================================");
  
 
-  analyzeMetricGroup("Features", rows, featureMetrics);
-  analyzeMetricGroup("Path", rows, pathMetrics);
-  analyzeMetricGroup("Path Features", rows, pathsFeatures);
-  analyzeMetricGroup("Tortuosity", rows, tortuosityMetricsToAnalyze);
+  // analyzeMetricGroup("Features", rows, featureMetrics);
+  // analyzeMetricGroup("Path", rows, pathMetrics);
+  // analyzeMetricGroup("Path Features", rows, pathsFeatures);
+  // analyzeMetricGroup("Tortuosity", rows, tortuosityMetricsToAnalyze);
+
+   analyzeMetricGroup("cor", rows, cor);
+
 };
+analyzeMetricCorrelations("10*10");
 
 analyzeMetricCorrelations("20*20");
 analyzeMetricCorrelations("30*30");
 analyzeMetricCorrelations("40*40");
+analyzeMetricCorrelations("60*60");

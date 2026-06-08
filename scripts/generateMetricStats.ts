@@ -1,6 +1,4 @@
-import {
-  getBenchmarkMetricsRows
-} from "@/lib/maze/benchmark/helpers";
+import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
 import { DATASET } from "./dataset.config";
 import { saveMetricStats } from "@/lib/maze/benchmark/metricStats/saveMetrics";
 import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
@@ -8,8 +6,11 @@ import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
 const metricsToAnalyze = [
   "avgDeadEndLength",
   "avgDecisionLength",
+  "tortuosity",
   "avgTortuosity",
+  "shortestPathTortuosity",
   "repeatRatio",
+  "avgPathDetourRatio",
 ] as const;
 
 const analyzeMetricCorrelations = (
@@ -38,6 +39,12 @@ const analyzeMetricCorrelations = (
   console.log(`Generated ${stats.length} metric to analize -> ${fileName}`);
 };
 
+analyzeMetricCorrelations("10*10", "10x10");
 analyzeMetricCorrelations("20*20", "20x20");
+
 analyzeMetricCorrelations("30*30", "30x30");
+
 analyzeMetricCorrelations("40*40", "40x40");
+
+// analyzeMetricCorrelations("75*75", "75x75");
+ analyzeMetricCorrelations("60*60", "60x60");

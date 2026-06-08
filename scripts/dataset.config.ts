@@ -5,7 +5,7 @@ import {
 
 type DatasetMode = "generated" | "manual";
 
-export const DATASET_MODE: DatasetMode = "manual";
+export const DATASET_MODE: DatasetMode = "generated";
 
 const datasetMap = {
   generated: rawDataGeneratedSelector,
