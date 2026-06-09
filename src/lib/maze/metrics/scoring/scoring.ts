@@ -1,18 +1,19 @@
-import { Repeat } from "lucide-react";
-import { CellMetric, BranchMetric, MazeDifficultyFeatures } from "../types";
+import { CellMetric, MazeDifficultyFeatures } from "../types";
 import {
   MazeDerivedMetrics,
   MazeRawMetrics,
+  MazeScores,
   MazeScoringResult,
   MazeWeightedMetrics,
   Weights,
 } from "./types";
+import { getNormalizedMetrics } from "../normalize/normalize";
+import { MazeNormalizedMetrics, MazeSizeSpecKey } from "../normalize/types";
 
 export const aggregateBranchMetrics = (
   cellsMetric: CellMetric[],
 ): MazeDifficultyFeatures => {
   const features: MazeDifficultyFeatures = {
-
     tortuosity: 0,
     deadEndBranchLength: 0,
     decisionBranchLength: 0,
@@ -36,15 +37,24 @@ export const aggregateBranchMetrics = (
   return features;
 };
 
-
 export const analyzeMaze = (
   raw: MazeRawMetrics,
   weights: Weights,
+  spec: MazeSizeSpecKey,
 ): MazeScoringResult => {
-  const derived = deriveMazeMetrics(raw);
-  const scores: MazeScoringResult = calculateMazeScore(derived, raw, weights);
+  const derived: MazeDerivedMetrics = deriveMazeMetrics(raw);
+  const normalized: MazeNormalizedMetrics = getNormalizedMetrics(derived, spec);
+  const { weighted, scores } = calculateMazeScore(normalized, raw, weights);
 
-  return scores;
+  const rsta : MazeScoringResult =  {
+    raw,
+    derived,
+    normalized,
+    weighted,
+    scores,
+  };
+  console.log(rsta)
+  return rsta;
 };
 const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
   const deadEndAvg =
@@ -75,29 +85,36 @@ const calculateMazeScore = (
   derived: MazeDerivedMetrics,
   raw: MazeRawMetrics,
   weights: Weights,
-): MazeScoringResult => {
+): { weighted: MazeWeightedMetrics; scores: MazeScores } => {
   const totalBranches =
     raw.features.deadEndBranchCount + raw.features.decisionBranchCount;
 
   const weighted: MazeWeightedMetrics = {
     features: {
       deadEndAvg: derived.features.deadEndAvg * weights.features.deadEndAvg,
-      decisionAvg: derived.features.decisionEndAvg * weights.features.decisionEndAvg,
+      decisionAvg:
+        derived.features.decisionEndAvg * weights.features.decisionEndAvg,
 
-      tortuosity: (derived.features.tortuosity/ totalBranches)  * weights.features.tortuosity,
+      tortuosity:
+        (derived.features.tortuosity / totalBranches) *
+        weights.features.tortuosity,
     },
 
     paths: {
       avgTortuosity: derived.paths.avgTortuosity * weights.paths.avgTortuosity,
-      shortestPathTortuosity: derived.paths.shortestPathTortuosity *
+      shortestPathTortuosity:
+        derived.paths.shortestPathTortuosity *
         weights.paths.shortestPathTurnDensity,
     },
 
     pathsAlternative: {
-      repeatRatio: derived.pathsAlternative.repeatRatio * weights.pathsAlternative.repeatRatio,
-      avgPathDetourRatio: derived.pathsAlternative.avgPathDetourRatio * weights.pathsAlternative.avgPathDetourRatio,
+      repeatRatio:
+        derived.pathsAlternative.repeatRatio *
+        weights.pathsAlternative.repeatRatio,
+      avgPathDetourRatio:
+        derived.pathsAlternative.avgPathDetourRatio *
+        weights.pathsAlternative.avgPathDetourRatio,
     },
-
   };
   const scoreFeatures =
     weighted.features.deadEndAvg +
@@ -105,23 +122,40 @@ const calculateMazeScore = (
     weighted.features.tortuosity;
 
   const scorePaths =
-    weighted.paths.avgTortuosity +
-    weighted.paths.shortestPathTortuosity;
-
-  const scorepathsAlternative =
-    weighted.pathsAlternative.repeatRatio -
+    weighted.paths.avgTortuosity + weighted.paths.shortestPathTortuosity;
+  /**
+   * SCENARIOS -- scorePathsAlternative
+   * SCENARIO 1: "The Safety Net" (Easy)
+   * - High repeatRatio (0.90) + Low avgPathDetourRatio (0.10)
+   * - Math: (1.0 - 0.90) + 0.10 = 0.20 (Low Difficulty)
+   * - Player experience: Forgiving layout with overlapping paths.
+   * Wrong turns reconnect to the main solution almost immediately.
+   *
+   * SCENARIO 2: "The Mirage" (Medium-Hard)
+   * - High repeatRatio (0.80) + High avgPathDetourRatio (0.85)
+   * - Math: (1.0 - 0.80) + 0.85 = 1.05 (High Difficulty)
+   * - Player experience: Visually confusing déjà-vu effect.
+   * Paths look identical, but picking the wrong one forces massive backtracking.
+   *
+   * SCENARIO 3: "The Strict Path" (Hard)
+   * - Low repeatRatio (0.15) + High avgPathDetourRatio (0.90)
+   * - Math: (1.0 - 0.15) + 0.90 = 1.75 (Maximum Difficulty)
+   * - Player experience: Unforgiving and geometric. No safety loops or shortcuts.
+   * Missing the main path leads straight into dead ends or massive dead zones.
+   */
+  const scorePathsAlternative =
+    1.0 -
+    weighted.pathsAlternative.repeatRatio +
     weighted.pathsAlternative.avgPathDetourRatio;
 
   let totalFeatures = scoreFeatures * weights.features.total;
   let totalScores = scorePaths * weights.paths.total;
-  let totalPathsAlternative = scorepathsAlternative * weights.pathsAlternative.total;
-  const total =
-    (totalFeatures + totalScores + totalPathsAlternative) /
-    (Math.sqrt(raw.totalIntersections) * weights.global.intersectionPenalty);
+  let totalPathsAlternative =
+    scorePathsAlternative * weights.pathsAlternative.total;
+
+  const total = totalFeatures + totalScores + totalPathsAlternative;
 
   return {
-    raw,
-    derived,
     weighted,
     scores: {
       features: totalFeatures,

@@ -14,8 +14,9 @@ import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
 
 import { defaultWeights } from "@/lib/maze/metrics/scoring/defaultWeights";
 import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
-import benchmark20x20  from "@/lib/maze/benchmark/rawData/manual/20x20.json";
+import benchmark20x20 from "@/lib/maze/benchmark/rawData/manual/20x20.json";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
+import { getClosestSizeKey } from "@/lib/maze/metrics/normalize/mazeSizeSpecs";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -52,14 +53,21 @@ export default function Home() {
     if (!metrics || !mazeData) return;
     const rawData: MazeBenchmark = {
       name: "",
-      id: benchmark20x20.length+1,
+      id: benchmark20x20.length + 1,
       algorithm,
       maze: mazeData?.maze!,
       paths: mazeData?.solution!,
       metrics: metrics.raw,
     };
-    console.log("raw data: ",rawData);
-    console.log("metrics, raw, derived ,weights and scores: ", analyzeMaze(metrics.raw,defaultWeights))
+    console.log("raw data: ", rawData);
+    console.log(
+      "metrics, raw, derived ,weights and scores: ",
+      analyzeMaze(
+        metrics.raw,
+        defaultWeights,
+        getClosestSizeKey(rawData.maze.rows * rawData.maze.cols),
+      ),
+    );
   }, [metrics]);
 
   return (

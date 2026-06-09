@@ -1,3 +1,4 @@
+import { MazeNormalizedMetrics } from "../normalize/types";
 import { PathsMetrics, MazeDifficultyFeatures } from "../types";
 
 export interface Weights {
@@ -44,6 +45,7 @@ export interface MazeRawMetrics {
 export interface MazeScoringResult {
   raw: MazeRawMetrics;
   derived: MazeDerivedMetrics;
+  normalized : MazeNormalizedMetrics;
   weighted: MazeWeightedMetrics;
   scores: MazeScores;
 }

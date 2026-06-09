@@ -8,11 +8,12 @@ import {
 } from "@/lib/maze/metrics/scoring/types";
 import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
+import { getClosestSizeKey } from "@/lib/maze/metrics/normalize/mazeSizeSpecs";
 
 export const useMazeAnalysis = (weights: Weights) => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
   const [rawData, setRawData] = useState<MazeRawMetrics | null>(null);
-  
+
   const [mazeScoreResult, setMazeScoreResult] =
     useState<MazeScoringResult | null>(null);
 
@@ -49,9 +50,14 @@ export const useMazeAnalysis = (weights: Weights) => {
     });
   };
   useEffect(() => {
-    if (!rawData) return;
-    console.log(rawData)
-    setMazeScoreResult(analyzeMaze(rawData, weights));
+    if (!rawData || !mazeData) return;
+    setMazeScoreResult(
+      analyzeMaze(
+        rawData,
+        weights,
+        getClosestSizeKey(mazeData.maze.rows * mazeData.maze.rows),
+      ),
+    );
   }, [rawData, weights]);
 
   return { mazeData, createMaze, mazeScoreResult };

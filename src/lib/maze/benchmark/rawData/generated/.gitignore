@@ -1,2 +1,4 @@
-*
-!.gitignore
+
+*.json
+
+!*-stats.json

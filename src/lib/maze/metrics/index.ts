@@ -25,6 +25,7 @@ import {
   MazeScoringResult,
 } from "./scoring/types";
 import { defaultWeights } from "./scoring/defaultWeights";
+import { getClosestSizeKey } from "./normalize/mazeSizeSpecs";
 
 export const computeMazeMetrics = (
   mazeCellData: CellInfo[][],
@@ -49,7 +50,7 @@ export const computeMazeMetrics = (
     shortestPathLength,
     totalPaths: paths.length,
   };
-  return analyzeMaze(rawMetrics, defaultWeights);
+  return analyzeMaze(rawMetrics, defaultWeights, getClosestSizeKey(maze.rows * maze.cols));
 };
 
 const computeMazeDifficultyFeatures = (

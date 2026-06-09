@@ -2,16 +2,16 @@ import { Weights } from "./types";
 
 export const defaultWeights: Weights = {
   features: {
-    deadEndAvg: 1.1,
-    decisionEndAvg: 2,
+    deadEndAvg: 1,
+    decisionEndAvg: 1,
     tortuosity: 1,
     total: 1,
   },
 
   paths: {
     avgTortuosity: 1,
-    avgTurnDensity: 0.5,
-    shortestPathTurnDensity: 3,
+    avgTurnDensity: 1,
+    shortestPathTurnDensity: 1,
     total: 1
   },
 
