@@ -3,8 +3,9 @@
 import { MazeScoringResult } from "@/lib/maze/metrics/scoring/types";
 import { MetricCard } from "./metricCard";
 import { ScoreRow } from "./scoreRow";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PANEL_CLASSES } from "@/components/themes";
+import { ActionButton } from "@/components/actionButton";
 
 interface Props {
   data: MazeScoringResult;
@@ -14,8 +15,8 @@ export function MazeAnalysisPanel({ data }: Props) {
   useEffect(() => {
     console.log(data);
   }, [data]);
-
-  const { raw, scores, weighted } = data;
+  const [showStats, setShowStats] = useState<boolean>(true);
+  const { raw, scores, weighted, derived, normalized } = data;
 
   return (
     <div
@@ -35,7 +36,44 @@ export function MazeAnalysisPanel({ data }: Props) {
           </div>
         </section>
 
-        {/* DERIVED METRICS */}
+        {showStats && (
+          <>
+            {/* DERIVED METRICS */}
+
+            <section>
+              <h3 className={`${PANEL_CLASSES.title}  text-yellow-300`}>
+                Derived Metrics
+              </h3>
+
+              <div className="flex flex-wrap gap-4">
+                <MetricCard title="Features" data={derived.features} />
+                <MetricCard title="Paths" data={derived.paths} />
+                <MetricCard
+                  title="Path Alternative"
+                  data={derived.pathsAlternative}
+                />
+              </div>
+            </section>
+            {/* NORMALIZED METRICS */}
+
+            <section>
+              <h3 className={`${PANEL_CLASSES.title}  text-red-300`}>
+                Normalized Metrics
+              </h3>
+
+              <div className="flex flex-wrap gap-4">
+                <MetricCard title="Features" data={normalized.features} />
+                <MetricCard title="Paths" data={normalized.paths} />
+                <MetricCard
+                  title="Path Alternative"
+                  data={normalized.pathsAlternative}
+                />
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* WEIGHTED METRICS */}
         <section>
           <h3 className={`${PANEL_CLASSES.title}  text-purple-300`}>
             Weighted Metrics
@@ -43,14 +81,17 @@ export function MazeAnalysisPanel({ data }: Props) {
           <div className="flex flex-wrap gap-4">
             <MetricCard title="Features" data={weighted.features} />
             <MetricCard title="Paths" data={weighted.paths} />
-            <MetricCard title="Paths Alternative" data={weighted.pathsAlternative} />
+            <MetricCard
+              title="Paths Alternative"
+              data={weighted.pathsAlternative}
+            />
           </div>
         </section>
       </main>
 
-      <aside className="shrink-0">
+      <aside className="shrink-0 ">
         {/* SCORE BREAKDOWN */}
-        <section>
+        <section className="mb-5">
           <h3 className={`${PANEL_CLASSES.title}  text-green-300`}>
             Score Breakdown
           </h3>
@@ -58,10 +99,18 @@ export function MazeAnalysisPanel({ data }: Props) {
           <div className={PANEL_CLASSES.card}>
             <ScoreRow label="Features Score" value={scores.features} />
             <ScoreRow label="Paths Score" value={scores.paths} />
-            <ScoreRow label="Paths Alternative Score" value={scores.pathsAlternative} />
+            <ScoreRow
+              label="Paths Alternative Score"
+              value={scores.pathsAlternative}
+            />
             <ScoreRow label="Final Score" value={scores.total} highlight />
           </div>
         </section>
+        <ActionButton
+          action={() => setShowStats(!showStats)}
+          color={"green"}
+          text={showStats ? "Hide Advanced Metrics" : "Advanced Metrics"}
+        ></ActionButton>
       </aside>
     </div>
   );
