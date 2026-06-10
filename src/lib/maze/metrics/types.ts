@@ -36,7 +36,7 @@ export interface PathsMetrics {
   /**
    * Decision nodes on shortest path / shortest path length
    */
-  decisionShortestPathAvg: number;
+  shortestPathDecisionAvg: number;
 }
 
 export interface PathMetric {

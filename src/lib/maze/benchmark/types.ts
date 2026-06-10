@@ -48,7 +48,7 @@ export interface BenchmarkMetricRow {
 
   avgTortuosity: number;
   shortestPathTortuosity: number;
-  decisionShortestPathAvg: number;
+  shortestPathDecisionAvg: number;
   repeatRatio: number;
   avgPathDetourRatio: number;
   maxPathDetourRatio: number;

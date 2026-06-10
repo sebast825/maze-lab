@@ -41,7 +41,7 @@ export const getNormalizedMetrics = (
         specs.shortestPathTortuosity,
       ),
 
-      decisionShortestPathAvg: derived.paths.decisionShortestPathAvg,
+      shortestPathDecisionAvg:normalize( derived.paths.shortestPathDecisionAvg,specs.shortestPathDecisionAvg)
     },
     pathsAlternative: {
       /**

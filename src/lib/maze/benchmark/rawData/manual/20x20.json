@@ -4176,7 +4176,7 @@
       "paths": {
         "avgTortuosity": 0.5386847195357833,
         "shortestPathTortuosity": 0.5319148936170213,
-        "decisionShortestPathAvg": 0.23404255319148937
+        "shortestPathDecisionAvg": 0.23404255319148937
       },
       "pathsAlternative": {
         "repeatRatio": 0.7288135593220338,
@@ -8766,7 +8766,7 @@
       "paths": {
         "avgTortuosity": 0.6262842030312278,
         "shortestPathTortuosity": 0.5977011494252874,
-        "decisionShortestPathAvg": 0.22988505747126436
+        "shortestPathDecisionAvg": 0.22988505747126436
       },
       "pathsAlternative": {
         "repeatRatio": 0.5151515151515151,
@@ -13308,7 +13308,7 @@
       "paths": {
         "avgTortuosity": 0.6494190921068391,
         "shortestPathTortuosity": 0.6376811594202898,
-        "decisionShortestPathAvg": 0.2753623188405797
+        "shortestPathDecisionAvg": 0.2753623188405797
       },
       "pathsAlternative": {
         "repeatRatio": 0.52,
@@ -17693,7 +17693,7 @@
       "paths": {
         "avgTortuosity": 0.5093572633839546,
         "shortestPathTortuosity": 0.5471698113207547,
-        "decisionShortestPathAvg": 0.2641509433962264
+        "shortestPathDecisionAvg": 0.2641509433962264
       },
       "pathsAlternative": {
         "repeatRatio": 0.375,
@@ -22270,7 +22270,7 @@
       "paths": {
         "avgTortuosity": 0.5847484652794388,
         "shortestPathTortuosity": 0.5765765765765766,
-        "decisionShortestPathAvg": 0.1891891891891892
+        "shortestPathDecisionAvg": 0.1891891891891892
       },
       "pathsAlternative": {
         "repeatRatio": 0.8666666666666667,
@@ -26543,7 +26543,7 @@
       "paths": {
         "avgTortuosity": 0.6551124931406622,
         "shortestPathTortuosity": 0.647887323943662,
-        "decisionShortestPathAvg": 0.18309859154929578
+        "shortestPathDecisionAvg": 0.18309859154929578
       },
       "pathsAlternative": {
         "repeatRatio": 0.5913978494623656,
@@ -30552,7 +30552,7 @@
       "paths": {
         "avgTortuosity": 0.46213476446034585,
         "shortestPathTortuosity": 0.4358974358974359,
-        "decisionShortestPathAvg": 0.6410256410256411
+        "shortestPathDecisionAvg": 0.6410256410256411
       },
       "pathsAlternative": {
         "repeatRatio": 0.36666666666666664,
@@ -34705,7 +34705,7 @@
       "paths": {
         "avgTortuosity": 0.5654779742283488,
         "shortestPathTortuosity": 0.5957446808510638,
-        "decisionShortestPathAvg": 0.46808510638297873
+        "shortestPathDecisionAvg": 0.46808510638297873
       },
       "pathsAlternative": {
         "repeatRatio": 0.5945945945945946,
@@ -38946,7 +38946,7 @@
       "paths": {
         "avgTortuosity": 0.5432426906563075,
         "shortestPathTortuosity": 0.5522388059701493,
-        "decisionShortestPathAvg": 0.4925373134328358
+        "shortestPathDecisionAvg": 0.4925373134328358
       },
       "pathsAlternative": {
         "repeatRatio": 0.8421052631578947,
@@ -43083,7 +43083,7 @@
       "paths": {
         "avgTortuosity": 0.5755102040816327,
         "shortestPathTortuosity": 0.5510204081632653,
-        "decisionShortestPathAvg": 0.46938775510204084
+        "shortestPathDecisionAvg": 0.46938775510204084
       },
       "pathsAlternative": {
         "repeatRatio": 0.5405405405405406,
@@ -47316,7 +47316,7 @@
       "paths": {
         "avgTortuosity": 0.5678092399403875,
         "shortestPathTortuosity": 0.5901639344262295,
-        "decisionShortestPathAvg": 0.5081967213114754
+        "shortestPathDecisionAvg": 0.5081967213114754
       },
       "pathsAlternative": {
         "repeatRatio": 0.6046511627906976,
@@ -51837,7 +51837,7 @@
       "paths": {
         "avgTortuosity": 0.5311542390194075,
         "shortestPathTortuosity": 0.5168539325842697,
-        "decisionShortestPathAvg": 0.07865168539325842
+        "shortestPathDecisionAvg": 0.07865168539325842
       },
       "pathsAlternative": {
         "repeatRatio": 0.7355371900826446,

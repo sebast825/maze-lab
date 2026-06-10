@@ -16,12 +16,12 @@ export const aggregatePathMetrics = (
       ? currentPath
       : prevPath;
   });
-  const decisionShortestPathAvg =
+  const shortestPathDecisionAvg =
     countDecisionNodesInPath(minPath.path, maze) / minPath.path.length;
   return {
     avgTortuosity: avg(tortuosities),
     shortestPathTortuosity: minPath.tortuosity,
-    decisionShortestPathAvg,
+    shortestPathDecisionAvg,
   };
 };
 

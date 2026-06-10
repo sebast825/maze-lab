@@ -55,7 +55,7 @@
     "max": 0.78
   },
   {
-    "metric": "decisionShortestPathAvg",
+    "metric": "shortestPathDecisionAvg",
     "min": 0.03,
     "p5": 0.12,
     "p25": 0.21,
