@@ -3,7 +3,6 @@ import { MazeSizeSpecs } from "./mazeSizeSpecs";
 import { MazeNormalizedMetrics, MazeSizeSpecKey, MetricLimits } from "./types";
 
 function normalize(value: number, limits: MetricLimits): number {
-   
   const { p5, p95 } = limits;
   // Prevent division by zero if percentiles are identical
   if (p95 === p5) return 0;
@@ -18,7 +17,10 @@ export const getNormalizedMetrics = (
   sizeKey: MazeSizeSpecKey,
 ): MazeNormalizedMetrics => {
   const specs = MazeSizeSpecs[sizeKey];
-
+  console.log(
+    "asdsa",
+    normalize(derived.pathsAlternative.repeatRatio, specs.repeatRatio),
+  );
   return {
     features: {
       deadEndAvg: normalize(derived.features.deadEndAvg, specs.deadEndAvg),
@@ -39,8 +41,14 @@ export const getNormalizedMetrics = (
       ),
     },
     pathsAlternative: {
-      // INVERSION: The higher the repeatRatio, the easier the maze.
-      // When using (1 - normalized), a low repeatRatio becomes a high difficulty.
+      /**
+       * INVERSION: The higher the repeatRatio, the easier the maze.
+       * By doing (1.0 - normalized), we transform it into a difficulty metric.
+       * * EXAMPLES (After Inversion):
+       * - "The Safety Net" (Easy):   Raw repeatRatio 0.90 -> Inverted to 0.10 (Low Difficulty)
+       * - "The Mirage" (Med-Hard):   Raw repeatRatio 0.80 -> Inverted to 0.20 (Mid Difficulty)
+       * - "The Strict Path" (Hard):  Raw repeatRatio 0.15 -> Inverted to 0.85 (High Difficulty)
+       */
       repeatRatio:
         1.0 -
         normalize(derived.pathsAlternative.repeatRatio, specs.repeatRatio),

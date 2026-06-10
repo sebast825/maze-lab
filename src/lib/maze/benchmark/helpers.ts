@@ -25,7 +25,7 @@ export const getBenchmarkMetricsRows = (benchmarks: MazeBenchmark[]) : Benchmark
 
   
       tortuosity,
-
+        
       deadEndBranchLength,
       decisionBranchLength,
 

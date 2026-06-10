@@ -46,14 +46,14 @@ export const analyzeMaze = (
   const normalized: MazeNormalizedMetrics = getNormalizedMetrics(derived, spec);
   const { weighted, scores } = calculateMazeScore(normalized, raw, weights);
 
-  const rsta : MazeScoringResult =  {
+  const rsta: MazeScoringResult = {
     raw,
     derived,
     normalized,
     weighted,
     scores,
   };
-  console.log(rsta)
+  console.log(rsta);
   return rsta;
 };
 const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
@@ -82,37 +82,37 @@ const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
 };
 
 const calculateMazeScore = (
-  derived: MazeDerivedMetrics,
+  normalized: MazeNormalizedMetrics,
   raw: MazeRawMetrics,
   weights: Weights,
 ): { weighted: MazeWeightedMetrics; scores: MazeScores } => {
   const totalBranches =
     raw.features.deadEndBranchCount + raw.features.decisionBranchCount;
-
   const weighted: MazeWeightedMetrics = {
     features: {
-      deadEndAvg: derived.features.deadEndAvg * weights.features.deadEndAvg,
+      deadEndAvg: normalized.features.deadEndAvg * weights.features.deadEndAvg,
       decisionAvg:
-        derived.features.decisionEndAvg * weights.features.decisionEndAvg,
+        normalized.features.decisionEndAvg * weights.features.decisionEndAvg,
 
       tortuosity:
-        (derived.features.tortuosity / totalBranches) *
+        (normalized.features.tortuosity / totalBranches) *
         weights.features.tortuosity,
     },
 
     paths: {
-      avgTortuosity: derived.paths.avgTortuosity * weights.paths.avgTortuosity,
+      avgTortuosity:
+        normalized.paths.avgTortuosity * weights.paths.avgTortuosity,
       shortestPathTortuosity:
-        derived.paths.shortestPathTortuosity *
+        normalized.paths.shortestPathTortuosity *
         weights.paths.shortestPathTurnDensity,
     },
 
     pathsAlternative: {
       repeatRatio:
-        derived.pathsAlternative.repeatRatio *
+        normalized.pathsAlternative.repeatRatio *
         weights.pathsAlternative.repeatRatio,
       avgPathDetourRatio:
-        derived.pathsAlternative.avgPathDetourRatio *
+        normalized.pathsAlternative.avgPathDetourRatio *
         weights.pathsAlternative.avgPathDetourRatio,
     },
   };
@@ -123,28 +123,8 @@ const calculateMazeScore = (
 
   const scorePaths =
     weighted.paths.avgTortuosity + weighted.paths.shortestPathTortuosity;
-  /**
-   * SCENARIOS -- scorePathsAlternative
-   * SCENARIO 1: "The Safety Net" (Easy)
-   * - High repeatRatio (0.90) + Low avgPathDetourRatio (0.10)
-   * - Math: (1.0 - 0.90) + 0.10 = 0.20 (Low Difficulty)
-   * - Player experience: Forgiving layout with overlapping paths.
-   * Wrong turns reconnect to the main solution almost immediately.
-   *
-   * SCENARIO 2: "The Mirage" (Medium-Hard)
-   * - High repeatRatio (0.80) + High avgPathDetourRatio (0.85)
-   * - Math: (1.0 - 0.80) + 0.85 = 1.05 (High Difficulty)
-   * - Player experience: Visually confusing déjà-vu effect.
-   * Paths look identical, but picking the wrong one forces massive backtracking.
-   *
-   * SCENARIO 3: "The Strict Path" (Hard)
-   * - Low repeatRatio (0.15) + High avgPathDetourRatio (0.90)
-   * - Math: (1.0 - 0.15) + 0.90 = 1.75 (Maximum Difficulty)
-   * - Player experience: Unforgiving and geometric. No safety loops or shortcuts.
-   * Missing the main path leads straight into dead ends or massive dead zones.
-   */
+
   const scorePathsAlternative =
-    1.0 -
     weighted.pathsAlternative.repeatRatio +
     weighted.pathsAlternative.avgPathDetourRatio;
 
