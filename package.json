@@ -12,7 +12,8 @@
     "recalculate-metrics": "tsx scripts/recalculateAndSaveBenchmarkMetrics.ts",
     "analyzeMetricCorrelations": "tsx scripts/analyzeMetricCorrelations.ts",
     "generate-dataset": "tsx scripts/generateDataset.ts",
-    "generate-stats": "tsx scripts/generateMetricStats"
+    "generate-stats": "tsx scripts/generateMetricStats",
+    "extract-normalization-specs": "tsx scripts/extractNormalizationSpecs.ts"
   },
   "dependencies": {
     "jspdf": "^4.2.1",
