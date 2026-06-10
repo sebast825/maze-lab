@@ -1,7 +1,9 @@
 import { createEmptyMaze } from "../../../core";
 import { removeWallBetween } from "../../../walls";
-import { getDirectionBetweenCells, traceBranchUntilDecision } from "../branchAnalysis";
-
+import {
+  getDirectionBetweenCells,
+  traceBranchUntilDecision,
+} from "../branchAnalysis";
 
 describe("traceBranchUntilDecision - Edge Cases", () => {
   it("should handle an immediate dead-end", () => {
@@ -9,18 +11,17 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const maze = createEmptyMaze(1, 2);
     const from = { row: 0, col: 0 };
     const initBranchPosition = { row: 0, col: 1 };
-    
+
     removeWallBetween(maze, from, initBranchPosition);
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
-
     expect(result).toEqual({
-      branchLength: 0, // No movements performed from the initial cell
       from,
       to: initBranchPosition,
       lastNode: initBranchPosition,
       path: [initBranchPosition],
       endedBy: "dead-end",
+      pathDirections: [],
     });
   });
 
@@ -36,14 +37,14 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     removeWallBetween(maze, initBranchPosition, { row: 1, col: 2 });
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
-
+    console.log(result);
     expect(result).toEqual({
-      branchLength: 0, // Cuts immediately because a choice exists at the start cell
       from,
       to: initBranchPosition,
       lastNode: initBranchPosition,
       path: [initBranchPosition],
       endedBy: "decision",
+      pathDirections: [],
     });
   });
 
@@ -60,7 +61,6 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
 
     expect(result).toEqual({
-      branchLength: 2, // Steps taken: (0,1)->(0,2) and (0,2)->(0,3)
       from,
       to: initBranchPosition,
       lastNode: { row: 0, col: 3 },
@@ -70,6 +70,7 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
         { row: 0, col: 3 },
       ],
       endedBy: "dead-end",
+      pathDirections: ["east","east"],
     });
   });
 
@@ -82,7 +83,7 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     removeWallBetween(maze, from, initBranchPosition);
     removeWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
     removeWallBetween(maze, { row: 0, col: 2 }, { row: 0, col: 3 });
-    
+
     // Open two alternative paths from (0,3)
     removeWallBetween(maze, { row: 0, col: 3 }, { row: 0, col: 4 });
     removeWallBetween(maze, { row: 0, col: 3 }, { row: 1, col: 3 });
@@ -90,7 +91,6 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
 
     expect(result).toEqual({
-      branchLength: 2, // Walks up to the intersection cell (0,3)
       from,
       to: initBranchPosition,
       lastNode: { row: 0, col: 3 },
@@ -100,11 +100,12 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
         { row: 0, col: 3 },
       ],
       endedBy: "decision",
+      pathDirections: ["east", "east"],
     });
   });
 
   it("should never backtrack to the 'from' node under any circumstances", () => {
-    // Scenario: (0,0)[from] <-> (0,1)[init]. Even if the wall back to 'from' is open 
+    // Scenario: (0,0)[from] <-> (0,1)[init]. Even if the wall back to 'from' is open
     // and there are no other exits, it must not treat 'from' as a valid move forward.
     const maze = createEmptyMaze(1, 2);
     const from = { row: 0, col: 0 };
@@ -116,13 +117,12 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
 
     // It must register as a dead-end immediately without adding 'from' to the path
     expect(result.endedBy).toBe("dead-end");
-    expect(result.branchLength).toBe(0);
     expect(result.path).not.toContainEqual(from);
   });
 
   it("should stop by decision immediately if the initial cell is structurally part of a loop fork", () => {
     // Scenario: Immediate ring/loop layout
-    // (0,0)[from] <-> (0,1)[init] <-> (0,2) 
+    // (0,0)[from] <-> (0,1)[init] <-> (0,2)
     //                   |              ^
     //                   v              |
     //                 (1,1)   <----  (1,2)
@@ -141,16 +141,15 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
 
     expect(result).toEqual({
-      branchLength: 0,
       from,
       to: initBranchPosition,
       lastNode: initBranchPosition,
       path: [initBranchPosition],
-      endedBy: "decision"
+      endedBy: "decision",
+      pathDirections: [],
     });
   });
-})
-
+});
 
 describe("getDirectionBetweenCells", () => {
   // We use test.each to run the same assertion logic over all cardinal directions
