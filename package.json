@@ -9,7 +9,7 @@
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "regenerate-metrics": "tsx scripts/regenerateMetrics.ts",
+    "recalculate-metrics": "tsx scripts/recalculateAndSaveBenchmarkMetrics.ts",
     "analyzeMetricCorrelations": "tsx scripts/analyzeMetricCorrelations.ts",
     "generate-dataset": "tsx scripts/generateDataset.ts",
     "generate-stats": "tsx scripts/generateMetricStats"

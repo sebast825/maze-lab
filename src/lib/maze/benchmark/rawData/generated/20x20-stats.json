@@ -55,6 +55,17 @@
     "max": 0.75
   },
   {
+    "metric": "decisionShortestPathAvg",
+    "min": 0.06,
+    "p5": 0.1,
+    "p25": 0.19,
+    "p50": 0.37,
+    "avg": 0.35,
+    "p75": 0.49,
+    "p95": 0.58,
+    "max": 0.71
+  },
+  {
     "metric": "repeatRatio",
     "min": 0.02,
     "p5": 0.15,

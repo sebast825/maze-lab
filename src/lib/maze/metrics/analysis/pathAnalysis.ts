@@ -1,21 +1,44 @@
-import { Position } from "../../types";
+import { Console } from "console";
+import { Maze, Position } from "../../types";
 import { AlternativeRawPathMetrics } from "../scoring/types";
-import { PathMetric, PathsMetrics } from "../types";
+import { BranchAnalysis, PathMetric, PathsMetrics } from "../types";
+import { traceBranchUntilDecision } from "./branchAnalysis";
 import { computeRepeatRatio } from "./computeRepeatRatio";
+import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 
-export const aggregatePathMetrics = (paths: PathMetric[]): PathsMetrics => {
+export const aggregatePathMetrics = (
+  paths: PathMetric[],
+  maze: Maze,
+): PathsMetrics => {
   const tortuosities = paths.map((p) => p.tortuosity);
   const minPath: PathMetric = paths.reduce((prevPath, currentPath) => {
     return currentPath.path.length < prevPath.path.length
       ? currentPath
       : prevPath;
   });
-
+  const decisionShortestPathAvg =
+    countDecisionNodesInPath(minPath.path, maze) / minPath.path.length;
   return {
     avgTortuosity: avg(tortuosities),
     shortestPathTortuosity: minPath.tortuosity,
+    decisionShortestPathAvg,
   };
 };
+
+export const countDecisionNodesInPath = (
+  path: Position[],
+  maze: Maze,
+): number => {
+  let decisionNodes: number = 0;
+
+  for (let i = 0; i < path.length; i++) {
+    const neighbors = getNeighborsByOpenWall(maze, path[i]);
+    if (neighbors.length > 2) decisionNodes++;
+  }
+
+  return decisionNodes;
+};
+
 const avg = (arr: number[]) => arr.reduce((sum, v) => sum + v, 0) / arr.length;
 
 export const computePathVariance = (

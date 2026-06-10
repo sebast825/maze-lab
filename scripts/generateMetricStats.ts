@@ -9,6 +9,7 @@ const metricsToAnalyze = [
   "tortuosityFeatureAvg",
   "avgTortuosity",
   "shortestPathTortuosity",
+  "decisionShortestPathAvg",
   "repeatRatio",
   "avgPathDetourRatio",
 ] as const;

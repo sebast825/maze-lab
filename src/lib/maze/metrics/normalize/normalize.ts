@@ -1,3 +1,4 @@
+import { spec } from "node:test/reporters";
 import { MazeDerivedMetrics } from "../scoring/types";
 import { MazeSizeSpecs } from "./mazeSizeSpecs";
 import { MazeNormalizedMetrics, MazeSizeSpecKey, MetricLimits } from "./types";
@@ -25,7 +26,10 @@ export const getNormalizedMetrics = (
         derived.features.decisionEndAvg,
         specs.decisionEndAvg,
       ),
-      tortuosityAvg: normalize(derived.features.tortuosityAvg, specs.tortuosityFeatureAvg),
+      tortuosityAvg: normalize(
+        derived.features.tortuosityAvg,
+        specs.tortuosityFeatureAvg,
+      ),
     },
     paths: {
       avgTortuosity: normalize(
@@ -36,6 +40,8 @@ export const getNormalizedMetrics = (
         derived.paths.shortestPathTortuosity,
         specs.shortestPathTortuosity,
       ),
+
+      decisionShortestPathAvg: derived.paths.decisionShortestPathAvg,
     },
     pathsAlternative: {
       /**

@@ -38,7 +38,7 @@ export const computeMazeMetrics = (
     maze,
   );
 
-  const pathsMetrics: PathsMetrics = computePathMetrics(paths);
+  const pathsMetrics: PathsMetrics = computePathMetrics(paths,maze);
   const totalIntersections: number = getTotalIntersections(maze);
   const pathOverlapMetrics: AlternativeRawPathMetrics =
     computePathVariance(paths);
@@ -78,7 +78,7 @@ const computeMazeDifficultyFeatures = (
   return aggregateBranchMetrics(cellMetrics);
 };
 
-const computePathMetrics = (paths: Position[][]): PathsMetrics => {
+const computePathMetrics = (paths: Position[][],  maze: Maze): PathsMetrics => {
   let pathMetrics: PathMetric[] = [];
   paths.forEach((path) => {
     const directions: Direction[] = [];
@@ -98,7 +98,7 @@ const computePathMetrics = (paths: Position[][]): PathsMetrics => {
     });
   });
 
-  let pathsMetrics = aggregatePathMetrics(pathMetrics);
+  let pathsMetrics = aggregatePathMetrics(pathMetrics,maze);
 
   return pathsMetrics;
 };

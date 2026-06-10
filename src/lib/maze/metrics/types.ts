@@ -26,7 +26,6 @@ export interface BranchMetric {
   tortuosity: number;
 }
 
-
 export interface PathsMetrics {
   avgTortuosity: number;
   /**
@@ -34,7 +33,10 @@ export interface PathsMetrics {
    * Higher value = shortest route is more visually confusing.
    */
   shortestPathTortuosity: number;
-
+  /**
+   * Decision nodes on shortest path / shortest path length
+   */
+  decisionShortestPathAvg: number;
 }
 
 export interface PathMetric {
@@ -42,7 +44,6 @@ export interface PathMetric {
   directions: Direction[];
   //Total number of direction changes along the path divieded by the path length
   tortuosity: number;
-
 }
 
 export interface MazeDifficultyFeatures {
@@ -57,5 +58,3 @@ export interface MazeDifficultyFeatures {
   // Total amount of branches ending in another decision node.
   decisionBranchCount: number;
 }
-
-

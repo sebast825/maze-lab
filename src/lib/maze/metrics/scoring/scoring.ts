@@ -94,7 +94,8 @@ const calculateMazeScore = (
       decisionAvg:
         normalized.features.decisionEndAvg * weights.features.decisionEndAvg,
 
-      tortuosity: normalized.features.tortuosityAvg * weights.features.tortuosityAvg,
+      tortuosity:
+        normalized.features.tortuosityAvg * weights.features.tortuosityAvg,
     },
 
     paths: {
@@ -102,7 +103,10 @@ const calculateMazeScore = (
         normalized.paths.avgTortuosity * weights.paths.avgTortuosity,
       shortestPathTortuosity:
         normalized.paths.shortestPathTortuosity *
-        weights.paths.shortestPathTurnDensity,
+        weights.paths.shortestPathTortuosity,
+      decisionShortestPathAvg:
+        normalized.paths.decisionShortestPathAvg *
+        weights.paths.decisionShortestPathAvg,
     },
 
     pathsAlternative: {
@@ -120,7 +124,7 @@ const calculateMazeScore = (
     weighted.features.tortuosity;
 
   const scorePaths =
-    weighted.paths.avgTortuosity + weighted.paths.shortestPathTortuosity;
+    weighted.paths.avgTortuosity + weighted.paths.shortestPathTortuosity + weighted.paths.decisionShortestPathAvg;
 
   const scorePathsAlternative =
     weighted.pathsAlternative.repeatRatio +

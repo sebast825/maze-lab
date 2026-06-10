@@ -32,7 +32,7 @@ export interface BenchmarkMetricRow {
   shortestPathLength: number;
 
   tortuosity: number;
-  tortuosityFeatureAvg : number
+  tortuosityFeatureAvg: number;
   deadEndBranchLength: number;
   decisionBranchLength: number;
 
@@ -41,7 +41,6 @@ export interface BenchmarkMetricRow {
 
   totalBranches: number;
 
-
   avgBranchTortuosity: number;
 
   avgDeadEndLength: number;
@@ -49,7 +48,7 @@ export interface BenchmarkMetricRow {
 
   avgTortuosity: number;
   shortestPathTortuosity: number;
-
+  decisionShortestPathAvg: number;
   repeatRatio: number;
   avgPathDetourRatio: number;
   maxPathDetourRatio: number;

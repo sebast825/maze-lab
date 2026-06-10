@@ -10,8 +10,8 @@ export const defaultWeights: Weights = {
 
   paths: {
     avgTortuosity: 1,
-    avgTurnDensity: 1,
-    shortestPathTurnDensity: 1,
+    shortestPathTortuosity: 1,
+    decisionShortestPathAvg: 1,
     total: 1
   },
 

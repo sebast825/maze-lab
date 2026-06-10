@@ -48,7 +48,7 @@ export const getBenchmarkMetricsRows = (
       avgTortuosity: benchmark.metrics.paths.avgTortuosity,
 
       shortestPathTortuosity: benchmark.metrics.paths.shortestPathTortuosity,
-
+decisionShortestPathAvg : benchmark.metrics.paths.decisionShortestPathAvg,
       repeatRatio: benchmark.metrics.pathsAlternative.repeatRatio,
 
       avgPathDetourRatio: benchmark.metrics.pathsAlternative.avgPathDetourRatio,

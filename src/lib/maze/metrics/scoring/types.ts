@@ -6,10 +6,8 @@ export interface Weights {
     total: number;
   };
 
-  paths: {
-    avgTortuosity: number;
-    avgTurnDensity: number;
-    shortestPathTurnDensity: number;
+  paths: PathsMetrics &{
+  
     total: number;
   };
 

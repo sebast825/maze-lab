@@ -10999,7 +10999,8 @@
       },
       "paths": {
         "avgTortuosity": 0.3759008017620362,
-        "shortestPathTortuosity": 0.29333333333333333
+        "shortestPathTortuosity": 0.29333333333333333,
+        "decisionShortestPathAvg": 0.38666666666666666
       },
       "pathsAlternative": {
         "repeatRatio": 0.5509725272144623,
@@ -23614,7 +23615,8 @@
       },
       "paths": {
         "avgTortuosity": 0.6327558276528188,
-        "shortestPathTortuosity": 0.6548672566371682
+        "shortestPathTortuosity": 0.6548672566371682,
+        "decisionShortestPathAvg": 0.22123893805309736
       },
       "pathsAlternative": {
         "repeatRatio": 0.3434625173340411,
@@ -35434,7 +35436,8 @@
       },
       "paths": {
         "avgTortuosity": 0.5796230359695022,
-        "shortestPathTortuosity": 0.5619047619047619
+        "shortestPathTortuosity": 0.5619047619047619,
+        "decisionShortestPathAvg": 0.2
       },
       "pathsAlternative": {
         "repeatRatio": 0.4530535491028979,
@@ -47684,7 +47687,8 @@
       },
       "paths": {
         "avgTortuosity": 0.621647844502626,
-        "shortestPathTortuosity": 0.6352941176470588
+        "shortestPathTortuosity": 0.6352941176470588,
+        "decisionShortestPathAvg": 0.27058823529411763
       },
       "pathsAlternative": {
         "repeatRatio": 0.4572574399215236,
@@ -59596,7 +59600,8 @@
       },
       "paths": {
         "avgTortuosity": 0.4581068916799608,
-        "shortestPathTortuosity": 0.37681159420289856
+        "shortestPathTortuosity": 0.37681159420289856,
+        "decisionShortestPathAvg": 0.5362318840579711
       },
       "pathsAlternative": {
         "repeatRatio": 0.5303160675138394,
@@ -70152,7 +70157,8 @@
       },
       "paths": {
         "avgTortuosity": 0.37818925586616575,
-        "shortestPathTortuosity": 0.36923076923076925
+        "shortestPathTortuosity": 0.36923076923076925,
+        "decisionShortestPathAvg": 0.676923076923077
       },
       "pathsAlternative": {
         "repeatRatio": 0.4391931013526514,
@@ -81680,7 +81686,8 @@
       },
       "paths": {
         "avgTortuosity": 0.5278080079731526,
-        "shortestPathTortuosity": 0.5057471264367817
+        "shortestPathTortuosity": 0.5057471264367817,
+        "decisionShortestPathAvg": 0.4482758620689655
       },
       "pathsAlternative": {
         "repeatRatio": 0.3902479752792297,
@@ -93228,7 +93235,8 @@
       },
       "paths": {
         "avgTortuosity": 0.5318958883421027,
-        "shortestPathTortuosity": 0.5130434782608696
+        "shortestPathTortuosity": 0.5130434782608696,
+        "decisionShortestPathAvg": 0.5217391304347826
       },
       "pathsAlternative": {
         "repeatRatio": 0.41263051594799194,
