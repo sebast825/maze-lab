@@ -6,7 +6,7 @@ import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
 const metricsToAnalyze = [
   "avgDeadEndLength",
   "avgDecisionLength",
-  "tortuosity",
+  "tortuosityFeatureAvg",
   "avgTortuosity",
   "shortestPathTortuosity",
   "repeatRatio",
@@ -46,5 +46,4 @@ analyzeMetricCorrelations("30*30", "30x30");
 
 analyzeMetricCorrelations("40*40", "40x40");
 
-// analyzeMetricCorrelations("75*75", "75x75");
  analyzeMetricCorrelations("60*60", "60x60");

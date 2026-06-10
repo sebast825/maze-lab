@@ -17,10 +17,7 @@ export const getNormalizedMetrics = (
   sizeKey: MazeSizeSpecKey,
 ): MazeNormalizedMetrics => {
   const specs = MazeSizeSpecs[sizeKey];
-  console.log(
-    "asdsa",
-    normalize(derived.pathsAlternative.repeatRatio, specs.repeatRatio),
-  );
+
   return {
     features: {
       deadEndAvg: normalize(derived.features.deadEndAvg, specs.deadEndAvg),
@@ -28,7 +25,7 @@ export const getNormalizedMetrics = (
         derived.features.decisionEndAvg,
         specs.decisionEndAvg,
       ),
-      tortuosity: normalize(derived.features.tortuosity, specs.tortuosity),
+      tortuosityAvg: normalize(derived.features.tortuosityAvg, specs.tortuosityFeatureAvg),
     },
     paths: {
       avgTortuosity: normalize(

@@ -32,7 +32,7 @@ export interface BenchmarkMetricRow {
   shortestPathLength: number;
 
   tortuosity: number;
-
+  tortuosityFeatureAvg : number
   deadEndBranchLength: number;
   decisionBranchLength: number;
 

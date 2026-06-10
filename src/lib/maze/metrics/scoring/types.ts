@@ -25,7 +25,7 @@ export interface Weights {
 export interface MazeDerivedFeatures {
   deadEndAvg: number;
   decisionEndAvg: number;
-  tortuosity: number;
+  tortuosityAvg: number;
 }
 
 export interface MazeDerivedMetrics {

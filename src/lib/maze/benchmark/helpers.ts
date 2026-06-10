@@ -2,10 +2,11 @@ import { BenchmarkMetricRow, MazeBenchmark } from "./types";
 
 //get the metrics to a plan object
 
-export const getBenchmarkMetricsRows = (benchmarks: MazeBenchmark[]) : BenchmarkMetricRow[]=> {
+export const getBenchmarkMetricsRows = (
+  benchmarks: MazeBenchmark[],
+): BenchmarkMetricRow[] => {
   return benchmarks.map((benchmark) => {
     const {
- 
       tortuosity,
       deadEndBranchLength,
       decisionBranchLength,
@@ -23,9 +24,9 @@ export const getBenchmarkMetricsRows = (benchmarks: MazeBenchmark[]) : Benchmark
       totalPaths: benchmark.metrics.totalPaths,
       shortestPathLength: benchmark.metrics.shortestPathLength,
 
-  
-      tortuosity,
-        
+      tortuosity: tortuosity,
+      tortuosityFeatureAvg: tortuosity / totalBranches,
+
       deadEndBranchLength,
       decisionBranchLength,
 
@@ -33,8 +34,6 @@ export const getBenchmarkMetricsRows = (benchmarks: MazeBenchmark[]) : Benchmark
       decisionBranchCount,
 
       totalBranches,
-
- 
 
       avgBranchTortuosity: totalBranches > 0 ? tortuosity / totalBranches : 0,
 

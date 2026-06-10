@@ -22,15 +22,15 @@
     "max": 10.63
   },
   {
-    "metric": "tortuosity",
-    "min": 0.83,
-    "p5": 2.35,
-    "p25": 3.92,
-    "p50": 5.56,
-    "avg": 5.65,
-    "p75": 7.18,
-    "p95": 9.44,
-    "max": 13
+    "metric": "tortuosityFeatureAvg",
+    "min": 0.01,
+    "p5": 0.03,
+    "p25": 0.05,
+    "p50": 0.09,
+    "avg": 0.12,
+    "p75": 0.18,
+    "p95": 0.26,
+    "max": 0.34
   },
   {
     "metric": "avgTortuosity",

@@ -4,7 +4,7 @@ export const defaultWeights: Weights = {
   features: {
     deadEndAvg: 1,
     decisionEndAvg: 1,
-    tortuosity: 1,
+    tortuosityAvg: 1,
     total: 1,
   },
 
