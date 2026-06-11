@@ -1,6 +1,6 @@
 import { Maze, Position } from "../../types";
 import { AlternativeRawPathMetrics } from "../scoring/types";
-import { BranchAnalysis, PathMetric, PathsMetrics } from "../types";
+import {  PathMetric, PathsMetrics } from "../types";
 import { computeRepeatRatio } from "./computeRepeatRatio";
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 
@@ -8,7 +8,6 @@ export const aggregatePathMetrics = (
   paths: PathMetric[],
   maze: Maze,
 ): PathsMetrics => {
-  const tortuosities = paths.map((p) => p.tortuosity);
   const minPath: PathMetric = paths.reduce((prevPath, currentPath) => {
     return currentPath.path.length < prevPath.path.length
       ? currentPath
@@ -18,11 +17,9 @@ export const aggregatePathMetrics = (
     minPath.path,
     maze,
   );
-  const shortestPathDecisionAvg =
-    shortestPathDecisionNodes / minPath.path.length;
+
   const shortestPathLength = minPath.path.length;
   return {
-    avgTortuosity: avg(tortuosities),
     shortestPathTortuosity: minPath.tortuosity,
     shortestPathLength,
     shortestPathDecisionNodes,

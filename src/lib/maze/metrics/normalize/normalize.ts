@@ -32,10 +32,7 @@ export const getNormalizedMetrics = (
       ),
     },
     paths: {
-      avgTortuosity: normalize(
-        derived.paths.avgTortuosity,
-        specs.avgTortuosity,
-      ),
+   
       shortestPathTortuosity: normalize(
         derived.paths.shortestPathTortuosity,
         specs.shortestPathTortuosity,

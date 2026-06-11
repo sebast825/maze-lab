@@ -12,10 +12,6 @@
       "p5": 0.0304,
       "p95": 0.2555
     },
-    "avgTortuosity": {
-      "p5": 0.3352,
-      "p95": 0.6569
-    },
     "shortestPathTortuosity": {
       "p5": 0.2857,
       "p95": 0.6667
@@ -49,10 +45,6 @@
     "tortuosityFeatureAvg": {
       "p5": 0.0335,
       "p95": 0.2462
-    },
-    "avgTortuosity": {
-      "p5": 0.4075,
-      "p95": 0.6576
     },
     "shortestPathTortuosity": {
       "p5": 0.3773,
@@ -88,10 +80,6 @@
       "p5": 0.0348,
       "p95": 0.2413
     },
-    "avgTortuosity": {
-      "p5": 0.434,
-      "p95": 0.6516
-    },
     "shortestPathTortuosity": {
       "p5": 0.3999,
       "p95": 0.659
@@ -126,10 +114,6 @@
       "p5": 0.038,
       "p95": 0.2406
     },
-    "avgTortuosity": {
-      "p5": 0.4312,
-      "p95": 0.644
-    },
     "shortestPathTortuosity": {
       "p5": 0.4093,
       "p95": 0.6453
@@ -163,10 +147,6 @@
     "tortuosityFeatureAvg": {
       "p5": 0.0385,
       "p95": 0.2345
-    },
-    "avgTortuosity": {
-      "p5": 0.4526,
-      "p95": 0.6403
     },
     "shortestPathTortuosity": {
       "p5": 0.4266,

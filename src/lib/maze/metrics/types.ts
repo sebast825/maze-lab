@@ -27,7 +27,6 @@ export interface BranchMetric {
 }
 
 export interface PathsMetrics {
-  avgTortuosity: number;
   /**
    * Turn density of the shortest valid solution path.
    * Higher value = shortest route is more visually confusing.
