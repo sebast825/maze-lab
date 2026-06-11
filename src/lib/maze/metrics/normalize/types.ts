@@ -17,5 +17,6 @@ export interface MazeSizeSpecValues {
   shortestPathTortuosity: MetricLimits;
   repeatRatio: MetricLimits;
   avgPathDetourRatio: MetricLimits;
-  shortestPathDecisionAvg : MetricLimits;
+  shortestPathDecisionNodes: MetricLimits;
+  shortestPathLength : MetricLimits;
 }

@@ -33,10 +33,9 @@ export interface PathsMetrics {
    * Higher value = shortest route is more visually confusing.
    */
   shortestPathTortuosity: number;
-  /**
-   * Decision nodes on shortest path / shortest path length
-   */
-  shortestPathDecisionAvg: number;
+  shortestPathLength : number;
+  shortestPathDecisionNodes: number;
+
 }
 
 export interface PathMetric {

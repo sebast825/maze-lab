@@ -5,6 +5,7 @@ import { BenchmarkMetricRow, MazeBenchmark } from "./types";
 export const getBenchmarkMetricsRows = (
   benchmarks: MazeBenchmark[],
 ): BenchmarkMetricRow[] => {
+     console.log(benchmarks[0].metrics.paths.shortestPathLength)
   return benchmarks.map((benchmark) => {
     const {
       tortuosity,
@@ -14,19 +15,28 @@ export const getBenchmarkMetricsRows = (
       decisionBranchCount,
     } = benchmark.metrics.features;
 
+    const { maxPathDetourRatio, avgPathDetourRatio, repeatRatio } =
+      benchmark.metrics.pathsAlternative;
+
     const totalBranches = deadEndBranchCount + decisionBranchCount;
 
+    const {
+      shortestPathDecisionNodes,
+      shortestPathTortuosity,
+      avgTortuosity
+      
+      
+    } = benchmark.metrics.paths;
+ 
     return {
       id: benchmark.id,
       name: benchmark.name,
 
       totalIntersections: benchmark.metrics.totalIntersections,
       totalPaths: benchmark.metrics.totalPaths,
-      shortestPathLength: benchmark.metrics.shortestPathLength,
 
       tortuosity: tortuosity,
       tortuosityFeatureAvg: tortuosity / totalBranches,
-
       deadEndBranchLength,
       decisionBranchLength,
 
@@ -34,7 +44,13 @@ export const getBenchmarkMetricsRows = (
       decisionBranchCount,
 
       totalBranches,
+      shortestPathDecisionNodes,
 
+      shortestPathLength: benchmark.metrics.paths.shortestPathLength,
+      avgTortuosity,
+
+      shortestPathTortuosity,
+      repeatRatio,
       avgBranchTortuosity: totalBranches > 0 ? tortuosity / totalBranches : 0,
 
       avgDeadEndLength:
@@ -45,15 +61,8 @@ export const getBenchmarkMetricsRows = (
           ? decisionBranchLength / decisionBranchCount
           : 0,
 
-      avgTortuosity: benchmark.metrics.paths.avgTortuosity,
-
-      shortestPathTortuosity: benchmark.metrics.paths.shortestPathTortuosity,
-shortestPathDecisionAvg : benchmark.metrics.paths.shortestPathDecisionAvg,
-      repeatRatio: benchmark.metrics.pathsAlternative.repeatRatio,
-
-      avgPathDetourRatio: benchmark.metrics.pathsAlternative.avgPathDetourRatio,
-
-      maxPathDetourRatio: benchmark.metrics.pathsAlternative.maxPathDetourRatio,
+      avgPathDetourRatio,
+      maxPathDetourRatio,
     };
   });
 };

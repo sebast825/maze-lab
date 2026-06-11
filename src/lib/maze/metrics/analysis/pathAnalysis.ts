@@ -1,8 +1,6 @@
-import { Console } from "console";
 import { Maze, Position } from "../../types";
 import { AlternativeRawPathMetrics } from "../scoring/types";
 import { BranchAnalysis, PathMetric, PathsMetrics } from "../types";
-import { traceBranchUntilDecision } from "./branchAnalysis";
 import { computeRepeatRatio } from "./computeRepeatRatio";
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 
@@ -16,12 +14,18 @@ export const aggregatePathMetrics = (
       ? currentPath
       : prevPath;
   });
+  const shortestPathDecisionNodes = countDecisionNodesInPath(
+    minPath.path,
+    maze,
+  );
   const shortestPathDecisionAvg =
-    countDecisionNodesInPath(minPath.path, maze) / minPath.path.length;
+    shortestPathDecisionNodes / minPath.path.length;
+  const shortestPathLength = minPath.path.length;
   return {
     avgTortuosity: avg(tortuosities),
     shortestPathTortuosity: minPath.tortuosity,
-    shortestPathDecisionAvg,
+    shortestPathLength,
+    shortestPathDecisionNodes,
   };
 };
 

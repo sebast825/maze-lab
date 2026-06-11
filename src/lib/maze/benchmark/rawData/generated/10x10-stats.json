@@ -55,17 +55,6 @@
     "max": 0.78
   },
   {
-    "metric": "shortestPathDecisionAvg",
-    "min": 0.03,
-    "p5": 0.12,
-    "p25": 0.21,
-    "p50": 0.35,
-    "avg": 0.34,
-    "p75": 0.47,
-    "p95": 0.58,
-    "max": 0.76
-  },
-  {
     "metric": "repeatRatio",
     "min": 0.03,
     "p5": 0.14,
@@ -86,5 +75,27 @@
     "p75": 0.2,
     "p95": 0.46,
     "max": 1
+  },
+  {
+    "metric": "shortestPathLength",
+    "min": 19,
+    "p5": 19,
+    "p25": 21,
+    "p50": 25,
+    "avg": 25.88,
+    "p75": 29,
+    "p95": 37.1,
+    "max": 63
+  },
+  {
+    "metric": "shortestPathDecisionNodes",
+    "min": 1,
+    "p5": 3,
+    "p25": 6,
+    "p50": 8,
+    "avg": 8.28,
+    "p75": 10,
+    "p95": 13,
+    "max": 16
   }
 ]

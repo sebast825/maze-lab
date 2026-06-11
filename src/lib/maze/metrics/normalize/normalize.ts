@@ -18,6 +18,13 @@ export const getNormalizedMetrics = (
   sizeKey: MazeSizeSpecKey,
 ): MazeNormalizedMetrics => {
   const specs = MazeSizeSpecs[sizeKey];
+  console.log(specs.shortestPathDecisionNodes,    derived.paths.shortestPathDecisionNodes,normalize(
+        derived.paths.shortestPathDecisionNodes,
+        specs.shortestPathDecisionNodes,
+      ))
+    console.log(specs.shortestPathLength,    derived.paths.shortestPathLength,normalize(
+        derived.paths.shortestPathLength,
+        specs.shortestPathLength))
 
   return {
     features: {
@@ -40,8 +47,14 @@ export const getNormalizedMetrics = (
         derived.paths.shortestPathTortuosity,
         specs.shortestPathTortuosity,
       ),
-
-      shortestPathDecisionAvg:normalize( derived.paths.shortestPathDecisionAvg,specs.shortestPathDecisionAvg)
+      shortestPathLength: normalize(
+        derived.paths.shortestPathLength,
+        specs.shortestPathLength,
+      ),
+      shortestPathDecisionNodes: normalize(
+        derived.paths.shortestPathDecisionNodes,
+        specs.shortestPathDecisionNodes,
+      ),
     },
     pathsAlternative: {
       /**

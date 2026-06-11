@@ -20,10 +20,6 @@
       "p5": 0.29,
       "p95": 0.67
     },
-    "shortestPathDecisionAvg": {
-      "p5": 0.12,
-      "p95": 0.58
-    },
     "repeatRatio": {
       "p5": 0.14,
       "p95": 0.91
@@ -31,6 +27,14 @@
     "avgPathDetourRatio": {
       "p5": 0,
       "p95": 0.46
+    },
+    "shortestPathLength": {
+      "p5": 19,
+      "p95": 37.1
+    },
+    "shortestPathDecisionNodes": {
+      "p5": 3,
+      "p95": 13
     }
   },
   "20x20": {
@@ -54,10 +58,6 @@
       "p5": 0.38,
       "p95": 0.67
     },
-    "shortestPathDecisionAvg": {
-      "p5": 0.1,
-      "p95": 0.58
-    },
     "repeatRatio": {
       "p5": 0.15,
       "p95": 0.8
@@ -65,6 +65,14 @@
     "avgPathDetourRatio": {
       "p5": 0.01,
       "p95": 0.42
+    },
+    "shortestPathLength": {
+      "p5": 39,
+      "p95": 113
+    },
+    "shortestPathDecisionNodes": {
+      "p5": 9,
+      "p95": 32
     }
   },
   "30x30": {
@@ -88,10 +96,6 @@
       "p5": 0.4,
       "p95": 0.66
     },
-    "shortestPathDecisionAvg": {
-      "p5": 0.1,
-      "p95": 0.6
-    },
     "repeatRatio": {
       "p5": 0.3,
       "p95": 0.55
@@ -99,6 +103,14 @@
     "avgPathDetourRatio": {
       "p5": 0.18,
       "p95": 0.93
+    },
+    "shortestPathLength": {
+      "p5": 61,
+      "p95": 189.1
+    },
+    "shortestPathDecisionNodes": {
+      "p5": 17,
+      "p95": 54
     }
   },
   "40x40": {
@@ -122,10 +134,6 @@
       "p5": 0.41,
       "p95": 0.65
     },
-    "shortestPathDecisionAvg": {
-      "p5": 0.1,
-      "p95": 0.59
-    },
     "repeatRatio": {
       "p5": 0.31,
       "p95": 0.51
@@ -133,6 +141,14 @@
     "avgPathDetourRatio": {
       "p5": 0.29,
       "p95": 1.11
+    },
+    "shortestPathLength": {
+      "p5": 83,
+      "p95": 277.3
+    },
+    "shortestPathDecisionNodes": {
+      "p5": 22,
+      "p95": 71.05
     }
   },
   "60x60": {
@@ -156,10 +172,6 @@
       "p5": 0.43,
       "p95": 0.64
     },
-    "shortestPathDecisionAvg": {
-      "p5": 0.08,
-      "p95": 0.59
-    },
     "repeatRatio": {
       "p5": 0.31,
       "p95": 0.5
@@ -167,6 +179,14 @@
     "avgPathDetourRatio": {
       "p5": 0.34,
       "p95": 1.01
+    },
+    "shortestPathLength": {
+      "p5": 128.9,
+      "p95": 620.5
+    },
+    "shortestPathDecisionNodes": {
+      "p5": 40.85,
+      "p95": 131.3
     }
   }
 }

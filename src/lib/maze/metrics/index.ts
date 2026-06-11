@@ -27,18 +27,18 @@ import {
 import { defaultWeights } from "./scoring/defaultWeights";
 import { getClosestSizeKey } from "./normalize/mazeSizeSpecs";
 
-export const computeMazeMetrics = (
+export const computeRawMetrics = (
   mazeCellData: CellInfo[][],
   maze: Maze,
   paths: Position[][],
   shortestPathLength: number,
-): MazeScoringResult => {
+): MazeRawMetrics => {
   const features: MazeDifficultyFeatures = computeMazeDifficultyFeatures(
     mazeCellData,
     maze,
   );
 
-  const pathsMetrics: PathsMetrics = computePathMetrics(paths,maze);
+  const pathsMetrics: PathsMetrics = computePathMetrics(paths, maze);
   const totalIntersections: number = getTotalIntersections(maze);
   const pathOverlapMetrics: AlternativeRawPathMetrics =
     computePathVariance(paths);
@@ -50,7 +50,25 @@ export const computeMazeMetrics = (
     shortestPathLength,
     totalPaths: paths.length,
   };
-  return analyzeMaze(rawMetrics, defaultWeights, getClosestSizeKey(maze.rows * maze.cols));
+  return rawMetrics;
+};
+export const computeMazeMetrics = (
+  mazeCellData: CellInfo[][],
+  maze: Maze,
+  paths: Position[][],
+  shortestPathLength: number,
+): MazeScoringResult => {
+  const rawMetrics: MazeRawMetrics = computeRawMetrics(
+    mazeCellData,
+    maze,
+    paths,
+    shortestPathLength,
+  );
+  return analyzeMaze(
+    rawMetrics,
+    defaultWeights,
+    getClosestSizeKey(maze.rows * maze.cols),
+  );
 };
 
 const computeMazeDifficultyFeatures = (
@@ -78,7 +96,7 @@ const computeMazeDifficultyFeatures = (
   return aggregateBranchMetrics(cellMetrics);
 };
 
-const computePathMetrics = (paths: Position[][],  maze: Maze): PathsMetrics => {
+const computePathMetrics = (paths: Position[][], maze: Maze): PathsMetrics => {
   let pathMetrics: PathMetric[] = [];
   paths.forEach((path) => {
     const directions: Direction[] = [];
@@ -98,7 +116,7 @@ const computePathMetrics = (paths: Position[][],  maze: Maze): PathsMetrics => {
     });
   });
 
-  let pathsMetrics = aggregatePathMetrics(pathMetrics,maze);
+  let pathsMetrics = aggregatePathMetrics(pathMetrics, maze);
 
   return pathsMetrics;
 };
