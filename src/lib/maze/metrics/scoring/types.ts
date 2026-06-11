@@ -36,7 +36,6 @@ export interface MazeRawMetrics {
   paths: PathsMetrics;
   pathsAlternative: AlternativeRawPathMetrics;
   totalIntersections: number;
-  shortestPathLength: number;
   totalPaths: number;
 }
 

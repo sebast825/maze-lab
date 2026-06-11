@@ -31,7 +31,6 @@ export const computeRawMetrics = (
   mazeCellData: CellInfo[][],
   maze: Maze,
   paths: Position[][],
-  shortestPathLength: number,
 ): MazeRawMetrics => {
   const features: MazeDifficultyFeatures = computeMazeDifficultyFeatures(
     mazeCellData,
@@ -47,7 +46,7 @@ export const computeRawMetrics = (
     paths: pathsMetrics,
     pathsAlternative: pathOverlapMetrics,
     totalIntersections,
-    shortestPathLength,
+
     totalPaths: paths.length,
   };
   return rawMetrics;
@@ -56,13 +55,11 @@ export const computeMazeMetrics = (
   mazeCellData: CellInfo[][],
   maze: Maze,
   paths: Position[][],
-  shortestPathLength: number,
 ): MazeScoringResult => {
   const rawMetrics: MazeRawMetrics = computeRawMetrics(
     mazeCellData,
     maze,
     paths,
-    shortestPathLength,
   );
   return analyzeMaze(
     rawMetrics,

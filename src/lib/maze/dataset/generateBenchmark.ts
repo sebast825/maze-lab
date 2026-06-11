@@ -1,6 +1,10 @@
-import { algorithmNames, AlgorithmType, mazesGenerator } from "@/lib/alogirthms/generation";
+import {
+  algorithmNames,
+  AlgorithmType,
+  mazesGenerator,
+} from "@/lib/alogirthms/generation";
 import { createLopps } from "@/lib/alogirthms/generation/loop/loops";
-import { bfs, reconstructPath } from "@/lib/alogirthms/solving/bfs";
+import { bfs} from "@/lib/alogirthms/solving/bfs";
 import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { MazeBenchmark } from "../benchmark/types";
 import { createEmptyMaze } from "../core";
@@ -31,16 +35,9 @@ export const generateBenchmark = (
 
   const paths = findAllPaths(maze, start, end);
 
-  const { cellInfo: finalCellInfo, shortest } = bfs(maze, end, start);
+  const { cellInfo: finalCellInfo } = bfs(maze, end, start);
 
-  const shortestPath = reconstructPath(finalCellInfo, shortest);
-
-  const metrics = computeMazeMetrics(
-    finalCellInfo,
-    maze,
-    paths,
-    shortestPath.length,
-  );
+  const metrics = computeMazeMetrics(finalCellInfo, maze, paths);
 
   return {
     id,
@@ -61,22 +58,9 @@ export const generateBenchmarks = (
 
   const result: MazeBenchmark[] = [];
 
-  for (const algorithm of Object.values(
-    algorithmNames,
-  )) {
-    for (
-      let i = 0;
-      i < samplesPerAlgorithm;
-      i++
-    ) {
-      result.push(
-        generateBenchmark(
-          algorithm,
-          rows,
-          cols,
-          id++,
-        ),
-      );
+  for (const algorithm of Object.values(algorithmNames)) {
+    for (let i = 0; i < samplesPerAlgorithm; i++) {
+      result.push(generateBenchmark(algorithm, rows, cols, id++));
     }
   }
 

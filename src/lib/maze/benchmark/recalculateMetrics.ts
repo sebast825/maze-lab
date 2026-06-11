@@ -1,9 +1,9 @@
 import { bfs, reconstructPath } from "@/lib/alogirthms/solving/bfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
-import { computeMazeMetrics, computeRawMetrics } from "../metrics";
+import {  computeRawMetrics } from "../metrics";
 import { Position } from "../types";
 import { MazeBenchmark } from "./types";
-import { MazeRawMetrics, MazeScoringResult } from "../metrics/scoring/types";
+import { MazeRawMetrics } from "../metrics/scoring/types";
 
 export const recalculateBenchmarkMetrics = (
   benchmarks: MazeBenchmark[],
@@ -35,8 +35,7 @@ export const recalculateBenchmarkMetrics = (
     const metrics : MazeRawMetrics = computeRawMetrics(
       cellInfo,
       maze,
-      benchmark.paths,
-      shortestPath.length,
+      benchmark.paths
     );
     return {
       ...benchmark,
