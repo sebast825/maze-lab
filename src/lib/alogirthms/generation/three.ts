@@ -2,11 +2,11 @@ import { Maze, Position } from "@/lib/maze/types";
 import {
   getMazeStartPoint,
   getNeighborsNotVisited,
-  removeWallBetween,
   selectRandomPosition,
-} from "@/lib/maze/utils";
+} from "@/lib/maze/core";
 
 import { connectDisconnectedRegions } from "./ensureConnectivity";
+import { removeWallBetween } from "@/lib/maze/walls";
 
 export const generateThree = (maze: Maze): Maze => {
   let threeHeads: Position[] = [];

@@ -1,7 +1,8 @@
 import { Maze, Position } from "@/lib/maze/types";
-import { getNeighbors, removeWallBetween } from "@/lib/maze/utils";
+import { getNeighbors } from "@/lib/maze/core";
 import { bfs } from "../solving/bfs";
 import { BFSResult, CellInfo } from "../solving/types";
+import { removeWallBetween } from "@/lib/maze/walls";
 
 export const connectDisconnectedRegions = (maze: Maze): Maze => {
   let { cellInfo }: BFSResult = bfs(maze, { row: 1, col: 1 });

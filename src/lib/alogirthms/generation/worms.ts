@@ -2,11 +2,11 @@ import { Maze, Position } from "@/lib/maze/types";
 import {
   getMazeStartPoint,
   getNeighborsNotVisited,
-  removeWallBetween,
   selectRandomPosition,
-} from "@/lib/maze/utils";
+} from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
 import { connectDisconnectedRegions } from "./ensureConnectivity";
+import { removeWallBetween } from "@/lib/maze/walls";
 
 /**
  * Worm Algorithm
@@ -43,7 +43,7 @@ export const generateWorms: MazeGeneratorFn = (maze: Maze): Maze => {
     wormId++;
     while (currentWorm < wormMaxLength) {
       removeUnvisited(current);
-       maze.cells[current.row][current.col].groupId = wormId;
+      // maze.cells[current.row][current.col].groupId = wormId;
       maze.cells[current.row][current.col].visited = true;
 
       const neighbors: Position[] = getNeighborsNotVisited(maze, {

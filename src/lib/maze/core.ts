@@ -1,4 +1,3 @@
-import { Geist, Rowdies } from "next/font/google";
 import { Cell, Maze, Position } from "./types";
 
 export function createEmptyMaze(rows: number, cols: number): Maze {
@@ -82,39 +81,4 @@ function isCellInBounds(maze: Maze, position: Position): boolean {
 export function selectRandomPosition(neighbors: Position[]): Position {
   const randomIndex = Math.floor(Math.random() * neighbors.length);
   return neighbors[randomIndex];
-}
-
-export function removeWallBetween(
-  maze: Maze,
-  current: Position,
-  next: Position,
-) {
-  // if cells are in the same row then we need to remove east/west wall
-  if (current.row === next.row && current.col != next.col) {
-    //east/west
-    if (current.col - next.col === 1) {
-      maze.cells[current.row][current.col].walls.west = false;
-      maze.cells[next.row][next.col].walls.east = false;
-      return;
-    }
-    if (next.col - current.col === 1) {
-      maze.cells[current.row][current.col].walls.east = false;
-      maze.cells[next.row][next.col].walls.west = false;
-      return;
-    }
-  }
-  // if cells are in the same column then we need to remove north/south wall
-  if (current.col === next.col && current.row != next.row) {
-    //north/south
-    if (current.row - next.row === 1) {
-      maze.cells[current.row][current.col].walls.north = false;
-      maze.cells[next.row][next.col].walls.south = false;
-      return;
-    }
-    if (next.row - current.row === 1) {
-      maze.cells[current.row][current.col].walls.south = false;
-      maze.cells[next.row][next.col].walls.north = false;
-      return;
-    }
-  }
 }

@@ -1,6 +1,6 @@
 import { Maze, Cell } from "@/lib/maze/types";
 import { bfs, getNeighborsByOpenWall } from "./bfs";
-import { createEmptyMaze } from "@/lib/maze/utils";
+import { createEmptyMaze } from "@/lib/maze/core";
 import { fallbackModeToFallbackField } from "next/dist/lib/fallback";
 
 describe("bfs", () => {

@@ -1,4 +1,4 @@
-import { removeWallBetween } from "@/lib/maze/utils";
+import { removeWallBetween } from "@/lib/maze/walls";
 import { getWallsWithNeighbor, union } from "./utils";
 import { Maze } from "@/lib/maze/types";
 

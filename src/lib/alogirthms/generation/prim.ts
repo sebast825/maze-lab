@@ -2,10 +2,10 @@ import { Maze, Position } from "@/lib/maze/types";
 import {
   getMazeStartPoint,
   getNeighborsNotVisited,
-  removeWallBetween,
   selectRandomPosition,
-} from "@/lib/maze/utils";
+} from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
+import { removeWallBetween } from "@/lib/maze/walls";
 /**
  * Prim's algorithm for maze generation.
  *

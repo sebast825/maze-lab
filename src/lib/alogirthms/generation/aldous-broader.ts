@@ -2,11 +2,10 @@ import { Maze, Position } from "@/lib/maze/types";
 import {
   getMazeStartPoint,
   getNeighbors,
-  getNeighborsNotVisited,
-  removeWallBetween,
   selectRandomPosition,
-} from "@/lib/maze/utils";
+} from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
+import { removeWallBetween } from "@/lib/maze/walls";
 
 /*
  1 select a random start point and mark as visited and current

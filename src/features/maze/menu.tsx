@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
 import { algorithmLabels } from "./constants";
 import { ActionButton } from "@/components/actionButton";
@@ -6,18 +5,7 @@ import { IconButton } from "@/components/iconButton";
 import { Pencil, Undo2, Trash2, Gamepad2 } from "lucide-react";
 import { GameMode } from "@/app/page";
 
-interface MenuProps {
-  children: ReactNode;
-}
 
-export const Menu = ({ children }: MenuProps) => {
-  return (
-    <div className="flex w-full flex-wrap items-center justify-between gap-4 p-4 bg-gray-800 rounded-lg shadow-md">
-      {" "}
-      {children}
-    </div>
-  );
-};
 
 interface ControlsProps {
   algorithm: AlgorithmType;
@@ -29,7 +17,7 @@ interface ControlsProps {
   onGenerate: () => void;
 }
 
-Menu.Controls = ({
+export const Controls = ({
   algorithm,
   onAlgorithmChange,
   rows,
@@ -100,7 +88,7 @@ interface ActionsProps {
   exportToPDF: () => void;
   disableExportToPDF: boolean;
 }
-Menu.Actions = ({
+export const Actions = ({
   generateMaze,
   onShowPath,
   showPath,
@@ -136,7 +124,7 @@ interface MenuModesProps {
   undoLast: () => void;
   clearAll: () => void;
 }
-Menu.Modes = ({
+export const Modes = ({
   toggleDraw,
   currentMode,
   toggleCharacter,

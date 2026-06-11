@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Benchmark Datasets
 
-## Getting Started
+The project contains two benchmark sources:
 
-First, run the development server:
+### `manual/`
+
+Hand-crafted mazes used for validation, debugging, and metric design.
+
+These benchmarks are intentionally curated to represent specific maze patterns such as:
+
+- Linear paths
+- High ambiguity decisions
+- Intricated routes
+- Redundant loops
+- Dead-end heavy layouts
+
+The manual dataset is part of the repository and should be versioned.
+
+---
+
+### `generated/`
+
+Automatically generated benchmark datasets used for large-scale statistical analysis.
+
+These datasets are generated locally and are **not versioned** because they can be recreated at any time.
+
+Examples:
+
+- 50 DFS mazes (20x20)
+- 50 Prim mazes (20x20)
+- 50 Kruskal mazes (20x20)
+- etc.
+
+The `generated/` directory is ignored by Git.
+
+---
+
+## Benchmark Scripts
+
+### Generate Dataset
+
+Creates benchmark mazes for all configured algorithms and sizes and stores them in `generated/`.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run generate-dataset
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Typical use case:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Generate large datasets
+- Compare generation algorithms
+- Build statistical samples
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### Regenerate Metrics
 
-To learn more about Next.js, take a look at the following resources:
+Recomputes all maze metrics using the current implementation and overwrites the stored metrics.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run regenerate-metrics
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Typical use case:
 
-## Deploy on Vercel
+- A metric formula changes
+- A new metric is introduced
+- Difficulty calculations are updated
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This avoids manually recalculating every benchmark.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+### Analyze Metric Correlations
+
+Computes Pearson correlations between metrics across the benchmark dataset.
+
+```bash
+npm run analyzeMetricCorrelations
+```
+
+Typical use case:
+
+- Detect redundant metrics
+- Validate new metrics
+- Reduce feature duplication
+- Understand metric relationships
+
+Example findings:
+
+- Strong positive correlation may indicate duplicate information.
+- Strong negative correlation may indicate inverse measurements.
+- Weak correlation may indicate independent information.
+
+---
+
+## Recommended Workflow
+
+When introducing or modifying metrics:
+
+```bash
+npm run generate-dataset
+npm run regenerate-metrics
+npm run analyzeMetricCorrelations
+```
+
+1. Generate a fresh benchmark dataset.
+2. Recalculate all metrics.
+3. Evaluate correlations and identify redundancy.
+4. Refine the metric set if necessary.
+
+---
+
+## Benchmark Philosophy
+
+The goal is not only to solve mazes, but to understand **why a maze feels easy or difficult to a human player**.
+
+Metrics should therefore be:
+
+- Explainable
+- Interpretable
+- Statistically validated
+- As independent as possible from one another
+
+The correlation analysis exists specifically to help identify metrics that may be measuring the same underlying property.

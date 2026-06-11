@@ -1,47 +1,40 @@
-import { algorithmNames, AlgorithmType, mazesGenerator  } from "@/lib/alogirthms/generation";
+import { useState } from "react";
+import { AlgorithmType, mazesGenerator } from "@/lib/alogirthms/generation";
+import { createLopps } from "@/lib/alogirthms/generation/loop/loops";
 import { bfs } from "@/lib/alogirthms/solving/bfs";
+import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { BFSResult } from "@/lib/alogirthms/solving/types";
 import { MazeData, Position } from "@/lib/maze/types";
-import { createEmptyMaze } from "@/lib/maze/utils";
-import { useState } from "react";
+import { createEmptyMaze } from "@/lib/maze/core";
 
-export const useMazeGenerator = ()=> {
+export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
-  const createMaze = (algorithm: AlgorithmType, rows: number, cols: number)  => {
-    if(rows <2) rows=2;
-    if(cols<2)cols =2;
-    const maze = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
-    let end: Position = { row: 0, col: Math.round( 2)};
-    let start: Position = { row: 0, col: 0 };
+  const createMaze = (algorithm: AlgorithmType, rows: number, cols: number) => {
+    rows = Math.max(2, rows);
+    cols = Math.max(2, cols);
 
-    const { cellInfo, farthest }: BFSResult = bfs(maze, {
-      row: 0,
-      col: end.col,
-    });
+   const maze  = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
+//const maze = benchmark20x20[10].maze
+    const start: Position = { row: 0, col: 0 };
+    const end: Position = { row: rows - 1, col: cols - 1 };
 
-    let current: Position | null = farthest;
-    const reconstructedPath: Position[] = [];
-    while (current) {
-      reconstructedPath.unshift(current);
-      current = cellInfo[current.row]?.[current.col].parent || null;
-      if (current && current.row == end.row && current.col == end.col) {
-        start = {
-          row: reconstructedPath[reconstructedPath.length - 1].row,
-          col: reconstructedPath[reconstructedPath.length - 1].col,
-        };
-        reconstructedPath.unshift(current);
-        break;
-      }
-    }
-    const newMazeData: MazeData = {
+    const { cellInfo }: BFSResult = bfs(maze, end, start);
+
+    createLopps(cellInfo, start, end, maze);
+
+    const solution = findAllPaths(maze, start, end);
+
+    setMazeData({
       maze,
       start,
       end,
-      solution: reconstructedPath,
-    };
-    setMazeData(newMazeData);
+      solution,
+    });
   };
 
-  return { mazeData, createMaze };
+  return {
+    mazeData,
+    createMaze,
+  };
 };

@@ -6,10 +6,7 @@ export function union(parent: number[], id1: number, id2: number): boolean {
   console.log("valueInArray ", root1, root2);
   //we update the parent index, so they became part of the same group
   if (root1 !== root2) {
-    console.log("bef---Parent, ", parent);
     parent[root1] = root2;
-    console.log("aft ---Parent, ", parent);
-
     return true;
   }
   return false;

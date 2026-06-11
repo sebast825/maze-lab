@@ -8,7 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "recalculate-metrics": "tsx scripts/recalculateAndSaveBenchmarkMetrics.ts",
+    "analyzeMetricCorrelations": "tsx scripts/analyzeMetricCorrelations.ts",
+    "generate-dataset": "tsx scripts/generateDataset.ts",
+    "generate-stats": "tsx scripts/generateMetricStats",
+    "extract-normalization-specs": "tsx scripts/extractNormalizationSpecs.ts"
   },
   "dependencies": {
     "jspdf": "^4.2.1",
@@ -30,6 +35,8 @@
     "jest": "^30.4.2",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.9",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }

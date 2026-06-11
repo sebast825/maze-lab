@@ -6,26 +6,34 @@ export type Cell = {
     south: boolean;
     west: boolean;
   };
-  isHead :boolean;
-  startPoint : boolean
-  groupId: number
+  isHead?: boolean;
+  startPoint?: boolean;
+  groupId?: number;
+  loopReason?: LoopReason;
+  isBackBone ?:boolean
 };
-
+export type LoopReason =
+  | "branchDistance"
+  | "backboneDepth"
+  | "intersectionPenalty"
+  | "isIntersection";
 
 export type Maze = {
-   rows: number;
+  rows: number;
   cols: number;
-   cells: Cell[][];
-}
+  cells: Cell[][];
+};
 
 export interface Position {
-  row: number
-  col: number
+  row: number;
+  col: number;
 }
 
 export interface MazeData {
-  maze: Maze          
-  start: Position
-  end: Position       
-  solution?: Position[] 
+  maze: Maze;
+  start: Position;
+  end: Position;
+  solution?: Position[][];
 }
+
+export type Direction = "north" | "south" | "east" | "west"

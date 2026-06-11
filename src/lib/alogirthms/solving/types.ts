@@ -1,12 +1,14 @@
-import { Position } from "@/lib/maze/types"
+import { Position } from "@/lib/maze/types";
 
 export interface BFSResult {
-  cellInfo: CellInfo[][]
-  farthest: Position & { distance: number }
+  cellInfo: CellInfo[][];
+  farthest: Position & { distance: number };
+  shortest: Position & { distance: number };
 }
-
 
 export interface CellInfo {
-  distance: number
-  parent: Position | null
+  distance: number;
+  parent: Position | null;
 }
+
+
