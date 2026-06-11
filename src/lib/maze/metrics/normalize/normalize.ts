@@ -18,13 +18,6 @@ export const getNormalizedMetrics = (
   sizeKey: MazeSizeSpecKey,
 ): MazeNormalizedMetrics => {
   const specs = MazeSizeSpecs[sizeKey];
-  console.log(specs.shortestPathDecisionNodes,    derived.paths.shortestPathDecisionNodes,normalize(
-        derived.paths.shortestPathDecisionNodes,
-        specs.shortestPathDecisionNodes,
-      ))
-    console.log(specs.shortestPathLength,    derived.paths.shortestPathLength,normalize(
-        derived.paths.shortestPathLength,
-        specs.shortestPathLength))
 
   return {
     features: {
