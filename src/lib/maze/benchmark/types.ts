@@ -43,6 +43,8 @@ export interface BenchmarkMetricRow {
   totalBranches: number;
 
   avgBranchTortuosity: number;
+    shortestPathWallRatio: number;
+
 
   avgDeadEndLength: number;
   avgDecisionLength: number;

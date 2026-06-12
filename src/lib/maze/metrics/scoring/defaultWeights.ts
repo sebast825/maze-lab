@@ -9,9 +9,11 @@ export const defaultWeights: Weights = {
   },
 
   paths: {
-    shortestPathTortuosity: 0.5,
-    shortestPathLength: 0.3,
-    shortestPathDecisionNodes: 0.2,
+    shortestPathTortuosity: .3,
+    shortestPathLength: .2,
+    shortestPathDecisionNodes: .2,
+    shortestPathWallRatio:.3,
+
     total: 1,
   },
 

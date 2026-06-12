@@ -17,8 +17,8 @@ function recalculateAndSaveBenchmarkMetrics(mazeSize: keyof typeof DATASET, file
   console.log(`File ${file} generated`);
 }
 
-//  recalculateAndSaveBenchmarkMetrics("10*10", "10x10");
-//  recalculateAndSaveBenchmarkMetrics("60*60", "60x60");
+  // recalculateAndSaveBenchmarkMetrics("10*10", "10x10");
+  // recalculateAndSaveBenchmarkMetrics("60*60", "60x60");
 
 recalculateAndSaveBenchmarkMetrics("20*20", "20x20");
 

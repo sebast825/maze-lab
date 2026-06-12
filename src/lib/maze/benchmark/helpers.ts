@@ -22,10 +22,10 @@ export const getBenchmarkMetricsRows = (
     const {
       shortestPathDecisionNodes,
       shortestPathTortuosity,
-      
-      
+      shortestPathWallRatio,
+      shortestPathLength
     } = benchmark.metrics.paths;
- 
+
     return {
       id: benchmark.id,
       name: benchmark.name,
@@ -44,8 +44,8 @@ export const getBenchmarkMetricsRows = (
       totalBranches,
       shortestPathDecisionNodes,
 
-      shortestPathLength: benchmark.metrics.paths.shortestPathLength,
-
+      shortestPathLength,
+      shortestPathWallRatio,
       shortestPathTortuosity,
       repeatRatio,
       avgBranchTortuosity: totalBranches > 0 ? tortuosity / totalBranches : 0,

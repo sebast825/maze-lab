@@ -11000,7 +11000,8 @@
       "paths": {
         "shortestPathTortuosity": 0.29333333333333333,
         "shortestPathLength": 75,
-        "shortestPathDecisionNodes": 29
+        "shortestPathDecisionNodes": 29,
+        "shortestPathWallRatio": 0.4266666666666667
       },
       "pathsAlternative": {
         "repeatRatio": 0.5509725272144623,
@@ -23615,7 +23616,8 @@
       "paths": {
         "shortestPathTortuosity": 0.6548672566371682,
         "shortestPathLength": 113,
-        "shortestPathDecisionNodes": 25
+        "shortestPathDecisionNodes": 25,
+        "shortestPathWallRatio": 0.168141592920354
       },
       "pathsAlternative": {
         "repeatRatio": 0.3434625173340411,
@@ -35435,7 +35437,8 @@
       "paths": {
         "shortestPathTortuosity": 0.5619047619047619,
         "shortestPathLength": 105,
-        "shortestPathDecisionNodes": 21
+        "shortestPathDecisionNodes": 21,
+        "shortestPathWallRatio": 0.4666666666666667
       },
       "pathsAlternative": {
         "repeatRatio": 0.4530535491028979,
@@ -47685,7 +47688,8 @@
       "paths": {
         "shortestPathTortuosity": 0.6352941176470588,
         "shortestPathLength": 85,
-        "shortestPathDecisionNodes": 23
+        "shortestPathDecisionNodes": 23,
+        "shortestPathWallRatio": 0.1411764705882353
       },
       "pathsAlternative": {
         "repeatRatio": 0.4572574399215236,
@@ -59597,7 +59601,8 @@
       "paths": {
         "shortestPathTortuosity": 0.37681159420289856,
         "shortestPathLength": 69,
-        "shortestPathDecisionNodes": 37
+        "shortestPathDecisionNodes": 37,
+        "shortestPathWallRatio": 0.5362318840579711
       },
       "pathsAlternative": {
         "repeatRatio": 0.5303160675138394,
@@ -70153,7 +70158,8 @@
       "paths": {
         "shortestPathTortuosity": 0.36923076923076925,
         "shortestPathLength": 65,
-        "shortestPathDecisionNodes": 44
+        "shortestPathDecisionNodes": 44,
+        "shortestPathWallRatio": 0.16923076923076924
       },
       "pathsAlternative": {
         "repeatRatio": 0.4391931013526514,
@@ -81681,7 +81687,8 @@
       "paths": {
         "shortestPathTortuosity": 0.5057471264367817,
         "shortestPathLength": 87,
-        "shortestPathDecisionNodes": 39
+        "shortestPathDecisionNodes": 39,
+        "shortestPathWallRatio": 0.11494252873563218
       },
       "pathsAlternative": {
         "repeatRatio": 0.3902479752792297,
@@ -93229,7 +93236,8 @@
       "paths": {
         "shortestPathTortuosity": 0.5130434782608696,
         "shortestPathLength": 115,
-        "shortestPathDecisionNodes": 60
+        "shortestPathDecisionNodes": 60,
+        "shortestPathWallRatio": 0.19130434782608696
       },
       "pathsAlternative": {
         "repeatRatio": 0.41263051594799194,

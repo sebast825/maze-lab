@@ -7,7 +7,10 @@ export const metricsToAnalyze = [
   "avgPathDetourRatio",
   "shortestPathLength",
   "shortestPathDecisionNodes",
+  "shortestPathWallRatio"
+
 ] as const;
+
 
 export const metricMap: Record<string, string> = {
   avgDeadEndLength: "deadEndAvg",
@@ -18,4 +21,5 @@ export const metricMap: Record<string, string> = {
   avgPathDetourRatio: "avgPathDetourRatio",
   shortestPathLength: "shortestPathLength",
   shortestPathDecisionNodes: "shortestPathDecisionNodes",
+    shortestPathWallRatio:"shortestPathWallRatio"
 };

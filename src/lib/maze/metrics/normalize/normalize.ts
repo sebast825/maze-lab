@@ -32,7 +32,6 @@ export const getNormalizedMetrics = (
       ),
     },
     paths: {
-   
       shortestPathTortuosity: normalize(
         derived.paths.shortestPathTortuosity,
         specs.shortestPathTortuosity,
@@ -45,6 +44,16 @@ export const getNormalizedMetrics = (
         derived.paths.shortestPathDecisionNodes,
         specs.shortestPathDecisionNodes,
       ),
+      /**
+       * INVERSION: The higher the shortestPathWallRatio, the easier the maze.
+       * Paths that stay close to the maze border are generally easier to track.
+       */
+      shortestPathWallRatio:
+        1 -
+        normalize(
+          derived.paths.shortestPathWallRatio,
+          specs.shortestPathWallRatio,
+        ),
     },
     pathsAlternative: {
       /**

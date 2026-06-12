@@ -19,4 +19,6 @@ export interface MazeSizeSpecValues {
   avgPathDetourRatio: MetricLimits;
   shortestPathDecisionNodes: MetricLimits;
   shortestPathLength : MetricLimits;
+    shortestPathWallRatio: MetricLimits;
+
 }

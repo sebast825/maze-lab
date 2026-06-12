@@ -109,6 +109,9 @@ const calculateMazeScore = (
       shortestPathDecisionNodes:
         normalized.paths.shortestPathDecisionNodes *
         weights.paths.shortestPathDecisionNodes,
+      shortestPathWallRatio:
+        normalized.paths.shortestPathWallRatio * weights.paths.shortestPathWallRatio,
+   
     },
 
     pathsAlternative: {
@@ -128,7 +131,8 @@ const calculateMazeScore = (
   const scorePaths =
     weighted.paths.shortestPathTortuosity +
     weighted.paths.shortestPathLength +
-    weighted.paths.shortestPathDecisionNodes;
+    weighted.paths.shortestPathDecisionNodes +
+    weighted.paths.shortestPathWallRatio;
 
   const scorePathsAlternative =
     weighted.pathsAlternative.repeatRatio +
