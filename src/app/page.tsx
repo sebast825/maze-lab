@@ -17,6 +17,7 @@ import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
 import benchmark20x20 from "@/lib/maze/benchmark/rawData/manual/20x20.json";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 import { getClosestSizeKey } from "@/lib/maze/metrics/normalize/mazeSizeSpecs";
+import { DifficultyBadge } from "@/features/mazeDifficulty/difficultyBadge";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -33,6 +34,7 @@ export default function Home() {
 
   const [gameMode, setGameMode] = useState<GameMode>("DRAW");
 
+  const [score, setScore] = useState<number | null>(null);
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
   // Absolute constant sizing configuration for grid rendering units
   const CELL_SIZE = 25;
@@ -59,15 +61,14 @@ export default function Home() {
       paths: mazeData?.solution!,
       metrics: metrics.raw,
     };
-    console.log("raw data: ", rawData);
-    console.log(
-      "metrics, raw, derived ,weights and scores: ",
-      analyzeMaze(
-        metrics.raw,
-        defaultWeights,
-        getClosestSizeKey(rawData.maze.rows * rawData.maze.cols),
-      ),
+    var analyzedMaze = analyzeMaze(
+      metrics.raw,
+      defaultWeights,
+      getClosestSizeKey(rawData.maze.rows * rawData.maze.cols),
     );
+    console.log("raw data: ", rawData);
+    console.log("metrics, raw, derived ,weights and scores: ", analyzedMaze);
+    setScore(analyzedMaze.scores.total);
   }, [metrics]);
 
   return (
@@ -124,6 +125,7 @@ export default function Home() {
                   </ActionButton>
                 </>
               )}
+              {score && <DifficultyBadge score={score}></DifficultyBadge>}
             </ToolBar>
           </div>
           <div className="relative w-full  overflow-auto border border-black rounded bg-slate-950 ">
