@@ -204,3 +204,25 @@ Metrics should therefore be:
 - As independent as possible from one another
 
 Correlation analysis helps identify metrics that may be measuring the same underlying property, while score distribution analysis helps validate that the scoring system remains balanced across different maze sizes.
+
+
+
+## Manual Maze Benchmark Logging
+
+If you want to collect manual maze runs for analysis, use:
+
+```ts
+buildMazeBenchmark(metrics.raw, maze, algorithm)
+```
+
+This function generates a benchmark snapshot containing all required data for later analysis (metrics, maze structure, solution path, and metadata).
+
+- The output can be logged and manually stored for dataset creation. 
+
+- Save the logged output in: /lib/maze/benchmark/rawData/manual/{mazeSize}.json
+
+- These files can then be used in /maze-analysis.
+
+Note
+
+The id field is currently hardcoded for a specific benchmark size and must be updated depending on the maze dimensions used

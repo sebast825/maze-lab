@@ -6,19 +6,19 @@ import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { ToolBar } from "@/components/toolBar";
 import { Actions, Controls, Modes } from "@/features/maze/menu";
-import { ActionButton } from "@/components/actionButton";
 import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
-
-import { defaultWeights } from "@/lib/maze/metrics/scoring/defaultWeights";
-import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
 import benchmark20x20 from "@/lib/maze/benchmark/rawData/manual/20x20.json";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
-import { getClosestSizeKey } from "@/lib/maze/metrics/normalize/mazeSizeSpecs";
 import { DifficultyBadge } from "@/features/mazeDifficulty/difficultyBadge";
 import { useSafeDebouncedAction } from "@/hooks/useSafeDebouncedAction";
+import {
+  MazeRawMetrics,
+  MazeScoringResult,
+} from "@/lib/maze/metrics/scoring/types";
+import { MazeData } from "@/lib/maze/types";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -35,7 +35,6 @@ export default function Home() {
 
   const [gameMode, setGameMode] = useState<GameMode>("DRAW");
 
-  const [score, setScore] = useState<number | null>(null);
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
   // Absolute constant sizing configuration for grid rendering units
   const CELL_SIZE = 25;
@@ -54,28 +53,28 @@ export default function Home() {
     setShowPath(false);
 
     run(() => {
-      calculateMetrics(maze);
+      const metrics: MazeScoringResult = calculateMetrics(maze);
+      // Build a complete benchmark snapshot of this maze run
+      // (raw structure + metadata) for logging and later analysis
+      const rawData = buildMazeBenchmark(metrics.raw, maze, algorithm);
+      console.log("rawData ready:", rawData);
     });
   };
-  useEffect(() => {
-    if (!metrics || !mazeData) return;
-    const rawData: MazeBenchmark = {
+
+  const buildMazeBenchmark = (
+    rawMetrics: MazeRawMetrics,
+    mazeData: MazeData,
+    algorithm: AlgorithmType,
+  ): MazeBenchmark => {
+    return {
       name: "",
       id: benchmark20x20.length + 1,
       algorithm,
-      maze: mazeData?.maze!,
-      paths: mazeData?.solution!,
-      metrics: metrics.raw,
+      maze: mazeData.maze,
+      paths: mazeData.solution!,
+      metrics: rawMetrics,
     };
-    var analyzedMaze = analyzeMaze(
-      metrics.raw,
-      defaultWeights,
-      getClosestSizeKey(rawData.maze.rows * rawData.maze.cols),
-    );
-    console.log("raw data: ", rawData);
-    console.log("metrics, raw, derived ,weights and scores: ", analyzedMaze);
-    setScore(analyzedMaze.scores.total);
-  }, [metrics]);
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4">
@@ -123,7 +122,9 @@ export default function Home() {
                   />
                 </>
               )}
-              {score && <DifficultyBadge score={score}></DifficultyBadge>}
+              {metrics?.scores.total && (
+                <DifficultyBadge score={metrics.scores.total}></DifficultyBadge>
+              )}
             </ToolBar>
           </div>
           <div className="relative w-full  overflow-auto border border-black rounded bg-slate-950 ">

@@ -8,7 +8,7 @@ import { MazeScoringResult } from "@/lib/maze/metrics/scoring/types";
 export const useMazeMetrics = () => {
   const [metrics, setMetrics] = useState<MazeScoringResult | null>(null);
 
-  const calculateMetrics = (mazeData: MazeData) => {
+  const calculateMetrics = (mazeData: MazeData): MazeScoringResult => {
     const { cellInfo }: BFSResult = bfs(
       mazeData.maze,
       mazeData.end,
