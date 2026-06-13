@@ -18,6 +18,7 @@ import benchmark20x20 from "@/lib/maze/benchmark/rawData/manual/20x20.json";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 import { getClosestSizeKey } from "@/lib/maze/metrics/normalize/mazeSizeSpecs";
 import { DifficultyBadge } from "@/features/mazeDifficulty/difficultyBadge";
+import { useSafeDebouncedAction } from "@/hooks/useSafeDebouncedAction";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -38,6 +39,7 @@ export default function Home() {
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
   // Absolute constant sizing configuration for grid rendering units
   const CELL_SIZE = 25;
+  const run = useSafeDebouncedAction(500);
 
   const handleUndoDraw = () => {
     drawingRef.current?.undo();
@@ -47,9 +49,13 @@ export default function Home() {
   };
 
   const handleGenerate = () => {
-    createMaze(algorithm, rows, cols);
+    const maze = createMaze(algorithm, rows, cols);
     handleClearDraw();
     setShowPath(false);
+
+    run(() => {
+      calculateMetrics(maze);
+    });
   };
   useEffect(() => {
     if (!metrics || !mazeData) return;
@@ -115,14 +121,6 @@ export default function Home() {
                     clearAll={() => handleClearDraw()}
                     drawCanvas={gameMode == "DRAW"}
                   />
-                  <ActionButton
-                    color="red"
-                    action={() => {
-                      calculateMetrics(mazeData);
-                    }}
-                  >
-                    Benchmark Data
-                  </ActionButton>
                 </>
               )}
               {score && <DifficultyBadge score={score}></DifficultyBadge>}
