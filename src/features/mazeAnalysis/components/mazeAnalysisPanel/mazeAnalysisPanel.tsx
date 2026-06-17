@@ -107,10 +107,10 @@ export function MazeAnalysisPanel({ data }: Props) {
           </div>
         </section>
         <ActionButton
-          action={() => setShowStats(!showStats)}
+          onClick={() => setShowStats(!showStats)}
           color={"green"}
-          text={showStats ? "Hide Advanced Metrics" : "Advanced Metrics"}
-        ></ActionButton>
+          
+        >{showStats ? "Hide Advanced Metrics" : "Advanced Metrics"}</ActionButton>
       </aside>
     </div>
   );

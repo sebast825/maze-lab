@@ -1,11 +1,9 @@
 import { AlgorithmType } from "@/lib/alogirthms/generation";
 import { algorithmLabels } from "./constants";
-import { ActionButton } from "@/components/actionButton";
 import { IconButton } from "@/components/iconButton";
 import { Pencil, Undo2, Trash2, Gamepad2 } from "lucide-react";
 import { GameMode } from "@/app/page";
-
-
+import { ActionButton } from "@/components/actionButton";
 
 interface ControlsProps {
   algorithm: AlgorithmType;
@@ -81,7 +79,7 @@ export const Controls = ({
   );
 };
 
-interface ActionsProps {
+interface actionsProps {
   generateMaze: () => void;
   onShowPath: () => void;
   showPath: boolean;
@@ -94,24 +92,29 @@ export const Actions = ({
   showPath,
   exportToPDF,
   disableExportToPDF,
-}: ActionsProps) => {
+}: actionsProps) => {
   return (
     <div className="flex items-center gap-4">
-      <ActionButton action={generateMaze} text="Generate" color="blue" />
+      <ActionButton onClick={generateMaze} variant="solid" color="blue">
+        Generate
+      </ActionButton>
 
       <ActionButton
-        action={onShowPath}
-        disable={disableExportToPDF}
-        text={showPath ? "Hide Path" : "Show Path"}
+        onClick={onShowPath}
+        variant="text"
+        disabled={disableExportToPDF}
         color="purple"
-      />
+      >
+        {showPath ? "Hide Path" : "Show Path"}
+      </ActionButton>
 
       <ActionButton
-        action={exportToPDF}
-        disable={disableExportToPDF}
-        text=" Export PDF"
+        onClick={exportToPDF}
+        disabled={disableExportToPDF}
         color="green"
-      />
+      >
+        Export PDF
+      </ActionButton>
     </div>
   );
 };
@@ -136,23 +139,23 @@ export const Modes = ({
     <div className="flex items-center gap-2">
       {drawCanvas && (
         <div className="flex items-center gap-2">
-          <IconButton action={undoLast} color="slate" size="sm">
+          <IconButton onClick={undoLast} color="slate" size="sm">
             <Undo2 className="w-4 h-4" />
           </IconButton>
-          <IconButton action={clearAll} color="rose" size="sm">
+          <IconButton onClick={clearAll} color="rose" size="sm">
             <Trash2 className="w-4 h-4" />
           </IconButton>
         </div>
       )}
 
       <IconButton
-        action={toggleDraw}
+        onClick={toggleDraw}
         color={currentMode === "DRAW" ? "orange" : "blue"}
       >
         <Pencil className="w-5 h-5" />
       </IconButton>
       <IconButton
-        action={toggleCharacter}
+        onClick={toggleCharacter}
         color={currentMode === "CHARACTER" ? "orange" : "blue"}
       >
         <Gamepad2 className="w-5 h-5" />

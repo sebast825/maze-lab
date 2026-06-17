@@ -1,26 +1,28 @@
-import { ReactNode } from "react";
-import { colorVariants, sizeVariants } from "./themes";
+import { ButtonHTMLAttributes, ReactNode } from "react";
+import {
+  themeColors,
+  IcolorVariants,
+  IsizeVariants,
+  sizeVariants,
+} from "./themes";
 
-interface IconButtonProps {
-  action: () => void;
-  disable?: boolean;
-  color: keyof typeof colorVariants;
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  color?: IcolorVariants;
+  size?: IsizeVariants;
   children: ReactNode;
-  size?: keyof typeof sizeVariants;
 }
 
 export const IconButton = ({
-  action,
-  disable = false,
-  color,
-  children,
+  color = "slate",
   size = "md",
+  children,
+  className = "",
+  ...props
 }: IconButtonProps) => {
   return (
     <button
-      onClick={action}
-      disabled={disable}
-      className={`rounded-full transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center ${sizeVariants[size]} ${colorVariants[color]}`}
+      {...props}
+      className={`rounded-full transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center ${sizeVariants[size]} ${themeColors[color].bg} rounded-5 ${className}`}
     >
       {children}
     </button>

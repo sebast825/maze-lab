@@ -17,7 +17,6 @@ import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
 
-
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
@@ -71,10 +70,10 @@ export function MazeAnalysis() {
                   <div className="flex flex-row gap-4">
                     {mazeData && (
                       <ActionButton
-                        action={() => setShowPath(!showPath)}
-                        text={showPath ? "Hide Path" : "Show Path"}
-                        color="purple"
-                      />
+                        variant="solid"
+                        onClick={() => setShowPath(!showPath)}
+                        color={"purple"}
+                      >{showPath ? "Hide Path" : "Show Path"}</ActionButton>
                     )}
 
                     {mazeData && (
@@ -93,7 +92,8 @@ export function MazeAnalysis() {
                   </div>
                   {size && (
                     <ActionButton
-                      action={() => generateMetricsReport()}
+                      variant="solid"
+                      onClick={() => generateMetricsReport()}
                       color={"blue"}
                     >
                       Log metrics

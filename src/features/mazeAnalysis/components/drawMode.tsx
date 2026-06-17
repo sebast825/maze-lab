@@ -20,18 +20,18 @@ export const DrawMode = ({
     <div className="flex items-center gap-2">
       {drawCanvas && (
         <div className="flex items-center gap-2">
-          <IconButton action={undoLast} color="slate" size="sm">
+          <IconButton onClick={undoLast} color="slate" size="sm">
             <Undo2 className="w-4 h-4" />
           </IconButton>
-          <IconButton action={clearAll} color="rose" size="sm">
+          <IconButton onClick={clearAll} color="rose" size="sm">
             <Trash2 className="w-4 h-4" />
           </IconButton>
         </div>
       )}
 
       <IconButton
-        action={toggleDraw}
-        color={currentMode === "DRAW" ? "orange" : "blue"}
+        onClick={toggleDraw}
+        color={currentMode === "DRAW" ? "orange" : "rose"}
       >
         <Pencil className="w-5 h-5" />
       </IconButton>

@@ -43,9 +43,7 @@ export function ScoreWeightsPanel({ weights, onApply, onResset }: Props) {
 
   return (
     <div className={`${PANEL_CLASSES.container}`}>
-      <h2 className={`${PANEL_CLASSES.title} text-white`}>
-        Score Weights
-      </h2>
+      <h2 className={`${PANEL_CLASSES.title} text-white`}>Score Weights</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {Object.entries(draft).map(([sectionName, sectionValue]) => {
@@ -111,16 +109,12 @@ export function ScoreWeightsPanel({ weights, onApply, onResset }: Props) {
       </div>
 
       <div className="w-full flex gap-4 mt-4">
-        <ActionButton
-          action={() => onApply(draft)}
-          color={"blue"}
-          text="Apply Weights"
-        ></ActionButton>
-        <ActionButton
-          action={() => onResset()}
-          color={"red"}
-          text="Reset Weights"
-        ></ActionButton>
+        <ActionButton onClick={() => onApply(draft)} color={"blue"}>
+          Apply Weights
+        </ActionButton>
+        <ActionButton onClick={() => onResset()} color={"red"}>
+          Reset Weights
+        </ActionButton>
       </div>
     </div>
   );
