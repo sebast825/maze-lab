@@ -25,7 +25,7 @@ export const DesktopMenu = ({
   handleClearDraw,
 }: DesktopMenuProps) => {
   return (
-    <div className="hidden md:flex space-x-6 items-center text-xs font-mono uppercase tracking-wider">
+    <div className="hidden md:flex flex-wrap space-x-6 items-center text-xs font-mono uppercase tracking-wider gap-2 ">
       <AlgorithmSelector
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
