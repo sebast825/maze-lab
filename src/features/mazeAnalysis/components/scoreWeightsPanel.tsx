@@ -83,7 +83,7 @@ export function ScoreWeightsPanel({ weights, onApply, onResset }: Props) {
                 {Object.entries(sectionValue).map(([key, value]) => (
                   <div
                     key={key}
-                    className="flex items-center justify-between gap-2"
+                    className="flex items-center justify-between gap-2 flex-wrap"
                   >
                     <label className="text-white text-sm">{key}</label>
 
