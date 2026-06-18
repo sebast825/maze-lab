@@ -16,6 +16,7 @@ import { rawDataManualSelector, RawDataSize } from "@/lib/maze/benchmark";
 import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
+import { DrawControls } from "@/components/drawControls";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
@@ -70,13 +71,14 @@ export function MazeAnalysis() {
                   <div className="flex flex-row gap-4">
                     {mazeData && (
                       <ActionButton
-                        variant="solid"
+                        variant="outline"
                         onClick={() => setShowPath(!showPath)}
                         color={"purple"}
                       >{showPath ? "Hide Path" : "Show Path"}</ActionButton>
                     )}
 
                     {mazeData && (
+                 <>     
                       <DrawMode
                         currentMode={gameMode}
                         toggleDraw={() =>
@@ -87,12 +89,12 @@ export function MazeAnalysis() {
                         undoLast={() => handleUndoDraw()}
                         clearAll={() => handleClearDraw()}
                         drawCanvas={gameMode == "DRAW"}
-                      ></DrawMode>
+                      ></DrawMode></>
                     )}
                   </div>
                   {size && (
                     <ActionButton
-                      variant="solid"
+                      variant="outline"
                       onClick={() => generateMetricsReport()}
                       color={"blue"}
                     >
