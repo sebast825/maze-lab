@@ -35,15 +35,9 @@ export default function Home() {
 
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
   // Absolute constant sizing configuration for grid rendering units
-  const maxWidth = window.innerWidth * 1;
+  const maxWidth = window.innerWidth * 0.95;
   const maxHeight = window.innerHeight * 0.75;
-  const CELL_SIZE = Math.min(
-    25, // max cap
-    Math.max(
-      15, // min cap
-      Math.min(maxWidth / cols, maxHeight / rows),
-    ),
-  );
+  const CELL_SIZE = Math.min(25, Math.min(maxWidth / cols, maxHeight / rows));
   console.log(CELL_SIZE);
   const run = useSafeDebouncedAction(500);
   const handleUndoDraw = () => {
@@ -57,11 +51,11 @@ export default function Home() {
     const maze = createMaze(algorithm, rows, cols);
     handleClearDraw();
     setShowPath(false);
-    
+
     run(() => {
       //this metrics is necesary to update the metrics inside hook and show difficulty do not coment
       const metrics: MazeScoringResult = calculateMetrics(maze);
-    /*    console.log("metrics:", metrics);
+      /*    console.log("metrics:", metrics);
       // Build a complete benchmark snapshot of this maze run
       // (raw structure + metadata) for logging and later analysis
        const rawData = buildMazeBenchmark(metrics.raw, maze, algorithm);
