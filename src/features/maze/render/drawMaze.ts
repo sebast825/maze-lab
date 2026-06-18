@@ -22,7 +22,7 @@ export function drawMaze(
   ctx.clearRect(0, 0, cols * cellSize, rows * cellSize);
 
   // Draw background
-  ctx.fillStyle = ThemeDraw.NEON == theme ? "#010" : "#fff";
+  ctx.fillStyle = "transparent";
   ctx.fillRect(0, 0, cols * cellSize, rows * cellSize);
 
   // Draw path first (so walls are drawn on top)
