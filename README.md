@@ -226,3 +226,17 @@ This function generates a benchmark snapshot containing all required data for la
 Note
 
 The id field is currently hardcoded for a specific benchmark size and must be updated depending on the maze dimensions used
+
+
+---
+
+## Visual Debugging
+
+The codebase includes a built-in cell classification overlay used to audit generation patterns (visualizing intersections, group merges, backbone depth, and scoring penalties).
+
+To enable this visual guide in the browser:
+
+1. Open `drawMazeWalls` in the canvas rendering module.
+2. Uncomment the `getCellBackground` execution and its corresponding `fillRect` block inside the cell loop.
+
+This will tint the maze cells dynamically, mapping out how the engine interprets structural complexity and human difficulty metrics in real-time.

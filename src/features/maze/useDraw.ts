@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useDraw = () => {
+export const useDraw = ({ cellSize }: { cellSize: number }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [history, setHistory] = useState<{ x: number; y: number }[][]>([]);
   const [currentPath, setCurrentPath] = useState<{ x: number; y: number }[]>(
@@ -37,8 +37,8 @@ export const useDraw = () => {
     if (!ctx) return;
 
     const { x, y } = getMousePos(e);
+    ctx.lineWidth = cellSize > 18 ? 4 : 2;
 
-    ctx.lineWidth = 4;
     ctx.lineCap = "round";
     ctx.strokeStyle = "#ef4444";
 

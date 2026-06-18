@@ -22,67 +22,67 @@ export const drawMazeWalls = ({
   coreColor = "#e0f2fe",
   theme,
 }: DrawMazeProps) => {
-  const traceWalls = () => {
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const cell = cells[row][col];
-        const x = col * cellSize;
-        const y = row * cellSize;
 
-        if (cell.walls.north) {
-          ctx.moveTo(x, y);
-          ctx.lineTo(x + cellSize, y);
-        }
-        if (cell.walls.south) {
-          ctx.moveTo(x, y + cellSize);
-          ctx.lineTo(x + cellSize, y + cellSize);
-        }
-        if (cell.walls.east) {
-          ctx.moveTo(x + cellSize, y);
-          ctx.lineTo(x + cellSize, y + cellSize);
-        }
-        if (cell.walls.west) {
-          ctx.moveTo(x, y);
-          ctx.lineTo(x, y + cellSize);
-        }
-        const color = getCellBackground(cell);
-        if (color) {
-          ctx.fillStyle = color;
-           ctx.fillRect(x, y, cellSize, cellSize);
-        }
+  const mazePath = new Path2D();
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const cell = cells[row][col];
+      const x = col * cellSize;
+      const y = row * cellSize;
+
+      if (cell.walls.north) {
+        mazePath.moveTo(x, y);
+        mazePath.lineTo(x + cellSize, y);
       }
+      if (cell.walls.south) {
+        mazePath.moveTo(x, y + cellSize);
+        mazePath.lineTo(x + cellSize, y + cellSize);
+      }
+      if (cell.walls.east) {
+        mazePath.moveTo(x + cellSize, y);
+        mazePath.lineTo(x + cellSize, y + cellSize);
+      }
+      if (cell.walls.west) {
+        mazePath.moveTo(x, y);
+        mazePath.lineTo(x, y + cellSize);
+      }
+   /*
+      const color = getCellBackground(cell);
+      if (color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, cellSize, cellSize);
+      }*/
     }
-  };
+  }
+
+  // Dynamic scaling configuration
+  const outerWidth = Math.max(1, cellSize * 0.15);
+  const innerWidth = Math.max(0.5, cellSize * 0.05);
+  const blurValue = Math.max(2, cellSize * 0.35);
 
   // STEP 1: Draw the outer glow
-
   ctx.save();
-  ctx.beginPath();
-  traceWalls();
-
   ctx.strokeStyle = neonColor;
-  if (theme == ThemeDraw.NEON) {
-    ctx.shadowBlur = 8; // High blur for the neon dispersion
+  if (theme === ThemeDraw.NEON) {
+    ctx.shadowBlur = blurValue;
   }
-  ctx.lineWidth = 4; // Thicker line for the outer aura
+  ctx.lineWidth = outerWidth;
   ctx.shadowColor = neonColor;
-  ctx.lineCap = "round"; // Makes wall joints look smoother
-  ctx.stroke();
+  ctx.lineCap = "round";
+  ctx.stroke(mazePath);
   ctx.restore();
 
   // STEP 2: Draw the bright center
-
   ctx.save();
-  ctx.beginPath();
-  traceWalls();
-
   ctx.strokeStyle = coreColor;
-  ctx.lineWidth = 1.5; // Thin line for the inner electric tube
+  ctx.lineWidth = innerWidth;
   ctx.lineCap = "round";
-  ctx.stroke(); // Drawn without shadows for maximum sharpness
+  ctx.stroke(mazePath); 
   ctx.restore();
 };
 
+//for debuggin purpose show wich kind of cells are and why have been modify
 const getCellBackground = (cell: Cell): string | null => {
   if (cell.startPoint) return "rgba(0, 255, 0, .09)";
   if (cell.isBackBone) return "rgba(219, 243, 113, 0.15)";
