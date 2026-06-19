@@ -1,6 +1,6 @@
 export const NAV_CLASSES = {
   select:
-    "bg-transparent text-slate-200 pb-0.5 focus:outline-none focus:border-indigo-500 cursor-pointer uppercase text-xs",
+    "bg-transparent text-slate-200 pb-0.5 focus:outline-none  cursor-pointer uppercase text-xs",
   inputNumber:
     "w-10 bg-transparent text-slate-200 pb-0.5 text-center focus:outline-none focus:border-indigo-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
   inputNumberMobile:

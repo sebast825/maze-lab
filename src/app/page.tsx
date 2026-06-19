@@ -22,7 +22,7 @@ import { Footer } from "@/components/footer";
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
 export default function Home() {
-  const [algorithm, setAlgorithm] = useState<AlgorithmType>("three");
+  const [algorithm, setAlgorithm] = useState<AlgorithmType>("tree");
   const [rows, setRows] = useState<number>(20);
   const [cols, setCols] = useState<number>(20);
 

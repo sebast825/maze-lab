@@ -17,7 +17,7 @@ import { removeWallBetween } from "@/lib/maze/walls";
  5 - repeat steps 3-5 until all cells are visited
 */
 
-export const generateAldousBroader : MazeGeneratorFn =(maze: Maze): Maze => {
+export const generateAldousBroder : MazeGeneratorFn =(maze: Maze): Maze => {
   const startPoint: Position = getMazeStartPoint(maze);
 
   maze.cells[startPoint.row][startPoint.col].visited = true;
