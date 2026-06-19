@@ -17,6 +17,7 @@ import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
 import { DrawControls } from "@/components/drawControls";
+import { Footer } from "@/components/footer";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
@@ -143,6 +144,8 @@ export function MazeAnalysis() {
             )}
           </div>
         </main>
+                    <Footer></Footer>
+
       </div>
     </>
   );

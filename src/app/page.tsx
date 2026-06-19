@@ -17,6 +17,7 @@ import {
 } from "@/lib/maze/metrics/scoring/types";
 import { MazeData } from "@/lib/maze/types";
 import { Navbar } from "@/components/navBar/index";
+import { Footer } from "@/components/footer";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -36,7 +37,7 @@ export default function Home() {
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
   // Absolute constant sizing configuration for grid rendering units
   const maxWidth = window.innerWidth * 0.95;
-  const maxHeight = window.innerHeight * 0.75;
+  const maxHeight = window.innerHeight * 0.85;
   const CELL_SIZE = Math.min(25, Math.min(maxWidth / cols, maxHeight / rows));
   console.log(CELL_SIZE);
   const run = useSafeDebouncedAction(500);
@@ -138,6 +139,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <Footer></Footer>
         </div>
       </main>
     </div>
