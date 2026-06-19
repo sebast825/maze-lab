@@ -43,8 +43,6 @@ export const analyzeMaze = (
   spec: MazeSizeSpecKey,
 ): MazeScoringResult => {
   const derived: MazeDerivedMetrics = deriveMazeMetrics(raw);
-  console.log(raw.paths);
-  console.log(derived.paths);
   const normalized: MazeNormalizedMetrics = getNormalizedMetrics(derived, spec);
   const { weighted, scores } = calculateMazeScore(normalized, weights);
 
@@ -59,7 +57,6 @@ export const analyzeMaze = (
   return rsta;
 };
 const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
-  console.log("rawpahts, ", raw.paths);
   const deadEndAvg =
     raw.features.deadEndBranchLength /
     Math.max(1, raw.features.deadEndBranchCount);

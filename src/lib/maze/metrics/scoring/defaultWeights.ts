@@ -9,10 +9,10 @@ export const defaultWeights: Weights = {
   },
 
   paths: {
-    shortestPathTortuosity: .3,
-    shortestPathLength: .2,
-    shortestPathDecisionNodes: .2,
-    shortestPathWallRatio:.3,
+    shortestPathTortuosity: 0.3,
+    shortestPathLength: 0.2,
+    shortestPathDecisionNodes: 0.2,
+    shortestPathWallRatio: 0.3,
 
     total: 1,
   },
@@ -21,9 +21,5 @@ export const defaultWeights: Weights = {
     repeatRatio: 0.5,
     avgPathDetourRatio: 0.5,
     total: 1,
-  },
-
-  global: {
-    intersectionPenalty: 1,
   },
 };

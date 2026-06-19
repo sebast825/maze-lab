@@ -14,10 +14,6 @@ export interface Weights {
   pathsAlternative: AlternativePathMetrics & {
     total: number;
   };
-
-  global: {
-    intersectionPenalty: number;
-  };
 }
 
 export interface MazeDerivedFeatures {
