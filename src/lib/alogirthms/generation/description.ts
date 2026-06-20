@@ -58,4 +58,12 @@ Each expansion behaves like a growing branch of a tree, where new branches emerg
 Starts from a random cell and performs a pure random walk over the grid. At each step, it moves to a randomly chosen adjacent cell. If the visited cell has not been seen before, it is carved into the maze. The process continues until all cells have been visited at least once.
 `.trim(),
     },
+    randomTraversal: {
+      name: "Random Traversal",
+      description: `
+A variation of DFS that breaks strict directional paths. Instead of moving from the latest cell, 
+it picks any discovered cell from the stack at random to continue carving. 
+This removes the long, winding corridors typical of DFS, resulting in shorter branches and a more fragmented, unpredictable maze.
+`.trim(),
+    },
   };

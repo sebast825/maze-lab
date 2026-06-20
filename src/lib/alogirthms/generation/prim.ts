@@ -2,10 +2,12 @@ import { Maze, Position } from "@/lib/maze/types";
 import {
   getMazeStartPoint,
   getNeighborsNotVisited,
+  getNeighbors,
   selectRandomPosition,
 } from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
 import { removeWallBetween } from "@/lib/maze/walls";
+
 /**
  * Prim's algorithm for maze generation.
  *
@@ -17,31 +19,54 @@ import { removeWallBetween } from "@/lib/maze/walls";
  */
 export const generatePrim: MazeGeneratorFn = (maze: Maze): Maze => {
   const startPoint: Position = getMazeStartPoint(maze);
-  const stack: Position[] = [];
-  stack.push({ row: startPoint.row, col: startPoint.col });
   maze.cells[startPoint.row][startPoint.col].visited = true;
 
-  while (stack.length > 0) {
-    const current: Position = selectRandomPosition(stack);
-    const index = stack.findIndex(
+  const frontier: Position[] = [];
+  const stack: Position[] = []; // Acts as the visited set
+  stack.push(startPoint);
+
+  // Initialize frontier with starting point's unvisited neighbors
+  const initialNeighbors = getNeighborsNotVisited(maze, startPoint);
+  initialNeighbors.forEach((neighbor) => frontier.push(neighbor));
+
+  while (frontier.length > 0) {
+    // 1. Pick and remove a random cell from the frontier
+    const current: Position = selectRandomPosition(frontier);
+    const indexFrontier = frontier.findIndex(
       (p) => p.row === current.row && p.col === current.col,
     );
+    if (indexFrontier !== -1) {
+      frontier.splice(indexFrontier, 1);
+    }
 
-    const neighbors: Position[] = getNeighborsNotVisited(
-      maze,
-      {row:current.row,
-      col:current.col,}
+    // Skip if somehow it was already visited and processed
+    if (maze.cells[current.row][current.col].visited) continue;
+    maze.cells[current.row][current.col].visited = true;
+
+    // 2. Find adjacent neighbors that are already in the maze (stack)
+    const neighbors: Position[] = getNeighbors(maze, current);
+    const neighborsInStack: Position[] = neighbors.filter((neighbor) =>
+      stack.some((stackPos) => stackPos.col === neighbor.col && stackPos.row === neighbor.row),
     );
 
-    if (neighbors.length === 0 && index !== -1) {
-      stack.splice(index, 1);
-      continue;
-    }
-    const neighbor: Position = selectRandomPosition(neighbors);
-    stack.push(neighbor);
+    if (neighborsInStack.length === 0) continue;
 
-    removeWallBetween(maze, stack[index], neighbor);
-    maze.cells[neighbor.row][neighbor.col].visited = true;
+    // 3. Connect to a random visited neighbor
+    const chosenNeighbor: Position = selectRandomPosition(neighborsInStack);
+    removeWallBetween(maze, current, chosenNeighbor);
+    stack.push(current);
+
+    // 4. Add new unvisited neighbors to frontier, avoiding duplicates
+    const nextNeighbors = getNeighborsNotVisited(maze, current);
+    nextNeighbors.forEach((neighbor) => {
+      const alreadyInFrontier = frontier.some(
+        (p) => p.row === neighbor.row && p.col === neighbor.col,
+      );
+      if (!alreadyInFrontier) {
+        frontier.push(neighbor);
+      }
+    });
   }
+
   return maze;
 };
