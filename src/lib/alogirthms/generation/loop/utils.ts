@@ -1,6 +1,8 @@
 import { LoopReason, Maze, Position } from "@/lib/maze/types";
 import { LoopCandidate } from "./types";
 import { removeWallBetween } from "@/lib/maze/walls";
+import { bfs } from "../../solving/bfs";
+import { MazePathMaps, BFSResult } from "../../solving/types";
 
 export const calculateCandidateLimit = (rows: number, cols: number): number => {
   const totalCells = rows * cols;
@@ -15,11 +17,8 @@ export const removeWallAtSomeCandiates = (
 ) => {
   for (let i = 0; i < 10 && i < candidates.length; i++) {
     let candidate: LoopCandidate | undefined = candidates[i];
-    console.log(i);
 
     if (!candidate) break;
-    //  if(candidate.score.isIntersection) break
-    console.log({ ...candidate });
     maze.cells[candidate.from.row][candidate.from.col].loopReason =
       getDominantScore(candidate);
     maze.cells[candidate.to.row][candidate.to.col].loopReason =
@@ -84,3 +83,10 @@ export const addColorToBackBone = (backbone: Position[], maze: Maze) => {
     (elem) => (maze.cells[elem.row][elem.col].isBackBone = true),
   );
 };
+
+export const generateMazePathMaps = (maze: Maze, start: Position, end: Position): MazePathMaps => {
+  const { cellInfo: fromStart }: BFSResult = bfs(maze, end, start);
+  const { cellInfo: fromEnd }: BFSResult = bfs(maze, start, end);
+
+  return { fromStart, fromEnd };
+}

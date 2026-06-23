@@ -12,3 +12,7 @@ export interface CellInfo {
 }
 
 
+export interface MazePathMaps {
+  fromStart: CellInfo[][];
+  fromEnd: CellInfo[][];
+}

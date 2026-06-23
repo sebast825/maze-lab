@@ -4,7 +4,7 @@ import {
   mazesGenerator,
 } from "@/lib/alogirthms/generation";
 import { createLopps } from "@/lib/alogirthms/generation/loop/loops";
-import { bfs} from "@/lib/alogirthms/solving/bfs";
+import { bfs } from "@/lib/alogirthms/solving/bfs";
 import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
 import { MazeBenchmark } from "../benchmark/types";
 import { createEmptyMaze } from "../core";
@@ -29,15 +29,14 @@ export const generateBenchmark = (
     col: cols - 1,
   };
 
-  const { cellInfo } = bfs(maze, end, start);
 
-  createLopps(cellInfo, start, end, maze);
+  createLopps(start, end, maze);
 
   const paths = findAllPaths(maze, start, end);
 
-  const { cellInfo: finalCellInfo } = bfs(maze, end, start);
+  const { cellInfo } = bfs(maze, end, start);
 
-  const metrics = computeMazeMetrics(finalCellInfo, maze, paths);
+  const metrics = computeMazeMetrics(cellInfo, maze, paths);
 
   return {
     id,
