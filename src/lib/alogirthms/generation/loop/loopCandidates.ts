@@ -15,44 +15,30 @@ export const getBalancedCandidates = (
   maze: Maze,
   structure: MazeStructureAnalysis,
   MazePathMaps: MazePathMaps,
-  backboneRoute: Position[],
+  backboneRoute: Set<string>,
 ): LoopCandidate[] => {
-  // 1. Get initial loop candidates
-  console.time("⏱️ 1. getLoopCandidates");
+  
   const loopCandidates: LoopCandidate[] = getLoopCandidates(
     structure.branches,
     maze,
   );
-  console.timeEnd("⏱️ 1. getLoopCandidates");
 
-  // 2. Score candidates
-  console.time("⏱️ 2. scoreLoopCandidates");
   const scoreCandadidates: LoopCandidate[] = scoreLoopCandidates(
     loopCandidates,
     MazePathMaps,
     backboneRoute,
     structure.intersections,
   );
-  console.timeEnd("⏱️ 2. scoreLoopCandidates");
 
-  // 3. Filter by distance
-  console.time("⏱️ 3. filterCandidatesByDistance");
   const filterByDistance: LoopCandidate[] =
     filterCandidatesByDistance(scoreCandadidates);
-  console.timeEnd("⏱️ 3. filterCandidatesByDistance");
 
-  // 4. Sort by region
-  console.time("⏱️ 4. sortCandidatesByRegion");
   const sortByRegion = sortCandidatesByRegion(filterByDistance, maze);
-  console.timeEnd("⏱️ 4. sortCandidatesByRegion");
 
-  // 5. Slice total results
-  console.time("⏱️ 5. sliceCandidates");
   const sliceCandidates: LoopCandidate[] = sortByRegion.slice(
     0,
     calculateCandidateLimit(maze.rows, maze.cols),
   );
-  console.timeEnd("⏱️ 5. sliceCandidates");
 
   return sliceCandidates;
 };
@@ -126,25 +112,15 @@ const scoreCandidateByDistance = (candidate: LoopCandidate, mazePathMaps: MazePa
   const pathB = mazePathMaps.fromStart[candidate.to.row][candidate.to.col].distance +
     mazePathMaps.fromEnd[candidate.from.row][candidate.from.col].distance;
   // Simulates bidirectional travel through the shortcut; the minimum represents the optimal loop path cost
-  //console.log(pathA,pathB)
   candidate.score.branchDistance = Math.min(pathA, pathB);
   return candidate
 }
 export const scoreLoopCandidates = (
   candidates: LoopCandidate[],
   mazePathMaps: MazePathMaps,
-  backboneRoute: Position[],
+  backboneRoute: Set<string>,
   intersections: Position[],
 ): LoopCandidate[] => {
-  // Variables para acumular tiempos
-  let tDepth = 0, tDistance = 0, tPenalty = 0, tFinal = 0;
-  let iterations = 0;
-
-  // Variables para métricas de branchDistance
-  let maxDistance = -Infinity;
-  let minDistance = Infinity;
-  let totalDistanceSum = 0;
-  const uniqueDistances = new Set<number>();
 
   const mappedCandidates = candidates.map((candidate) => {
     // avoid direct parent connection
@@ -158,44 +134,13 @@ export const scoreLoopCandidates = (
       return candidate;
     }
 
-    iterations++;
-
-    // 1. scoreCandidateDepth
-    const startDepth = performance.now();
     candidate = scoreCandidateDepth(candidate, mazePathMaps.fromStart, backboneRoute);
-    tDepth += performance.now() - startDepth;
-
-
-    // 2. scoreCandidateByDistance (manteniendo tus parámetros)
-    const startDistance = performance.now();
     candidate = scoreCandidateByDistance(candidate, mazePathMaps);
-    tDistance += performance.now() - startDistance;
-
-    // Métricas de distancia
-    const currentDist = 0;
-    if (currentDist > maxDistance) maxDistance = currentDist;
-    if (currentDist < minDistance) minDistance = currentDist;
-    totalDistanceSum += currentDist;
-    uniqueDistances.add(currentDist);
-
-    // 3. applyIntersectionPenalty
-    const startPenalty = performance.now();
     candidate = applyIntersectionPenalty(candidate, intersections);
-    tPenalty += performance.now() - startPenalty;
-
-    // 4. calculateFinalScore
-    const startFinal = performance.now();
     candidate = calculateFinalScore(candidate);
-    tFinal += performance.now() - startFinal;
-
-
     return candidate;
   });
-  console.log("scoreCandidateDepth: ", tDepth)
-  console.log("scoreCandidateByDistance: ", tDistance)
-  console.log("applyIntersectionPenalty: ", tPenalty)
-  console.log("calculateFinalScore: ", tFinal)
-  
+
   return (
     mappedCandidates
       // remove very bad candidates
@@ -204,6 +149,7 @@ export const scoreLoopCandidates = (
       .sort((a, b) => b.score.finalScore - a.score.finalScore)
   );
 };
+
 const calculateFinalScore = (candidate: LoopCandidate) => {
   const dividedBy =
     candidate.score.intersectionPenalty == 0
@@ -246,7 +192,7 @@ const applyIntersectionPenalty = (
 const scoreCandidateDepth = (
   candidate: LoopCandidate,
   cellInfo: CellInfo[][],
-  backboneRoute: Position[],
+  backboneRoute: Set<string>,
 ): LoopCandidate => {
   const { backBone: fromBackBone, steps: stepsFrom } = getBackBoneOfBranchCell(
     candidate.from,

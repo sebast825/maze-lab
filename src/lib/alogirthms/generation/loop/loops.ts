@@ -19,11 +19,14 @@ export const createLopps = (
     backBone.route,
     maze,
   );
+    const backboneSet = new Set<string>(
+    backBone.route.map(cell => `${cell.row},${cell.col}`)
+  );
   const candidates: LoopCandidate[] = getBalancedCandidates(
     maze,
     structure,
     mazePathMaps,
-    backBone.route,
+   backboneSet
   );
 
   removeWallAtSomeCandiates(candidates, maze);
