@@ -6,7 +6,7 @@ import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 import { AlgorithmType } from "@/lib/alogirthms/generation";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
 import benchmark20x20 from "@/lib/maze/benchmark/rawData/manual/20x20.json";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
@@ -23,8 +23,8 @@ export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
 export default function Home() {
   const [algorithm, setAlgorithm] = useState<AlgorithmType>("tree");
-  const [rows, setRows] = useState<number>(20);
-  const [cols, setCols] = useState<number>(20);
+  const [rows, setRows] = useState<number>(40);
+  const [cols, setCols] = useState<number>(40);
 
   const [showPath, setShowPath] = useState<boolean>(false);
   const { mazeData, createMaze } = useMazeGenerator();
@@ -36,10 +36,15 @@ export default function Home() {
 
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
   // Absolute constant sizing configuration for grid rendering units
-  const maxWidth = window.innerWidth * 0.95;
-  const maxHeight = window.innerHeight * 0.85;
-  const CELL_SIZE = Math.min(25, Math.min(maxWidth / cols, maxHeight / rows));
-  console.log(CELL_SIZE);
+  const [cellSize, setCellSize] = useState<number>(25);
+
+  useEffect(() => {
+    const maxWidth = window.innerWidth * 0.95;
+    const maxHeight = window.innerHeight * 0.85;
+    const calculatedSize = Math.min(25, Math.min(maxWidth / cols, maxHeight / rows));
+
+    setCellSize(calculatedSize);
+  }, [cols, rows]);
   const run = useSafeDebouncedAction(500);
   const handleUndoDraw = () => {
     drawingRef.current?.undo();
@@ -104,35 +109,34 @@ export default function Home() {
             handleClearDraw={handleClearDraw}
             total={metrics?.scores.total}
           />
-  
+
           <div className="relative w-full  overflow-auto md:overflow-hidden  border border-black rounded h-full">
             <div className="grid min-h-full min-w-full place-items-center">
               <div className="w-fit relative min-h-full grid place-items-center">
                 <div
-                  className={`relative transition-all duration-300 ${
-                    gameMode != "VIEW"
-                      ? "ring-2 bg-[#000] ring-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)]"
-                      : "ring-0"
-                  }`}
+                  className={`relative transition-all duration-300 ${gameMode != "VIEW"
+                    ? "ring-2 bg-[#000] ring-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)]"
+                    : "ring-0"
+                    }`}
                 >
                   {mazeData && mazeData.end && (
                     <MazeCanvas
                       mazeData={mazeData}
-                      cellSize={CELL_SIZE}
+                      cellSize={cellSize}
                       showPath={showPath}
                     />
                   )}
                   {gameMode == "CHARACTER" && mazeData && (
                     <CharacterCanvas
                       mazeData={mazeData!}
-                      cellSize={CELL_SIZE}
+                      cellSize={cellSize}
                     />
                   )}
                   {gameMode == "DRAW" && (
                     <DrawingCanvas
                       cols={cols}
                       rows={rows}
-                      cellSize={CELL_SIZE}
+                      cellSize={cellSize}
                       ref={drawingRef}
                     />
                   )}

@@ -3,7 +3,6 @@ import { Maze, Position } from "@/lib/maze/types";
 export function union(parent: number[], id1: number, id2: number): boolean {
   const root1 = find(parent, id1);
   const root2 = find(parent, id2);
-  console.log("valueInArray ", root1, root2);
   //we update the parent index, so they became part of the same group
   if (root1 !== root2) {
     parent[root1] = root2;
