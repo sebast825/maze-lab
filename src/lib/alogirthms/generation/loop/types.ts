@@ -24,7 +24,7 @@ export interface DistanceToBackBone {
 interface LoopCandidateScore {
   backboneDepth: number;
   branchDistance: number;
-  intersectionPenalty: number;
+  intersectionScore: number;
   isIntersection:boolean ;
   finalScore: number;
 }
