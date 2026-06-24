@@ -53,6 +53,7 @@ export const drawMazeWalls = ({
               ctx.fillStyle = color;
               ctx.fillRect(x, y, cellSize, cellSize);
             }*/
+
     }
   }
 
