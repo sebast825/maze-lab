@@ -47,12 +47,12 @@ export const drawMazeWalls = ({
         mazePath.moveTo(x, y);
         mazePath.lineTo(x, y + cellSize);
       }
-   /*
-      const color = getCellBackground(cell);
-      if (color) {
-        ctx.fillStyle = color;
-        ctx.fillRect(x, y, cellSize, cellSize);
-      }*/
+      /*
+            const color = getCellBackground(cell);
+            if (color) {
+              ctx.fillStyle = color;
+              ctx.fillRect(x, y, cellSize, cellSize);
+            }*/
     }
   }
 
@@ -78,14 +78,15 @@ export const drawMazeWalls = ({
   ctx.strokeStyle = coreColor;
   ctx.lineWidth = innerWidth;
   ctx.lineCap = "round";
-  ctx.stroke(mazePath); 
+  ctx.stroke(mazePath);
   ctx.restore();
 };
 
 //for debuggin purpose show wich kind of cells are and why have been modify
 const getCellBackground = (cell: Cell): string | null => {
-  if (cell.startPoint) return "rgba(0, 255, 0, .09)";
-  if (cell.isBackBone) return "rgba(219, 243, 113, 0.15)";
+  if (cell.startPoint) return "rgba(0, 255, 0, 1)";
+  //at fn createLopps need to uncoment addColorToBackBone
+  if (cell.isBackBone) return "rgba(219, 243, 113, 1)";
 
   if (cell.groupId !== undefined) {
     const hue = (cell.groupId * 47) % 360;
@@ -93,10 +94,12 @@ const getCellBackground = (cell: Cell): string | null => {
   }
 
   const reasonColors: Record<string, string> = {
-    isIntersection: "rgba(255, 72, 255, 0.35)",
-    branchDistance: "rgba(255, 0, 0, 0.35)",
-    backboneDepth: "rgba(0, 100, 255, 0.35)",
-    intersectionPenalty: "rgba(255, 200, 0, 0.35)",
+    //if want to see  isIntersection need to be uncomented in fn getDominantScore
+    //with the current algorithm will paint almost every time all with that color, witouth been the main reaosn
+    isIntersection: "rgba(255, 72, 255, 1)",
+    branchDistance: "rgba(255, 0, 0, 1)",
+    backboneDepth: "rgba(253, 253, 253, 1)",
+    intersectionScore: "rgba(243, 193, 12, 1)",
   };
 
   return cell.loopReason ? reasonColors[cell.loopReason] || null : null;
