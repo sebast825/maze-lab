@@ -40,7 +40,6 @@ export const getBalancedCandidates = (
     0,
     calculateCandidateLimit(maze.rows, maze.cols),
   );
-  sliceCandidates.forEach(elem => console.log(elem.score))
   return sliceCandidates;
 };
 const sortCandidatesByRegion = (
@@ -56,7 +55,7 @@ const sortCandidatesByRegion = (
   const midRow = Math.floor(maze.rows / 2);
   const midCol = Math.floor(maze.cols / 2);
   candidates.forEach((candidate) => {
-   // We determine the region based on the position
+    // We determine the region based on the position
     const isBottom = candidate.from.row >= midRow;
     const isRight = candidate.from.col >= midCol;
 
@@ -137,17 +136,18 @@ export const scoreLoopCandidates = (
 
     candidate = scoreCandidateDepth(candidate, mazePathMaps.fromStart, backboneRoute);
     candidate = scoreCandidateByDistance(candidate, mazePathMaps);
+    // Must run after scoreCandidateByDistance because the intersection penalty uses the computed branchDistance value
     candidate = applyintersectionScore(candidate, intersections);
     candidate = calculateFinalScore(candidate);
     return candidate;
   });
 
   //log how all metrics influence in the score
-/*
-  const scoreRows = candidates.map(c => c.score);
-  const stats = getMetricStats(scoreRows);
-
-  console.table(stats);*/
+  /*
+    const scoreRows = candidates.map(c => c.score);
+    const stats = getMetricStats(scoreRows);
+  
+    console.table(stats);*/
 
 
   return (
@@ -172,17 +172,17 @@ const calculateFinalScore = (candidate: LoopCandidate) => {
   // Weight factors used to balance the contribution of each component.
   const DEPTH_WEIGHT = 2;
   // Intersection penalty multiplier.
-  const INTERSECTION_WEIGHT = 25;
+  const INTERSECTION_WEIGHT = 7;
 
   const baseScore =
     score.backboneDepth * DEPTH_WEIGHT +
     score.branchDistance;
 
-    const penalty =
+  const penalty =
     score.intersectionScore * INTERSECTION_WEIGHT;
 
   // Final score used for candidate ranking.
-  score.finalScore = baseScore + penalty;
+  score.finalScore = baseScore - penalty;
 
   // Store weighted values for debugging and score breakdown visualization.
   score.backboneDepth =
@@ -192,6 +192,8 @@ const calculateFinalScore = (candidate: LoopCandidate) => {
 
   return candidate;
 };
+
+// Requires candidate.score.branchDistance to be computed beforehand.
 const applyintersectionScore = (
   candidate: LoopCandidate,
   intersections: Position[],
@@ -206,13 +208,13 @@ const applyintersectionScore = (
     intersections,
   );
   candidate.score.isIntersection = touchesIntersection;
-
+  const branchDistance = candidate.score.branchDistance;
   if (touchesIntersection) {
-    candidate.score.intersectionScore += 5;
+    candidate.score.intersectionScore += branchDistance * .10;
   }
 
   if (isNearIntersection) {
-    candidate.score.intersectionScore += 3;
+    candidate.score.intersectionScore += branchDistance * .05;
   }
 
   return candidate;
