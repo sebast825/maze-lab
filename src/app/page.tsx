@@ -22,9 +22,9 @@ import { Footer } from "@/components/footer";
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
 export default function Home() {
-  const [algorithm, setAlgorithm] = useState<AlgorithmType>("tree");
-  const [rows, setRows] = useState<number>(40);
-  const [cols, setCols] = useState<number>(40);
+  const [algorithm, setAlgorithm] = useState<AlgorithmType>("worms");
+  const [rows, setRows] = useState<number>(20);
+  const [cols, setCols] = useState<number>(20);
 
   const [showPath, setShowPath] = useState<boolean>(false);
   const { mazeData, createMaze } = useMazeGenerator();
@@ -32,7 +32,7 @@ export default function Home() {
 
   const { handleExportToPDF } = useCanvasPDF();
 
-  const [gameMode, setGameMode] = useState<GameMode>("DRAW");
+  const [gameMode, setGameMode] = useState<GameMode>("VIEW");
 
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
   // Absolute constant sizing configuration for grid rendering units
@@ -83,7 +83,7 @@ export default function Home() {
       metrics: rawMetrics,
     };
   };
-
+  useEffect(()=>{handleGenerate()},[algorithm])
   return (
     <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4 h-full">
       {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}

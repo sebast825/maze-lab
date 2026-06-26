@@ -34,8 +34,7 @@ export const AlgorithmSelector = ({
         <select
           value={algorithm}
           onChange={(e) => {
-            setAlgorithm(e.target.value as AlgorithmType);
-            onGenerate();
+            setAlgorithm(e.target.value as AlgorithmType);          
             setIsOpen(false);
           }}
           className={`${NAV_CLASSES.select} border-b-2 border-slate-500`}

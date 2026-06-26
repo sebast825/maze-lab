@@ -29,7 +29,6 @@ export const DesktopMenu = ({
       <AlgorithmSelector
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
-        onGenerate={handleGenerate}
       />
 
       <ActionButton color="orange" variant="text" onClick={handleGenerate}>
