@@ -1,6 +1,4 @@
-// features/maze-analysis/components/BenchmarkSelector.tsx
-
-import { RawDataSize, rawDataManualSelector } from "@/lib/maze/benchmark";
+import { RawDataSize, rawDataManualSelector } from "@/lib/maze/benchmark/rawData/manual";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 
 

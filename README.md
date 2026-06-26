@@ -14,7 +14,7 @@ These benchmarks are intentionally curated to represent specific maze patterns s
 - Redundant loops
 - Dead-end heavy layouts
 
-The manual dataset is part of the repository and should be versioned.
+The manual dataset is part of the repository, is versioned, and is used by the analysis UI as a stable reference dataset.
 
 ---
 
@@ -24,6 +24,8 @@ Automatically generated benchmark datasets used for large-scale statistical anal
 
 These datasets are generated locally and are **not versioned** because they can be recreated at any time.
 
+They are stored outside `src/` and are used exclusively by offline analysis scripts.
+
 Examples:
 
 - 50 DFS mazes (20x20)
@@ -32,6 +34,8 @@ Examples:
 - etc.
 
 The `generated/` directory is ignored by Git.
+
+Keeping generated datasets outside the application source tree prevents TypeScript and Next.js from processing large benchmark files during production builds.
 
 ---
 
@@ -165,30 +169,55 @@ Typical use case:
 
 ## Recommended Workflow
 
-When introducing or modifying metrics:
+The system is composed of three distinct layers:
+
+* **Dataset generation** (raw data)
+* **Statistical processing**
+* **Normalization and scoring derivation**
+
+---
+
+## Core Pipeline (Required)
+
+This pipeline is required whenever datasets are regenerated or updated:
 
 ```bash
 npm run generate-dataset
-npm run recalculate-metrics
 npm run generate-stats
 npm run extract-normalization-specs
-npm run analyzeScoreDistribution
 ```
 
-Optional validation step:
+## Conditional Step: Metric Recalculation
 
+Only required when metric definitions change:
 ```bash
+npm run recalculate-metrics
+```
+Note: This step is not required for dataset regeneration alone.
+
+## Optional Validation Tools
+
+Used for analysis and debugging of the scoring system:
+```bash
+npm run analyzeScoreDistribution
 npm run analyzeMetricCorrelations
 ```
 
-Recommended process:
+These tools are intended for:
 
-1. Generate a fresh benchmark dataset.
-2. Recalculate all metrics.
-3. Generate statistical distributions.
-4. Update normalization specifications.
-5. Verify score distributions and difficulty ranges.
-6. Optionally inspect correlations and remove redundant metrics.
+- validating scoring balance
+- detecting metric redundancy
+- inspecting distribution drift
+- debugging normalization behavior
+
+## Execution order (typical changes)
+When modifying metrics:
+
+```bash
+npm run recalculate-metrics
+npm run generate-stats
+npm run extract-normalization-specs
+```
 
 ---
 
@@ -219,7 +248,7 @@ This function generates a benchmark snapshot containing all required data for la
 
 - The output can be logged and manually stored for dataset creation. 
 
-- Save the logged output in: /lib/maze/benchmark/rawData/manual/{mazeSize}.json
+- Save the logged output in: src/lib/maze/benchmark/rawData/manual/{mazeSize}.json
 
 - These files can then be used in /maze-analysis.
 

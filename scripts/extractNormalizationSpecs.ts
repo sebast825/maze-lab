@@ -1,9 +1,10 @@
-import stats10x10 from "@/lib/maze/benchmark/rawData/generated/10x10-stats.json";
-import stats20x20 from "@/lib/maze/benchmark/rawData/generated/20x20-stats.json";
-import stats30x30 from "@/lib/maze/benchmark/rawData/generated/30x30-stats.json";
+import stats10x10 from "@dataset/generated/10x10-stats.json";
+import stats20x20 from "@dataset/generated/20x20-stats.json";
+import stats30x30 from "@dataset/generated/30x30-stats.json";
 
-import stats40x40 from "@/lib/maze/benchmark/rawData/generated/40x40-stats.json";
-import stats60x60 from "@/lib/maze/benchmark/rawData/generated/60x60-stats.json";
+import stats40x40 from "@dataset/generated/40x40-stats.json";
+import stats60x60 from "@dataset/generated/60x60-stats.json";
+
 import fs from "fs";
 import { metricMap } from "./constants";
 
@@ -34,7 +35,7 @@ const allMetrics = {
   "60x60": extractNormalizationSpecs(stats60x60),
 };
 
-console.log(stats10x10[0])
+
 fs.writeFileSync(
   `./src/lib/maze/metrics/normalize/mazeSizeSpecs.json`,
   JSON.stringify(allMetrics, null, 2),

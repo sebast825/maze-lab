@@ -11,7 +11,6 @@ export const featureMetrics = [
 ] as const satisfies readonly (keyof BenchmarkMetricRow)[];
 
 export const pathMetrics = [
-  "avgTortuosity",
   "shortestPathTortuosity",
   "shortestPathLength",
   "shortestPathDecisionNodes",
@@ -30,7 +29,6 @@ export const derivedMetricsToAnalyze = [
 
 export const tortuosityMetricsToAnalyze = [
   "tortuosity",
-  "avgTortuosity",
   "avgDeadEndLength",
   "avgDecisionLength",
   "avgBranchTortuosity",
@@ -38,7 +36,6 @@ export const tortuosityMetricsToAnalyze = [
 export const cor = [
   "avgDecisionLength",
   "avgDeadEndLength",
-  "avgTortuosity",
   "shortestPathTortuosity",
   "repeatRatio",
   "avgPathDetourRatio",
