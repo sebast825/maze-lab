@@ -13,7 +13,8 @@
     "analyzeMetricCorrelations": "tsx scripts/analyzeMetricCorrelations.ts",
     "generate-dataset": "tsx scripts/generateDataset.ts",
     "generate-stats": "tsx scripts/generateMetricStats",
-    "extract-normalization-specs": "tsx scripts/extractNormalizationSpecs.ts"
+    "extract-normalization-specs": "tsx scripts/extractNormalizationSpecs.ts",
+    "analyzeScoreDistribution":"tsx scripts/analyzeScoreDistribution.ts"
   },
   "dependencies": {
     "jspdf": "^4.2.1",

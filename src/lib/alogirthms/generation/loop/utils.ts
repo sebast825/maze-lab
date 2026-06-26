@@ -1,6 +1,8 @@
 import { LoopReason, Maze, Position } from "@/lib/maze/types";
 import { LoopCandidate } from "./types";
 import { removeWallBetween } from "@/lib/maze/walls";
+import { bfs } from "../../solving/bfs";
+import { MazePathMaps, BFSResult } from "../../solving/types";
 
 export const calculateCandidateLimit = (rows: number, cols: number): number => {
   const totalCells = rows * cols;
@@ -15,11 +17,8 @@ export const removeWallAtSomeCandiates = (
 ) => {
   for (let i = 0; i < 10 && i < candidates.length; i++) {
     let candidate: LoopCandidate | undefined = candidates[i];
-    console.log(i);
 
     if (!candidate) break;
-    //  if(candidate.score.isIntersection) break
-    console.log({ ...candidate });
     maze.cells[candidate.from.row][candidate.from.col].loopReason =
       getDominantScore(candidate);
     maze.cells[candidate.to.row][candidate.to.col].loopReason =
@@ -28,22 +27,35 @@ export const removeWallAtSomeCandiates = (
   }
 };
 const getDominantScore = (candidate: LoopCandidate): LoopReason => {
-  const { backboneDepth, branchDistance, intersectionPenalty, isIntersection } =
-    candidate.score;
+  const {
+    backboneDepth,
+    branchDistance,
+    intersectionScore,
+    isIntersection,
+  } = candidate.score;
 
-  const max = Math.max(backboneDepth, branchDistance, intersectionPenalty);
-  if (isIntersection) {
-    return "isIntersection";
-  }
-  if (max === branchDistance) {
-    return "branchDistance";
-  }
+  // If the candidate directly touches an intersection,
+  // treat it as the dominant reason regardless of other scores.
+  //with the current algorithm will paint almost every time all with that color, witouth been the main reaosn
+  /* if (isIntersection) {
+     return "isIntersection";
+   }*/
 
-  if (max === backboneDepth) {
-    return "backboneDepth";
-  }
+  // Collect all score components with their corresponding reason names.
+  const scores = [
+    { name: "branchDistance" as const, value: branchDistance },
+    { name: "backboneDepth" as const, value: backboneDepth },
+    { name: "intersectionScore" as const, value: intersectionScore },
+  ];
+  // Find the score component with the highest contribution.
+  const dominant = scores.reduce((max, current) => {
 
-  return "intersectionPenalty";
+    return current.value > max.value ? current : max;
+  });
+
+  return dominant.name;
+
+
 };
 
 export const isCandidateNearIntersection = (
@@ -84,3 +96,10 @@ export const addColorToBackBone = (backbone: Position[], maze: Maze) => {
     (elem) => (maze.cells[elem.row][elem.col].isBackBone = true),
   );
 };
+
+export const generateMazePathMaps = (maze: Maze, start: Position, end: Position): MazePathMaps => {
+  const { cellInfo: fromStart }: BFSResult = bfs(maze, end, start);
+  const { cellInfo: fromEnd }: BFSResult = bfs(maze, start, end);
+
+  return { fromStart, fromEnd };
+}

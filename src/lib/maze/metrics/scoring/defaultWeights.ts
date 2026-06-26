@@ -2,29 +2,24 @@ import { Weights } from "./types";
 
 export const defaultWeights: Weights = {
   features: {
-    deadEndAvg: 1,
-    decisionEndAvg: 1,
-    tortuosityAvg: 1,
+    deadEndAvg: 0.3,
+    decisionEndAvg: 0.4,
+    tortuosityAvg: 0.3,
     total: 1,
   },
 
   paths: {
-    avgTortuosity: 1,
-    shortestPathTortuosity: 1,
+    shortestPathTortuosity: 0.3,
+    shortestPathLength: 0.2,
+    shortestPathDecisionNodes: 0.2,
+    shortestPathWallRatio: 0.3,
 
-    shortestPathLength:1,
-    shortestPathDecisionNodes:1,
-    total: 1
+    total: 1,
   },
 
   pathsAlternative: {
-    repeatRatio:1,
-    avgPathDetourRatio:1,
+    repeatRatio: 0.5,
+    avgPathDetourRatio: 0.5,
     total: 1,
-   
-  },
-
-  global: {
-    intersectionPenalty: 1,
   },
 };

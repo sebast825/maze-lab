@@ -8,7 +8,7 @@ import {
 import { connectDisconnectedRegions } from "./ensureConnectivity";
 import { removeWallBetween } from "@/lib/maze/walls";
 
-export const generateThree = (maze: Maze): Maze => {
+export const generateTree = (maze: Maze): Maze => {
   let threeHeads: Position[] = [];
   const startPoint: Position = getMazeStartPoint(maze);
   maze.cells[startPoint.row][startPoint.col].startPoint = true;

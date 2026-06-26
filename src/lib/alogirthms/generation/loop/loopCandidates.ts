@@ -1,37 +1,41 @@
 import { Position, Maze } from "@/lib/maze/types";
 import { getNeighbors } from "@/lib/maze/core";
-import { BFSResult, CellInfo } from "../../solving/types";
+import { BFSResult, CellInfo, MazePathMaps } from "../../solving/types";
 import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate, MazeStructureAnalysis } from "./types";
 import { hasWallWithNeighbor } from "@/lib/maze/walls";
-import { bfs } from "../../solving/bfs";
 import {
   calculateCandidateLimit,
   candidateHasIntersection,
   isCandidateNearIntersection,
   isNear,
 } from "./utils";
+import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
 
 export const getBalancedCandidates = (
   maze: Maze,
   structure: MazeStructureAnalysis,
-  cellInfo: CellInfo[][],
-  backboneRoute: Position[],
+  MazePathMaps: MazePathMaps,
+  backboneRoute: Set<string>,
 ): LoopCandidate[] => {
+
   const loopCandidates: LoopCandidate[] = getLoopCandidates(
     structure.branches,
     maze,
   );
+
   const scoreCandadidates: LoopCandidate[] = scoreLoopCandidates(
     loopCandidates,
-    cellInfo,
+    MazePathMaps,
     backboneRoute,
-    maze,
     structure.intersections,
   );
+
   const filterByDistance: LoopCandidate[] =
     filterCandidatesByDistance(scoreCandadidates);
+
   const sortByRegion = sortCandidatesByRegion(filterByDistance, maze);
+
   const sliceCandidates: LoopCandidate[] = sortByRegion.slice(
     0,
     calculateCandidateLimit(maze.rows, maze.cols),
@@ -51,7 +55,7 @@ const sortCandidatesByRegion = (
   const midRow = Math.floor(maze.rows / 2);
   const midCol = Math.floor(maze.cols / 2);
   candidates.forEach((candidate) => {
-    // Determinamos la región basada en la posición
+    // We determine the region based on the position
     const isBottom = candidate.from.row >= midRow;
     const isRight = candidate.from.col >= midCol;
 
@@ -100,51 +104,97 @@ const filterCandidatesByDistance = (
 
   return selected;
 };
-
-const scoreLoopCandidates = (
+const scoreCandidateByDistance = (candidate: LoopCandidate, mazePathMaps: MazePathMaps,): LoopCandidate => {
+  // Path A: From Start to 'from' + From 'to' to End
+  const pathA = mazePathMaps.fromStart[candidate.from.row][candidate.from.col].distance +
+    mazePathMaps.fromEnd[candidate.to.row][candidate.to.col].distance;
+  // Path B: From Start to 'to' + From 'from' to End
+  const pathB = mazePathMaps.fromStart[candidate.to.row][candidate.to.col].distance +
+    mazePathMaps.fromEnd[candidate.from.row][candidate.from.col].distance;
+  // Simulates bidirectional travel through the shortcut; the minimum represents the optimal loop path cost
+  candidate.score.branchDistance = Math.min(pathA, pathB);
+  return candidate
+}
+export const scoreLoopCandidates = (
   candidates: LoopCandidate[],
-  cellInfo: CellInfo[][],
-  backboneRoute: Position[],
-  maze: Maze,
+  mazePathMaps: MazePathMaps,
+  backboneRoute: Set<string>,
   intersections: Position[],
 ): LoopCandidate[] => {
-  return (
-    candidates
-      .map((candidate) => {
-        // avoid direct parent connection
-        const parent = cellInfo[candidate.from.row][candidate.from.col].parent;
-        if (
-          parent &&
-          parent.row === candidate.to.row &&
-          parent.col === candidate.to.col
-        ) {
-          candidate.score.finalScore -= 1;
-          return candidate;
-        }
 
-        candidate = scoreCandidateDepth(candidate, cellInfo, backboneRoute);
-        candidate = scoreCandidateByDistance(candidate, maze);
-        candidate = applyIntersectionPenalty(candidate, intersections);
-        candidate = calculateFinalScore(candidate);
-        return candidate;
-      }) // remove very bad candidates
+  const mappedCandidates = candidates.map((candidate) => {
+    // avoid direct parent connection
+    const parent = mazePathMaps.fromStart[candidate.from.row][candidate.from.col].parent;
+    if (
+      parent &&
+      parent.row === candidate.to.row &&
+      parent.col === candidate.to.col
+    ) {
+      candidate.score.finalScore -= 1;
+      return candidate;
+    }
+
+    candidate = scoreCandidateDepth(candidate, mazePathMaps.fromStart, backboneRoute);
+    candidate = scoreCandidateByDistance(candidate, mazePathMaps);
+    // Must run after scoreCandidateByDistance because the intersection penalty uses the computed branchDistance value
+    candidate = applyintersectionScore(candidate, intersections);
+    candidate = calculateFinalScore(candidate);
+    return candidate;
+  });
+
+  //log how all metrics influence in the score
+  /*
+    const scoreRows = candidates.map(c => c.score);
+    const stats = getMetricStats(scoreRows);
+  
+    console.table(stats);*/
+
+
+  return (
+    mappedCandidates
+      // remove very bad candidates
       .filter((candidate) => candidate.score.finalScore > 0)
       // prioritize best candidates first
       .sort((a, b) => b.score.finalScore - a.score.finalScore)
   );
 };
+
 const calculateFinalScore = (candidate: LoopCandidate) => {
-  const dividedBy =
-    candidate.score.intersectionPenalty == 0
-      ? 1
-      : candidate.score.intersectionPenalty;
-  candidate.score.finalScore =
-    (candidate.score.backboneDepth * 5 + candidate.score.branchDistance) /
-    dividedBy;
+  const { score } = candidate;
+
+  // Candidates connecting cells from the same major branch are invalid.
+  // Apply a terminal penalty so they cannot be selected later by score.
+  if (score.backboneDepth === -50) {
+    score.finalScore = -1; // Removed by the final score filter.
+    return candidate;
+  }
+
+  // Weight factors used to balance the contribution of each component.
+  const DEPTH_WEIGHT = 2;
+  // Intersection penalty multiplier.
+  const INTERSECTION_WEIGHT = 7;
+
+  const baseScore =
+    score.backboneDepth * DEPTH_WEIGHT +
+    score.branchDistance;
+
+  const penalty =
+    score.intersectionScore * INTERSECTION_WEIGHT;
+
+  // Final score used for candidate ranking.
+  score.finalScore = baseScore - penalty;
+
+  // Store weighted values for debugging and score breakdown visualization.
+  score.backboneDepth =
+    score.backboneDepth * DEPTH_WEIGHT;
+
+  score.intersectionScore = penalty;
 
   return candidate;
 };
-const applyIntersectionPenalty = (
+
+// Requires candidate.score.branchDistance to be computed beforehand.
+const applyintersectionScore = (
   candidate: LoopCandidate,
   intersections: Position[],
 ): LoopCandidate => {
@@ -157,35 +207,25 @@ const applyIntersectionPenalty = (
     candidate,
     intersections,
   );
-
+  candidate.score.isIntersection = touchesIntersection;
+  const branchDistance = candidate.score.branchDistance;
   if (touchesIntersection) {
-    candidate.score.isIntersection = true;
-    candidate.score.intersectionPenalty += 5;
+    candidate.score.intersectionScore += branchDistance * .10;
   }
 
   if (isNearIntersection) {
-    candidate.score.intersectionPenalty += 3;
+    candidate.score.intersectionScore += branchDistance * .05;
   }
 
   return candidate;
 };
 
-const scoreCandidateByDistance = (
-  candidate: LoopCandidate,
-  maze: Maze,
-): LoopCandidate => {
-  let { cellInfo }: BFSResult = bfs(maze, candidate.to);
-  let distance: number =
-    cellInfo[candidate.from.row][candidate.from.col].distance;
 
-  candidate.score.branchDistance += distance;
-  return candidate;
-};
 
 const scoreCandidateDepth = (
   candidate: LoopCandidate,
   cellInfo: CellInfo[][],
-  backboneRoute: Position[],
+  backboneRoute: Set<string>,
 ): LoopCandidate => {
   const { backBone: fromBackBone, steps: stepsFrom } = getBackBoneOfBranchCell(
     candidate.from,
@@ -212,7 +252,7 @@ const scoreCandidateDepth = (
 };
 
 //for each cell in branch we get the neighbors with wall
- const getLoopCandidates = (
+const getLoopCandidates = (
   branches: Position[],
   maze: Maze,
 ): LoopCandidate[] => {
@@ -232,7 +272,7 @@ const scoreCandidateDepth = (
             score: {
               backboneDepth: 0,
               branchDistance: 0,
-              intersectionPenalty: 0,
+              intersectionScore: 0,
               isIntersection: false,
               finalScore: 0,
             },

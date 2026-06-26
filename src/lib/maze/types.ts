@@ -15,7 +15,7 @@ export type Cell = {
 export type LoopReason =
   | "branchDistance"
   | "backboneDepth"
-  | "intersectionPenalty"
+  | "intersectionScore"
   | "isIntersection";
 
 export type Maze = {

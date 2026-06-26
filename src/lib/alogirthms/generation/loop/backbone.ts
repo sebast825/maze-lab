@@ -3,40 +3,33 @@ import { CellInfo, BFSResult } from "../../solving/types";
 import { DistanceToBackBone, BackBone } from "./types";
 
 export const getBackBoneOfBranchCell = (
-  cellPostion: Position,
+  cellPosition: Position,
   cellInfo: CellInfo[][],
-  backboneRoute: Position[],
+  backboneSet: Set<string>,
 ): DistanceToBackBone => {
   let steps = 0;
-  // if current cell already belongs to backbone
-  if (
-    backboneRoute.some(
-      (cell) => cell.row === cellPostion.row && cell.col === cellPostion.col,
-    )
-  ) {
-    return { backBone: cellPostion, steps };
+
+  // Constant time check using string primitives
+  if (backboneSet.has(`${cellPosition.row},${cellPosition.col}`)) {
+    return { backBone: cellPosition, steps };
   }
-  let current: Position | null = cellPostion;
+
+  let current: Position | null = cellPosition;
 
   while (current) {
-    const parent: Position | null =
-      cellInfo[current.row]?.[current.col].parent || null;
-    // reached backbone
-    if (
-      parent &&
-      backboneRoute.some(
-        (cell) => cell.col === parent.col && cell.row === parent.row,
-      )
-    ) {
+    const parent: Position | null = cellInfo[current.row]?.[current.col].parent || null;
+
+    // Replaced .some() array scan with O(1) Set lookup
+    if (parent && backboneSet.has(`${parent.row},${parent.col}`)) {
       return { backBone: parent, steps };
-    } // move through bfs tree
+    }
+
     current = parent;
     steps++;
   }
-  console.log(current);
+
   throw new Error("No backbone ancestor found");
 };
-
 
 export const getBackBone = (
    cellInfo:CellInfo[][],

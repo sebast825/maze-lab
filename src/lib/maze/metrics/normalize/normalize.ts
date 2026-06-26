@@ -18,13 +18,6 @@ export const getNormalizedMetrics = (
   sizeKey: MazeSizeSpecKey,
 ): MazeNormalizedMetrics => {
   const specs = MazeSizeSpecs[sizeKey];
-  console.log(specs.shortestPathDecisionNodes,    derived.paths.shortestPathDecisionNodes,normalize(
-        derived.paths.shortestPathDecisionNodes,
-        specs.shortestPathDecisionNodes,
-      ))
-    console.log(specs.shortestPathLength,    derived.paths.shortestPathLength,normalize(
-        derived.paths.shortestPathLength,
-        specs.shortestPathLength))
 
   return {
     features: {
@@ -39,10 +32,6 @@ export const getNormalizedMetrics = (
       ),
     },
     paths: {
-      avgTortuosity: normalize(
-        derived.paths.avgTortuosity,
-        specs.avgTortuosity,
-      ),
       shortestPathTortuosity: normalize(
         derived.paths.shortestPathTortuosity,
         specs.shortestPathTortuosity,
@@ -55,6 +44,16 @@ export const getNormalizedMetrics = (
         derived.paths.shortestPathDecisionNodes,
         specs.shortestPathDecisionNodes,
       ),
+      /**
+       * INVERSION: The higher the shortestPathWallRatio, the easier the maze.
+       * Paths that stay close to the maze border are generally easier to track.
+       */
+      shortestPathWallRatio:
+        1 -
+        normalize(
+          derived.paths.shortestPathWallRatio,
+          specs.shortestPathWallRatio,
+        ),
     },
     pathsAlternative: {
       /**

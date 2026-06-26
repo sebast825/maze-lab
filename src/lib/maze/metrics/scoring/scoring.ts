@@ -43,8 +43,6 @@ export const analyzeMaze = (
   spec: MazeSizeSpecKey,
 ): MazeScoringResult => {
   const derived: MazeDerivedMetrics = deriveMazeMetrics(raw);
-  console.log(raw.paths)
-  console.log(derived.paths)
   const normalized: MazeNormalizedMetrics = getNormalizedMetrics(derived, spec);
   const { weighted, scores } = calculateMazeScore(normalized, weights);
 
@@ -59,7 +57,6 @@ export const analyzeMaze = (
   return rsta;
 };
 const deriveMazeMetrics = (raw: MazeRawMetrics): MazeDerivedMetrics => {
-  console.log("rawpahts, ", raw.paths)
   const deadEndAvg =
     raw.features.deadEndBranchLength /
     Math.max(1, raw.features.deadEndBranchCount);
@@ -101,8 +98,6 @@ const calculateMazeScore = (
     },
 
     paths: {
-      avgTortuosity:
-        normalized.paths.avgTortuosity * weights.paths.avgTortuosity,
       shortestPathTortuosity:
         normalized.paths.shortestPathTortuosity *
         weights.paths.shortestPathTortuosity,
@@ -111,6 +106,9 @@ const calculateMazeScore = (
       shortestPathDecisionNodes:
         normalized.paths.shortestPathDecisionNodes *
         weights.paths.shortestPathDecisionNodes,
+      shortestPathWallRatio:
+        normalized.paths.shortestPathWallRatio * weights.paths.shortestPathWallRatio,
+   
     },
 
     pathsAlternative: {
@@ -128,10 +126,10 @@ const calculateMazeScore = (
     weighted.features.tortuosity;
 
   const scorePaths =
-    weighted.paths.avgTortuosity +
     weighted.paths.shortestPathTortuosity +
     weighted.paths.shortestPathLength +
-    weighted.paths.shortestPathDecisionNodes;
+    weighted.paths.shortestPathDecisionNodes +
+    weighted.paths.shortestPathWallRatio;
 
   const scorePathsAlternative =
     weighted.pathsAlternative.repeatRatio +

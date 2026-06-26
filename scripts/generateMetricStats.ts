@@ -24,7 +24,7 @@ const analyzeMetricCorrelations = (
   const fileName = `${file}-stats.json`;
 
   saveMetricStats(
-    `./src/lib/maze/benchmark/rawData/generated/${fileName}`,
+    `./dataset/generated/${fileName}`,
     stats,
   );
 

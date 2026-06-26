@@ -5,7 +5,6 @@ import { BenchmarkMetricRow, MazeBenchmark } from "./types";
 export const getBenchmarkMetricsRows = (
   benchmarks: MazeBenchmark[],
 ): BenchmarkMetricRow[] => {
-     console.log(benchmarks[0].metrics.paths.shortestPathLength)
   return benchmarks.map((benchmark) => {
     const {
       tortuosity,
@@ -23,11 +22,10 @@ export const getBenchmarkMetricsRows = (
     const {
       shortestPathDecisionNodes,
       shortestPathTortuosity,
-      avgTortuosity
-      
-      
+      shortestPathWallRatio,
+      shortestPathLength
     } = benchmark.metrics.paths;
- 
+
     return {
       id: benchmark.id,
       name: benchmark.name,
@@ -46,9 +44,8 @@ export const getBenchmarkMetricsRows = (
       totalBranches,
       shortestPathDecisionNodes,
 
-      shortestPathLength: benchmark.metrics.paths.shortestPathLength,
-      avgTortuosity,
-
+      shortestPathLength,
+      shortestPathWallRatio,
       shortestPathTortuosity,
       repeatRatio,
       avgBranchTortuosity: totalBranches > 0 ? tortuosity / totalBranches : 0,

@@ -10,27 +10,27 @@ import { createEmptyMaze } from "@/lib/maze/core";
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
-  const createMaze = (algorithm: AlgorithmType, rows: number, cols: number) => {
+  const createMaze = (algorithm: AlgorithmType, rows: number, cols: number) :MazeData => {
     rows = Math.max(2, rows);
     cols = Math.max(2, cols);
 
    const maze  = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
-//const maze = benchmark20x20[10].maze
     const start: Position = { row: 0, col: 0 };
     const end: Position = { row: rows - 1, col: cols - 1 };
 
-    const { cellInfo }: BFSResult = bfs(maze, end, start);
 
-    createLopps(cellInfo, start, end, maze);
+
+    createLopps(start, end, maze);
 
     const solution = findAllPaths(maze, start, end);
-
-    setMazeData({
-      maze,
+    const rsta = {
+           maze,
       start,
       end,
       solution,
-    });
+    }
+    setMazeData(rsta);
+    return rsta;
   };
 
   return {

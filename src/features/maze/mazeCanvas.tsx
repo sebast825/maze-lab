@@ -1,26 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client";
 import { MazeData } from "@/lib/maze/types";
 
@@ -28,14 +5,10 @@ import { useRef, useEffect } from "react";
 import { drawMaze } from "./render/drawMaze";
 import { ThemeDraw } from "./render/types";
 
-
-
-
-
 interface MazeCanvasProps {
-  mazeData: MazeData,
-  cellSize:number,
-  showPath:boolean,
+  mazeData: MazeData;
+  cellSize: number;
+  showPath: boolean;
   onCanvasReady?: (canvas: HTMLCanvasElement) => void;
 }
 
@@ -43,7 +16,7 @@ export const MazeCanvas = ({
   mazeData,
   onCanvasReady,
   cellSize,
-  showPath
+  showPath,
 }: MazeCanvasProps) => {
   // 1. Isolated reference for THIS specific canvas instance
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -60,20 +33,33 @@ export const MazeCanvas = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Trigger the rendering pipeline cleanly
-    drawMaze(ctx, mazeData.maze, cellSize, mazeData.start, mazeData.end, showPath, ThemeDraw.NEON,mazeData.solution);
-  }, [mazeData.maze, cellSize, mazeData.start, mazeData.end, showPath, mazeData.solution]); // Redraws strictly when data changes
+    drawMaze(
+      ctx,
+      mazeData.maze,
+      cellSize,
+      mazeData.start,
+      mazeData.end,
+      showPath,
+      ThemeDraw.NEON,
+      mazeData.solution,
+    );
+  }, [
+    mazeData.maze,
+    cellSize,
+    mazeData.start,
+    mazeData.end,
+    showPath,
+    mazeData.solution,
+  ]); // Redraws strictly when data changes
   return (
     <canvas
       ref={canvasRef}
       width={mazeData.maze.cols * cellSize}
       height={mazeData.maze.rows * cellSize}
-      style={{ border: "1px solid black" }}
-
     />
   );
 };

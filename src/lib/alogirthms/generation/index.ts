@@ -1,18 +1,20 @@
 "use client";
-import { generateAldousBroader } from "./aldous-broader";
+import { generateAldousBroder } from "./aldous-broder";
 import { generateDFS } from "./dfs";
 import { generateKruskal } from "./kruskal/kruskal";
+import { generateRandomTraversal } from "./randomTraversal";
 import { generatePrim } from "./prim";
-import { generateThree } from "./three";
+import { generateTree } from "./tree";
 import { MazeGeneratorFn } from "./types";
 import { generateWorms } from "./worms";
 
 export const algorithmNames = {
-  three: "three",
+  randomTraversal: "randomTraversal",
+  tree: "tree",
   worms: "worms",
   dfs: "dfs",
   prim: "prim",
-  aldousBroader: "aldousBroader",
+  aldousBroder: "aldousBroder",
   kruskal: "kruskal",
 } as const;
 
@@ -20,10 +22,11 @@ export type AlgorithmType =
   (typeof algorithmNames)[keyof typeof algorithmNames];
 
 export const mazesGenerator: Record<AlgorithmType, MazeGeneratorFn> = {
-  three: generateThree,
+  tree: generateTree,
   worms: generateWorms,
   dfs: generateDFS,
   prim: generatePrim,
-  aldousBroader: generateAldousBroader,
+  aldousBroder: generateAldousBroder,
   kruskal: generateKruskal,
+  randomTraversal: generateRandomTraversal,
 };

@@ -26868,11 +26868,10 @@
         "decisionBranchCount": 518
       },
       "paths": {
-        "avgTortuosity": 0.6154503877376627,
         "shortestPathTortuosity": 0.5980861244019139,
-        "shortestPathDecisionAvg": 0.24401913875598086,
         "shortestPathLength": 209,
-        "shortestPathDecisionNodes": 51
+        "shortestPathDecisionNodes": 51,
+        "shortestPathWallRatio": 0.10047846889952153
       },
       "pathsAlternative": {
         "repeatRatio": 0.5320738304879831,
@@ -26880,7 +26879,6 @@
         "maxPathDetourRatio": 1.2057416267942584
       },
       "totalIntersections": 256,
-      "shortestPathLength": 208,
       "totalPaths": 10
     }
   },
@@ -53577,11 +53575,10 @@
         "decisionBranchCount": 552
       },
       "paths": {
-        "avgTortuosity": 0.6360800370744454,
         "shortestPathTortuosity": 0.5882352941176471,
-        "shortestPathDecisionAvg": 0.2679738562091503,
         "shortestPathLength": 153,
-        "shortestPathDecisionNodes": 41
+        "shortestPathDecisionNodes": 41,
+        "shortestPathWallRatio": 0.2875816993464052
       },
       "pathsAlternative": {
         "repeatRatio": 0.46256441365210005,
@@ -53589,7 +53586,6 @@
         "maxPathDetourRatio": 0.954248366013072
       },
       "totalIntersections": 273,
-      "shortestPathLength": 152,
       "totalPaths": 12
     }
   },
@@ -78718,11 +78714,10 @@
         "decisionBranchCount": 412
       },
       "paths": {
-        "avgTortuosity": 0.5756239634200266,
         "shortestPathTortuosity": 0.535483870967742,
-        "shortestPathDecisionAvg": 0.2064516129032258,
         "shortestPathLength": 155,
-        "shortestPathDecisionNodes": 32
+        "shortestPathDecisionNodes": 32,
+        "shortestPathWallRatio": 0.23870967741935484
       },
       "pathsAlternative": {
         "repeatRatio": 0.4081848947605552,
@@ -78730,7 +78725,6 @@
         "maxPathDetourRatio": 1.1612903225806452
       },
       "totalIntersections": 203,
-      "shortestPathLength": 154,
       "totalPaths": 12
     }
   },
@@ -111931,11 +111925,10 @@
         "decisionBranchCount": 424
       },
       "paths": {
-        "avgTortuosity": 0.6059728670043141,
         "shortestPathTortuosity": 0.5960264900662252,
-        "shortestPathDecisionAvg": 0.2052980132450331,
         "shortestPathLength": 151,
-        "shortestPathDecisionNodes": 31
+        "shortestPathDecisionNodes": 31,
+        "shortestPathWallRatio": 0.152317880794702
       },
       "pathsAlternative": {
         "repeatRatio": 0.35738758085541367,
@@ -111943,7 +111936,6 @@
         "maxPathDetourRatio": 1.9470198675496688
       },
       "totalIntersections": 209,
-      "shortestPathLength": 150,
       "totalPaths": 16
     }
   },
@@ -133680,11 +133672,10 @@
         "decisionBranchCount": 808
       },
       "paths": {
-        "avgTortuosity": 0.5077480041977981,
         "shortestPathTortuosity": 0.5287356321839081,
-        "shortestPathDecisionAvg": 0.5517241379310345,
         "shortestPathLength": 87,
-        "shortestPathDecisionNodes": 48
+        "shortestPathDecisionNodes": 48,
+        "shortestPathWallRatio": 0.12643678160919541
       },
       "pathsAlternative": {
         "repeatRatio": 0.5074443675560217,
@@ -133692,7 +133683,6 @@
         "maxPathDetourRatio": 1.3103448275862069
       },
       "totalIntersections": 401,
-      "shortestPathLength": 86,
       "totalPaths": 12
     }
   },
@@ -157793,11 +157783,10 @@
         "decisionBranchCount": 780
       },
       "paths": {
-        "avgTortuosity": 0.39017296289988074,
         "shortestPathTortuosity": 0.38461538461538464,
-        "shortestPathDecisionAvg": 0.42857142857142855,
         "shortestPathLength": 91,
-        "shortestPathDecisionNodes": 39
+        "shortestPathDecisionNodes": 39,
+        "shortestPathWallRatio": 0.12087912087912088
       },
       "pathsAlternative": {
         "repeatRatio": 0.4144041899253495,
@@ -157805,7 +157794,6 @@
         "maxPathDetourRatio": 1.89010989010989
       },
       "totalIntersections": 387,
-      "shortestPathLength": 90,
       "totalPaths": 14
     }
   },
@@ -178054,11 +178042,10 @@
         "decisionBranchCount": 826
       },
       "paths": {
-        "avgTortuosity": 0.4680806890150919,
         "shortestPathTortuosity": 0.5060240963855421,
-        "shortestPathDecisionAvg": 0.6626506024096386,
         "shortestPathLength": 83,
-        "shortestPathDecisionNodes": 55
+        "shortestPathDecisionNodes": 55,
+        "shortestPathWallRatio": 0.1566265060240964
       },
       "pathsAlternative": {
         "repeatRatio": 0.4013723594294999,
@@ -178066,7 +178053,6 @@
         "maxPathDetourRatio": 0.7710843373493976
       },
       "totalIntersections": 410,
-      "shortestPathLength": 82,
       "totalPaths": 12
     }
   },
@@ -198643,11 +198629,10 @@
         "decisionBranchCount": 794
       },
       "paths": {
-        "avgTortuosity": 0.5207536555261443,
         "shortestPathTortuosity": 0.4965986394557823,
-        "shortestPathDecisionAvg": 0.40816326530612246,
         "shortestPathLength": 147,
-        "shortestPathDecisionNodes": 60
+        "shortestPathDecisionNodes": 60,
+        "shortestPathWallRatio": 0.19727891156462585
       },
       "pathsAlternative": {
         "repeatRatio": 0.3157485111994374,
@@ -198655,7 +198640,6 @@
         "maxPathDetourRatio": 0.7482993197278912
       },
       "totalIntersections": 394,
-      "shortestPathLength": 146,
       "totalPaths": 8
     }
   },
@@ -223748,11 +223732,10 @@
         "decisionBranchCount": 800
       },
       "paths": {
-        "avgTortuosity": 0.5939387538196759,
         "shortestPathTortuosity": 0.5398230088495575,
-        "shortestPathDecisionAvg": 0.49557522123893805,
         "shortestPathLength": 113,
-        "shortestPathDecisionNodes": 56
+        "shortestPathDecisionNodes": 56,
+        "shortestPathWallRatio": 0.1504424778761062
       },
       "pathsAlternative": {
         "repeatRatio": 0.3589864215870032,
@@ -223760,7 +223743,6 @@
         "maxPathDetourRatio": 1.5221238938053097
       },
       "totalIntersections": 397,
-      "shortestPathLength": 112,
       "totalPaths": 14
     }
   }

@@ -18,7 +18,7 @@ export const DrawingCanvas = forwardRef<DrawingCanvasRef, DrawingCanvasProps>(
   ({ cols, rows,cellSize }, ref) => {
     const internalCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
-    const { startDrawing, draw, stopDrawing, undoLast, clearAll } = useDraw();
+    const { startDrawing, draw, stopDrawing, undoLast, clearAll } = useDraw({cellSize});
     //for the father component handle the buttons
     useImperativeHandle(ref, () => ({
       undo: () => undoLast(internalCanvasRef.current),

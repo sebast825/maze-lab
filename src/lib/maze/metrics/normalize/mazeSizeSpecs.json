@@ -1,192 +1,192 @@
 {
   "10x10": {
     "deadEndAvg": {
-      "p5": 1.53,
-      "p95": 4.5
+      "p5": 1.5233,
+      "p95": 4.0423
     },
     "decisionEndAvg": {
-      "p5": 1.59,
-      "p95": 6.64
+      "p5": 1.525,
+      "p95": 5.9202
     },
     "tortuosityFeatureAvg": {
-      "p5": 0.03,
-      "p95": 0.26
-    },
-    "avgTortuosity": {
-      "p5": 0.34,
-      "p95": 0.66
+      "p5": 0.0271,
+      "p95": 0.2505
     },
     "shortestPathTortuosity": {
-      "p5": 0.29,
-      "p95": 0.67
+      "p5": 0.2632,
+      "p95": 0.6911
     },
     "repeatRatio": {
-      "p5": 0.14,
-      "p95": 0.91
+      "p5": 0.1651,
+      "p95": 0.8472
     },
     "avgPathDetourRatio": {
       "p5": 0,
-      "p95": 0.46
+      "p95": 0.4116
     },
     "shortestPathLength": {
       "p5": 19,
-      "p95": 37.1
+      "p95": 40.1
     },
     "shortestPathDecisionNodes": {
-      "p5": 3,
+      "p5": 4,
       "p95": 13
+    },
+    "shortestPathWallRatio": {
+      "p5": 0.3491,
+      "p95": 0.7544
     }
   },
   "20x20": {
     "deadEndAvg": {
-      "p5": 1.64,
-      "p95": 3.49
+      "p5": 1.5697,
+      "p95": 3.6737
     },
     "decisionEndAvg": {
-      "p5": 1.68,
-      "p95": 7.51
+      "p5": 1.4824,
+      "p95": 7.2713
     },
     "tortuosityFeatureAvg": {
-      "p5": 0.03,
-      "p95": 0.25
-    },
-    "avgTortuosity": {
-      "p5": 0.41,
-      "p95": 0.66
+      "p5": 0.024,
+      "p95": 0.2426
     },
     "shortestPathTortuosity": {
-      "p5": 0.38,
-      "p95": 0.67
+      "p5": 0.3659,
+      "p95": 0.6709
     },
     "repeatRatio": {
-      "p5": 0.15,
-      "p95": 0.8
+      "p5": 0.1788,
+      "p95": 0.8605
     },
     "avgPathDetourRatio": {
-      "p5": 0.01,
-      "p95": 0.42
+      "p5": 0.0179,
+      "p95": 0.3918
     },
     "shortestPathLength": {
-      "p5": 39,
-      "p95": 113
+      "p5": 41,
+      "p95": 119
     },
     "shortestPathDecisionNodes": {
-      "p5": 9,
-      "p95": 32
+      "p5": 9.45,
+      "p95": 33
+    },
+    "shortestPathWallRatio": {
+      "p5": 0.163,
+      "p95": 0.5301
     }
   },
   "30x30": {
     "deadEndAvg": {
-      "p5": 1.64,
-      "p95": 3.51
+      "p5": 1.5237,
+      "p95": 3.3186
     },
     "decisionEndAvg": {
-      "p5": 1.71,
-      "p95": 7.57
+      "p5": 1.531,
+      "p95": 7.35
     },
     "tortuosityFeatureAvg": {
-      "p5": 0.03,
-      "p95": 0.24
-    },
-    "avgTortuosity": {
-      "p5": 0.43,
-      "p95": 0.65
+      "p5": 0.0259,
+      "p95": 0.2339
     },
     "shortestPathTortuosity": {
-      "p5": 0.4,
-      "p95": 0.66
+      "p5": 0.4085,
+      "p95": 0.6601
     },
     "repeatRatio": {
-      "p5": 0.3,
-      "p95": 0.55
+      "p5": 0.3252,
+      "p95": 0.6406
     },
     "avgPathDetourRatio": {
-      "p5": 0.18,
-      "p95": 0.93
+      "p5": 0.1886,
+      "p95": 0.9397
     },
     "shortestPathLength": {
       "p5": 61,
-      "p95": 189.1
+      "p95": 208.3
     },
     "shortestPathDecisionNodes": {
       "p5": 17,
-      "p95": 54
+      "p95": 53.55
+    },
+    "shortestPathWallRatio": {
+      "p5": 0.1061,
+      "p95": 0.3801
     }
   },
   "40x40": {
     "deadEndAvg": {
-      "p5": 1.65,
-      "p95": 3.4
+      "p5": 1.5678,
+      "p95": 3.3352
     },
     "decisionEndAvg": {
-      "p5": 1.74,
-      "p95": 7.63
+      "p5": 1.5199,
+      "p95": 7.6539
     },
     "tortuosityFeatureAvg": {
-      "p5": 0.04,
-      "p95": 0.24
-    },
-    "avgTortuosity": {
-      "p5": 0.43,
-      "p95": 0.64
+      "p5": 0.0273,
+      "p95": 0.2345
     },
     "shortestPathTortuosity": {
-      "p5": 0.41,
-      "p95": 0.65
+      "p5": 0.3959,
+      "p95": 0.6555
     },
     "repeatRatio": {
-      "p5": 0.31,
-      "p95": 0.51
+      "p5": 0.3317,
+      "p95": 0.5769
     },
     "avgPathDetourRatio": {
-      "p5": 0.29,
-      "p95": 1.11
+      "p5": 0.25,
+      "p95": 1.0659
     },
     "shortestPathLength": {
-      "p5": 83,
-      "p95": 277.3
+      "p5": 81,
+      "p95": 330.3
     },
     "shortestPathDecisionNodes": {
-      "p5": 22,
-      "p95": 71.05
+      "p5": 27.45,
+      "p95": 80
+    },
+    "shortestPathWallRatio": {
+      "p5": 0.0787,
+      "p95": 0.3458
     }
   },
   "60x60": {
     "deadEndAvg": {
-      "p5": 1.66,
-      "p95": 3.4
+      "p5": 1.552,
+      "p95": 3.4484
     },
     "decisionEndAvg": {
-      "p5": 1.75,
-      "p95": 7.85
+      "p5": 1.5178,
+      "p95": 7.839
     },
     "tortuosityFeatureAvg": {
-      "p5": 0.04,
-      "p95": 0.23
-    },
-    "avgTortuosity": {
-      "p5": 0.45,
-      "p95": 0.64
+      "p5": 0.0261,
+      "p95": 0.2337
     },
     "shortestPathTortuosity": {
-      "p5": 0.43,
-      "p95": 0.64
+      "p5": 0.4209,
+      "p95": 0.6517
     },
     "repeatRatio": {
-      "p5": 0.31,
-      "p95": 0.5
+      "p5": 0.3426,
+      "p95": 0.6194
     },
     "avgPathDetourRatio": {
-      "p5": 0.34,
-      "p95": 1.01
+      "p5": 0.2348,
+      "p95": 1.3315
     },
     "shortestPathLength": {
-      "p5": 128.9,
-      "p95": 620.5
+      "p5": 127,
+      "p95": 628.3
     },
     "shortestPathDecisionNodes": {
-      "p5": 40.85,
-      "p95": 131.3
+      "p5": 45,
+      "p95": 126.75
+    },
+    "shortestPathWallRatio": {
+      "p5": 0.0576,
+      "p95": 0.2578
     }
   }
 }

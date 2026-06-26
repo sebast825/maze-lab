@@ -1,6 +1,9 @@
 import { IconButton } from "@/components/iconButton";
 import { Undo2, Trash2, Pencil, Gamepad2 } from "lucide-react";
 import { AnalysisMode } from "../types";
+import { DrawControls } from "@/components/drawControls";
+import { clear } from "console";
+import { ActionButton } from "@/components/actionButton";
 
 interface DrawModeProps {
   currentMode: AnalysisMode;
@@ -17,25 +20,18 @@ export const DrawMode = ({
   clearAll,
 }: DrawModeProps) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 ">
       {drawCanvas && (
-        <div className="flex items-center gap-2">
-          <IconButton action={undoLast} color="slate" size="sm">
-            <Undo2 className="w-4 h-4" />
-          </IconButton>
-          <IconButton action={clearAll} color="rose" size="sm">
-            <Trash2 className="w-4 h-4" />
-          </IconButton>
-        </div>
+        <DrawControls onUndo={undoLast} onClear={clearAll}></DrawControls>
       )}
-
-      <IconButton
-        action={toggleDraw}
-        color={currentMode === "DRAW" ? "orange" : "blue"}
+      <ActionButton
+        color={currentMode === "DRAW" ? "orange" : "rose"}
+        variant="outline"
+        onClick={toggleDraw}
+        title="Undo"
       >
         <Pencil className="w-5 h-5" />
-      </IconButton>
-
+      </ActionButton>
     </div>
   );
 };

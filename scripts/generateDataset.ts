@@ -21,7 +21,7 @@ for (const config of configs) {
   const fileName = `${config.rows}x${config.cols}.json`;
 
   saveBenchmarks(
-    `./src/lib/maze/benchmark/rawData/generated/${fileName}`,
+    `./dataset/generated/${fileName}`,
     benchmarks,
   );
 

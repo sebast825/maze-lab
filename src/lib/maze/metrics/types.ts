@@ -27,15 +27,21 @@ export interface BranchMetric {
 }
 
 export interface PathsMetrics {
-  avgTortuosity: number;
   /**
    * Turn density of the shortest valid solution path.
    * Higher value = shortest route is more visually confusing.
    */
   shortestPathTortuosity: number;
-  shortestPathLength : number;
+  shortestPathLength: number;
   shortestPathDecisionNodes: number;
-
+  /**
+   * Ratio of shortest-path cells that are located on the maze border
+   * or one cell away from it.
+   *
+   * Higher values indicate a solution path that follows the maze edges
+   * more closely.
+   */
+  shortestPathWallRatio: number;
 }
 
 export interface PathMetric {

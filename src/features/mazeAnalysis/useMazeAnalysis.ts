@@ -36,7 +36,6 @@ export const useMazeAnalysis = (weights: Weights) => {
       paths,
       pathsAlternative,
       totalIntersections,
-      shortestPathLength,
       totalPaths,
     } = mazeBenchmark.metrics;
 
@@ -45,7 +44,6 @@ export const useMazeAnalysis = (weights: Weights) => {
       paths: paths,
       pathsAlternative,
       totalIntersections,
-      shortestPathLength,
       totalPaths,
     });
   };

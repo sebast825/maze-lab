@@ -1,6 +1,6 @@
 import { MetricStats } from "../types";
 
-const round = (value: number) => Number(value.toFixed(2));
+const round = (value: number) => Number(value.toFixed(4));
 
 
 //we give the result of getBenchmarkMetricsRows to get the stats

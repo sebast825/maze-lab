@@ -12,11 +12,11 @@ import { AnalysisMode } from "../types";
 import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
 import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
-import { rawDataManualSelector, RawDataSize } from "@/lib/maze/benchmark";
 import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
-
+import { Footer } from "@/components/footer";
+import { RawDataSize, rawDataManualSelector } from "@/lib/maze/benchmark/rawData/manual";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
@@ -71,13 +71,14 @@ export function MazeAnalysis() {
                   <div className="flex flex-row gap-4">
                     {mazeData && (
                       <ActionButton
-                        action={() => setShowPath(!showPath)}
-                        text={showPath ? "Hide Path" : "Show Path"}
-                        color="purple"
-                      />
+                        variant="outline"
+                        onClick={() => setShowPath(!showPath)}
+                        color={"purple"}
+                      >{showPath ? "Hide Path" : "Show Path"}</ActionButton>
                     )}
 
                     {mazeData && (
+                 <>     
                       <DrawMode
                         currentMode={gameMode}
                         toggleDraw={() =>
@@ -88,12 +89,13 @@ export function MazeAnalysis() {
                         undoLast={() => handleUndoDraw()}
                         clearAll={() => handleClearDraw()}
                         drawCanvas={gameMode == "DRAW"}
-                      ></DrawMode>
+                      ></DrawMode></>
                     )}
                   </div>
                   {size && (
                     <ActionButton
-                      action={() => generateMetricsReport()}
+                      variant="outline"
+                      onClick={() => generateMetricsReport()}
                       color={"blue"}
                     >
                       Log metrics
@@ -141,6 +143,8 @@ export function MazeAnalysis() {
             )}
           </div>
         </main>
+                    <Footer></Footer>
+
       </div>
     </>
   );

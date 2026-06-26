@@ -1,6 +1,6 @@
 import { Maze, Position } from "../../types";
 import { AlternativeRawPathMetrics } from "../scoring/types";
-import { BranchAnalysis, PathMetric, PathsMetrics } from "../types";
+import { PathMetric, PathsMetrics } from "../types";
 import { computeRepeatRatio } from "./computeRepeatRatio";
 import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
 
@@ -8,7 +8,6 @@ export const aggregatePathMetrics = (
   paths: PathMetric[],
   maze: Maze,
 ): PathsMetrics => {
-  const tortuosities = paths.map((p) => p.tortuosity);
   const minPath: PathMetric = paths.reduce((prevPath, currentPath) => {
     return currentPath.path.length < prevPath.path.length
       ? currentPath
@@ -18,15 +17,36 @@ export const aggregatePathMetrics = (
     minPath.path,
     maze,
   );
-  const shortestPathDecisionAvg =
-    shortestPathDecisionNodes / minPath.path.length;
+
   const shortestPathLength = minPath.path.length;
+
+  const shortestPathWallRatio =
+    countCellsNearBorder(minPath.path, maze) / minPath.path.length;
   return {
-    avgTortuosity: avg(tortuosities),
     shortestPathTortuosity: minPath.tortuosity,
     shortestPathLength,
     shortestPathDecisionNodes,
+
+    shortestPathWallRatio,
   };
+};
+
+// Counts cells located on the maze border or one cell away from it
+const countCellsNearBorder = (path: Position[], maze: Maze): number => {
+  let distanceToCero = 0;
+  let mazeRows = maze.rows - 2;
+  let mazeCols = maze.cols - 2;
+  for (let i = 0; i < path.length; i++) {
+    if (
+      path[i].row <= 1 ||
+      path[i].row == mazeRows ||
+      path[i].col <= 1 ||
+      path[i].col == mazeCols
+    ) {
+      distanceToCero++;
+    }
+  }
+  return distanceToCero;
 };
 
 export const countDecisionNodesInPath = (
