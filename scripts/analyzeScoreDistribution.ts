@@ -6,7 +6,7 @@
  * (features, paths, and alternative paths).
  */
 
-import { rawDataGeneratedSelector } from "@/lib/maze/benchmark";
+import { rawDataGeneratedSelector } from "@dataset/generated/index";
 import { defaultWeights } from "@/lib/maze/metrics/scoring/defaultWeights";
 import { DATASET } from "./dataset.config";
 import { getClosestSizeKey } from "@/lib/maze/metrics/normalize/mazeSizeSpecs";

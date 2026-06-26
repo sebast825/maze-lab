@@ -12,12 +12,11 @@ import { AnalysisMode } from "../types";
 import { useScoreWeights } from "../useScoreWeights";
 import { ScoreWeightsPanel } from "./scoreWeightsPanel";
 import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
-import { rawDataManualSelector, RawDataSize } from "@/lib/maze/benchmark";
 import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
 import { MazeBenchmark } from "@/lib/maze/benchmark/types";
 import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
-import { DrawControls } from "@/components/drawControls";
 import { Footer } from "@/components/footer";
+import { RawDataSize, rawDataManualSelector } from "@/lib/maze/benchmark/rawData/manual";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
