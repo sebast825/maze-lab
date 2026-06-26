@@ -40,7 +40,6 @@ export const MobileMenu = ({
         <AlgorithmSelector
           algorithm={algorithm}
           setAlgorithm={setAlgorithm}
-          onGenerate={handleGenerate}
           className="flex-col gap-1"
         />
 

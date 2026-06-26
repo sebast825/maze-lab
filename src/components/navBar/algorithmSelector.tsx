@@ -10,14 +10,12 @@ import { themeColors } from "../themes";
 interface AlgorithmSelectorProps {
   algorithm: AlgorithmType;
   setAlgorithm: (alg: AlgorithmType) => void;
-  onGenerate: () => void;
   className?: string;
 }
 
 export const AlgorithmSelector = ({
   algorithm,
   setAlgorithm,
-  onGenerate,
   className = "",
 }: AlgorithmSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
