@@ -1,6 +1,6 @@
-import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
+import { getBenchmarkMetricsRows } from "@/lib/infrastructure/benchmark/helpers";
 import { DATASET } from "./dataset.config";
-import { BenchmarkMetricRow } from "@/lib/maze/benchmark/types";
+import { BenchmarkMetricRow } from "@/lib/infrastructure/benchmark/types";
 
 export const featureMetrics = [
   "tortuosity",

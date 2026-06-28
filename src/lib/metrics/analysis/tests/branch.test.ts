@@ -1,5 +1,5 @@
-import { createEmptyMaze } from "../../../core";
-import { removeWallBetween } from "../../../walls";
+import { createEmptyMaze } from "../../../maze/core";
+import { removeWallBetween } from "../../../maze/walls";
 import {
   getDirectionBetweenCells,
   traceBranchUntilDecision,

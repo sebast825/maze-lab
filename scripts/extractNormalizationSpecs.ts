@@ -37,7 +37,7 @@ const allMetrics = {
 
 
 fs.writeFileSync(
-  `./src/lib/maze/metrics/normalize/mazeSizeSpecs.json`,
+  `./src/lib/metrics/normalize/mazeSizeSpecs.json`,
   JSON.stringify(allMetrics, null, 2),
 );
 

@@ -1,6 +1,6 @@
-import { MazeRawMetrics } from "@/lib/maze/metrics/scoring/types";
-import { AlgorithmType } from "../../alogirthms/generation";
-import { Maze, Position } from "../types";
+import { MazeRawMetrics } from "@/lib/metrics/scoring/types";
+import { AlgorithmType } from "../../algorithms/generation";
+import { Maze, Position } from "../../maze/types";
 
 export interface MazeBenchmark {
   name: string;

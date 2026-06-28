@@ -1,5 +1,5 @@
 import { GameMode } from "@/app/page";
-import { AlgorithmType } from "@/lib/alogirthms/generation";
+import { AlgorithmType } from "@/lib/algorithms/generation";
 import { MazeData } from "@/lib/maze/types";
 
 export interface NavbarProps {

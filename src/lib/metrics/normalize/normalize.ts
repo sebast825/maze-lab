@@ -1,4 +1,3 @@
-import { spec } from "node:test/reporters";
 import { MazeDerivedMetrics } from "../scoring/types";
 import { MazeSizeSpecs } from "./mazeSizeSpecs";
 import { MazeNormalizedMetrics, MazeSizeSpecKey, MetricLimits } from "./types";

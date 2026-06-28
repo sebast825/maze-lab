@@ -5,16 +5,16 @@ import { CharacterCanvas } from "@/features/maze/characterCanvas";
 import { MazeCanvas } from "@/features/maze/mazeCanvas";
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
-import { AlgorithmType } from "@/lib/alogirthms/generation";
+import { AlgorithmType } from "@/lib/algorithms/generation";
 import { useState, useRef, useEffect } from "react";
 import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
-import benchmark20x20 from "@/lib/maze/benchmark/rawData/manual/20x20.json";
-import { MazeBenchmark } from "@/lib/maze/benchmark/types";
+import benchmark20x20 from "@/lib/infrastructure/benchmark/rawData/manual/20x20.json";
+import { MazeBenchmark } from "@/lib/infrastructure/benchmark/types";
 import { useSafeDebouncedAction } from "@/hooks/useSafeDebouncedAction";
 import {
   MazeRawMetrics,
   MazeScoringResult,
-} from "@/lib/maze/metrics/scoring/types";
+} from "@/lib/metrics/scoring/types";
 import { MazeData } from "@/lib/maze/types";
 import { Navbar } from "@/components/navBar/index";
 import { Footer } from "@/components/footer";

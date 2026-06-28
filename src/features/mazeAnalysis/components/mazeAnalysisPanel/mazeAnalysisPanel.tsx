@@ -1,6 +1,6 @@
 "use client";
 
-import { MazeScoringResult } from "@/lib/maze/metrics/scoring/types";
+import { MazeScoringResult } from "@/lib/metrics/scoring/types";
 import { MetricCard } from "./metricCard";
 import { ScoreRow } from "./scoreRow";
 import { useEffect, useState } from "react";

@@ -1,5 +1,6 @@
 import { rawDataGeneratedSelector } from "@dataset/generated/index"
-import { rawDataManualSelector } from "@/lib/maze/benchmark/rawData/manual";
+import { rawDataManualSelector } from "@/lib/infrastructure/benchmark/rawData/manual";
+import { Folder } from "lucide-react";
 
 
 type DatasetMode = "generated" | "manual";
@@ -13,4 +14,11 @@ const datasetMap = {
 
 export const DATASET = datasetMap[DATASET_MODE];
 
-export const FOLDER = DATASET_MODE === "generated" ? "./dataset/generated" : "./src/lib/maze/benchmark/rawData/manual";
+const folderMap: Record<DatasetMode, string> = {
+  generated: "./dataset/generated",
+  manual: "./src/lib/infrastructure/benchmark/rawData/manual",
+};
+
+export const FOLDER = folderMap[DATASET_MODE];
+
+console.log(FOLDER)

@@ -1,9 +1,9 @@
-import { bfs, reconstructPath } from "@/lib/alogirthms/solving/bfs";
-import { BFSResult } from "@/lib/alogirthms/solving/types";
-import {  computeRawMetrics } from "../metrics";
-import { Position } from "../types";
+import { bfs, reconstructPath } from "@/lib/algorithms/solving/bfs";
+import { BFSResult } from "@/lib/algorithms/solving/types";
+import {  computeRawMetrics } from "../../metrics";
+import { Position } from "../../maze/types";
 import { MazeBenchmark } from "./types";
-import { MazeRawMetrics } from "../metrics/scoring/types";
+import { MazeRawMetrics } from "../../metrics/scoring/types";
 
 export const recalculateBenchmarkMetrics = (
   benchmarks: MazeBenchmark[],

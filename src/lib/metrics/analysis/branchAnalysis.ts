@@ -1,5 +1,5 @@
-import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
-import { Position, Maze, Direction } from "../../types";
+import { getNeighborsByOpenWall } from "@/lib/algorithms/solving/bfs";
+import { Position, Maze, Direction } from "../../maze/types";
 import { BranchAnalysis, BranchMetric } from "../types";
 
 export const traceBranchUntilDecision = (

@@ -1,7 +1,7 @@
-import { getBenchmarkMetricsRows } from "@/lib/maze/benchmark/helpers";
+import { getBenchmarkMetricsRows } from "@/lib/infrastructure/benchmark/helpers";
 import { DATASET } from "./dataset.config";
-import { saveMetricStats } from "@/lib/maze/benchmark/metricStats/saveMetrics";
-import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
+import { saveMetricStats } from "@/lib/infrastructure/benchmark/metricStats/saveMetrics";
+import { getMetricStats } from "@/lib/infrastructure/benchmark/metricStats/getMetrics";
 import { metricsToAnalyze } from "./constants";
 
 const analyzeMetricCorrelations = (

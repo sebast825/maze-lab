@@ -1,8 +1,9 @@
 import { LoopReason, Maze, Position } from "@/lib/maze/types";
 import { LoopCandidate } from "./types";
 import { removeWallBetween } from "@/lib/maze/walls";
-import { bfs } from "../../solving/bfs";
-import { MazePathMaps, BFSResult } from "../../solving/types";
+import { bfs } from "../solving/bfs";
+import { MazePathMaps, BFSResult } from "../solving/types";
+
 
 export const calculateCandidateLimit = (rows: number, cols: number): number => {
   const totalCells = rows * cols;

@@ -1,4 +1,4 @@
-import { AlgorithmType } from "@/lib/alogirthms/generation";
+import { AlgorithmType } from "@/lib/algorithms/generation";
 
 export const algorithmLabels :Record<AlgorithmType,string> = {
   tree: "Three",

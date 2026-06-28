@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { bfs } from "@/lib/alogirthms/solving/bfs";
-import { BFSResult } from "@/lib/alogirthms/solving/types";
-import { computeMazeMetrics } from "@/lib/maze/metrics";
+import { bfs } from "@/lib/algorithms/solving/bfs";
+import { BFSResult } from "@/lib/algorithms/solving/types";
+import { computeMazeMetrics } from "@/lib/metrics";
 import { MazeData } from "@/lib/maze/types";
-import { MazeScoringResult } from "@/lib/maze/metrics/scoring/types";
+import { MazeScoringResult } from "@/lib/metrics/scoring/types";
 
 export const useMazeMetrics = () => {
   const [metrics, setMetrics] = useState<MazeScoringResult | null>(null);

@@ -1,5 +1,5 @@
-import { RawDataSize, rawDataManualSelector } from "@/lib/maze/benchmark/rawData/manual";
-import { MazeBenchmark } from "@/lib/maze/benchmark/types";
+import { RawDataSize, rawDataManualSelector } from "@/lib/infrastructure/benchmark/rawData/manual";
+import { MazeBenchmark } from "@/lib/infrastructure/benchmark/types";
 
 
 

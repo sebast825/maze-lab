@@ -10,7 +10,7 @@ import {
   isCandidateNearIntersection,
   isNear,
 } from "./utils";
-import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
+import { getMetricStats } from "@/lib/infrastructure/benchmark/metricStats/getMetrics";
 
 export const getBalancedCandidates = (
   maze: Maze,

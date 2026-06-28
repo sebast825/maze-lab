@@ -2,7 +2,7 @@
 
 import { ActionButton } from "@/components/actionButton";
 import { PANEL_CLASSES } from "@/components/themes";
-import { Weights } from "@/lib/maze/metrics/scoring/types";
+import { Weights } from "@/lib/metrics/scoring/types";
 import { useEffect, useState } from "react";
 
 interface Props {

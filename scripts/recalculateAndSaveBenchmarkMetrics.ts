@@ -1,4 +1,4 @@
-import { recalculateBenchmarkMetrics } from "../src/lib/maze/benchmark/recalculateMetrics";
+import { recalculateBenchmarkMetrics } from "../src/lib/infrastructure/benchmark/recalculateMetrics";
 import fs from "fs";
 import { DATASET, FOLDER } from "./dataset.config";
 

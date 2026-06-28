@@ -7,12 +7,12 @@
  */
 
 import { rawDataGeneratedSelector } from "@dataset/generated/index";
-import { defaultWeights } from "@/lib/maze/metrics/scoring/defaultWeights";
+import { defaultWeights } from "@/lib/metrics/scoring/defaultWeights";
 import { DATASET } from "./dataset.config";
-import { getClosestSizeKey } from "@/lib/maze/metrics/normalize/mazeSizeSpecs";
-import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
-import { getMetricStats } from "@/lib/maze/benchmark/metricStats/getMetrics";
-import { MazeScores } from "@/lib/maze/metrics/scoring/types";
+import { getClosestSizeKey } from "@/lib/metrics/normalize/mazeSizeSpecs";
+import { analyzeMaze } from "@/lib/metrics/scoring/scoring";
+import { getMetricStats } from "@/lib/infrastructure/benchmark/metricStats/getMetrics";
+import { MazeScores } from "@/lib/metrics/scoring/types";
 
 const getMazeScores = (mazeSize: keyof typeof DATASET) => {
   return DATASET[mazeSize].map((mazeData) => {

@@ -108,6 +108,25 @@ The `generated/` directory is ignored by Git.
 
 Keeping generated datasets outside the application source tree prevents TypeScript and Next.js from processing large benchmark files during production builds.
 
+<br>
+
+# Manual Benchmark Capture
+
+If you want to collect manual maze runs for analysis, use:
+
+```ts
+buildMazeBenchmark(metrics.raw, maze, algorithm)
+```
+
+This function generates a benchmark snapshot containing all required data for later analysis (metrics, maze structure, solution path, and metadata).
+
+- The output can be logged and manually stored for dataset creation. 
+
+- Save the logged output in: src/lib/infrastructure/benchmark/rawData/manual/{mazeSize}.json
+
+- These files can then be used in /maze-analysis.
+
+> Note: The id field is currently hardcoded for a specific benchmark size and must be updated depending on the maze dimensions used
 
 <br>
 

@@ -1,8 +1,8 @@
 import { algorithmLabels } from "@/features/maze/constants";
-import { AlgorithmType } from "@/lib/alogirthms/generation";
+import { AlgorithmType } from "@/lib/algorithms/generation";
 import { NAV_CLASSES } from "./styles";
 import { Info } from "lucide-react";
-import { MAZE_GENERATION_UI_INFO } from "@/lib/alogirthms/generation/description";
+import { MAZE_GENERATION_UI_INFO } from "@/lib/algorithms/generation/description";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useState } from "react";
 import { themeColors } from "../themes";

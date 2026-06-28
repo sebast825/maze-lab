@@ -1,4 +1,4 @@
-import { Direction, Position } from "../types";
+import { Direction, Position } from "../maze/types";
 
 export interface BranchAnalysis {
   lastNode: Position;

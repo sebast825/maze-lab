@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { AlgorithmType, mazesGenerator } from "@/lib/alogirthms/generation";
-import { createLopps } from "@/lib/alogirthms/generation/loop/loops";
-import { bfs } from "@/lib/alogirthms/solving/bfs";
-import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
-import { BFSResult } from "@/lib/alogirthms/solving/types";
+import { AlgorithmType, mazesGenerator } from "@/lib/algorithms/generation";
+import { findAllPaths } from "@/lib/algorithms/solving/dfs";
 import { MazeData, Position } from "@/lib/maze/types";
 import { createEmptyMaze } from "@/lib/maze/core";
+import { createLopps } from "@/lib/algorithms/loop/loops";
 
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);

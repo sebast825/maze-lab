@@ -1,6 +1,6 @@
-import { CellInfo } from "@/lib/alogirthms/solving/types";
-import { Direction, Maze, Position } from "../types";
-import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
+import { CellInfo } from "@/lib/algorithms/solving/types";
+import { Direction, Maze, Position } from "../maze/types";
+import { getNeighborsByOpenWall } from "@/lib/algorithms/solving/bfs";
 import {
   analyzeNodeBranches,
   countChangesOfDirections,

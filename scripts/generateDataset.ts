@@ -1,5 +1,5 @@
-import { generateBenchmarks } from "@/lib/maze/dataset/generateBenchmark";
-import { saveBenchmarks } from "@/lib/maze/dataset/saveBenchmarks";
+import { generateBenchmarks } from "@/lib/infrastructure/benchmark/dataset/generateBenchmark";
+import { saveBenchmarks } from "@/lib/infrastructure/benchmark/dataset/saveBenchmarks";
 
 const configs = [
   // { rows: 20, cols: 20, samples: 50 },
@@ -7,7 +7,7 @@ const configs = [
   // { rows: 40, cols: 40, samples: 50 },
   //   { rows: 10, cols: 10, samples: 10 },
   // { rows: 100, cols: 100, samples: 10 },
-    { rows: 60, cols: 60, samples: 10 },
+    { rows: 4, cols: 4, samples: 1 },
 
 ];
 
@@ -28,4 +28,5 @@ for (const config of configs) {
   console.log(
     `Generated ${benchmarks.length} mazes -> ${fileName}`,
   );
+
 }

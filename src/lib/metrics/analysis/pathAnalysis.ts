@@ -1,8 +1,8 @@
-import { Maze, Position } from "../../types";
+import { Maze, Position } from "../../maze/types";
 import { AlternativeRawPathMetrics } from "../scoring/types";
 import { PathMetric, PathsMetrics } from "../types";
 import { computeRepeatRatio } from "./computeRepeatRatio";
-import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
+import { getNeighborsByOpenWall } from "@/lib/algorithms/solving/bfs";
 
 export const aggregatePathMetrics = (
   paths: PathMetric[],

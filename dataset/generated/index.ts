@@ -4,7 +4,7 @@ import benchmarkGenerated40x40 from "./40x40.json";
 import benchmarkGenerated20x20 from "./20x20.json";
 import benchmarkGenerated10x10 from "./10x10.json";
 import benchmarkGenerated60x60 from "./60x60.json";
-import { MazeBenchmark } from "@/lib/maze/benchmark/types";
+import { MazeBenchmark } from "@/lib/infrastructure/benchmark/types";
 
 
 

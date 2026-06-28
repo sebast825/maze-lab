@@ -5,10 +5,10 @@ import {
   MazeRawMetrics,
   MazeScoringResult,
   Weights,
-} from "@/lib/maze/metrics/scoring/types";
-import { analyzeMaze } from "@/lib/maze/metrics/scoring/scoring";
-import { MazeBenchmark } from "@/lib/maze/benchmark/types";
-import { getClosestSizeKey } from "@/lib/maze/metrics/normalize/mazeSizeSpecs";
+} from "@/lib/metrics/scoring/types";
+import { analyzeMaze } from "@/lib/metrics/scoring/scoring";
+import { MazeBenchmark } from "@/lib/infrastructure/benchmark/types";
+import { getClosestSizeKey } from "@/lib/metrics/normalize/mazeSizeSpecs";
 
 export const useMazeAnalysis = (weights: Weights) => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);

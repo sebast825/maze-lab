@@ -1,5 +1,5 @@
 import fs from "fs";
-import { MazeBenchmark } from "../benchmark/types";
+import { MazeBenchmark } from "../types";
 
 export const saveBenchmarks = (
   filePath: string,

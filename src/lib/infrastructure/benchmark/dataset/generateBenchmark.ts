@@ -2,14 +2,14 @@ import {
   algorithmNames,
   AlgorithmType,
   mazesGenerator,
-} from "@/lib/alogirthms/generation";
-import { createLopps } from "@/lib/alogirthms/generation/loop/loops";
-import { bfs } from "@/lib/alogirthms/solving/bfs";
-import { findAllPaths } from "@/lib/alogirthms/solving/dfs";
-import { MazeBenchmark } from "../benchmark/types";
-import { createEmptyMaze } from "../core";
-import { computeMazeMetrics } from "../metrics";
-import { Position } from "../types";
+} from "@/lib/algorithms/generation";
+import { createLopps } from "@/lib/algorithms/loop/loops";
+import { bfs } from "@/lib/algorithms/solving/bfs";
+import { findAllPaths } from "@/lib/algorithms/solving/dfs";
+import { MazeBenchmark } from "../types";
+import { createEmptyMaze } from "../../../maze/core";
+import { computeMazeMetrics } from "../../../metrics";
+import { Position } from "../../../maze/types";
 
 export const generateBenchmark = (
   algorithm: AlgorithmType,

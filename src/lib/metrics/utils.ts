@@ -1,5 +1,5 @@
-import { getNeighborsByOpenWall } from "@/lib/alogirthms/solving/bfs";
-import { Maze, Position } from "../types";
+import { getNeighborsByOpenWall } from "@/lib/algorithms/solving/bfs";
+import { Maze, Position } from "../maze/types";
 
 export const getTotalIntersections = (maze: Maze): number => {
   let interesections: number = 0;
