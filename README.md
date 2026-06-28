@@ -44,6 +44,27 @@ Inspect structural properties such as intersections, dead ends, path alternative
 
 <br>
 
+# Project Structure
+
+
+```text
+├── src/
+│   ├── app/
+│   ├── components/
+│   ├── features/
+│   ├── hooks/
+│   └── lib/
+│       ├── algorithms/
+│       ├── infrastructure/
+│       ├── maze/
+│       └── metrics/
+│
+├── scripts/
+├── dataset/
+```
+
+<br>
+
 # Getting Started
 
 ### Install dependencies
