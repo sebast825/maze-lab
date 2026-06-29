@@ -1,8 +1,6 @@
 "use client";
 
-import { DrawingCanvas, DrawingCanvasRef } from "@/features/maze/drawingCanvas";
-import { CharacterCanvas } from "@/features/maze/characterCanvas";
-import { MazeCanvas } from "@/features/maze/mazeCanvas";
+import { DrawingCanvasRef } from "@/features/maze/drawingCanvas";
 import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 import { AlgorithmType } from "@/lib/algorithms/generation";
@@ -18,6 +16,7 @@ import {
 import { MazeData } from "@/lib/maze/types";
 import { Navbar } from "@/components/navBar/index";
 import { Footer } from "@/components/footer";
+import { MazeViewer } from "@/features/maze/mazeViewer";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -35,16 +34,7 @@ export default function Home() {
   const [gameMode, setGameMode] = useState<GameMode>("VIEW");
 
   const drawingRef = useRef<DrawingCanvasRef | null>(null);
-  // Absolute constant sizing configuration for grid rendering units
-  const [cellSize, setCellSize] = useState<number>(25);
 
-  useEffect(() => {
-    const maxWidth = window.innerWidth * 0.95;
-    const maxHeight = window.innerHeight * 0.85;
-    const calculatedSize = Math.min(25, Math.min(maxWidth / cols, maxHeight / rows));
-
-    setCellSize(calculatedSize);
-  }, [cols, rows]);
   const run = useSafeDebouncedAction(500);
   const handleUndoDraw = () => {
     drawingRef.current?.undo();
@@ -83,7 +73,7 @@ export default function Home() {
       metrics: rawMetrics,
     };
   };
-  useEffect(()=>{handleGenerate()},[algorithm])
+  useEffect(() => { handleGenerate() }, [algorithm])
   return (
     <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4 h-full">
       {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
@@ -110,40 +100,8 @@ export default function Home() {
             total={metrics?.scores.total}
           />
 
-          <div className="relative w-full  overflow-auto md:overflow-hidden  border border-black rounded h-full">
-            <div className="grid min-h-full min-w-full place-items-center">
-              <div className="w-fit relative min-h-full grid place-items-center">
-                <div
-                  className={`relative transition-all duration-300 ${gameMode != "VIEW"
-                    ? "ring-2 bg-[#000] ring-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)]"
-                    : "ring-0"
-                    }`}
-                >
-                  {mazeData && mazeData.end && (
-                    <MazeCanvas
-                      mazeData={mazeData}
-                      cellSize={cellSize}
-                      showPath={showPath}
-                    />
-                  )}
-                  {gameMode == "CHARACTER" && mazeData && (
-                    <CharacterCanvas
-                      mazeData={mazeData!}
-                      cellSize={cellSize}
-                    />
-                  )}
-                  {gameMode == "DRAW" && (
-                    <DrawingCanvas
-                      cols={cols}
-                      rows={rows}
-                      cellSize={cellSize}
-                      ref={drawingRef}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+          {mazeData && <MazeViewer mazeData={mazeData} gameMode={gameMode} showPath={showPath} ref={drawingRef}></MazeViewer>}
+
           <Footer></Footer>
         </div>
       </main>

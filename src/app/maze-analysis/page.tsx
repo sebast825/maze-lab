@@ -1,4 +1,4 @@
-import { MazeAnalysis } from "@/features/mazeAnalysis/components/MazeAnalysis";
+import { MazeAnalysis } from "@/features/mazeAnalysis/MazeAnalysis";
 
 export default function Page() {
    return <MazeAnalysis/>;

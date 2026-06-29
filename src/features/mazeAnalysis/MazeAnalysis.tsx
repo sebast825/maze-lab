@@ -2,37 +2,37 @@
 
 import { useMazeAnalysis } from "@/features/mazeAnalysis/useMazeAnalysis";
 import { useEffect, useRef, useState } from "react";
-import { MazeCanvas } from "@/features/maze/mazeCanvas";
-import { DrawingCanvas, DrawingCanvasRef } from "@/features/maze/drawingCanvas";
+import { DrawingCanvasRef } from "@/features/maze/drawingCanvas";
 import { ActionButton } from "@/components/actionButton";
 import { ToolBar } from "@/components/toolBar";
-import { BenchmarkSelector } from "./benchmarkSelector";
-import { DrawMode } from "./drawMode";
-import { AnalysisMode } from "../types";
-import { useScoreWeights } from "../useScoreWeights";
-import { ScoreWeightsPanel } from "./scoreWeightsPanel";
-import { MazeAnalysisPanel } from "./mazeAnalysisPanel/mazeAnalysisPanel";
+import { BenchmarkSelector } from "./components/benchmarkSelector";
+import { DrawMode } from "./components/drawMode";
+import { AnalysisMode } from "./types";
+import { useScoreWeights } from "./useScoreWeights";
+import { ScoreWeightsPanel } from "./components/scoreWeightsPanel";
+import { MazeAnalysisPanel } from "./components/mazeAnalysisPanel/mazeAnalysisPanel";
 import { getBenchmarkMetricsRows } from "@/lib/infrastructure/benchmark/helpers";
 import { MazeBenchmark } from "@/lib/infrastructure/benchmark/types";
 import { getMetricStats } from "@/lib/infrastructure/benchmark/metricStats/getMetrics";
 import { Footer } from "@/components/footer";
 import { RawDataSize, rawDataManualSelector } from "@/lib/infrastructure/benchmark/rawData/manual";
+import { MazeViewer } from "@/features/maze/mazeViewer";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");
-  const drawingRef = useRef<DrawingCanvasRef | null>(null);
-  const CELL_SIZE = 20;
   const [gameMode, setGameMode] = useState<AnalysisMode>("DRAW");
   const [showPath, setShowPath] = useState<boolean>(true);
   const { weights, setWeights, resetWeights } = useScoreWeights();
   const { mazeData, createMaze, mazeScoreResult } = useMazeAnalysis(weights);
   const [size, setSize] = useState<RawDataSize>("30*30");
+  const drawingRef = useRef<DrawingCanvasRef | null>(null);
   const handleUndoDraw = () => {
     drawingRef.current?.undo();
   };
   const handleClearDraw = () => {
     drawingRef.current?.clear();
   };
+
 
   useEffect(() => {
     if (selectedId == "") return;
@@ -78,18 +78,18 @@ export function MazeAnalysis() {
                     )}
 
                     {mazeData && (
-                 <>     
-                      <DrawMode
-                        currentMode={gameMode}
-                        toggleDraw={() =>
-                          gameMode != "DRAW"
-                            ? setGameMode("DRAW")
-                            : setGameMode("VIEW")
-                        }
-                        undoLast={() => handleUndoDraw()}
-                        clearAll={() => handleClearDraw()}
-                        drawCanvas={gameMode == "DRAW"}
-                      ></DrawMode></>
+                      <>
+                        <DrawMode
+                          currentMode={gameMode}
+                          toggleDraw={() =>
+                            gameMode != "DRAW"
+                              ? setGameMode("DRAW")
+                              : setGameMode("VIEW")
+                          }
+                          undoLast={() => handleUndoDraw()}
+                          clearAll={() => handleClearDraw()}
+                          drawCanvas={gameMode == "DRAW"}
+                        ></DrawMode></>
                     )}
                   </div>
                   {size && (
@@ -105,6 +105,7 @@ export function MazeAnalysis() {
               </ToolBar>
             </div>
             {/* Mazes */}
+
             <div className="flex flex-col xl:flex-row items-center xl:items-start justify-center gap-5 w-full  ">
               <ScoreWeightsPanel
                 weights={weights}
@@ -115,36 +116,13 @@ export function MazeAnalysis() {
                 <MazeAnalysisPanel data={mazeScoreResult}></MazeAnalysisPanel>
               )}
             </div>
-            {mazeData && (
-              <div className="w-full lg:w-auto">
-                <div className="relative overflow-auto border border-black rounded bg-slate-950">
-                  <div className="grid min-h-full min-w-full place-items-center">
-                    <div className="w-fit relative min-h-full">
-                      {mazeData.end && (
-                        <MazeCanvas
-                          mazeData={mazeData}
-                          cellSize={CELL_SIZE}
-                          showPath={showPath}
-                        />
-                      )}
-
-                      {gameMode === "DRAW" && (
-                        <DrawingCanvas
-                          cols={mazeData.maze.cols}
-                          rows={mazeData.maze.rows}
-                          cellSize={CELL_SIZE}
-                          ref={drawingRef}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            {
+              mazeData && <MazeViewer mazeData={mazeData} showPath={showPath} gameMode={gameMode} ref={drawingRef}
+              ></MazeViewer>
+            }
           </div>
         </main>
-                    <Footer></Footer>
-
+        <Footer></Footer>
       </div>
     </>
   );
