@@ -1,7 +1,7 @@
 import { Cell, Maze } from "../types";
 import { base64UrlToBytes, bitmaskToCellWalls, unpackBytesToBitmasks } from "./packing";
 
-export const bitmaskToMaze = (encodedString: string): Maze => {
+export const decodeMaze = (encodedString: string): Maze => {
     // 1. Split the header from the payload
     const parts = encodedString.split(":");
 
