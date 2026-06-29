@@ -37,13 +37,12 @@ export const MazeViewer = forwardRef<DrawingCanvasRef, MazeViewerProps>(
 
             const isDrawMode = gameMode === "DRAW";
             const isCharacterMode = gameMode === "CHARACTER";
-
             return (
                 <div className="relative w-full overflow-auto md:overflow-hidden border border-black rounded h-full">
                     <div className="grid min-h-full min-w-full place-items-center">
                         <div className="w-fit relative min-h-full grid place-items-center">
                             <div
-                                className={`relative transition-all duration-300 ${!isDrawMode
+                                className={`relative transition-all duration-300 ${gameMode != "VIEW"
                                     ? "ring-2 bg-[#000] ring-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.5)]"
                                     : "ring-0"
                                     }`}

@@ -1,4 +1,4 @@
-import { algorithmLabels } from "@/features/maze/constants";
+import { algorithmLabels } from "./constants";
 import { AlgorithmType } from "@/lib/algorithms/generation";
 import { NAV_CLASSES } from "./styles";
 import { Info } from "lucide-react";

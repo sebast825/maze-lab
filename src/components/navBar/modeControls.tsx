@@ -1,6 +1,6 @@
-import { Pencil, Gamepad2, Trash2, Undo2 } from "lucide-react";
-import { GameMode } from "@/app/page";
+import { Pencil, Gamepad2} from "lucide-react";
 import { DrawControls } from "../drawControls";
+import { GameMode } from "@/features/maze/types";
 
 interface ModeControlsProps {
   gameMode: GameMode;

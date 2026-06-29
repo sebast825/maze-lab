@@ -1,4 +1,4 @@
-import { GameMode } from "@/app/page";
+import { GameMode } from "@/features/maze/types";
 import { AlgorithmType } from "@/lib/algorithms/generation";
 import { MazeData } from "@/lib/maze/types";
 

@@ -147,8 +147,6 @@ This function generates a benchmark snapshot containing all required data for la
 
 - These files can then be used in /maze-analysis.
 
-> Note: The id field is currently hardcoded for a specific benchmark size and must be updated depending on the maze dimensions used
-
 <br>
 
 # Dataset Selection

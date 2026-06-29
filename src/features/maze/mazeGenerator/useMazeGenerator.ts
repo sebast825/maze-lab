@@ -8,21 +8,19 @@ import { createLopps } from "@/lib/algorithms/loop/loops";
 export const useMazeGenerator = () => {
   const [mazeData, setMazeData] = useState<MazeData | null>(null);
 
-  const createMaze = (algorithm: AlgorithmType, rows: number, cols: number) :MazeData => {
+  const createMaze = (algorithm: AlgorithmType, rows: number, cols: number): MazeData => {
     rows = Math.max(2, rows);
     cols = Math.max(2, cols);
 
-   const maze  = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
+    const maze = mazesGenerator[algorithm](createEmptyMaze(rows, cols));
     const start: Position = { row: 0, col: 0 };
     const end: Position = { row: rows - 1, col: cols - 1 };
-
-
 
     createLopps(start, end, maze);
 
     const solution = findAllPaths(maze, start, end);
     const rsta = {
-           maze,
+      maze,
       start,
       end,
       solution,
