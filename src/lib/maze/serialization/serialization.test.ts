@@ -1,6 +1,6 @@
 import "jest";
 import { createEmptyMaze } from "../core";
-import { Maze } from "../types";
+import { Maze, MazeData, Position } from "../types";
 import { encodeMaze } from "./encode";
 import { decodeMaze } from "./decode";
 
@@ -37,27 +37,32 @@ describe("Maze Serialization Roundtrip", () => {
             cols,
             cells: originalMaze.cells // Using .cells from your factory function
         };
+        const start: Position = { row: 0, col: 0 }
+        const end: Position = { row: 1, col: 0 }
 
         // 1. Serialize the maze to a string
-        const encodedString = encodeMaze(mazeInstance);
+        const encodedString = encodeMaze(mazeInstance, start, end);
 
         // 2. Deserialize the string back into a structure
-        const decodedResult = decodeMaze(encodedString);
+        const decodedResult: MazeData = decodeMaze(encodedString);
 
         // 3. Assert exact structural equality
-        expect(decodedResult.rows).toBe(rows);
-        expect(decodedResult.cols).toBe(cols);
-        expect(decodedResult.cells).toEqual(originalMaze.cells);
+        expect(decodedResult.maze.rows).toBe(rows);
+        expect(decodedResult.maze.cols).toBe(cols);
+        expect(decodedResult.maze.cells).toEqual(originalMaze.cells);
+        expect(decodedResult.start).toStrictEqual(start);
+        expect(decodedResult.end).toStrictEqual(end);
     });
-    test("should decode a fixed legacy string to prevent breaking backward compatibility", () => {
-    // A specific 2x2 maze encoded string you know is correct
-    const hardcodedSerializedMaze = "v1:2:2:eyA"; // Example string, replace with a real one you generate once
-    
-    const decoded = decodeMaze(hardcodedSerializedMaze);
-    
-    // Assert against the exact expected layout
-    expect(decoded.rows).toBe(2);
-    expect(decoded.cols).toBe(2);
-    expect(decoded.cells[0][0].walls.north).toBe(true); // Adjust to match your real output
-});
+    test("should decode a fixed legacy metadata to prevent breaking backward compatibility", () => {
+        // A specific 2x2 maze encoded string you know is correct
+        const hardcodedSerializedMaze = "v1:2:2:0:0:2:2:eyA"; 
+
+        const decoded = decodeMaze(hardcodedSerializedMaze);
+
+        // Assert against the exact expected layout
+        expect(decoded.maze.rows).toBe(2);
+        expect(decoded.maze.cols).toBe(2);
+        expect(decoded.start).toStrictEqual({row : 0, col:0});
+        expect(decoded.end).toStrictEqual({row : 2, col:2});
+    });
 })

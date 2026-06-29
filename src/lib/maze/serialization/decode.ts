@@ -1,17 +1,10 @@
-import { Cell, Maze } from "../types";
+import { Cell, MazeData } from "../types";
 import { base64UrlToBytes, bitmaskToCellWalls, unpackBytesToBitmasks } from "./packing";
+import { SerializedMaze } from "./types";
 
-export const decodeMaze = (encodedString: string): Maze => {
+export const decodeMaze = (encodedString: string): MazeData => {
     // 1. Split the header from the payload
-    const parts = encodedString.split(":");
-
-    if (parts.length !== 4 || parts[0] !== "v1") {
-        throw new Error("Invalid or unsupported maze serialization format");
-    }
-
-    const rows = parseInt(parts[1], 10);
-    const cols = parseInt(parts[2], 10);
-    const payload = parts[3];
+    const { rows, cols, start, end, payload }: SerializedMaze = parseMetadata(encodedString)
 
     const totalCells = rows * cols;
     // 2. Convert Base64URL string back to raw bytes
@@ -32,9 +25,37 @@ export const decodeMaze = (encodedString: string): Maze => {
         grid.push(row);
     }
     return {
-        rows,
-        cols,
-        cells: grid
+        maze: {
+            rows,
+            cols,
+            cells: grid
+        },
+        start, end
 
+
+    };
+}
+
+function parseMetadata(encodedString: string): SerializedMaze {
+    const parts = encodedString.split(":");
+
+    if (parts.length !== 8 || parts[0] !== "v1") {
+        throw new Error("Invalid or unsupported maze serialization format");
+    }
+
+    const [, rowsStr, colsStr, startRowStr, startColStr, endRowStr, endColStr, payloadStr] = parts;
+
+    return {
+        rows: parseInt(rowsStr, 10),
+        cols: parseInt(colsStr, 10),
+        start: {
+            row: parseInt(startRowStr, 10),
+            col: parseInt(startColStr, 10)
+        },
+        end: {
+            row: parseInt(endRowStr, 10),
+            col: parseInt(endColStr, 10)
+        },
+        payload: payloadStr
     };
 }
