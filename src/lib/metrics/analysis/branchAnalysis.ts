@@ -1,4 +1,4 @@
-import { getNeighborsByOpenWall } from "@/lib/algorithms/solving/bfs";
+import { getNeighborsByOpenWall } from "@/lib/maze/walls";
 import { Position, Maze, Direction } from "../../maze/types";
 import { BranchAnalysis, BranchMetric } from "../types";
 

@@ -1,6 +1,6 @@
 import { Position, Maze } from "@/lib/maze/types";
 import { getNeighbors } from "@/lib/maze/core";
-import { BFSResult, CellInfo, MazePathMaps } from "../../solving/types";
+import {  CellInfo, MazePathMaps } from "./../solving/types";
 import { getBackBoneOfBranchCell } from "./backbone";
 import { LoopCandidate, MazeStructureAnalysis } from "./types";
 import { hasWallWithNeighbor } from "@/lib/maze/walls";
@@ -10,7 +10,6 @@ import {
   isCandidateNearIntersection,
   isNear,
 } from "./utils";
-import { getMetricStats } from "@/lib/infrastructure/benchmark/metricStats/getMetrics";
 
 export const getBalancedCandidates = (
   maze: Maze,

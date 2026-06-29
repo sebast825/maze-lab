@@ -1,6 +1,5 @@
 import { CellInfo } from "@/lib/algorithms/solving/types";
 import { Direction, Maze, Position } from "../maze/types";
-import { getNeighborsByOpenWall } from "@/lib/algorithms/solving/bfs";
 import {
   analyzeNodeBranches,
   countChangesOfDirections,
@@ -26,6 +25,7 @@ import {
 } from "./scoring/types";
 import { defaultWeights } from "./scoring/defaultWeights";
 import { getClosestSizeKey } from "./normalize/mazeSizeSpecs";
+import { getNeighborsByOpenWall } from "../maze/walls";
 
 export const computeRawMetrics = (
   mazeCellData: CellInfo[][],

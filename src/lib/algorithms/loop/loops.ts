@@ -1,5 +1,5 @@
 import { Maze, Position } from "@/lib/maze/types";
-import { CellInfo, MazePathMaps } from "../../solving/types";
+import {  MazePathMaps } from "../solving/types";
 import { BackBone, MazeStructureAnalysis, LoopCandidate } from "./types";
 import { addColorToBackBone, generateMazePathMaps, removeWallAtSomeCandiates } from "./utils";
 import { getBackBone } from "./backbone";

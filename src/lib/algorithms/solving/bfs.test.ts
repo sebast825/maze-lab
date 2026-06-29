@@ -1,7 +1,7 @@
 import { Maze, Cell } from "@/lib/maze/types";
-import { bfs, getNeighborsByOpenWall } from "./bfs";
+import { bfs, } from "./bfs";
 import { createEmptyMaze } from "@/lib/maze/core";
-import { fallbackModeToFallbackField } from "next/dist/lib/fallback";
+import { getNeighborsByOpenWall } from "@/lib/maze/walls";
 
 describe("bfs", () => {
   const createConnectedMaze = (rows: number, cols: number): Maze => {

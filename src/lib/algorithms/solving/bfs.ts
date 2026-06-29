@@ -1,5 +1,6 @@
 import { Maze, Position } from "@/lib/maze/types";
 import { BFSResult, CellInfo } from "./types";
+import { getNeighborsByOpenWall } from "@/lib/maze/walls";
 
 /**
  * Breadth-First Search (BFS) for maze solving.
@@ -85,56 +86,4 @@ export function reconstructPath(
     current = cellInfo[current.row][current.col].parent;
   }
   return path;
-}
-
-export function getNeighborsByOpenWall(
-  maze: Maze,
-  current: Position,
-): Position[] {
-  const neighbors: Position[] = [];
-  const cell = maze.cells[current.row][current.col];
-
-  // NORTE: Primero límites, luego pared actual, luego pared del vecino
-  if (
-    current.row - 1 >= 0 &&
-    !cell.walls.north &&
-    !maze.cells[current.row - 1][current.col].walls.south
-  ) {
-    neighbors.push({ row: current.row - 1, col: current.col });
-  }
-
-  // SUR: Primero límites, luego pared actual, luego pared del vecino
-  if (
-    current.row + 1 < maze.rows &&
-    !cell.walls.south &&
-    !maze.cells[current.row + 1][current.col].walls.north
-  ) {
-    neighbors.push({ row: current.row + 1, col: current.col });
-  }
-
-  // ESTE: Primero límites, luego pared actual, luego pared del vecino
-  if (
-    current.col + 1 < maze.cols &&
-    !cell.walls.east &&
-    !maze.cells[current.row][current.col + 1].walls.west
-  ) {
-    neighbors.push({ row: current.row, col: current.col + 1 });
-  }
-
-  // OESTE: Primero límites, luego pared actual, luego pared del vecino
-  if (
-    current.col - 1 >= 0 &&
-    !cell.walls.west &&
-    !maze.cells[current.row][current.col - 1].walls.east
-  ) {
-    neighbors.push({ row: current.row, col: current.col - 1 });
-  }
-
-  return neighbors;
-}
-
-export const getNeighborsByOpenWallNotVisited = (  maze: Maze,
-  current: Position )=> {
-    const neighbors :Position[] = getNeighborsByOpenWall(maze,current)
-    return neighbors.filter(neighbor => !maze.cells[neighbor.row][neighbor.col].visited )
 }

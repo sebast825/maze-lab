@@ -1,5 +1,5 @@
 import { Position, Maze, Cell } from "@/lib/maze/types";
-import { CellInfo } from "../../solving/types";
+import { CellInfo } from "../solving/types";
 import { MazeStructureAnalysis } from "./types";
 
 //compare all Cells and if is not part of backBone we return the position of those cells

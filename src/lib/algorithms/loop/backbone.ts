@@ -1,6 +1,6 @@
 import { Position } from "@/lib/maze/types";
-import { CellInfo, BFSResult } from "../../solving/types";
 import { DistanceToBackBone, BackBone } from "./types";
+import { CellInfo } from "../solving/types";
 
 export const getBackBoneOfBranchCell = (
   cellPosition: Position,
