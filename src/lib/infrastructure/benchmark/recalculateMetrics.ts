@@ -1,4 +1,4 @@
-import { bfs, reconstructPath } from "@/lib/algorithms/solving/bfs";
+import { bfs } from "@/lib/algorithms/solving/bfs";
 import { BFSResult } from "@/lib/algorithms/solving/types";
 import {  computeRawMetrics } from "../../metrics";
 import { Position } from "../../maze/types";
@@ -21,16 +21,12 @@ export const recalculateBenchmarkMetrics = (
       col: maze.cols - 1,
     };
 
-    const { cellInfo, shortest }: BFSResult = bfs(
+    const { cellInfo }: BFSResult = bfs(
       maze,
       end,
       start,
     );
 
-    const shortestPath :Position[] = reconstructPath(
-      cellInfo,
-      shortest,
-    );
 
     const metrics : MazeRawMetrics = computeRawMetrics(
       cellInfo,
