@@ -1,6 +1,6 @@
 import "jest";
 import { Cell } from "../types";
-import { cellWallsToBitmask, packBitmasksIntoBytes } from "./packing";
+import { bitmaskToCellWalls, cellWallsToBitmask, packBitmasksIntoBytes, unpackBytesToBitmasks } from "./packing";
 
 describe("cellWallsToBitmask", () => {
   const createCell = (
@@ -95,4 +95,59 @@ describe("packBitmasksIntoBytes", () => {
 
     expect(Array.from(result)).toEqual([255]);
   });
+});
+
+
+
+describe("Serialization - Packing Utilities", () => {
+    describe("unpackBytesToBitmasks", () => {
+        test("should unpack an even number of cells correctly", () => {
+            // First byte: second = 11 (1011), first = 5 (0101) -> (11 << 4) | 5 = 176 | 5 = 181
+            const bytes = new Uint8Array([181]);
+            const result = unpackBytesToBitmasks(bytes, 2);
+            expect(result).toEqual([5, 11]);
+        });
+
+        test("should unpack an odd number of cells and ignore padding", () => {
+            // First byte: second = 0 (padding), first = 14 -> (0 << 4) | 14 = 14
+            const bytes = new Uint8Array([14]);
+            const result = unpackBytesToBitmasks(bytes, 1);
+            expect(result).toEqual([14]);
+        });
+
+        test("should unpack multiple bytes correctly", () => {
+            // Byte 1: (2 << 4) | 1 = 33
+            // Byte 2: (4 << 4) | 3 = 67
+            const bytes = new Uint8Array([33, 67]);
+            const result = unpackBytesToBitmasks(bytes, 4);
+            expect(result).toEqual([1, 2, 3, 4]);
+        });
+    });
+
+    describe("bitmaskToCellWalls", () => {
+        test("should decode empty cell (no walls)", () => {
+            const expected: Cell = {
+                visited: false,
+                walls: { north: false, east: false, south: false, west: false }
+            };
+            expect(bitmaskToCellWalls(0)).toEqual(expected);
+        });
+
+        test("should decode fully enclosed cell (all walls)", () => {
+            const expected: Cell = {
+                visited: false,
+                walls: { north: true, east: true, south: true, west: true }
+            };
+            expect(bitmaskToCellWalls(15)).toEqual(expected);
+        });
+
+        test("should decode mixed walls correctly", () => {
+            // 11 = 1 (north) + 2 (east) + 8 (west)
+            const expected: Cell = {
+                visited: false,
+                walls: { north: true, east: true, south: false, west: true }
+            };
+            expect(bitmaskToCellWalls(11)).toEqual(expected);
+        });
+    });
 });
