@@ -2,8 +2,8 @@
 
 import { useEffect, useState, forwardRef } from "react";
 import { MazeCanvas } from "./mazeCanvas";
-import { CharacterCanvas } from "./characterCanvas";
-import { DrawingCanvas, DrawingCanvasRef } from "./drawingCanvas";
+import { CharacterCanvas } from "./characterCanvas/characterCanvas";
+import { DrawingCanvas, DrawingCanvasRef } from "./drawingCanvas/drawingCanvas";
 import { MazeData } from "@/lib/maze/types";
 
 export type ViewerGameMode = "VIEW" | "DRAW" | "CHARACTER";

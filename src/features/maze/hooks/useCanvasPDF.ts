@@ -1,7 +1,7 @@
 import jsPDF from "jspdf";
 import { MazeData } from "@/lib/maze/types";
-import { drawMaze } from "./render/drawMaze";
-import { ThemeDraw } from "./render/types";
+import { drawMaze } from "../render/drawMaze";
+import { ThemeDraw } from "../render/types";
 
 export const useCanvasPDF = () => {
   const handleExportToPDF = (mazeData: MazeData, cols: number) => {

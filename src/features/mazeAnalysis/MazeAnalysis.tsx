@@ -2,7 +2,6 @@
 
 import { useMazeAnalysis } from "@/features/mazeAnalysis/useMazeAnalysis";
 import { useEffect, useRef, useState } from "react";
-import { DrawingCanvasRef } from "@/features/maze/drawingCanvas";
 import { ActionButton } from "@/components/actionButton";
 import { ToolBar } from "@/components/toolBar";
 import { BenchmarkSelector } from "./components/benchmarkSelector";
@@ -16,7 +15,8 @@ import { MazeBenchmark } from "@/lib/infrastructure/benchmark/types";
 import { getMetricStats } from "@/lib/infrastructure/benchmark/metricStats/getMetrics";
 import { Footer } from "@/components/footer";
 import { RawDataSize, rawDataManualSelector } from "@/lib/infrastructure/benchmark/rawData/manual";
-import { MazeViewer } from "@/features/maze/mazeViewer";
+import { MazeViewer } from "@/features/maze/components/mazeViewer";
+import { DrawingCanvasRef } from "../maze/components/drawingCanvas/drawingCanvas";
 
 export function MazeAnalysis() {
   const [selectedId, setSelectedId] = useState<number | string>("");

@@ -1,11 +1,10 @@
 "use client";
 
-import { DrawingCanvasRef } from "@/features/maze/drawingCanvas";
-import { useCanvasPDF } from "@/features/maze/useCanvasPDF";
+import { useCanvasPDF } from "@/features/maze/hooks/useCanvasPDF";
 import { useMazeGenerator } from "@/features/maze/useMazeGenerator";
 import { AlgorithmType } from "@/lib/algorithms/generation";
 import { useState, useRef, useEffect } from "react";
-import { useMazeMetrics } from "@/features/maze/useMazeMetrics";
+import { useMazeMetrics } from "@/features/maze/hooks/useMazeMetrics";
 import benchmark20x20 from "@/lib/infrastructure/benchmark/rawData/manual/20x20.json";
 import { MazeBenchmark } from "@/lib/infrastructure/benchmark/types";
 import { useSafeDebouncedAction } from "@/hooks/useSafeDebouncedAction";
@@ -16,7 +15,8 @@ import {
 import { MazeData } from "@/lib/maze/types";
 import { Navbar } from "@/components/navBar/index";
 import { Footer } from "@/components/footer";
-import { MazeViewer } from "@/features/maze/mazeViewer";
+import { MazeViewer } from "@/features/maze/components/mazeViewer";
+import { DrawingCanvasRef } from "@/features/maze/components/drawingCanvas/drawingCanvas";
 
 export type GameMode = "VIEW" | "DRAW" | "CHARACTER";
 

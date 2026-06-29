@@ -8,7 +8,7 @@ import {
   animateCharacter,
   drawBreadcrumbs,
   drawCharacter,
-} from "./render/character";
+} from "../../render/character";
 
 interface CharacterCanvasProps {
   mazeData: MazeData;

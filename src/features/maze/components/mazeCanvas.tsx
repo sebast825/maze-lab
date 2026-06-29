@@ -2,8 +2,8 @@
 import { MazeData } from "@/lib/maze/types";
 
 import { useRef, useEffect } from "react";
-import { drawMaze } from "./render/drawMaze";
-import { ThemeDraw } from "./render/types";
+import { drawMaze } from "../render/drawMaze";
+import { ThemeDraw } from "../render/types";
 
 interface MazeCanvasProps {
   mazeData: MazeData;
