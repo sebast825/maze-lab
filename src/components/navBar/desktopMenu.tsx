@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { encodeMaze } from "@/lib/maze/serialization/encode";
+
 import { ActionButton } from "../actionButton";
 import { ActionDropdown } from "../actionDropdown";
 import { AlgorithmSelector } from "./algorithmSelector";
