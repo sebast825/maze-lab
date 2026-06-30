@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { NAV_CLASSES } from "./styles";
-import { ActionButton } from "../actionButton";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { NAV_CLASSES } from "@/components/navBar/styles";
+import { ActionButton } from "@/components/actionButton";
 
 interface SizeControlsProps {
   rows: number;

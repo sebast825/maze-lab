@@ -1,7 +1,6 @@
 "use client";
 
 import { Footer } from "@/components/footer";
-import { Navbar } from "@/components/navBar";
 import { useSafeDebouncedAction } from "@/hooks/useSafeDebouncedAction";
 import { AlgorithmType } from "@/lib/algorithms/generation";
 import { MazeBenchmark } from "@/lib/infrastructure/benchmark/types";
@@ -14,6 +13,9 @@ import { useCanvasPDF } from "../hooks/useCanvasPDF";
 import { useMazeMetrics } from "../hooks/useMazeMetrics";
 import { useMazeGenerator } from "./useMazeGenerator";
 import { GameMode } from "../types";
+import { Navbar } from "@/components/navBar";
+import { DesktopMenu } from "./components/navBar/desktopMenu";
+import { MobileMenu } from "./components/navBar/mobileMenu";
 
 
 export default function MazeGenerator() {
@@ -70,6 +72,23 @@ export default function MazeGenerator() {
     };
   };
   useEffect(() => { handleGenerate() }, [algorithm])
+  const menuProps = {
+    algorithm,
+    setAlgorithm,
+    rows,
+    setRows,
+    cols,
+    setCols,
+    handleGenerate,
+    showPath,
+    setShowPath,
+    handleExportToPDF,
+    mazeData,
+    gameMode,
+    setGameMode: (e: GameMode) => setGameMode(e),
+    handleUndoDraw,
+    handleClearDraw,
+  };
   return (
     <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4 h-full">
       {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
@@ -77,24 +96,9 @@ export default function MazeGenerator() {
         {/* 2. Added centering to the direct wrapper container */}
         <div className="flex flex-col items-center w-full h-screen ">
           {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
-          <Navbar
-            algorithm={algorithm}
-            setAlgorithm={setAlgorithm}
-            rows={rows}
-            setRows={setRows}
-            cols={cols}
-            setCols={setCols}
-            handleGenerate={handleGenerate}
-            showPath={showPath}
-            setShowPath={setShowPath}
-            handleExportToPDF={handleExportToPDF}
-            mazeData={mazeData}
-            gameMode={gameMode}
-            setGameMode={(e) => setGameMode(e)}
-            handleUndoDraw={handleUndoDraw}
-            handleClearDraw={handleClearDraw}
-            total={metrics?.scores.total}
-          />
+          <Navbar total={metrics?.scores.total} desktopMenu={<DesktopMenu {...menuProps}
+          />} mobileMenu={<MobileMenu {...menuProps}
+          />}></Navbar>
 
           {mazeData && <MazeViewer mazeData={mazeData} gameMode={gameMode} showPath={showPath} ref={drawingRef}></MazeViewer>}
 

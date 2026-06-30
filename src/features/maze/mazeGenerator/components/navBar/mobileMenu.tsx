@@ -1,17 +1,16 @@
+import { ActionButton } from "@/components/actionButton";
+import { ShareMazeButton } from "@/components/navBar/ShareMazeButton";
+import { NAV_CLASSES } from "@/components/navBar/styles";
 import { DifficultyBadge } from "@/features/mazeDifficulty/difficultyBadge";
-import { NavbarProps } from "./types";
-import { NAV_CLASSES } from "./styles";
-import { ActionButton } from "../actionButton";
 import { AlgorithmSelector } from "./algorithmSelector";
 import { SizeControls } from "./sizeControls";
-import { ShareMazeButton } from "./ShareMazeButton";
+import { NavbarProps } from "./types";
+
 
 interface MobileMenuProps extends NavbarProps {
-  isOpen: boolean;
+  total?: number
 }
-
 export const MobileMenu = ({
-  isOpen,
   algorithm,
   setAlgorithm,
   rows,
@@ -23,18 +22,11 @@ export const MobileMenu = ({
   setShowPath,
   handleExportToPDF,
   mazeData,
-  gameMode,
-  setGameMode,
-  handleUndoDraw,
-  handleClearDraw,
-  total,
+  total
 }: MobileMenuProps) => {
   return (
     <div
-      className={`md:hidden transition-all duration-200 ease-in-out overflow-hidden ${isOpen
-          ? "max-h-[80vh] opacity-100 overflow-y-auto"
-          : "max-h-0 opacity-0"
-        }`}
+      className={`md:hidden transition-all duration-200 ease-in-out  opacity-100 `}
     >
       <div className={NAV_CLASSES.mobileContainer}>
         <AlgorithmSelector
@@ -73,7 +65,7 @@ export const MobileMenu = ({
             onClick={() => handleExportToPDF(mazeData!, cols)}
           >
             Export PDF
-          </ActionButton> 
+          </ActionButton>
           <span>|</span>
           <ShareMazeButton mazeData={mazeData} />
         </div>
@@ -82,15 +74,7 @@ export const MobileMenu = ({
             <DifficultyBadge score={total} />
           </div>
         )}
-        {/* {mazeData && (
-          <ModeControls
-            gameMode={gameMode}
-            setGameMode={setGameMode}
-            isMobile
-            onUndo={handleUndoDraw}
-            onClear={handleClearDraw}
-          />
-        )} */}
+
       </div>
     </div>
   );

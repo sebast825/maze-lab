@@ -1,13 +1,19 @@
-
-import { ActionButton } from "../actionButton";
-import { ActionDropdown } from "../actionDropdown";
-import { AlgorithmSelector } from "./algorithmSelector";
-import { ModeControls } from "./modeControls";
-import { SizeControls } from "./sizeControls";
+import { ActionButton } from "@/components/actionButton";
+import { ActionDropdown } from "@/components/actionDropdown";
+import { AlgorithmSelector } from "@/features/maze/mazeGenerator/components/navBar/algorithmSelector";
+import { ModeControls } from "@/features/maze/mazeGenerator/components/navBar/modeControls";
+import { ShareMazeButton } from "@/components/navBar/ShareMazeButton";
+import { SizeControls } from "@/features/maze/mazeGenerator/components/navBar/sizeControls";
 import { NavbarProps } from "./types";
-import { ShareMazeButton } from "./ShareMazeButton";
+import { GameMode } from "@/features/maze/types";
 
-interface DesktopMenuProps extends NavbarProps { }
+
+interface DesktopMenuProps extends NavbarProps { 
+  gameMode: GameMode;
+  setGameMode: (mode: GameMode) => void;
+  handleUndoDraw: () => void;
+  handleClearDraw: () => void;
+}
 
 export const DesktopMenu = ({
   algorithm,

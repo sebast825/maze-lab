@@ -59,7 +59,7 @@ export default function MazeShared({encodedData}:MazeSharedProps) {
                 {/* 2. Added centering to the direct wrapper container */}
                 <div className="flex flex-col items-center w-full h-screen ">
                     {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
-                    <Navbar
+                    {/* <Navbar
                         algorithm={algorithm}
                         setAlgorithm={setAlgorithm}
                         rows={rows}
@@ -76,7 +76,7 @@ export default function MazeShared({encodedData}:MazeSharedProps) {
                         handleUndoDraw={handleUndoDraw}
                         handleClearDraw={handleClearDraw}
                         total={metrics?.scores.total}
-                    />
+                    /> */}
 
                     {mazeData && <MazeViewer mazeData={mazeData} gameMode={gameMode} showPath={showPath} ref={drawingRef}></MazeViewer>}
 

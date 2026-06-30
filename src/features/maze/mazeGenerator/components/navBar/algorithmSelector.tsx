@@ -1,11 +1,11 @@
 import { algorithmLabels } from "./constants";
 import { AlgorithmType } from "@/lib/algorithms/generation";
-import { NAV_CLASSES } from "./styles";
 import { Info } from "lucide-react";
 import { MAZE_GENERATION_UI_INFO } from "@/lib/algorithms/generation/description";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useState } from "react";
-import { themeColors } from "../themes";
+import { NAV_CLASSES } from "@/components/navBar/styles";
+import { themeColors } from "@/components/themes";
 
 interface AlgorithmSelectorProps {
   algorithm: AlgorithmType;
