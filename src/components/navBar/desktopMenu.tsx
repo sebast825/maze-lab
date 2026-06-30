@@ -1,11 +1,14 @@
+import { useState } from "react";
+import { encodeMaze } from "@/lib/maze/serialization/encode";
 import { ActionButton } from "../actionButton";
 import { ActionDropdown } from "../actionDropdown";
 import { AlgorithmSelector } from "./algorithmSelector";
 import { ModeControls } from "./modeControls";
 import { SizeControls } from "./sizeControls";
 import { NavbarProps } from "./types";
+import { ShareMazeButton } from "./ShareMazeButton";
 
-interface DesktopMenuProps extends NavbarProps {}
+interface DesktopMenuProps extends NavbarProps { }
 
 export const DesktopMenu = ({
   algorithm,
@@ -24,8 +27,10 @@ export const DesktopMenu = ({
   handleUndoDraw,
   handleClearDraw,
 }: DesktopMenuProps) => {
+
+
   return (
-    <div className="hidden md:flex flex-wrap space-x-6 items-center text-xs font-mono uppercase tracking-wider gap-2 ">
+    <div className="hidden md:flex flex-wrap space-x-6 items-center text-xs font-mono uppercase tracking-wider gap-2 relative">
       <AlgorithmSelector
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
@@ -63,6 +68,7 @@ export const DesktopMenu = ({
         >
           Export_PDF
         </ActionButton>
+        <ShareMazeButton mazeData={mazeData} className="w-full !justify-start text-left normal-case" />
       </ActionDropdown>
 
       {mazeData && (

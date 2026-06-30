@@ -4,6 +4,7 @@ import { NAV_CLASSES } from "./styles";
 import { ActionButton } from "../actionButton";
 import { AlgorithmSelector } from "./algorithmSelector";
 import { SizeControls } from "./sizeControls";
+import { ShareMazeButton } from "./ShareMazeButton";
 
 interface MobileMenuProps extends NavbarProps {
   isOpen: boolean;
@@ -30,11 +31,10 @@ export const MobileMenu = ({
 }: MobileMenuProps) => {
   return (
     <div
-      className={`md:hidden transition-all duration-200 ease-in-out overflow-hidden ${
-        isOpen
+      className={`md:hidden transition-all duration-200 ease-in-out overflow-hidden ${isOpen
           ? "max-h-[80vh] opacity-100 overflow-y-auto"
           : "max-h-0 opacity-0"
-      }`}
+        }`}
     >
       <div className={NAV_CLASSES.mobileContainer}>
         <AlgorithmSelector
@@ -56,7 +56,7 @@ export const MobileMenu = ({
 
         <div className="border-t border-slate-700 w-full"></div>
 
-        <div className="flex flex-row gap-3">
+        <div className="flex flex-row gap-3 items-center">
           <ActionButton
             color="slate"
             variant="text"
@@ -73,7 +73,9 @@ export const MobileMenu = ({
             onClick={() => handleExportToPDF(mazeData!, cols)}
           >
             Export PDF
-          </ActionButton>
+          </ActionButton> 
+          <span>|</span>
+          <ShareMazeButton mazeData={mazeData} />
         </div>
         {total && (
           <div className="sm:hidden w-full flex justify-center pb-2 border-t border-slate-700 pt-2">
