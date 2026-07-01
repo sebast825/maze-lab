@@ -13,6 +13,7 @@ import { decodeMaze } from "@/lib/maze/serialization/decode";
 import { findAllPaths } from "@/lib/algorithms/solving/dfs";
 import { DesktopMenu } from "./components/navBar/desktopMenu";
 import { MobileMenu } from "./components/navBar/mobileMenu";
+import { MazeSharedError } from "./components/mazeSharedError";
 
 interface MazeSharedProps {
     encodedData: string
@@ -22,7 +23,7 @@ export default function MazeShared({ encodedData }: MazeSharedProps) {
     const [showPath, setShowPath] = useState<boolean>(false);
     const [mazeData, setMazeData] = useState<MazeData | null>(null)
     const { metrics, calculateMetrics } = useMazeMetrics();
-
+    const [error, setError] = useState<string | null>(null);
     const { handleExportToPDF } = useCanvasPDF();
 
     const [gameMode, setGameMode] = useState<GameMode>("VIEW");
@@ -37,13 +38,24 @@ export default function MazeShared({ encodedData }: MazeSharedProps) {
     };
 
     useEffect(() => {
-        const mazeData: MazeData = decodeMaze(encodedData);
-        const solution = findAllPaths(mazeData.maze, mazeData.start, mazeData.end);
-        mazeData.solution = solution;
-        calculateMetrics(mazeData);
-        setMazeData(mazeData)
+        try {
 
-    }, [])
+            const decodedMaze = decodeMaze(encodedData);
+            const solution = findAllPaths(
+                decodedMaze.maze,
+                decodedMaze.start,
+                decodedMaze.end,
+            );
+
+            decodedMaze.solution = solution;
+            calculateMetrics(decodedMaze);
+
+            setMazeData(decodedMaze);
+        } catch (error) {
+            console.error("Failed to load maze:", error);
+            setError("Failed to load maze");
+        }
+    }, [encodedData]);
 
     const menuProps = {
         cols: mazeData?.maze.cols!,
@@ -57,6 +69,10 @@ export default function MazeShared({ encodedData }: MazeSharedProps) {
         handleUndoDraw,
         handleClearDraw,
     };
+
+    if (error) {
+        return <MazeSharedError />;
+    }
     return (
         <div className="flex flex-col min-h-screen w-full items-center justify-center bg-slate-950 font-sans md:max-h-[100vh]  px-4 h-full">
             {/* 1. Changed max-w-3xl to max-w-full/w-full and aligned children to center */}
