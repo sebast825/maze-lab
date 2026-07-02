@@ -1,10 +1,8 @@
 import { ActionButton } from "@/components/actionButton";
-import { ActionDropdown } from "@/components/actionDropdown";
-import { ModeControls } from "@/features/maze/mazeGenerator/components/navBar/modeControls";
-import { ShareMazeButton } from "@/components/navBar/ShareMazeButton";
 import { GameMode } from "@/features/maze/types";
 import { useNavigation } from "@/hooks/useNavigation";
 import { NavbarProps } from "./types";
+import { MenuActionsDesktop } from "@/features/maze/mazeEditor/components/menu/desktop";
 
 
 interface DesktopMenuProps extends NavbarProps {
@@ -19,7 +17,6 @@ export const DesktopMenu = ({
   cols,
   showPath,
   setShowPath,
-  handleExportToPDF,
   mazeData,
   gameMode,
   setGameMode,
@@ -34,38 +31,9 @@ export const DesktopMenu = ({
         [Generate]
       </ActionButton>
 
-      <ActionDropdown label="Actions">
-        <ActionButton
-          color="slate"
-          variant="text"
-          disabled={!mazeData}
-          onClick={() => {
-            setShowPath(!showPath);
-          }}
-          className="w-full !justify-start text-left normal-case"
-        >
-          {showPath ? "Hide_Path" : "Show_Path"}
-        </ActionButton>
-        <ActionButton
-          color="slate"
-          variant="text"
-          disabled={!mazeData}
-          onClick={() => handleExportToPDF(mazeData!, cols)}
-          className="w-full !justify-start text-left normal-case"
-        >
-          Export_PDF
-        </ActionButton>
-        <ShareMazeButton mazeData={mazeData} className="w-full !justify-start text-left normal-case" />
-      </ActionDropdown>
 
-      {mazeData && (
-        <ModeControls
-          gameMode={gameMode}
-          setGameMode={setGameMode}
-          onUndo={handleUndoDraw}
-          onClear={handleClearDraw}
-        />
-      )}
+      <MenuActionsDesktop mazeData={mazeData} showPath={showPath} setShowPath={setShowPath} gameMode={gameMode}
+        cols={cols} setGameMode={setGameMode} handleUndoDraw={() => handleUndoDraw()} handleClearDraw={handleClearDraw} />
     </div>
   );
 };

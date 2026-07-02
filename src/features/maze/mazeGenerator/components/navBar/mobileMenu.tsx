@@ -1,10 +1,9 @@
 import { ActionButton } from "@/components/actionButton";
-import { ShareMazeButton } from "@/components/navBar/ShareMazeButton";
 import { NAV_CLASSES } from "@/components/navBar/styles";
-import { DifficultyBadge } from "@/features/mazeDifficulty/difficultyBadge";
 import { AlgorithmSelector } from "./algorithmSelector";
 import { SizeControls } from "./sizeControls";
 import { NavbarProps } from "./types";
+import { MenuActionsMobile } from "@/features/maze/mazeEditor/components/menu/mobile";
 
 
 interface MobileMenuProps extends NavbarProps {
@@ -20,7 +19,6 @@ export const MobileMenu = ({
   handleGenerate,
   showPath,
   setShowPath,
-  handleExportToPDF,
   mazeData,
   total
 }: MobileMenuProps) => {
@@ -46,34 +44,10 @@ export const MobileMenu = ({
           [Generate Maze]
         </ActionButton>
 
-        <div className="border-t border-slate-700 w-full"></div>
+        <span className="border-t border-slate-700 w-full"></span>
 
-        <div className="flex flex-row gap-3 items-center">
-          <ActionButton
-            color="slate"
-            variant="text"
-            disabled={!mazeData}
-            onClick={() => setShowPath(!showPath)}
-          >
-            {showPath ? "Hide Path" : "Show Path"}
-          </ActionButton>
-          <span>|</span>
-          <ActionButton
-            color="slate"
-            variant="text"
-            disabled={!mazeData}
-            onClick={() => handleExportToPDF(mazeData!, cols)}
-          >
-            Export PDF
-          </ActionButton>
-          <span>|</span>
-          <ShareMazeButton mazeData={mazeData} />
-        </div>
-        {total && (
-          <div className="sm:hidden w-full flex justify-center pb-2 border-t border-slate-700 pt-2">
-            <DifficultyBadge score={total} />
-          </div>
-        )}
+        <MenuActionsMobile mazeData={mazeData} showPath={showPath} setShowPath={setShowPath}
+          cols={cols} total={total}   ></MenuActionsMobile>
 
       </div>
     </div>

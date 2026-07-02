@@ -12,8 +12,8 @@ import { GameMode } from "../types";
 import { decodeMaze } from "@/lib/maze/serialization/decode";
 import { findAllPaths } from "@/lib/algorithms/solving/dfs";
 import { DesktopMenu } from "./components/navBar/desktopMenu";
-import { MobileMenu } from "./components/navBar/mobileMenu";
 import { MazeSharedError } from "./components/mazeSharedError";
+import { MenuActionsMobile } from "../mazeEditor/components/menu/mobile";
 
 interface MazeSharedProps {
     encodedData: string
@@ -80,7 +80,7 @@ export default function MazeShared({ encodedData }: MazeSharedProps) {
                 {/* 2. Added centering to the direct wrapper container */}
                 <div className="flex flex-col items-center w-full h-screen ">
                     {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
-                    <Navbar total={metrics?.scores.total} desktopMenu={<DesktopMenu {...menuProps} />} mobileMenu={<MobileMenu {...menuProps} />} />
+                    <Navbar total={metrics?.scores.total} desktopMenu={<DesktopMenu {...menuProps} />} mobileMenu={<MenuActionsMobile {...menuProps} />} />
 
 
                     {mazeData && <MazeViewer mazeData={mazeData} gameMode={gameMode} showPath={showPath} ref={drawingRef}></MazeViewer>}
