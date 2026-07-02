@@ -6,7 +6,7 @@ import {
 } from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
 import { connectDisconnectedRegions } from "./ensureConnectivity";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 
 /**
  * Worm Algorithm
@@ -52,7 +52,7 @@ export const generateWorms: MazeGeneratorFn = (maze: Maze): Maze => {
       });
       if (neighbors.length != 0) {
         const neighbor: Position = selectRandomPosition(neighbors);
-        removeWallBetween(maze, current, neighbor);
+        setWallBetween(maze, current, neighbor);
 
         current = neighbor;
         currentWorm++;

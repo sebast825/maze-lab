@@ -5,7 +5,7 @@ import {
   selectRandomPosition,
 } from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 
 
 /**
@@ -45,7 +45,7 @@ export const generateRandomTraversal: MazeGeneratorFn = (maze: Maze): Maze => {
     const neighbor: Position = selectRandomPosition(neighbors);
     stack.push(neighbor);
 
-    removeWallBetween(maze, stack[index], neighbor);
+    setWallBetween(maze, stack[index], neighbor);
     maze.cells[neighbor.row][neighbor.col].visited = true;
   }
   return maze;

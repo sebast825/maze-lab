@@ -1,4 +1,4 @@
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 import { getWallsWithNeighbor, union } from "./utils";
 import { Maze } from "@/lib/maze/types";
 
@@ -30,7 +30,7 @@ export function generateKruskal(maze: Maze): Maze {
     const cell1Id = wall.cell1.row * maze.cols + wall.cell1.col;
     const cell2Id = wall.cell2.row * maze.cols + wall.cell2.col;
     if (union(parent, cell1Id, cell2Id)) {
-      removeWallBetween(
+      setWallBetween(
         maze,
         { row: wall.cell1.row, col: wall.cell1.col },
         { row: wall.cell2.row, col: wall.cell2.col },

@@ -7,7 +7,7 @@ import {
   selectRandomPosition,
 } from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 
 export const generateDFS: MazeGeneratorFn = (maze: Maze): Maze => {
   // Step 1: Choose a random starting point and mark it as visited.
@@ -32,7 +32,7 @@ export const generateDFS: MazeGeneratorFn = (maze: Maze): Maze => {
     }
     const neighbor = selectRandomPosition(neighbors);
 
-    removeWallBetween(maze, stack[stack.length - 1], neighbor);
+    setWallBetween(maze, stack[stack.length - 1], neighbor);
     maze.cells[neighbor.row][neighbor.col].visited = true;
     stack.push(neighbor);
   } while (stack.length > 0);

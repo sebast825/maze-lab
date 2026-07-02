@@ -5,7 +5,7 @@ import {
   selectRandomPosition,
 } from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 
 /*
  1 select a random start point and mark as visited and current
@@ -33,7 +33,7 @@ export const generateAldousBroder : MazeGeneratorFn =(maze: Maze): Maze => {
     const isNeighborVisited: boolean =
       maze.cells[neighbor.row][neighbor.col].visited;
     if (!isNeighborVisited) {
-      removeWallBetween(maze, current, neighbor);
+      setWallBetween(maze, current, neighbor);
       maze.cells[neighbor.row][neighbor.col].visited = true;
       visitedCellsCount++;
     }

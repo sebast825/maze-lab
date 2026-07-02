@@ -6,7 +6,7 @@ import {
 } from "@/lib/maze/core";
 
 import { connectDisconnectedRegions } from "./ensureConnectivity";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 
 export const generateTree = (maze: Maze): Maze => {
   let threeHeads: Position[] = [];
@@ -34,7 +34,7 @@ const growTunnel = (head: Position, maze: Maze, threeHeads: Position[]) => {
       break;
     }
     const neighbor: Position = selectRandomPosition(neighbors);
-    removeWallBetween(maze, current, neighbor);
+    setWallBetween(maze, current, neighbor);
     setCellVisited(neighbor, maze);
     current = neighbor;
     currentThreeLength++;
@@ -54,7 +54,7 @@ const handleNewHeads = (
   const selected = shuffled.slice(0, 2);
 
   selected.forEach((neighbor) => {
-    removeWallBetween(maze, current, neighbor);
+    setWallBetween(maze, current, neighbor);
     setCellVisited(neighbor, maze);
     threeHeads.push(neighbor);
   });

@@ -2,7 +2,7 @@ import { Maze, Position } from "@/lib/maze/types";
 import { getNeighbors } from "@/lib/maze/core";
 import { bfs } from "../solving/bfs";
 import { BFSResult, CellInfo } from "../solving/types";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 
 export const connectDisconnectedRegions = (maze: Maze): Maze => {
   let { cellInfo }: BFSResult = bfs(maze, { row: 1, col: 1 });
@@ -27,7 +27,7 @@ const connectLostCells = (maze: Maze, cellInfo: CellInfo[][]) => {
       ),
     );
     if (neighborConnected) {
-      removeWallBetween(maze, current, neighborConnected);
+      setWallBetween(maze, current, neighborConnected);
       break;
     }
   }

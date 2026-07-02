@@ -1,5 +1,5 @@
 import { createEmptyMaze } from "../../../maze/core";
-import { removeWallBetween } from "../../../maze/walls";
+import { setWallBetween } from "../../../maze/walls";
 import {
   getDirectionBetweenCells,
   traceBranchUntilDecision,
@@ -12,7 +12,7 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const from = { row: 0, col: 0 };
     const initBranchPosition = { row: 0, col: 1 };
 
-    removeWallBetween(maze, from, initBranchPosition);
+    setWallBetween(maze, from, initBranchPosition);
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
     expect(result).toEqual({
@@ -32,9 +32,9 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const from = { row: 0, col: 1 };
     const initBranchPosition = { row: 1, col: 1 };
 
-    removeWallBetween(maze, from, initBranchPosition);
-    removeWallBetween(maze, initBranchPosition, { row: 1, col: 0 });
-    removeWallBetween(maze, initBranchPosition, { row: 1, col: 2 });
+    setWallBetween(maze, from, initBranchPosition);
+    setWallBetween(maze, initBranchPosition, { row: 1, col: 0 });
+    setWallBetween(maze, initBranchPosition, { row: 1, col: 2 });
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
     console.log(result);
@@ -54,9 +54,9 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const from = { row: 0, col: 0 };
     const initBranchPosition = { row: 0, col: 1 };
 
-    removeWallBetween(maze, from, initBranchPosition);
-    removeWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
-    removeWallBetween(maze, { row: 0, col: 2 }, { row: 0, col: 3 });
+    setWallBetween(maze, from, initBranchPosition);
+    setWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
+    setWallBetween(maze, { row: 0, col: 2 }, { row: 0, col: 3 });
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
 
@@ -80,13 +80,13 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const from = { row: 0, col: 0 };
     const initBranchPosition = { row: 0, col: 1 };
 
-    removeWallBetween(maze, from, initBranchPosition);
-    removeWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
-    removeWallBetween(maze, { row: 0, col: 2 }, { row: 0, col: 3 });
+    setWallBetween(maze, from, initBranchPosition);
+    setWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
+    setWallBetween(maze, { row: 0, col: 2 }, { row: 0, col: 3 });
 
     // Open two alternative paths from (0,3)
-    removeWallBetween(maze, { row: 0, col: 3 }, { row: 0, col: 4 });
-    removeWallBetween(maze, { row: 0, col: 3 }, { row: 1, col: 3 });
+    setWallBetween(maze, { row: 0, col: 3 }, { row: 0, col: 4 });
+    setWallBetween(maze, { row: 0, col: 3 }, { row: 1, col: 3 });
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
 
@@ -111,7 +111,7 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const from = { row: 0, col: 0 };
     const initBranchPosition = { row: 0, col: 1 };
 
-    removeWallBetween(maze, from, initBranchPosition);
+    setWallBetween(maze, from, initBranchPosition);
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
 
@@ -132,11 +132,11 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     const from = { row: 0, col: 0 };
     const initBranchPosition = { row: 0, col: 1 };
 
-    removeWallBetween(maze, from, initBranchPosition);
-    removeWallBetween(maze, initBranchPosition, { row: 0, col: 2 });
-    removeWallBetween(maze, { row: 0, col: 2 }, { row: 1, col: 2 });
-    removeWallBetween(maze, { row: 1, col: 2 }, { row: 1, col: 1 });
-    removeWallBetween(maze, { row: 1, col: 1 }, initBranchPosition);
+    setWallBetween(maze, from, initBranchPosition);
+    setWallBetween(maze, initBranchPosition, { row: 0, col: 2 });
+    setWallBetween(maze, { row: 0, col: 2 }, { row: 1, col: 2 });
+    setWallBetween(maze, { row: 1, col: 2 }, { row: 1, col: 1 });
+    setWallBetween(maze, { row: 1, col: 1 }, initBranchPosition);
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
 

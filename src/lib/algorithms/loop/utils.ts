@@ -1,6 +1,6 @@
 import { LoopReason, Maze, Position } from "@/lib/maze/types";
 import { LoopCandidate } from "./types";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 import { bfs } from "../solving/bfs";
 import { MazePathMaps, BFSResult } from "../solving/types";
 
@@ -24,7 +24,7 @@ export const removeWallAtSomeCandiates = (
       getDominantScore(candidate);
     maze.cells[candidate.to.row][candidate.to.col].loopReason =
       getDominantScore(candidate);
-    removeWallBetween(maze, candidate.from, candidate.to);
+    setWallBetween(maze, candidate.from, candidate.to);
   }
 };
 const getDominantScore = (candidate: LoopCandidate): LoopReason => {

@@ -38,22 +38,23 @@ export function hasWallWithNeighbor(
 }
 
 
-export function removeWallBetween(
+export function setWallBetween(
   maze: Maze,
   current: Position,
   next: Position,
+  hasWall :boolean = false
 ) {
   // if cells are in the same row then we need to remove east/west wall
   if (current.row === next.row && current.col != next.col) {
     //east/west
     if (current.col - next.col === 1) {
-      maze.cells[current.row][current.col].walls.west = false;
-      maze.cells[next.row][next.col].walls.east = false;
+      maze.cells[current.row][current.col].walls.west = hasWall;
+      maze.cells[next.row][next.col].walls.east = hasWall;
       return;
     }
     if (next.col - current.col === 1) {
-      maze.cells[current.row][current.col].walls.east = false;
-      maze.cells[next.row][next.col].walls.west = false;
+      maze.cells[current.row][current.col].walls.east = hasWall;
+      maze.cells[next.row][next.col].walls.west = hasWall;
       return;
     }
   }
@@ -61,13 +62,13 @@ export function removeWallBetween(
   if (current.col === next.col && current.row != next.row) {
     //north/south
     if (current.row - next.row === 1) {
-      maze.cells[current.row][current.col].walls.north = false;
-      maze.cells[next.row][next.col].walls.south = false;
+      maze.cells[current.row][current.col].walls.north = hasWall;
+      maze.cells[next.row][next.col].walls.south = hasWall;
       return;
     }
     if (next.row - current.row === 1) {
-      maze.cells[current.row][current.col].walls.south = false;
-      maze.cells[next.row][next.col].walls.north = false;
+      maze.cells[current.row][current.col].walls.south = hasWall;
+      maze.cells[next.row][next.col].walls.north = hasWall;
       return;
     }
   }

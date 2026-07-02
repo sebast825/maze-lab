@@ -1,6 +1,6 @@
 import { Maze, Cell, Position } from "@/lib/maze/types";
 import "jest";
-import { hasWallWithNeighbor, removeWallBetween } from "../walls";
+import { hasWallWithNeighbor, setWallBetween } from "../walls";
 import { createEmptyMaze } from "../core";
 
 describe("hasWallWithNeighbor", () => {
@@ -96,7 +96,7 @@ describe("hasWallWithNeighbor", () => {
 
 
 
-describe("removeWallBetween", () => {
+describe("setWallBetween", () => {
   const expectWall = (
     maze: Maze,
     pos: Position,
@@ -111,7 +111,7 @@ describe("removeWallBetween", () => {
       const maze = createEmptyMaze(3, 3);
       const current = { row: 1, col: 1 };
       const next = { row: 1, col: 2 };
-      removeWallBetween(maze, current, next);
+      setWallBetween(maze, current, next);
       expectWall(maze, current, "east", false);
       expectWall(maze, next, "west", false);
     });
@@ -120,7 +120,7 @@ describe("removeWallBetween", () => {
       const maze = createEmptyMaze(3, 3);
       const current = { row: 1, col: 2 };
       const next = { row: 1, col: 1 };
-      removeWallBetween(maze, current, next);
+      setWallBetween(maze, current, next);
       expectWall(maze, current, "west", false);
       expectWall(maze, next, "east", false);
     });
@@ -131,7 +131,7 @@ describe("removeWallBetween", () => {
       const maze = createEmptyMaze(3, 3);
       const current = { row: 1, col: 1 };
       const next = { row: 2, col: 1 };
-      removeWallBetween(maze, current, next);
+      setWallBetween(maze, current, next);
       expectWall(maze, current, "south", false);
       expectWall(maze, next, "north", false);
     });
@@ -140,7 +140,7 @@ describe("removeWallBetween", () => {
       const maze = createEmptyMaze(3, 3);
       const current = { row: 2, col: 1 };
       const next = { row: 1, col: 1 };
-      removeWallBetween(maze, current, next);
+      setWallBetween(maze, current, next);
       expectWall(maze, current, "north", false);
       expectWall(maze, next, "south", false);
     });
@@ -149,30 +149,30 @@ describe("removeWallBetween", () => {
   describe("edge cases", () => {
     it("should work on border cells", () => {
       const maze = createEmptyMaze(3, 3);
-      removeWallBetween(maze, { row: 0, col: 0 }, { row: 1, col: 0 });
+      setWallBetween(maze, { row: 0, col: 0 }, { row: 1, col: 0 });
       expectWall(maze, { row: 0, col: 0 }, "south", false);
       expectWall(maze, { row: 1, col: 0 }, "north", false);
     });
 
     it("should work on different grid sizes (2x2, 5x5, 4x6)", () => {
       const maze2x2 = createEmptyMaze(2, 2);
-      removeWallBetween(maze2x2, { row: 0, col: 0 }, { row: 0, col: 1 });
+      setWallBetween(maze2x2, { row: 0, col: 0 }, { row: 0, col: 1 });
       expectWall(maze2x2, { row: 0, col: 0 }, "east", false);
 
       const maze5x5 = createEmptyMaze(5, 5);
-      removeWallBetween(maze5x5, { row: 4, col: 4 }, { row: 4, col: 3 });
+      setWallBetween(maze5x5, { row: 4, col: 4 }, { row: 4, col: 3 });
       expectWall(maze5x5, { row: 4, col: 4 }, "west", false);
 
       const maze4x6 = createEmptyMaze(4, 6);
-      removeWallBetween(maze4x6, { row: 2, col: 3 }, { row: 3, col: 3 });
+      setWallBetween(maze4x6, { row: 2, col: 3 }, { row: 3, col: 3 });
       expectWall(maze4x6, { row: 2, col: 3 }, "south", false);
     });
 
     it("should handle multiple removals on the same cell", () => {
       const maze = createEmptyMaze(3, 3);
       const center = { row: 1, col: 1 };
-      removeWallBetween(maze, center, { row: 1, col: 2 });
-      removeWallBetween(maze, center, { row: 2, col: 1 });
+      setWallBetween(maze, center, { row: 1, col: 2 });
+      setWallBetween(maze, center, { row: 2, col: 1 });
       expectWall(maze, center, "east", false);
       expectWall(maze, center, "south", false);
       expectWall(maze, center, "north", true);
@@ -184,7 +184,7 @@ describe("removeWallBetween", () => {
     it("should not modify non-adjacent cells", () => {
       const maze = createEmptyMaze(3, 3);
       const before = JSON.stringify(maze.cells);
-      removeWallBetween(maze, { row: 0, col: 0 }, { row: 2, col: 2 });
+      setWallBetween(maze, { row: 0, col: 0 }, { row: 2, col: 2 });
       expect(JSON.stringify(maze.cells)).toBe(before);
     });
   });

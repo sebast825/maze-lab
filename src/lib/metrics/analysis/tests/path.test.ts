@@ -1,6 +1,6 @@
 import { createEmptyMaze } from "@/lib/maze/core";
 import { Position } from "@/lib/maze/types";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 import { countDecisionNodesInPath } from "../pathAnalysis";
 
 describe("countDecisionNodesInPath", () => {
@@ -13,8 +13,8 @@ describe("countDecisionNodesInPath", () => {
       { row: 0, col: 1 },
       { row: 0, col: 2 },
     ];
-    removeWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
-    removeWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
+    setWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
+    setWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
 
     const result = countDecisionNodesInPath(path, maze);
     expect(result).toEqual(0);
@@ -31,8 +31,8 @@ describe("countDecisionNodesInPath", () => {
       { row: 0, col: 1 },
       { row: 1, col: 1 },
     ];
-    removeWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
-    removeWallBetween(maze, { row: 0, col: 1 }, { row: 1, col: 1 });
+    setWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
+    setWallBetween(maze, { row: 0, col: 1 }, { row: 1, col: 1 });
 
     const result = countDecisionNodesInPath(path, maze);
     // NOTE: If your logic considers a forced turn WITHOUT options as a decision, change this to 1.
@@ -55,9 +55,9 @@ describe("countDecisionNodesInPath", () => {
     ];
     
     // Build the T-junction
-    removeWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
-    removeWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
-    removeWallBetween(maze, { row: 0, col: 1 }, { row: 1, col: 1 }); // Extra option
+    setWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
+    setWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
+    setWallBetween(maze, { row: 0, col: 1 }, { row: 1, col: 1 }); // Extra option
 
     const result = countDecisionNodesInPath(path, maze);
     expect(result).toEqual(1);
@@ -76,14 +76,14 @@ describe("countDecisionNodesInPath", () => {
     ];
 
     // Main path
-    removeWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
-    removeWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
-    removeWallBetween(maze, { row: 0, col: 2 }, { row: 1, col: 2 });
-    removeWallBetween(maze, { row: 1, col: 2 }, { row: 2, col: 2 });
+    setWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
+    setWallBetween(maze, { row: 0, col: 1 }, { row: 0, col: 2 });
+    setWallBetween(maze, { row: 0, col: 2 }, { row: 1, col: 2 });
+    setWallBetween(maze, { row: 1, col: 2 }, { row: 2, col: 2 });
 
     // Secondary paths that create the decisions
-    removeWallBetween(maze, { row: 0, col: 1 }, { row: 1, col: 1 }); // Detour at Intersection 1
-    removeWallBetween(maze, { row: 1, col: 2 }, { row: 1, col: 1 }); // Detour at Intersection 2
+    setWallBetween(maze, { row: 0, col: 1 }, { row: 1, col: 1 }); // Detour at Intersection 1
+    setWallBetween(maze, { row: 1, col: 2 }, { row: 1, col: 1 }); // Detour at Intersection 2
 
     const result = countDecisionNodesInPath(path, maze);
     expect(result).toEqual(2);
@@ -96,7 +96,7 @@ describe("countDecisionNodesInPath", () => {
       { row: 0, col: 0 },
       { row: 0, col: 1 },
     ];
-    removeWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
+    setWallBetween(maze, { row: 0, col: 0 }, { row: 0, col: 1 });
 
     const result = countDecisionNodesInPath(path, maze);
     expect(result).toEqual(0);

@@ -6,7 +6,7 @@ import {
   selectRandomPosition,
 } from "@/lib/maze/core";
 import { MazeGeneratorFn } from "./types";
-import { removeWallBetween } from "@/lib/maze/walls";
+import { setWallBetween } from "@/lib/maze/walls";
 
 /**
  * Prim's algorithm for maze generation.
@@ -53,7 +53,7 @@ export const generatePrim: MazeGeneratorFn = (maze: Maze): Maze => {
 
     // 3. Connect to a random visited neighbor
     const chosenNeighbor: Position = selectRandomPosition(neighborsInStack);
-    removeWallBetween(maze, current, chosenNeighbor);
+    setWallBetween(maze, current, chosenNeighbor);
     stack.push(current);
 
     // 4. Add new unvisited neighbors to frontier, avoiding duplicates
