@@ -6,6 +6,8 @@ import { useMazeMetrics } from "../hooks/useMazeMetrics";
 import { applyMazeAction, createWallAction } from "./helpers";
 import { areNeighbors, isCellInBounds } from "@/lib/maze/core";
 import { useSafeDebouncedAction } from "@/hooks/useSafeDebouncedAction";
+import { MazeAction } from "./types";
+import { useHistory } from "./useHistory";
 
 type UseMazeEditorParams = {
     encodedData: string;
@@ -19,6 +21,14 @@ export function useMazeEditor({
     const { metrics, calculateMetrics } = useMazeMetrics();
     const run = useSafeDebouncedAction(300);
 
+    const {
+        pushAction,
+        popUndo,
+        popRedo,
+        canUndo,
+        canRedo
+    } = useHistory<MazeAction>();
+
     useEffect(() => {
         try {
 
@@ -28,7 +38,6 @@ export function useMazeEditor({
                 decodedMaze.start,
                 decodedMaze.end,
             );
-
             decodedMaze.solution = solution;
 
             setMazeData(decodedMaze);
@@ -37,6 +46,7 @@ export function useMazeEditor({
             setError("Failed to load maze");
         }
     }, [encodedData]);
+
     useEffect(() => {
         run(() => {
             if (mazeData)
@@ -44,6 +54,7 @@ export function useMazeEditor({
 
         })
     }, [mazeData])
+
     const handleWallClick = (
         cellA: Position,
         cellB: Position,
@@ -67,9 +78,9 @@ export function useMazeEditor({
             cellA,
             cellB,
         );
-        console.log(action)
         // 3. (Future) Store action for undo/redo
-        // history.push(action);
+        pushAction(action);
+
 
         // 4. Apply action to maze
         const updatedMaze = applyMazeAction(
@@ -86,9 +97,37 @@ export function useMazeEditor({
         setMazeData({ ...mazeData, maze: updatedMaze, solution })
     };
 
+    const handleUndo = () => {
+        const lastAction = popUndo();
+        if (!lastAction || !mazeData) return;
+
+        const inverseAction: MazeAction = {
+            ...lastAction,
+            type: lastAction.type === "ADD_WALL" ? "REMOVE_WALL" : "ADD_WALL"
+        };
+
+        const updatedMaze = applyMazeAction(mazeData.maze, inverseAction);
+        const solution = findAllPaths(updatedMaze, mazeData.start, mazeData.end);
+        setMazeData({ ...mazeData, maze: updatedMaze, solution });
+    };
+
+    const handleRedo = () => {
+        const nextAction = popRedo();
+        if (!nextAction || !mazeData) return;
+
+        const updatedMaze = applyMazeAction(mazeData.maze, nextAction);
+        const solution = findAllPaths(updatedMaze, mazeData.start, mazeData.end);
+        setMazeData({ ...mazeData, maze: updatedMaze, solution });
+    };
+
     return {
         mazeData,
         handleWallClick,
-        metrics, error
+        metrics,
+        error,
+        canUndo,
+        canRedo,
+        handleRedo,
+        handleUndo
     };
 }

@@ -17,6 +17,8 @@ interface ToolBarProps {
     setShowPath: (show: boolean) => void;
     handleExportToPDF: (data: MazeData, cols: number) => void;
     mazeData: MazeData | null;
+    canUndo: boolean;
+    canRedo: boolean;
 
 }
 
@@ -28,11 +30,18 @@ export const ToolBar = ({
     mazeData,
     handleUndo,
     handleRedo,
+    canRedo,
+    canUndo
 }: ToolBarProps) => {
 
     return (
         <div className="flex flex-col md:flex-row md:items-center text-xs font-mono uppercase tracking-wider gap-5 relative" >
             <div className="flex gap-1 md:gap-4">
+
+                <ShareMazeButton
+                    mazeData={mazeData}
+                    className="w-full md:w-auto !justify-start text-left normal-case"
+                />
                 <ActionButton
                     color="slate"
                     variant="text"
@@ -53,21 +62,16 @@ export const ToolBar = ({
                 >
                     Export_PDF
                 </ActionButton>
-                <ShareMazeButton
-                    mazeData={mazeData}
-                    className="w-full md:w-auto !justify-start text-left normal-case"
-                />
             </div>
 
             {mazeData && (
                 <div className="w-full md:w-auto flex justify-center md:block">
                     <HistoryControls
-                        canUndo={true}
-                        canRedo={true}
-                        onUndo={() => { throw new Error("Not implemented"); }}
-                        onRedo={() => { throw new Error("Not implemented"); }}
+                        canUndo={canUndo}
+                        canRedo={canRedo}
+                        onUndo={() => handleUndo()}
+                        onRedo={() => handleRedo()}
                     />
-
                 </div>
             )}
         </div>

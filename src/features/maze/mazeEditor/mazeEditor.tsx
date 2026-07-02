@@ -7,8 +7,6 @@ import { DrawingCanvasRef } from "../components/drawingCanvas/drawingCanvas";
 import { MazeViewer } from "../components/mazeViewer";
 import { useCanvasPDF } from "../hooks/useCanvasPDF";
 import { GameMode } from "../types";
-import { DesktopMenu } from "../mazeShared/components/navBar/desktopMenu";
-import { MobileMenu } from "../mazeShared/components/navBar/mobileMenu";
 import { MazeOverlay } from "./components/mazeOverlay";
 import { useCellSize } from "../hooks/useCellSize";
 import { MazeSharedError } from "../mazeShared/components/mazeSharedError";
@@ -22,9 +20,16 @@ interface MazeEditorProps {
 }
 export default function MazeEditor({ encodedData }: MazeEditorProps) {
 
-    const [showPath, setShowPath] = useState<boolean>(false);
+    const [showPath, setShowPath] = useState<boolean>(true);
 
-    const { mazeData, metrics, error, handleWallClick } = useMazeEditor({ encodedData })
+    const { mazeData,
+        metrics,
+        error,
+        handleWallClick,
+        canUndo,
+        canRedo,
+        handleRedo,
+        handleUndo } = useMazeEditor({ encodedData })
     const cellSize = useCellSize({ rows: mazeData?.maze.rows!, cols: mazeData?.maze.cols! })
 
     const { handleExportToPDF } = useCanvasPDF();
@@ -33,12 +38,6 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
 
     const drawingRef = useRef<DrawingCanvasRef | null>(null);
 
-    const handleUndo = () => {
-        drawingRef.current?.undo();
-    };
-    const handleRedo = () => {
-        drawingRef.current?.clear();
-    };
 
     useEffect(() => { }, [mazeData])
 
@@ -53,6 +52,8 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
         setGameMode: (e: GameMode) => setGameMode(e),
         handleUndo,
         handleRedo,
+        canUndo,
+        canRedo
     };
     if (error) {
         return <MazeSharedError />;
@@ -65,20 +66,16 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
                 <div className="flex flex-col items-center w-full h-screen ">
                     {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
 
-                    <Navbar total={metrics?.scores.total} desktopMenu={<ToolBar {...menuProps}/>} mobileMenu={<ToolBar {...menuProps} />} />
-
+                    <Navbar total={metrics?.scores.total} desktopMenu={<ToolBar {...menuProps} />} mobileMenu={<ToolBar {...menuProps} />} />
                     {mazeData &&
-
 
                         <MazeViewer mazeData={mazeData} gameMode={gameMode} showPath={showPath} ref={drawingRef}>
                             <MazeOverlay rows={mazeData.maze.rows} cols={mazeData.maze.cols} cellSize={cellSize}
                                 onCellClick={(cellA, cellB) => { handleWallClick(cellA, cellB) }}>
-
                             </MazeOverlay>
                         </MazeViewer>
                     }
-
-                    <Footer></Footer>
+                    <Footer/>
                 </div>
             </main>
         </div>
