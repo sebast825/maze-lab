@@ -16,6 +16,7 @@ import { MobileMenu } from "../mazeShared/components/navBar/mobileMenu";
 import { MazeOverlay } from "./components/mazeOverlay";
 import { useCellSize } from "../hooks/useCellSize";
 import { MazeSharedError } from "../mazeShared/components/mazeSharedError";
+import { useMazeEditor } from "./useMazeEditor";
 
 
 
@@ -25,8 +26,9 @@ interface MazeEditorProps {
 export default function MazeEditor({ encodedData }: MazeEditorProps) {
 
     const [showPath, setShowPath] = useState<boolean>(false);
-    const [mazeData, setMazeData] = useState<MazeData | null>(null)
-    const { metrics, calculateMetrics } = useMazeMetrics();
+    //const [mazeData, setMazeData] = useState<MazeData | null>(null)
+
+    const { mazeData, metrics, error, handleWallClick } = useMazeEditor({ encodedData })
     const cellSize = useCellSize({ rows: mazeData?.maze.rows!, cols: mazeData?.maze.cols! })
 
     const { handleExportToPDF } = useCanvasPDF();
@@ -34,7 +36,6 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
     const [gameMode, setGameMode] = useState<GameMode>("VIEW");
 
     const drawingRef = useRef<DrawingCanvasRef | null>(null);
-    const [error, setError] = useState<string | null>(null);
 
     const handleUndoDraw = () => {
         drawingRef.current?.undo();
@@ -43,25 +44,7 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
         drawingRef.current?.clear();
     };
 
-    useEffect(() => {
-        try {
-
-            const decodedMaze = decodeMaze(encodedData);
-            const solution = findAllPaths(
-                decodedMaze.maze,
-                decodedMaze.start,
-                decodedMaze.end,
-            );
-
-            decodedMaze.solution = solution;
-            calculateMetrics(decodedMaze);
-
-            setMazeData(decodedMaze);
-        } catch (error) {
-            console.error("Failed to load maze:", error);
-            setError("Failed to load maze");
-        }
-    }, [encodedData]);
+    useEffect(() => { }, [mazeData])
 
     const menuProps = {
         cols: mazeData?.maze.cols!,
@@ -85,11 +68,14 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
                 {/* 2. Added centering to the direct wrapper container */}
                 <div className="flex flex-col items-center w-full h-screen ">
                     {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
-                    <Navbar total={metrics?.scores.total} desktopMenu={<DesktopMenu {...menuProps} />} mobileMenu={<MobileMenu {...menuProps} />} />
+                    {/* <Navbar total={metrics?.scores.total} desktopMenu={<DesktopMenu {...menuProps} />} mobileMenu={<MobileMenu {...menuProps} />} /> */}
 
 
                     {mazeData && <MazeViewer mazeData={mazeData} gameMode={gameMode} showPath={showPath} ref={drawingRef}>
-                        <MazeOverlay rows={mazeData.maze.rows} cols={mazeData.maze.cols} cellSize={cellSize} onCellClick={(e) => { console.log(e) }}></MazeOverlay>
+                        <MazeOverlay rows={mazeData.maze.rows} cols={mazeData.maze.cols} cellSize={cellSize}
+                            onCellClick={(cellA, cellB) => { handleWallClick(cellA, cellB) }}>
+
+                        </MazeOverlay>
                     </MazeViewer>}
 
                     <Footer></Footer>

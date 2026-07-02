@@ -31,7 +31,9 @@ export const MazeOverlay = ({
         if (row < 0 || row >= rows) throw Error;
         if (col < 0 || col >= cols) throw Error;
         const cellA: Position = { row, col }
-        const cellB: Position = getClosestNeighbor(cellA, x, y)
+        const localX = x - col * cellSize;
+        const localY = y - row * cellSize;
+        const cellB: Position = getClosestNeighbor(cellA, localX, localY)
         onCellClick(cellA, cellB);
     };
 
@@ -50,7 +52,7 @@ export const MazeOverlay = ({
             west: localX,
             east: cellSize - localX,
         };
-
+        console.log(distances)
         const closestSide = Object.entries(distances)
             .reduce((min, current) =>
                 current[1] < min[1] ? current : min

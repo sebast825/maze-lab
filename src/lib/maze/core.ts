@@ -69,7 +69,7 @@ export function getNeighbors(maze: Maze, position: Position): Position[] {
   return neighbors;
 }
 
-function isCellInBounds(maze: Maze, position: Position): boolean {
+export function isCellInBounds(maze: Maze, position: Position): boolean {
   return (
     position.row >= 0 &&
     position.row < maze.rows &&
@@ -81,4 +81,15 @@ function isCellInBounds(maze: Maze, position: Position): boolean {
 export function selectRandomPosition(neighbors: Position[]): Position {
   const randomIndex = Math.floor(Math.random() * neighbors.length);
   return neighbors[randomIndex];
+}
+
+
+export const areNeighbors = (
+    current: Position,
+    neighbor: Position,
+): boolean => {
+    const rowDiff = Math.abs(current.row - neighbor.row);
+    const colDiff = Math.abs(current.col - neighbor.col);
+
+    return rowDiff + colDiff === 1;
 }
