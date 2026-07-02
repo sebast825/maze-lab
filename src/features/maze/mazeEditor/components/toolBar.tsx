@@ -40,6 +40,7 @@ export const ToolBar = ({
 
                 <ShareMazeButton
                     mazeData={mazeData}
+                    variant="solid"
                     className="w-full md:w-auto !justify-start text-left normal-case"
                 />
                 <ActionButton

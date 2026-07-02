@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import { themeColors, IcolorVariants } from "./themes";
 
-type ButtonVariant = "text" | "outline" | "solid";
+export type ButtonVariant = "text" | "outline" | "solid";
 
 interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: IcolorVariants;

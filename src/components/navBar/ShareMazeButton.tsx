@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { ActionButton } from "../actionButton";
+import { ActionButton, ButtonVariant } from "../actionButton";
 import { encodeMaze } from "@/lib/maze/serialization/encode";
 
 interface ShareButtonProps {
     mazeData: any;
     className?: string;
+    variant? :ButtonVariant
 }
 
-export const ShareMazeButton = ({ mazeData, className }: ShareButtonProps) => {
+export const ShareMazeButton = ({ mazeData, className , variant = "text" }: ShareButtonProps) => {
     const [copied, setCopied] = useState(false);
 
     const shareMaze = async () => {
@@ -24,7 +25,7 @@ export const ShareMazeButton = ({ mazeData, className }: ShareButtonProps) => {
     return (
         <ActionButton
             color={copied ? "green" : "slate"}
-            variant="text"
+            variant={variant}
             disabled={!mazeData}
             onClick={shareMaze}
             className={className}
