@@ -13,6 +13,7 @@ import { MazeOverlay } from "./components/mazeOverlay";
 import { useCellSize } from "../hooks/useCellSize";
 import { MazeSharedError } from "../mazeShared/components/mazeSharedError";
 import { useMazeEditor } from "./useMazeEditor";
+import { ToolBar } from "./components/toolBar";
 
 
 
@@ -22,7 +23,6 @@ interface MazeEditorProps {
 export default function MazeEditor({ encodedData }: MazeEditorProps) {
 
     const [showPath, setShowPath] = useState<boolean>(false);
-    //const [mazeData, setMazeData] = useState<MazeData | null>(null)
 
     const { mazeData, metrics, error, handleWallClick } = useMazeEditor({ encodedData })
     const cellSize = useCellSize({ rows: mazeData?.maze.rows!, cols: mazeData?.maze.cols! })
@@ -33,10 +33,10 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
 
     const drawingRef = useRef<DrawingCanvasRef | null>(null);
 
-    const handleUndoDraw = () => {
+    const handleUndo = () => {
         drawingRef.current?.undo();
     };
-    const handleClearDraw = () => {
+    const handleRedo = () => {
         drawingRef.current?.clear();
     };
 
@@ -51,8 +51,8 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
         mazeData,
         gameMode,
         setGameMode: (e: GameMode) => setGameMode(e),
-        handleUndoDraw,
-        handleClearDraw,
+        handleUndo,
+        handleRedo,
     };
     if (error) {
         return <MazeSharedError />;
@@ -65,7 +65,7 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
                 <div className="flex flex-col items-center w-full h-screen ">
                     {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
 
-                    <Navbar total={metrics?.scores.total} desktopMenu={<DesktopMenu {...menuProps} />} mobileMenu={<MobileMenu {...menuProps} />} />
+                    <Navbar total={metrics?.scores.total} desktopMenu={<ToolBar {...menuProps}/>} mobileMenu={<ToolBar {...menuProps} />} />
 
                     {mazeData &&
 
