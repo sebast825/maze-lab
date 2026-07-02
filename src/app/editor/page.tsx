@@ -1,4 +1,4 @@
-import MazeShared from "@/features/maze/mazeShared/mazeShared";
+import MazeEditor from "@/features/maze/mazeEditor/mazeEditor";
 
 interface PageProps {
     searchParams: Promise<{
@@ -10,9 +10,8 @@ export default async function Page({ searchParams }: PageProps) {
 
     const mazeDataString =
         typeof data === "string" ? data : undefined;
-
-    return (<>   
-      {mazeDataString && <MazeShared encodedData={mazeDataString} />}
+    return (<>
+        {mazeDataString && <MazeEditor encodedData={mazeDataString} />}
     </>
 
     )

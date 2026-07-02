@@ -5,6 +5,7 @@ import { MazeCanvas } from "./mazeCanvas";
 import { CharacterCanvas } from "./characterCanvas/characterCanvas";
 import { DrawingCanvas, DrawingCanvasRef } from "./drawingCanvas/drawingCanvas";
 import { MazeData } from "@/lib/maze/types";
+import { useCellSize } from "../hooks/useCellSize";
 
 export type ViewerGameMode = "VIEW" | "DRAW" | "CHARACTER";
 
@@ -12,28 +13,16 @@ interface MazeViewerProps {
     mazeData: MazeData;
     gameMode: ViewerGameMode | string;
     showPath: boolean;
+    children?: React.ReactNode;
 
 }
 
 export const MazeViewer = forwardRef<DrawingCanvasRef, MazeViewerProps>(
-    ({ mazeData, gameMode, showPath = false }, ref) => {
+    ({ mazeData, gameMode, showPath = false, children }, ref) => {
         {
-            const [cellSize, setCellSize] = useState<number>(25);
             const { rows, cols } = mazeData.maze;
-
-            useEffect(() => {
-                const handleResize = () => {
-                    const maxWidth = window.innerWidth * 0.95;
-                    const maxHeight = window.innerHeight * 0.85;
-                    const calculatedSize = Math.min(25, Math.min(maxWidth / cols, maxHeight / rows));
-                    setCellSize(calculatedSize);
-                };
-
-                handleResize();
-                window.addEventListener("resize", handleResize);
-                return () => window.removeEventListener("resize", handleResize);
-
-            }, [cols, rows]);
+            const cellSize = useCellSize({rows, cols})
+        
 
             const isDrawMode = gameMode === "DRAW";
             const isCharacterMode = gameMode === "CHARACTER";
@@ -70,6 +59,7 @@ export const MazeViewer = forwardRef<DrawingCanvasRef, MazeViewerProps>(
 
                                     />
                                 )}
+                                {children}
                             </div>
                         </div>
                     </div>
