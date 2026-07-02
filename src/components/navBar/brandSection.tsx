@@ -10,7 +10,7 @@ export const BrandSection = ({ total }: BrandSectionProps) => {
       <div className="font-bold text-lg tracking-wider text-slate-200">
         MAZE<span className="text-indigo-500">.</span>
       </div>
-      {total && (
+      {Number.isFinite(total) && total && (
         <div className="hidden sm:block scale-90 origin-left">
           <DifficultyBadge score={total} />
         </div>

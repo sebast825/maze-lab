@@ -2,15 +2,11 @@
 
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navBar";
-import { MazeData } from "@/lib/maze/types";
 import { useState, useRef, useEffect } from "react";
 import { DrawingCanvasRef } from "../components/drawingCanvas/drawingCanvas";
 import { MazeViewer } from "../components/mazeViewer";
 import { useCanvasPDF } from "../hooks/useCanvasPDF";
-import { useMazeMetrics } from "../hooks/useMazeMetrics";
 import { GameMode } from "../types";
-import { decodeMaze } from "@/lib/maze/serialization/decode";
-import { findAllPaths } from "@/lib/algorithms/solving/dfs";
 import { DesktopMenu } from "../mazeShared/components/navBar/desktopMenu";
 import { MobileMenu } from "../mazeShared/components/navBar/mobileMenu";
 import { MazeOverlay } from "./components/mazeOverlay";
@@ -68,15 +64,19 @@ export default function MazeEditor({ encodedData }: MazeEditorProps) {
                 {/* 2. Added centering to the direct wrapper container */}
                 <div className="flex flex-col items-center w-full h-screen ">
                     {/* 3. Restricted menu to a readable reading width so it doesn't split apart */}
-                    {/* <Navbar total={metrics?.scores.total} desktopMenu={<DesktopMenu {...menuProps} />} mobileMenu={<MobileMenu {...menuProps} />} /> */}
+
+                    <Navbar total={metrics?.scores.total} desktopMenu={<DesktopMenu {...menuProps} />} mobileMenu={<MobileMenu {...menuProps} />} />
+
+                    {mazeData &&
 
 
-                    {mazeData && <MazeViewer mazeData={mazeData} gameMode={gameMode} showPath={showPath} ref={drawingRef}>
-                        <MazeOverlay rows={mazeData.maze.rows} cols={mazeData.maze.cols} cellSize={cellSize}
-                            onCellClick={(cellA, cellB) => { handleWallClick(cellA, cellB) }}>
+                        <MazeViewer mazeData={mazeData} gameMode={gameMode} showPath={showPath} ref={drawingRef}>
+                            <MazeOverlay rows={mazeData.maze.rows} cols={mazeData.maze.cols} cellSize={cellSize}
+                                onCellClick={(cellA, cellB) => { handleWallClick(cellA, cellB) }}>
 
-                        </MazeOverlay>
-                    </MazeViewer>}
+                            </MazeOverlay>
+                        </MazeViewer>
+                    }
 
                     <Footer></Footer>
                 </div>

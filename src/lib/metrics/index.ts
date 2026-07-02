@@ -94,6 +94,15 @@ const computeMazeDifficultyFeatures = (
 };
 
 const computePathMetrics = (paths: Position[][], maze: Maze): PathsMetrics => {
+  //when we edit a maze, may not have paths
+  if (paths.length === 0) {
+    return {
+      shortestPathLength: 0,
+      shortestPathTortuosity: 0,
+      shortestPathDecisionNodes: 0,
+      shortestPathWallRatio: 0,
+    };
+  }
   let pathMetrics: PathMetric[] = [];
   paths.forEach((path) => {
     const directions: Direction[] = [];

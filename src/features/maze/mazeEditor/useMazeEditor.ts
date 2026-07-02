@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useMazeMetrics } from "../hooks/useMazeMetrics";
 import { applyMazeAction, createWallAction } from "./helpers";
 import { areNeighbors, isCellInBounds } from "@/lib/maze/core";
+import { useSafeDebouncedAction } from "@/hooks/useSafeDebouncedAction";
 
 type UseMazeEditorParams = {
     encodedData: string;
@@ -13,9 +14,10 @@ type UseMazeEditorParams = {
 export function useMazeEditor({
     encodedData,
 }: UseMazeEditorParams) {
-    const [mazeData, setMazeData] = useState<MazeData | null>();
+    const [mazeData, setMazeData] = useState<MazeData | null>(null);
     const [error, setError] = useState<string | null>(null);
     const { metrics, calculateMetrics } = useMazeMetrics();
+    const run = useSafeDebouncedAction(300);
 
     useEffect(() => {
         try {
@@ -28,7 +30,6 @@ export function useMazeEditor({
             );
 
             decodedMaze.solution = solution;
-            calculateMetrics(decodedMaze);
 
             setMazeData(decodedMaze);
         } catch (error) {
@@ -36,7 +37,13 @@ export function useMazeEditor({
             setError("Failed to load maze");
         }
     }, [encodedData]);
+    useEffect(() => {
+        run(() => {
+            if (mazeData)
+                calculateMetrics(mazeData);
 
+        })
+    }, [mazeData])
     const handleWallClick = (
         cellA: Position,
         cellB: Position,
@@ -69,26 +76,14 @@ export function useMazeEditor({
             mazeData.maze,
             action,
         );
-
-
-        setMazeData({ ...mazeData, maze: updatedMaze })
+        const solution = findAllPaths(
+            updatedMaze,
+            mazeData.start,
+            mazeData.end
+        );
         // 5. Recompute derived state
-        /*     const pathMaps = recomputePathMaps(
-                 updatedMaze,
-             );
-     
-             const metrics = recomputeMetrics(
-                 updatedMaze,
-                 pathMaps,
-             );
-     
-             const score = recomputeScore(
-                 updatedMaze,
-                 metrics,
-             );*/
 
-        // 6. Update editor state
-
+        setMazeData({ ...mazeData, maze: updatedMaze, solution })
     };
 
     return {
