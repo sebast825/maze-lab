@@ -26,6 +26,7 @@ import {
 import { defaultWeights } from "./scoring/defaultWeights";
 import { getClosestSizeKey } from "./normalize/mazeSizeSpecs";
 import { getNeighborsByOpenWall } from "../maze/walls";
+import { filterRedundantPaths } from "./analysis/filterRedundantPaths";
 
 export const computeRawMetrics = (
   mazeCellData: CellInfo[][],
@@ -39,8 +40,9 @@ export const computeRawMetrics = (
 
   const pathsMetrics: PathsMetrics = computePathMetrics(paths, maze);
   const totalIntersections: number = getTotalIntersections(maze);
+  const filteredPaths : Position[][] = filterRedundantPaths(paths)
   const pathOverlapMetrics: AlternativeRawPathMetrics =
-    computePathVariance(paths);
+    computePathVariance(filteredPaths);
   const rawMetrics: MazeRawMetrics = {
     features,
     paths: pathsMetrics,
