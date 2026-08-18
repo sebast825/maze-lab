@@ -37,7 +37,6 @@ describe("traceBranchUntilDecision - Edge Cases", () => {
     setWallBetween(maze, initBranchPosition, { row: 1, col: 2 });
 
     const result = traceBranchUntilDecision(initBranchPosition, from, maze);
-    console.log(result);
     expect(result).toEqual({
       from,
       to: initBranchPosition,

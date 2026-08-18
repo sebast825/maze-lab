@@ -52,7 +52,6 @@ export const MazeOverlay = ({
             west: localX,
             east: cellSize - localX,
         };
-        console.log(distances)
         const closestSide = Object.entries(distances)
             .reduce((min, current) =>
                 current[1] < min[1] ? current : min
